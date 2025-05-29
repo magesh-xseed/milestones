@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSEED + Digital Twin: Student Performance Improvement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!--
+    Infographic Narrative & Structure Plan: "The Journey to Academic Excellence: From 50% to 95%+"
+
+    1.  Introduction & Hook:
+        * Headline: "Unlocking Peak Performance: A Data-Driven Path from 50% to 95%+"
+        * Briefly introduce the challenge (current 50% score) and the goal (95%+).
+        * Highlight the XSEED + Digital Twin solution.
+        * Visualization: Single Big Number for current score (50%) and target score (95%).
+
+    2.  The Challenge: Understanding Current Performance (Current Data Analysis)
+        * Sub-headline: "Deconstructing the Starting Point"
+        * Text: Explain the initial student data (errors, skipped, time management).
+        * Visualization:
+            * Donut Chart (Chart.js) showing Score Breakdown (Correct, Incorrect, Skipped from 20 questions).
+            * Bar Chart (Chart.js) showing Error Distribution by Topic (e.g., Fractions, Geometry).
+
+    3.  The Solution: XSEED Methodology + Digital Twin Power
+        * Sub-headline: "A Synergistic Approach to Learning"
+        * Text: Briefly explain XSEED and the role of the Digital Twin (Simulate, Predict, Optimize).
+        * Visualization:
+            * Flow Chart (HTML/CSS/Tailwind) depicting the XSEED 5-Step Process.
+
+    4.  Step 1: AIM - Setting Clear Goals
+        * Sub-headline: "Defining the Roadmap to Success"
+        * Text: Detail the goals.
+        * Visualization: List of objectives, Pictograph for "Well-being Support".
+
+    5.  Step 2: ACTION - Personalized Learning Engagement
+        * Sub-headline: "Tailored Strategies for Maximum Impact"
+        * Text: Explain Digital Twin initialization, targeted practice, time management, health optimization.
+        * Visualizations: Horizontal Bar Chart for "Topic Prioritization", Line Chart for "Adaptive Quiz Difficulty", Single Big Number for "Recommended Sleep".
+
+    6.  Step 3: ANALYSIS - Uncovering Insights
+        * Sub-headline: "Continuous Monitoring for Adaptive Learning"
+        * Text: Explain micro-assessments, Digital Twin's analytical role.
+        * Visualizations: Line Chart for "Accuracy Improvement", Bar Chart for "Time per Question", Bar Chart for "Sleep vs. Score Improvement".
+
+    7.  Step 4: APPLICATION - Real-Life Connections
+        * Sub-headline: "Bridging Theory and Practice"
+        * Text: Explain applying knowledge to real-life problems.
+        * Visualization: Thematic Cards/List for "Real-Life Challenges".
+
+    8.  Step 5: ASSESSMENT - Measuring Growth & Refining
+        * Sub-headline: "Validating Progress and Optimizing the Path Forward"
+        * Text: Explain follow-up test and Digital Twin's role.
+        * Visualizations: Grouped Bar Chart for "Performance: Before vs. After", Single Big Number for "Target Score".
+        * New: Student animation (GIFs) before and after the score improvement.
+
+    9.  Conclusion: Sustained Excellence
+        * Sub-headline: "Achieving and Maintaining High Performance"
+        * Text: Reiterate the power of the combined approach.
+        * Visualization: Large "95%+" display.
+
+    10. Digital Twin Pros and Cons:
+        * Sub-headline: "The Dual Edge of Digital Twins in Education"
+        * Text: Discuss advantages and disadvantages.
+        * Visualization: Two-column list for Pros and Cons.
+    -->
+    <!--
+    Visualization Choices & Justification (NO SVG, NO MERMAID JS):
+
+    1.  Introduction: Single Big Number (HTML/Tailwind) - Inform. (NO SVG)
+    2.  Current Performance: Donut Chart (Chart.js Canvas) - Compare parts of whole; Bar Chart (Chart.js Canvas) - Compare categories. (NO SVG)
+    3.  XSEED + DT Solution: Flow Chart (HTML/Tailwind) - Organize process. (NO SVG, NO MERMAID JS)
+    4.  AIM: List (HTML), Pictograph (Unicode/HTML/Tailwind) - Organize/Inform. (NO SVG)
+    5.  ACTION: Horizontal Bar Chart (Chart.js Canvas) - Compare composition; Line Chart (Chart.js Canvas) - Show change; Single Big Number (HTML/Tailwind) - Inform. (NO SVG)
+    6.  ANALYSIS: Line Chart (Chart.js Canvas) - Show change; Bar Chart (Chart.js Canvas) - Compare; Bar Chart (Chart.js Canvas) - Show relationship. (NO SVG)
+    7.  APPLICATION: Thematic Cards/List (HTML/Tailwind) - Organize examples. (NO SVG)
+    8.  ASSESSMENT: Grouped Bar Chart (Chart.js Canvas) - Compare multiple metrics; Single Big Number (HTML/Tailwind) - Inform. (NO SVG)
+    9.  Conclusion: Prominent "95%+" (HTML/Tailwind) - Inform. (NO SVG)
+    10. Digital Twin Pros and Cons: Two-column list (HTML/Tailwind) - Organize/Inform. (NO SVG)
+
+    Confirmation: NEITHER Mermaid JS NOR SVG were used in any visualizations. All charts are Chart.js (Canvas) or HTML/CSS/Tailwind/Unicode.
+    -->
+    <!--
+    Chosen Color Palette: "Vibrant Teal and Coral"
+    Primary (Coral): #FF6B6B
+    Secondary (Teal): #4ECDC4
+    Accent (Bright Blue): #45B7D1
+    Accent 2 (Yellow): #FEF08A
+    Background (Very Light Mint): #F0FDF4 (Tailwind green-50)
+    Text Dark: #0F766E (Tailwind teal-700)
+    Text Light: #FFFFFF
+    Chart Colors:
+      - #FF6B6B (Coral)
+      - #4ECDC4 (Teal)
+      - #45B7D1 (Bright Blue)
+      - #FFD166 (Orange/Yellow from Tailwind amber-300)
+      - #34D399 (Green from Tailwind green-500)
+      - #F87171 (Red from Tailwind red-400 for 'incorrect' or negative aspects)
+      - #A78BFA (Purple from Tailwind violet-400)
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0FDF4; /* Tailwind green-50 */
+            color: #0F766E; /* Tailwind teal-700 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Default max-width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .section-title {
+            color: #FF6B6B; /* Primary Coral */
+        }
+        .accent-text {
+            color: #4ECDC4; /* Secondary Teal */
+        }
+        .flow-step {
+            background-color: #4ECDC4; /* Secondary Teal */
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-grow: 1;
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #45B7D1; /* Accent Bright Blue */
+            margin: 0 0.5rem;
+        }
+        .big-stat-number {
+            font-size: 3rem; /* Tailwind text-5xl */
+            font-weight: 700; /* Tailwind font-bold */
+            color: #FF6B6B; /* Primary Coral */
+        }
+         .big-stat-label {
+            font-size: 1rem; /* Tailwind text-base */
+            color: #0F766E; /* Text Dark */
+            margin-top: 0.25rem; /* mt-1 */
+        }
+        .student-gif {
+            width: 100%;
+            max-width: 200px; /* Control max size of GIF */
+            height: auto;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold section-title mb-4">Unlocking Peak Performance</h1>
+            <p class="text-xl md:text-2xl accent-text">A Data-Driven Path from 50% to 95%+ with XSEED & Digital Twin</p>
+        </header>
+
+        <section id="intro-hook" class="mb-16 stat-card">
+            <h2 class="text-2xl font-semibold mb-6 text-center section-title">The Journey Begins</h2>
+            <div class="flex flex-col items-center mt-6">
+                <img src="https://cdn-icons-gif.flaticon.com/15594/15594574.gif" alt="Student after intervention" class="student-gif rounded-lg shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/200x200/34D399/FFFFFF?text=GIF+Loading+Error';">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div>
+                    <p class="big-stat-number">50%</p>
+                    <p class="big-stat-label">Current Score</p>
+                </div>
+                <div class="flex items-center justify-center text-5xl font-bold text-gray-400">
+                    <span>&rarr;</span>
+                </div>
+                <div>
+                    <p class="big-stat-number">95%+</p>
+                    <p class="big-stat-label">Target Score</p>
+                </div>
+            </div>
+            <p class="mt-6 text-lg text-center">This infographic outlines a strategy to significantly elevate student performance using the XSEED 5-Step Methodology, powerfully enhanced by a personalized Digital Twin model. We aim to transform a 50% starting score into a sustained 95% success rate.</p>
+        </section>
+
+        <section id="current-performance" class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center section-title">Deconstructing the Starting Point</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Initial Score Breakdown</h3>
+                    <p class="mb-4">The student starts with a 50% score (10/20 correct), 8 incorrect answers, and 2 skipped questions. Time management is also an area for improvement.</p>
+                    <div class="chart-container h-64 sm:h-72">
+                        <canvas id="scoreBreakdownChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Error Distribution by Topic</h3>
+                    <p class="mb-4">Initial analysis reveals specific weaknesses, with 8 incorrect answers concentrated in topics like Fractions and Geometry.</p>
+                    <div class="chart-container h-64 sm:h-72">
+                        <canvas id="errorDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution-overview" class="mb-16 stat-card">
+            <h2 class="text-3xl font-bold mb-8 text-center section-title">A Synergistic Approach to Learning</h2>
+            <p class="text-lg mb-6 text-center">The core of our strategy combines the proven XSEED 5-Step Methodology with the adaptive power of a Digital Twin. The Digital Twin is a virtual model of the student, using real-time data to simulate, predict, and optimize their academic performance. It integrates with a Flutter app and optional IoT devices for personalized insights.</p>
+            <h3 class="text-xl font-semibold mb-4 text-center accent-text">The XSEED 5-Step Process with Digital Twin Integration</h3>
+            <div class="flex flex-col md:flex-row items-center justify-around space-y-4 md:space-y-0 md:space-x-2 p-4">
+                <div class="flow-step">1. Aim<br><span class="text-xs">(Set Goals)</span></div>
+                <div class="flow-arrow hidden md:block">&rarr;</div>
+                <div class="flow-arrow block md:hidden">&darr;</div>
+                <div class="flow-step">2. Action<br><span class="text-xs">(Engage)</span></div>
+                <div class="flow-arrow hidden md:block">&rarr;</div>
+                <div class="flow-arrow block md:hidden">&darr;</div>
+                <div class="flow-step">3. Analysis<br><span class="text-xs">(Understand)</span></div>
+                <div class="flow-arrow hidden md:block">&rarr;</div>
+                <div class="flow-arrow block md:hidden">&darr;</div>
+                <div class="flow-step">4. Application<br><span class="text-xs">(Apply)</span></div>
+                <div class="flow-arrow hidden md:block">&rarr;</div>
+                <div class="flow-arrow block md:hidden">&darr;</div>
+                <div class="flow-step">5. Assessment<br><span class="text-xs">(Track & Adjust)</span></div>
+            </div>
+            <p class="text-sm mt-4 text-center text-gray-600">The Digital Twin enhances each step by personalizing content, identifying weak areas, predicting outcomes, and adjusting strategies in real-time.</p>
+        </section>
+
+        <section id="step1-aim" class="mb-16 stat-card">
+            <h2 class="text-3xl font-bold mb-6 text-center section-title">Step 1: AIM - Defining the Roadmap</h2>
+            <p class="text-lg mb-6">Clear goals are set: increase score from 50% to 95%+, eliminate errors and skipped questions, optimize time, master weak topics, build confidence, and support well-being.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 accent-text">Key Objectives:</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Master weak topics like fractions & geometry.</li>
+                        <li>Build confidence to answer all questions.</li>
+                        <li>Enhance time efficiency per question.</li>
+                        <li>Eliminate incorrect and skipped answers.</li>
+                        <li>Support well-being: mood, sleep, habits.</li>
+                    </ul>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold mb-3 accent-text">Focus on Well-being:</h3>
+                    <div class="flex justify-around items-center p-4 bg-yellow-100 rounded-lg">
+                        <div class="text-center">
+                            <span class="text-4xl">🧠</span>
+                            <p class="text-sm">Mood</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-4xl">😴</span>
+                            <p class="text-sm">Sleep</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-4xl">🏃</span>
+                            <p class="text-sm">Habits</p>
+                        </div>
+                    </div>
+                    <p class="text-sm mt-2">Consistent tracking supports overall student success.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="step2-action" class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center section-title">Step 2: ACTION - Personalized Engagement</h2>
+            <p class="text-lg mb-6 text-center">The Digital Twin, built from assessment and health data, guides targeted practice, time management (via Flutter app & IoT), and health optimization.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Topic Prioritization</h3>
+                    <p class="mb-4">Digital Twin simulates scenarios to prioritize topics, e.g., 60% focus on fractions, 40% on geometry for 80% error reduction.</p>
+                    <div class="chart-container h-56 sm:h-64">
+                        <canvas id="topicPrioritizationChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Adaptive Learning</h3>
+                    <p class="mb-4">Personalized micro-lessons and 15 adaptive quizzes/week with increasing difficulty via the Flutter app.</p>
+                    <div class="chart-container h-56 sm:h-64">
+                        <canvas id="adaptiveQuizChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card text-center">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Health Optimization</h3>
+                    <p class="mb-4">IoT monitors sleep (e.g., 5.5 hrs) & stress. App recommends 7-8 hrs sleep and mindfulness if poor sleep correlates with low scores.</p>
+                    <p class="big-stat-number">7-8</p>
+                    <p class="big-stat-label">Recommended Sleep Hours</p>
+                    <p class="mt-4 text-sm">Notifications for time management (e.g., if >90s/question).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="step3-analysis" class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center section-title">Step 3: ANALYSIS - Uncovering Insights</h2>
+            <p class="text-lg mb-6 text-center">In-app micro-assessments (3-5 questions, topic-specific) provide real-time data. The Digital Twin analyzes progress, time efficiency, health correlations, and predicts future performance.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Accuracy Improvement</h3>
+                    <p class="mb-4">Example: Accuracy in fractions improves from 40% to 90%.</p>
+                    <div class="chart-container h-56 sm:h-64">
+                        <canvas id="accuracyImprovementChart"></canvas>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Time Efficiency</h3>
+                    <p class="mb-4">Targeting <60 seconds per question. Strategies recommended for pacing.</p>
+                    <div class="chart-container h-56 sm:h-64">
+                        <canvas id="timeEfficiencyChart"></canvas>
+                    </div>
+                </div>
+                 <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Sleep & Performance</h3>
+                    <p class="mb-4">Example: Students with 7+ hours of sleep show a 15% score improvement.</p>
+                    <div class="chart-container h-56 sm:h-64">
+                        <canvas id="sleepPerformanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+             <p class="mt-8 text-lg text-center stat-card"><strong>Digital Twin Prediction:</strong> Based on current trends, a projected score of <strong>92%</strong> within a couple of weeks if interventions continue.</p>
+        </section>
+
+        <section id="step4-application" class="mb-16 stat-card">
+            <h2 class="text-3xl font-bold mb-6 text-center section-title">Step 4: APPLICATION - Real-World Connections</h2>
+            <p class="text-lg mb-6">Students connect learning to real-life situations to improve understanding and confidence. XSEED's real-life learning methods are delivered through the app.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-4 bg-teal-50 rounded-lg shadow">
+                    <h3 class="font-semibold text-lg mb-2 accent-text flex items-center"><span class="text-2xl mr-2">🧮</span>Weak Topics</h3>
+                    <p class="text-sm">Challenge: Use algebra to calculate family monthly expenses. (App task: "Plan a trip budget in 10 mins")</p>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg shadow">
+                    <h3 class="font-semibold text-lg mb-2 section-title flex items-center"><span class="text-2xl mr-2">⏱️</span>Time Management</h3>
+                    <p class="text-sm">Challenge: Solve a math puzzle or logic problem in under 60 seconds.</p>
+                </div>
+                <div class="p-4 bg-blue-50 rounded-lg shadow">
+                    <h3 class="font-semibold text-lg mb-2" style="color:#45B7D1;"><span class="text-2xl mr-2">🧘</span>Stress Reduction</h3>
+                    <p class="text-sm">Challenge: Practice a 5-minute breathing exercise to stay calm before/during tests.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="step5-assessment" class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center section-title">Step 5: ASSESSMENT - Tracking Progress</h2>
+            <p class="text-lg mb-6 text-center">A follow-up test measures improvement. The Digital Twin compares predicted vs. actual results to validate progress and refine the learning plan.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="stat-card">
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Performance: Before vs. After</h3>
+                     <p class="mb-4 text-sm">Previous: 50% score (10/20 correct), 8 incorrect, 2 skipped, slow on 6 Qs. <br>Target: 95% score (19/20 correct), 0 incorrect/skipped, faster responses (~50s/Q).</p>
+
+                   
+                    <div class="chart-container h-72 sm:h-80">
+                        <canvas id="beforeAfterChart"></canvas>
+                    </div>
+
+                    <!-- <div class="flex flex-col items-center mt-6">
+                        <p class="text-lg font-semibold mb-2">After Intervention</p>
+                        <img src="https://cdn-icons-gif.flaticon.com/15594/15594574.gif" alt="Student after intervention" class="student-gif rounded-lg shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/200x200/34D399/FFFFFF?text=GIF+Loading+Error';">
+                        <p class="text-sm mt-2 text-gray-600">The same student after the personalized learning intervention.</p>
+                    </div> -->
+                </div>
+                <div class="stat-card text-center">
+                     <h3 class="text-xl font-semibold mb-4 accent-text">Achieving the Goal</h3>
+                    <p class="big-stat-number text-green-500">95%+</p>
+                    <p class="big-stat-label">Target Score Achieved</p>
+                    <p class="mt-4">The Digital Twin validates this progress and refines future learning strategies to sustain high performance.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="digital-twin-pros-cons" class="mb-16 stat-card">
+            <h2 class="text-3xl font-bold mb-8 text-center section-title">The Dual Edge of Digital Twins in Education</h2>
+            <p class="text-lg mb-6 text-center">While Digital Twins offer powerful advantages, it's important to consider both their benefits and potential challenges in an educational context.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 accent-text">Pros: Advantages of Digital Twins</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong class="text-green-600">Personalized Learning:</strong> Tailored content and pacing based on individual needs.</li>
+                        <li><strong class="text-green-600">Real-time Insights:</strong> Immediate feedback on performance and well-being.</li>
+                        <li><strong class="text-green-600">Predictive Analytics:</strong> Forecasts future performance, enabling proactive interventions.</li>
+                        <li><strong class="text-green-600">Optimized Strategies:</strong> Dynamic adjustment of learning plans for maximum effectiveness.</li>
+                        <li><strong class="text-green-600">Early Problem Detection:</strong> Identifies academic or health issues before they escalate.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 section-title">Cons: Challenges & Considerations</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong class="text-red-600">Data Privacy Concerns:</strong> Handling sensitive student and health data securely.</li>
+                        <li><strong class="text-red-600">High Implementation Cost:</strong> Investment in technology (IoT, app development, infrastructure).</li>
+                        <li><strong class="text-red-600">Integration Complexity:</strong> Ensuring seamless data flow and system interoperability.</li>
+                        <li><strong class="text-red-600">Risk of Over-reliance:</strong> Potentially overlooking qualitative aspects of learning and well-being.</li>
+                        <li><strong class="text-red-600">Ethical Considerations:</strong> Addressing algorithmic bias and maintaining student autonomy.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-8 border-t-2 border-teal-200">
+            <p class="text-2xl font-bold section-title">Sustained Excellence: 95%+</p>
+            <p class="text-md mt-2">By continuously looping through the XSEED steps, powered by an intelligent Digital Twin, students systematically overcome weaknesses, build confidence, and achieve consistently high academic performance.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const primaryColor = '#FF6B6B'; // Coral
+        const secondaryColor = '#4ECDC4'; // Teal
+        const accentBlueColor = '#45B7D1'; // Bright Blue
+        const accentYellowColor = '#FFD166'; // Orange/Yellow (Tailwind amber-300 equivalent)
+        const positiveGreenColor = '#34D399'; // Green (Tailwind green-500)
+        const negativeRedColor = '#F87171'; // Red (Tailwind red-400)
+        const purpleColor = '#A78BFA'; // Violet (Tailwind violet-400)
+        const textDarkColor = '#0F766E';
+
+        function wrapLabel(str, maxWidth = 16) {
+            if (typeof str !== 'string' || str.length <= maxWidth) return str;
+            const words = str.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (const word of words) {
+                if ((currentLine + word).length <= maxWidth || currentLine === '') {
+                    currentLine += (currentLine === '' ? '' : ' ') + word;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = word;
+                }
+            }
+            if (currentLine) lines.push(currentLine);
+            return lines.length > 0 ? lines : [str];
+        }
+
+        const chartTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            if (!item || !item.chart.data.labels || typeof item.dataIndex === 'undefined') return '';
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label || '';
+                        }
+                    }
+                },
+                legend: {
+                    labels: {
+                        color: textDarkColor,
+                        font: { size: 12 }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { color: textDarkColor, font: { size: 10 } },
+                    grid: { color: 'rgba(0,0,0,0.05)'}
+                },
+                x: {
+                    ticks: { color: textDarkColor, font: { size: 10 } },
+                     grid: { display: false }
+                }
+            },
+            maintainAspectRatio: false,
+            responsive: true
+        };
+
+        new Chart(document.getElementById('scoreBreakdownChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Correct (10)', 'Incorrect (8)', 'Skipped (2)'],
+                datasets: [{
+                    label: 'Score Breakdown',
+                    data: [10, 8, 2],
+                    backgroundColor: [positiveGreenColor, negativeRedColor, accentYellowColor],
+                    borderColor: '#F0FDF4',
+                    borderWidth: 2
+                }]
+            },
+            options: { ...chartTooltipConfig, cutout: '60%' }
+        });
+
+        new Chart(document.getElementById('errorDistributionChart'), {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Fractions'), wrapLabel('Geometry'), wrapLabel('Other Topics')],
+                datasets: [{
+                    label: 'Number of Errors',
+                    data: [5, 3, 0], // Assuming 5 in fractions, 3 in geometry from "8 incorrect"
+                    backgroundColor: [primaryColor, secondaryColor, accentBlueColor],
+                    borderRadius: 4
+                }]
+            },
+            options: { ...chartTooltipConfig, indexAxis: 'y' }
+        });
+
+        new Chart(document.getElementById('topicPrioritizationChart'), {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Fractions Focus'), wrapLabel('Geometry Focus')],
+                datasets: [{
+                    label: 'Topic Prioritization (%)',
+                    data: [60, 40],
+                    backgroundColor: [primaryColor, secondaryColor],
+                     borderRadius: 4
+                }]
+            },
+            options: { ...chartTooltipConfig, indexAxis: 'y', scales: {...chartTooltipConfig.scales, x: {...chartTooltipConfig.scales.x, max:100, ticks: {...chartTooltipConfig.scales.x.ticks, callback: value => value + "%"}}}}
+        });
+        
+        new Chart(document.getElementById('adaptiveQuizChart'), {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 3', 'Week 5', 'Week 7', 'Week 9'],
+                datasets: [{
+                    label: 'Adaptive Quiz Difficulty Level',
+                    data: [2, 3, 5, 6, 8], // Hypothetical data
+                    borderColor: primaryColor,
+                    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: chartTooltipConfig
+        });
+
+        new Chart(document.getElementById('accuracyImprovementChart'), {
+            type: 'line',
+            data: {
+                labels: ['Start', 'Week 1', 'Week 3', 'Week 5', 'Goal'],
+                datasets: [{
+                    label: 'Fractions Accuracy (%)',
+                    data: [40, 55, 70, 85, 90],
+                    borderColor: secondaryColor,
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: { ...chartTooltipConfig, scales: {...chartTooltipConfig.scales, y: {...chartTooltipConfig.scales.y, max:100, ticks: {...chartTooltipConfig.scales.y.ticks, callback: value => value + "%"}}}}
+        });
+        
+        new Chart(document.getElementById('timeEfficiencyChart'), {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Current Avg Time / Q (s)'), wrapLabel('Target Time / Q (s)')],
+                datasets: [{
+                    label: 'Time per Question (seconds)',
+                    data: [100, 55], // Hypothetical: Current 100s, Target <60s (using 55s)
+                    backgroundColor: [negativeRedColor, positiveGreenColor],
+                    borderRadius: 4
+                }]
+            },
+            options: chartTooltipConfig
+        });
+
+        new Chart(document.getElementById('sleepPerformanceChart'), {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('<7 Hours Sleep'), wrapLabel('7+ Hours Sleep')],
+                datasets: [{
+                    label: 'Average Score Improvement (%)',
+                    data: [5, 15], // Hypothetical: <7hrs -> 5% improvement, 7+ hrs -> 15%
+                    backgroundColor: [accentYellowColor, positiveGreenColor],
+                    borderRadius: 4
+                }]
+            },
+            options: { ...chartTooltipConfig, scales: {...chartTooltipConfig.scales, y: {...chartTooltipConfig.scales.y, ticks: {...chartTooltipConfig.scales.y.ticks, callback: value => value + "%"}}}}
+        });
+        
+        new Chart(document.getElementById('beforeAfterChart'), {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Overall Score (%)'), wrapLabel('Incorrect Answers'), wrapLabel('Skipped Questions'), wrapLabel('Avg Time / Q (s)')],
+                datasets: [
+                    {
+                        label: 'Before XSEED+DT',
+                        data: [50, 8, 2, 110], // Avg time/Q assumed high
+                        backgroundColor: negativeRedColor,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'After XSEED+DT (Target)',
+                        data: [95, 0, 0, 50],
+                        backgroundColor: positiveGreenColor,
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: chartTooltipConfig
+        });
+
+    </script>
+</body>
+</html>
