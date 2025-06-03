@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+         /* App Container for Phone View */
+         .app-container {
+            width: 100%;
+            max-width: 450px; /* Slightly wider for more content */
+            height: 800px; /* Fixed height for the app container */
+            background-color: #fff;
+            border-radius: 2rem; /* More rounded edges */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden; /* Keep overflow hidden for the main container */
+            position: relative;
+            margin: 0 auto; /* Center the phone view */
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 640px) { /* Apply margin on larger screens */
+            .app-container {
+                margin: 2rem auto;
+                min-height: auto; /* Reset min-height for desktop */
+            }
+        }
+        .screen {
+            flex-grow: 1; /* Allow screen to take available vertical space */
+            height: 100%; /* Ensure it fills its parent's height */
+            /* padding: 20px; */
+            overflow-y: auto; /* Allow scrolling within the screen if content overflows */
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: #bc2026; /* Primary color */
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
+        .bottom-nav {
+            background-color: #ffffff;
+            border-top: 1px solid #e5e7eb; /* Gray 200 */
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            flex-shrink: 0; /* Prevent nav from shrinking */
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #6b7280; /* Gray 500 */
+            font-size: 0.75rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-item.active {
+            color: #bc2026; /* Primary color */
+            background-color: #fbe8e9; /* Light shade of primary */
+        }
+        .nav-item:hover {
+            background-color: #f3f4f6; /* Gray 100 */
+        }
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+        .card {
+            background-color: #f9fafb; /* Gray 50 */
+            border-radius: 15px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        .btn-primary {
+            background-color: #bc2026; /* Primary color */
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #a31b21; /* Darker shade of primary */
+        }
+        .progress-bar-container {
+            background-color: #fbe8e9; /* Light shade of primary */
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-bar {
+            background-color: #bc2026; /* Primary color */
+            height: 100%;
+            border-radius: 9999px;
+            width: 50%; /* Example width */
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #fbe8e9; /* Light shade of primary */
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #bc2026; /* Primary color */
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #bc2026; /* Primary color */
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Specific styles for Quiz Screen to hide bottom nav */
+        #quiz-screen .bottom-nav {
+            display: none;
+        }
+
+        /* Circular Progress Bar Styling */
+        #circular-progress-bar {
+            width: 150px; /* Increased size for better visibility */
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem; /* Larger percentage text */
+            font-weight: 700;
+            color: white; /* Text color for percentage */
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2); /* Inner shadow for depth */
+            transition: background 0.7s ease-in-out; /* Smooth transition for the gradient fill */
+            background-color: #fbe8e9; /* Base color for the empty part of the circle */
+        }
+
+        /* Splash Screen Specific Styles */
+        #splash-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* Take full height of the fixed app-container */
+            background: linear-gradient(to bottom right, #bc2026, #8a171d); /* Primary to Darker shade */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            z-index: 100;
+            transition: opacity 1s ease-in-out;
+        }
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .splash-logo-icon {
+            width: 6rem;
+            height: 6rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Intro Screen Specific Styles */
+        #intro-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* Take full height of the fixed app-container */
+            background-color: #ffffff;
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #intro-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .intro-slides-container {
+            flex-grow: 1; /* Allow slides container to take available space */
+            overflow-y: auto; /* Enable scrolling for slides if needed */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center content vertically within the scrollable area */
+        }
+        .intro-slide {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            flex-shrink: 0; /* Prevent slides from shrinking */
+            height: 100%; /* Each slide takes full height of its container */
+            justify-content: center; /* Center content within each slide */
+        }
+        .intro-slide.active {
+            display: flex;
+        }
+        .intro-image {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+        .intro-title {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #1f2937; /* Gray 900 */
+            margin-bottom: 10px;
+        }
+        .intro-description {
+            font-size: 1rem; /* text-base */
+            color: #4b5563; /* Gray 600 */
+            margin-bottom: 30px;
+        }
+        .pagination-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            flex-shrink: 0; /* Prevent dots from shrinking */
+        }
+        .dot {
+            height: 10px;
+            width: 10px;
+            background-color: #d1d5db; /* Gray 300 */
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .dot.active {
+            background-color: #bc2026; /* Primary color */
+        }
+        .intro-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+            flex-shrink: 0; /* Prevent buttons from shrinking */
+        }
+        .intro-buttons .btn-primary {
+            flex: 1;
+            margin: 0 5px;
+        }
+        .intro-buttons .btn-secondary {
+            background-color: #fbe8e9; /* Light shade of primary */
+            color: #bc2026; /* Primary color */
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .intro-buttons .btn-secondary:hover {
+            background-color: #f9dcdc; /* Lighter shade of primary */
+        }
+
+
+        /* Voice Search Screen (ChatGPT-like UI) */
+        .voice-search-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes input to bottom */
+            padding: 0px; /* No padding on the screen itself, handled by chat-messages */
+        }
+
+        .chat-messages {
+            flex-grow: 1; /* Allows messages area to fill available space */
+            overflow-y: auto; /* Makes messages scrollable */
+            padding: 20px; /* Padding inside the chat area */
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between individual messages */
+            min-height: 50px; /* Ensures it has a minimum height even if empty */
+        }
+
+        .chat-message {
+            max-width: 80%; /* Messages don't span full width */
+            padding: 10px 15px;
+            border-radius: 15px;
+            line-height: 1.4;
+            word-wrap: break-word; /* Ensures long words wrap */
+        }
+
+        .user-message {
+            background-color: #e0e0e0; /* Light gray for user messages */
+            align-self: flex-end; /* Aligns user messages to the right */
+            border-bottom-right-radius: 5px; /* Sharpen corner for user message */
+        }
+
+        .ai-message {
+            background-color: #bc2026; /* Primary red for AI messages */
+            color: white;
+            align-self: flex-start; /* Aligns AI messages to the left */
+            border-bottom-left-radius: 5px; /* Sharpen corner for AI message */
+        }
+
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff; /* White background */
+            border-top: 1px solid #eee; /* Light border above input */
+            gap: 10px; /* Space between input and buttons */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05); /* Shadow above input */
+        }
+
+        .chat-input-container input[type="text"] {
+            flex-grow: 1; /* Allows input to fill available space */
+            padding: 12px 15px;
+            border: 1px solid #ccc; /* Light gray border */
+            border-radius: 25px; /* Highly rounded input field */
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .chat-input-container input[type="text"]:focus {
+            border-color: #bc2026; /* Primary color border on focus */
+        }
+
+        .chat-input-container button {
+            background-color: #bc2026; /* Primary color for buttons */
+            color: white;
+            border: none;
+            border-radius: 50%; /* Circular buttons */
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            flex-shrink: 0; /* Prevents buttons from shrinking */
+        }
+
+        .chat-input-container button:active {
+            transform: scale(0.95); /* Slight press effect */
+            background-color: #a31b21; /* Darker shade on press */
+        }
+
+        /* Microphone button specific styling within chat input */
+        .chat-input-container .microphone-button {
+            box-shadow: none; /* Remove previous shadow if any */
+            animation: none; /* Remove previous animation if any */
+        }
+        .chat-input-container .microphone-button.listening {
+            animation: pulse 1.5s infinite; /* Pulse animation when listening */
+        }
+
+        /* Keyframes for pulse animation (for microphone button) */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(188, 32, 38, 0.4); /* Primary color with transparency */
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(188, 32, 38, 0); /* Primary color with transparency */
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(188, 32, 38, 0); /* Primary color with transparency */
+            }
+        }
+
+        /* Processing indicator for chat UI */
+        .chat-processing-indicator {
+            font-size: 0.9em;
+            color: #888;
+            text-align: center;
+            padding: 10px;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div id="splash-screen">
+            <svg id="SvgjsSvg1041" width="288" height="288" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"><defs id="SvgjsDefs1042"></defs><g id="SvgjsG1043"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1010 973.668" width="288" height="288"><path fill="#ffffff" d="M267.044 66.205 70.563 121.721l-5.465-1.69v403.63s13.265 51.33 92.614 39.19l237.504-114.735V44.486L267.044 66.204z" class="colorFF9554 svgShape"></path><path fill="#000000" d="M134.694 575.01c-66.204 0-79.057-46.78-79.57-48.773a10.156 10.156 0 0 1-.333-2.576V120.03a10.3 10.3 0 0 1 4.187-8.295c2.638-1.952 6.02-2.495 9.17-1.55l2.546.786 193.552-54.69 129.25-21.962a10.303 10.303 0 0 1 8.373 2.294 10.294 10.294 0 0 1 3.653 7.871v403.63c0 3.946-2.264 7.57-5.827 9.28L162.191 572.131a10.46 10.46 0 0 1-2.919.906c-8.575 1.309-16.838 1.973-24.578 1.973zm-59.29-52.92c2.023 5.636 13.95 32.307 59.29 32.307 6.25 0 12.954-.503 19.949-1.51L384.91 441.655V56.684L268.765 76.37 75.404 131.06v391.03z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M395.216 44.485 157.712 159.201c-89.303 15.902-92.614-39.17-92.614-39.17L299.089 10.325s17.1 36.273 96.127 34.16z" class="colorFFF svgShape"></path><path fill="#000000" d="M127.85 172.386c-69.143.02-73.008-51.229-73.038-51.732a10.324 10.324 0 0 1 5.908-9.964L294.71.986a10.266 10.266 0 0 1 13.698 4.951c.071.101 15.48 28.323 80.245 28.323l6.29-.081c5.053.04 9.14 3.14 10.287 7.87a10.3 10.3 0 0 1-5.536 11.716L162.191 168.48c-.845.403-1.741.705-2.667.866-11.333 2.012-21.991 3.039-31.673 3.039zm-50.936-46.519c3.482 9.562 14.724 25.906 50.937 25.906 8.091 0 17.049-.825 26.671-2.475l200.879-97.023c-34.099-5.756-51.561-19.807-59.633-29.006L76.914 125.867z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M157.712 159.201v397.17" class="colorFFF svgShape"></path><path fill="#000000" d="M157.712 566.676a10.3 10.3 0 0 1-10.306-10.306V159.201a10.3 10.3 0 0 1 10.306-10.306 10.3 10.3 0 0 1 10.307 10.306V556.37a10.3 10.3 0 0 1-10.307 10.306z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="m401.094 126.11-196.48 55.495-5.445-1.71v403.67s13.265 51.33 92.604 39.171L529.257 508.02V104.39l-128.163 21.72z" class="color5FD4AF svgShape"></path><path fill="#000000" d="M268.725 634.914c-66.175 0-79.018-46.78-79.53-48.773a10.153 10.153 0 0 1-.333-2.576v-403.67c0-3.282 1.56-6.362 4.207-8.314a10.393 10.393 0 0 1 9.19-1.51l2.515.785 193.522-54.67 129.24-21.961a10.168 10.168 0 0 1 8.374 2.294 10.293 10.293 0 0 1 3.652 7.87V508.02c0 3.946-2.263 7.569-5.827 9.28L296.252 632.016a10.49 10.49 0 0 1-2.92.906c-8.584 1.308-16.857 1.992-24.607 1.992zm-59.25-52.92c2.012 5.637 13.94 32.308 59.25 32.308 6.26 0 12.973-.523 19.978-1.53l230.248-111.213V116.588l-116.136 19.686-193.34 54.671v391.05z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M529.257 104.39 291.773 219.105c-89.303 15.903-92.605-39.21-92.605-39.21L433.14 70.23s17.1 36.314 96.117 34.16z" class="colorFFF svgShape"></path><path fill="#000000" d="M261.931 232.29c-69.154 0-73.018-51.269-73.049-51.771a10.325 10.325 0 0 1 5.908-9.964L428.762 60.89a10.314 10.314 0 0 1 13.698 4.952c.07.101 15.459 28.343 80.124 28.343l6.391-.101c5.223.26 9.159 3.16 10.297 7.87a10.3 10.3 0 0 1-5.537 11.715L296.252 228.386a10.38 10.38 0 0 1-2.667.865c-11.333 2.013-21.982 3.04-31.654 3.04zm-50.947-46.559c3.472 9.582 14.715 25.947 50.947 25.947 8.082 0 17.04-.825 26.65-2.476l200.84-97.022c-34.079-5.757-51.53-19.808-59.613-29.006L210.984 185.73z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M291.772 219.105v397.21" class="colorFFF svgShape"></path><path fill="#000000" d="M291.772 626.621a10.3 10.3 0 0 1-10.306-10.307V219.105a10.3 10.3 0 0 1 10.306-10.305 10.3 10.3 0 0 1 10.307 10.305v397.21a10.3 10.3 0 0 1-10.307 10.306z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M549.627 445.78 456.51 670.1l215.846 80.457L892.467 670.1l-97.364-224.32z" class="colorA6A6A6 svgShape"></path><path fill="#000000" d="M672.356 760.862c-1.22 0-2.436-.221-3.604-.643L452.907 679.76a10.331 10.331 0 0 1-5.848-5.554 10.307 10.307 0 0 1-.07-8.053l93.117-224.319a10.321 10.321 0 0 1 9.521-6.36h245.476c4.106 0 7.82 2.435 9.45 6.2l97.365 224.319a10.295 10.295 0 0 1 .02 8.172c-1.117 2.617-3.27 4.63-5.927 5.616l-220.113 80.456a10.23 10.23 0 0 1-3.543.624zm-202.229-96.68 202.258 75.384 206.274-75.384-90.32-208.095H556.513l-86.385 208.095z" class="color4D4D4D svgShape"></path><path fill="#000000" d="M672.356 760.862a10.3 10.3 0 0 1-10.307-10.305V454.275a10.3 10.3 0 0 1 10.307-10.306 10.3 10.3 0 0 1 10.305 10.306v296.282a10.3 10.3 0 0 1-10.305 10.305z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="m368.425 421.807 301.837-114.193 301.816 114.193-301.816 114.152z" class="colorA6A6A6 svgShape"></path><path fill="#000000" d="M670.262 546.265a10.29 10.29 0 0 1-3.644-.664L364.781 431.45c-4.006-1.51-6.662-5.354-6.662-9.642s2.647-8.132 6.662-9.642l301.837-114.193a10.323 10.323 0 0 1 7.287 0l301.818 114.193c4.006 1.51 6.662 5.354 6.662 9.642s-2.656 8.132-6.662 9.642L673.905 545.6a10.29 10.29 0 0 1-3.643.664zm-272.71-124.458 272.71 103.142 272.69-103.142-272.69-103.182-272.71 103.182z" class="color4D4D4D svgShape"></path><path fill="#000000" d="M965.839 560.496a10.3 10.3 0 0 1-10.306-10.306V432.113H669.537a10.3 10.3 0 0 1-10.307-10.306 10.3 10.3 0 0 1 10.307-10.306H965.84a10.3 10.3 0 0 1 10.305 10.306V550.19a10.3 10.3 0 0 1-10.305 10.306z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="m965.839 547.351-28.222 62.1 33.878 59.24 28.2-62.058z" class="colorFFF svgShape"></path><path fill="#000000" d="M971.495 678.997a10.313 10.313 0 0 1-8.948-5.193l-33.877-59.24a10.322 10.322 0 0 1-.433-9.38l28.222-62.1a10.262 10.262 0 0 1 8.906-6.017c3.955-.504 7.498 1.811 9.421 5.173l33.867 59.28a10.353 10.353 0 0 1 .423 9.38l-28.201 62.059a10.236 10.236 0 0 1-8.896 6.018c-.163.02-.323.02-.484.02zm-22.313-70.09 21.266 37.179 17.694-38.91-21.257-37.22-17.703 38.951z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M10.306 750.094v51.731s92-1.912 164.124 73.009c0 0 107.801-11.111 204.24 88.528l203.023-93.842v-59.461l-504.518-70.11-66.869 10.145z" class="colorCCC svgShape"></path><path fill="#000000" d="M378.67 973.668a10.3 10.3 0 0 1-7.407-3.14c-74.91-77.397-155.589-85.75-186.8-85.75-5.535 0-8.725.282-8.997.302-3.2.383-6.27-.826-8.464-3.1-65.36-67.896-146.963-69.85-156.062-69.85-5.686 0-10.94-4.609-10.94-10.305v-51.731c0-5.093 3.724-9.421 8.756-10.186l66.87-10.144a11.28 11.28 0 0 1 2.969-.022l504.517 70.11A10.296 10.296 0 0 1 592 810.06v59.46c0 4.027-2.336 7.67-5.979 9.36l-203.023 93.844a10.279 10.279 0 0 1-4.328.945zM184.464 864.166c33.113 0 117.504 8.574 196.45 86.797l190.473-88.026v-43.902l-494.151-68.68-56.624 8.595v32.991c27.436 1.973 98.432 12.883 157.884 72.325 1.63-.061 3.633-.1 5.968-.1z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M10.306 750.094s106.997-1.45 164.124 68.197c0 0 101.169-15.076 203.778 79.53l203.204-89.313s-72.667-85.489-196.663-84.059c0 0-63.638-64.775-165.743-67.654l-208.7 93.299z" class="colorFFF svgShape"></path><path fill="#4d4d4d" d="M378.207 908.127c-2.536 0-5.042-.945-6.984-2.736-76.049-70.11-151.543-77.68-180.469-77.68-9.118 0-14.443.725-14.835.785-3.492.463-7.176-.885-9.46-3.663-52.246-63.71-151.453-64.434-155.65-64.434-4.86 0-9.32-3.401-10.336-8.152-1.006-4.77 1.188-9.581 5.626-11.554l208.7-93.299c1.419-.644 3.01-.906 4.498-.906 93.28 2.637 155.005 54.188 169.579 67.635 124.79.482 197.356 84.14 200.386 87.702a10.342 10.342 0 0 1 2.194 8.998 10.35 10.35 0 0 1-5.897 7.126l-203.205 89.313a10.314 10.314 0 0 1-4.147.865zM190.754 807.1c30.707 0 109.714 7.77 189.416 78.603l183.407-80.617c-23.118-21.598-85.297-70.352-175.758-70.352l-2.949.02c-3.281-.784-5.495-1.067-7.458-3.078-.614-.605-61.233-60.871-156.373-64.494L50.565 743.39c37.058 5.978 91.034 21.9 128.223 64.11 2.959-.2 6.994-.401 11.966-.401z" class="color4D4D4D svgShape"></path><path fill="#4d4d4d" d="M174.43 880.792a10.3 10.3 0 0 1-10.307-10.306v-52.195c0-4.066 2.396-7.75 6.11-9.42l210.32-93.843c5.203-2.294 11.282.02 13.607 5.214 2.325 5.213-.01 11.292-5.214 13.627l-204.21 91.106v45.511a10.3 10.3 0 0 1-10.306 10.306z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M378.207 897.821v59.704" class="colorFFF svgShape"></path><path fill="#4d4d4d" d="M378.207 967.831a10.3 10.3 0 0 1-10.306-10.306v-59.704a10.3 10.3 0 0 1 10.306-10.306 10.3 10.3 0 0 1 10.307 10.306v59.704a10.3 10.3 0 0 1-10.307 10.306z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="M596.428 714.928s-15.399-59.461-25.565-59.461c-10.125 0-24.719 59.42-24.719 59.42l24.659 29.027 25.625-28.986z" class="colorFFF svgShape"></path><path fill="#4d4d4d" d="M570.803 754.22h-.1a10.215 10.215 0 0 1-7.75-3.644l-24.658-29.025a10.263 10.263 0 0 1-2.154-9.12c16.515-67.27 28.815-67.27 34.722-67.27 5.889 0 18.147 0 35.54 67.19a10.257 10.257 0 0 1-2.256 9.4l-25.624 28.987a10.307 10.307 0 0 1-7.72 3.482zm-13.365-41.95 13.517 15.903 14.09-15.923c-4.52-16.486-9.943-32.106-14.08-40.903-4.027 8.898-9.29 24.68-13.528 40.923z" class="color4D4D4D svgShape"></path><path fill="#ffffff" d="m546.144 714.888 50.284.04-.161 216.529h-50.283z" class="colorFF9554 svgShape"></path><path fill="#4d4d4d" d="M596.267 941.764h-50.283a10.298 10.298 0 0 1-7.287-3.02 10.338 10.338 0 0 1-3.02-7.287l.162-216.57c0-2.737 1.087-5.354 3.02-7.286s4.559-3.02 7.286-3.02h.01l50.283.04c5.687 0 10.296 4.63 10.296 10.307l-.162 216.529c0 5.697-4.619 10.307-10.305 10.307zM556.3 921.15h29.67l.14-195.917-29.67-.04-.14 195.957z" class="color4D4D4D svgShape"></path></svg></g></svg>
+           <h1 class="text-4xl font-bold mb-4">Student Performance</h1>
+            <p class="text-xl mb-8">Your Digital Learning Companion</p>
+            <div class="spinner"></div>
+        </div>
+
+        <div id="intro-screen" class="hidden">
+            <div class="intro-slides-container w-full max-w-sm">
+                <div class="intro-slide">
+                    <img src="https://placehold.co/150x150/bc2026/ffffff?text=Welcome" alt="Welcome" class="intro-image">
+                    <h2 class="intro-title">Welcome to Your Learning Journey!</h2>
+                    <p class="intro-description">Track your progress, get personalized insights, and achieve your academic goals with ease.</p>
+                </div>
+                <div class="intro-slide">
+                    <img src="https://placehold.co/150x150/bc2026/ffffff?text=Progress" alt="Progress Tracking" class="intro-image">
+                    <h2 class="intro-title">Monitor Your Progress</h2>
+                    <p class="intro-description">See your performance level at a glance and understand where you stand in each subject.</p>
+                </div>
+                <div class="intro-slide">
+                    <img src="https://placehold.co/150x150/bc2026/ffffff?text=Insights" alt="Personalized Insights" class="intro-image">
+                    <h2 class="intro-title">Personalized Insights</h2>
+                    <p class="intro-description">Receive tailored recommendations to improve your understanding and focus on areas that need attention.</p>
+                </div>
+                <div class="intro-slide">
+                    <img src="https://placehold.co/150x150/bc2026/ffffff?text=   Quiz" alt="Interactive Quizzes" class="intro-image">
+                    <h2 class="intro-title">Engage with Quizzes</h2>
+                    <p class="intro-description">Test your knowledge with interactive quizzes and reinforce your learning.</p>
+                </div>
+            </div>
+            <div class="pagination-dots"></div>
+            <div class="intro-buttons w-full">
+                <button id="prev-button" class="btn-secondary hidden">Previous</button>
+                <button id="next-button" class="btn-primary">Next</button>
+                <button id="get-started-btn" class="btn-primary hidden">Get Started</button>
+            </div>
+        </div>
+
+        <div id="main-app-content" class="w-full h-full flex flex-col hidden">
+            <div id="home-screen" class="screen active">
+
+                <header class="bg-gradient-to-r from-[#bc2026] to-[#8a171d] p-5 text-white flex items-center justify-between rounded-t-2xl">
+                    <img src="https://homedelivery.xseedsuperteacher.in/cdn/shop/files/logo_base-02_1b604237-c802-442f-bbee-46bdc3367c0a_1200x1200.jpg?v=1613382055" 
+                        alt="XSEED Logo" 
+                        class="h-8 sm:h-10 w-auto"
+                        onerror="this.onerror=null;this.src='https://placehold.co/150x40/cccccc/333333?text=XSEED+Logo+Fallback';"
+                    >
+                    <h1 class="text-xl font-bold ml-4 hidden sm:block">Hi, Magesh!</h1>
+                    <div class="w-9 h-9 bg-red-200 rounded-full flex items-center justify-center text-red-800 font-bold text-base">MR</div>
+                </header>
+
+                <div class="flex-grow p-4 overflow-y-auto">
+                    <div class="card bg-gradient-to-br from-red-600 to-red-800 text-white shadow-lg text-center">
+                        <h2 class="text-xl font-bold mb-4">Your Performance Level</h2>
+                        <!-- Circular Progress Bar -->
+                        <div id="circular-progress-bar" class="mx-auto mb-4">
+                            <span id="performance-percentage">50%</span>
+                        </div>
+                        <p class="text-sm mb-3">Current Score: <span class="font-semibold" id="current-score-text">50%</span> &rarr; Target: <span class="font-semibold">95%+</span></p>
+                        <div class="progress-bar-container bg-white bg-opacity-30">
+                            <div class="progress-bar" id="main-progress-bar" style="width: 50%;"></div>
+                        </div>
+                        <p class="text-xs mt-2 text-right" id="progress-message">On Track for 75% by next week!</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Health Snapshot</h3>
+                        <div class="flex justify-around items-center text-center">
+                            <div class="flex flex-col items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-500 mb-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                                </svg>
+                                <span class="text-sm text-gray-600">Sleep: 5.5h</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-yellow-500 mb-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182A9.757 9.757 0 0 1 9.75 18c-2.21 0-4.241-.588-6-1.664m0 0 1.95-2.19m-1.95 2.19c-.27-.47-.525-.964-.768-1.47a10.007 10.007 0 0 1 4.992-6.326M12 2.25a9.77 9.77 0 0 1 8.25 4.725m0 0c.354.91.564 1.897.643 2.915M21 12a9.77 9.77 0 0 1-4.725 8.25m0 0c-.91.354-1.897.564-2.915.643M12 21a9.77 9.77 0 0 1-8.25-4.725m0 0c-.354-.91-.564-1.897-.643-2.915M3 12a9.77 9.77 0 0 1 4.725-8.25m0 0c.91-.354 1.897-.564 2.915-.643M12 2.25v.008v-.008Zm0 2.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12 12.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+                                </svg>
+                                <span class="text-sm text-gray-600">Mood: Stressed</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-red-500 mb-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.174 3.355 1.945 3.355h14.027c1.77 0 2.818-1.855 1.945-3.355L13.94 2.4A1.875 1.875 0 0 0 12.06 2.4L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                                <span class="text-sm text-gray-600">Stress: High</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Next Recommended Activity</h3>
+                        <p class="text-gray-700 mb-4">Based on your recent performance, let's strengthen your foundation!</p>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 12 21a8.987 8.987 0 0 1 9-8.758V6.538a9.757 9.757 0 0 0-2.956-.446 9.935 9.935 0 0 0-1.932-.079 11.975 11.975 0 0 1-2.104.093m-.38-1.089h.008v.008H12.008z" />
+                            </svg>
+                            <p class="font-medium text-gray-800">Micro-lesson: Fractions Basics</p>
+                        </div>
+                        <button class="btn-primary w-full" onclick="showScreen('learn-screen')">Start Activity</button>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Recent Quiz Results</h3>
+                        <ul class="space-y-3">
+                            <li class="flex justify-between items-center text-gray-700">
+                                <span>Quiz 1 (Fractions)</span>
+                                <span class="font-semibold text-red-500">60%</span>
+                            </li>
+                            <li class="flex justify-between items-center text-gray-700">
+                                <span>Quiz 2 (Geometry)</span>
+                                <span class="font-semibold text-orange-500">55%</span>
+                            </li>
+                            <li class="flex justify-between items-center text-gray-700">
+                                <span>Quiz 3 (Algebra)</span>
+                                <span class="font-semibold text-green-500">85%</span>
+                            </li>
+                        </ul>
+                        <button class="btn-primary w-full mt-4 bg-gray-200 text-gray-800 hover:bg-gray-300" onclick="showScreen('quiz-results-screen')">View All Results</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="learn-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('home-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">Learn</span>
+                    <div class="w-6 h-6"></div>
+                </div>
+                <div class="flex-grow p-4 overflow-y-auto">
+                    <p class="text-gray-700 mb-4">Explore lessons and activities to boost your knowledge!</p>
+
+                    <div class="card bg-blue-50 border-blue-200">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Fractions Basics</h3>
+                        <p class="text-sm text-gray-600 mb-3">Understanding parts of a whole.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>5 mins</span>
+                        </div>
+                        <button class="btn-primary w-full bg-blue-500 hover:bg-blue-600" onclick="showScreen('quiz-screen')">Start Lesson</button>
+                    </div>
+
+                    <div class="card bg-green-50 border-green-200">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Geometry Fundamentals</h3>
+                        <p class="text-sm text-gray-600 mb-3">Shapes, angles, and measurements.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>8 mins</span>
+                        </div>
+                        <button class="btn-primary w-full bg-green-500 hover:bg-green-600">Start Lesson</button>
+                    </div>
+
+                    <div class="card bg-purple-50 border-purple-200">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Algebra Introduction</h3>
+                        <p class="text-sm text-gray-600 mb-3">Variables and simple equations.</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>12 mins</span>
+                        </div>
+                        <button class="btn-primary w-full bg-purple-500 hover:bg-purple-600">Start Lesson</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quiz-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('learn-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">Quiz: Fractions</span>
+                    <div class="flex items-center text-sm">
+                        <span class="mr-2">Q 1/15</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        <span>01:30</span>
+                    </div>
+                </div>
+                <div class="flex-grow p-4 overflow-y-auto flex flex-col justify-between">
+                    <div>
+                        <div class="card mb-6 bg-blue-50">
+                            <p class="text-lg font-medium text-gray-800 mb-4">What is 3/4 + 2/4?</p>
+                            <div class="space-y-4">
+                                <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                    <input type="radio" name="answer" value="A" class="form-radio h-5 w-5 text-red-600">
+                                    <span class="ml-3 text-base text-gray-700">A. 1/4</span>
+                                </label>
+                                <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                    <input type="radio" name="answer" value="B" class="form-radio h-5 w-5 text-red-600">
+                                    <span class="ml-3 text-base text-gray-700">B. 5/4</span>
+                                </label>
+                                <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                    <input type="radio" name="answer" value="C" class="form-radio h-5 w-5 text-red-600">
+                                    <span class="ml-3 text-base text-gray-700">C. 3/8</span>
+                                </label>
+                                <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                    <input type="radio" name="answer" value="D" class="form-radio h-5 w-5 text-red-600">
+                                    <span class="ml-3 text-base text-gray-700">D. 6/4</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between space-x-4 mt-6">
+                        <button class="btn-primary flex-1 bg-gray-300 text-gray-800 hover:bg-gray-400">Skip</button>
+                        <button class="btn-primary flex-1" onclick="showScreen('quiz-results-screen')">Next</button>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div id="quiz-results-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('home-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">Quiz Completed!</span>
+                    <div class="w-6 h-6"></div>
+                </div>
+                <div class="flex-grow p-4 overflow-y-auto">
+                    <div class="card bg-gradient-to-br from-green-500 to-teal-600 text-white shadow-lg text-center">
+                        <h2 class="text-2xl font-bold mb-2">Your Score: 12/15</h2>
+                        <p class="text-sm">(80%)</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Summary</h3>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <p class="text-2xl font-bold text-green-600">12</p>
+                                <p class="text-sm text-gray-600">Correct</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-red-600">2</p>
+                                <p class="text-sm text-gray-600">Incorrect</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-gray-500">1</p>
+                                <p class="text-sm text-gray-600">Skipped</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Time Management</h3>
+                        <div class="w-full h-32 bg-gray-100 rounded-lg flex items-end p-2">
+                            <div class="flex-1 bg-green-400 h-2/3 rounded-sm mx-1" title="Q1: 25s"></div>
+                            <div class="flex-1 bg-red-400 h-3/4 rounded-sm mx-1" title="Q2: 40s"></div>
+                            <div class="flex-1 bg-green-400 h-1/2 rounded-sm mx-1" title="Q3: 20s"></div>
+                            <div class="flex-1 bg-yellow-400 h-full rounded-sm mx-1" title="Q4: 65s (Slow)"></div>
+                            <div class="flex-1 bg-green-400 h-2/3 rounded-sm mx-1" title="Q5: 30s"></div>
+                            <div class="flex-1 bg-red-400 h-3/4 rounded-sm mx-1" title="Q6: 45s"></div>
+                            <div class="flex-1 bg-gray-400 h-1/3 rounded-sm mx-1" title="Q7: Skipped"></div>
+                            </div>
+                        <p class="text-sm text-gray-600 mt-2">Green: Good time, Red: Too slow, Yellow: Skipped</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Detailed Review</h3>
+                        <ul class="space-y-4">
+                            <li class="p-3 rounded-lg bg-green-50 border border-green-200">
+                                <p class="font-medium text-gray-800">Q1: A pizza is cut into 8 slices. You eat 3 slices. What fraction is left?</p>
+                                <p class="text-sm text-green-700">Your Answer: 5 out of 8 (Correct) - Time: 25 seconds</p>
+                            </li>
+                            <li class="p-3 rounded-lg bg-red-50 border border-red-200">
+                                <p class="font-medium text-gray-800">Q2: Simplify: 2x plus 3y minus x.</p>
+                                <p class="text-sm text-red-700">Your Answer: 5xy (Incorrect) - Correct Answer: x plus 3y - Time: 40 seconds</p>
+                                <p class="text-xs text-gray-600 mt-1">Review: Combining like terms.</p>
+                            </li>
+                            <li class="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                                <p class="font-medium text-gray-800">Q3: Find the area of a circle with radius 5.</p>
+                                <p class="text-sm text-gray-700">Skipped - Time: 10 seconds</p>
+                                <p class="text-xs text-gray-600 mt-1">Review: Use the formula for area of a circle: pi times radius squared.</p>
+                            </li>
+                        </ul>
+                        <button class="btn-primary w-full mt-4" onclick="showScreen('insights-screen')">Review Weak Topics</button>
+                    </div>
+
+                    <button class="btn-primary w-full mt-4 bg-gray-200 text-gray-800 hover:bg-gray-300" onclick="showScreen('home-screen')">Back to Dashboard</button>
+                </div>
+            </div>
+
+            <div id="health-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('home-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">Your Well-being</span>
+                    <div class="w-6 h-6"></div>
+                </div>
+                <div class="flex-grow p-4 overflow-y-auto">
+                    <div class="card mb-4">
+                        <label for="date-picker" class="block text-sm font-medium text-gray-700 mb-2">Select Date:</label>
+                        <input type="date" id="date-picker" value="2025-05-31" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-red-400 focus:border-transparent">
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Sleep</h3>
+                        <label for="sleep-hours" class="block text-sm font-medium text-gray-700 mb-2">Hours Slept: <span id="sleep-value">7.5</span>h</label>
+                        <input type="range" id="sleep-hours" min="4" max="10" step="0.5" value="7.5" oninput="document.getElementById('sleep-value').innerText = this.value">
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Mood Today</h3>
+                        <div class="flex justify-around items-center space-x-2">
+                            <button class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200 text-4xl">😊</button>
+                            <button class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200 text-4xl">😐</button>
+                            <button class="p-3 rounded-full bg-red-100 border-2 border-red-500 transition duration-200 text-4xl">😟</button>
+                            <button class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200 text-4xl">😔</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Stress Level</h3>
+                        <label for="stress-level" class="block text-sm font-medium text-gray-700 mb-2">Level: <span id="stress-value">Medium</span></label>
+                        <input type="range" id="stress-level" min="1" max="3" step="1" value="2" oninput="updateStressLabel(this.value)">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>Low</span>
+                            <span>Medium</span>
+                            <span>High</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Daily Habits</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600 rounded">
+                                <span class="ml-2 text-gray-700">Mindfulness Break (5 min)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600 rounded">
+                                <span class="ml-2 text-gray-700">Exercise (30 min)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600 rounded" checked>
+                                <span class="ml-2 text-gray-700">Study (1 hr)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary w-full mt-4">Save Daily Log</button>
+
+                    <div class="card mt-4">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Historical Data (Last 7 Days)</h3>
+                        <div class="w-full h-40 bg-gray-100 rounded-lg flex items-end p-2">
+                            <div class="flex-1 bg-blue-300 h-3/5 rounded-sm mx-0.5" title="Day 1: Good"></div>
+                            <div class="flex-1 bg-yellow-300 h-2/5 rounded-sm mx-0.5" title="Day 2: OK"></div>
+                            <div class="flex-1 bg-green-300 h-4/5 rounded-sm mx-0.5" title="Day 3: Great"></div>
+                            <div class="flex-1 bg-red-300 h-1/5 rounded-sm mx-0.5" title="Day 4: Bad"></div>
+                            <div class="flex-1 bg-blue-300 h-3/5 rounded-sm mx-0.5" title="Day 5: Good"></div>
+                            <div class="flex-1 bg-green-300 h-4/5 rounded-sm mx-0.5" title="Day 6: Great"></div>
+                            <div class="flex-1 bg-yellow-300 h-2/5 rounded-sm mx-0.5" title="Day 7: OK"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Sleep trend over the week.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="insights-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('home-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">Digital Twin Insights</span>
+                    <div class="w-6 h-6"></div>
+                </div>
+                <div class="flex-grow p-4 overflow-y-auto">
+                    <div class="card bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg text-center">
+                        <h2 class="text-xl font-bold mb-2">Performance Prediction</h2>
+                        <p class="text-4xl font-extrabold mb-2">92%</p>
+                        <p class="text-sm">Projected score within 2 weeks</p>
+                        <p class="text-xs mt-1 opacity-80">Confidence: High</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Weak Topics Identified</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500 flex-shrink-0 mt-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.174 3.355 1.945 3.355h14.027c1.77 0 2.818-1.855 1.945-3.355L13.94 2.4A1.875 1.875 0 0 0 12.06 2.4L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-800">Fractions: Needs 2 more micro-lessons</p>
+                                    <p class="text-sm text-gray-600">Your accuracy is 40% here. Focus on adding and subtracting.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500 flex-shrink-0 mt-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.174 3.355 1.945 3.355h14.027c1.77 0 2.818-1.855 1.945-3.355L13.94 2.4A1.875 1.875 0 0 0 12.06 2.4L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-800">Geometry: Focus on Area & Volume</p>
+                                    <p class="text-sm text-gray-600">You skipped 2 questions on these concepts in the last quiz.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="btn-primary w-full mt-4" onclick="showScreen('learn-screen')">Go to Fractions Lessons</button>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Time Management Tips</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-800">Practice "Skip & Revisit" Strategy</p>
+                                    <p class="text-sm text-gray-600">You spend too long on difficult questions. Try skipping after 60s.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182A9.757 9.757 0 0 1 9.75 18c-2.21 0-4.241-.588-6-1.664m0 0 1.95-2.19m-1.95 2.19c-.27-.47-.525-.964-.768-1.47a10.007 10.007 0 0 1 4.992-6.326M12 2.25a9.77 9.77 0 0 1 8.25 4.725m0 0c.354.91.564 1.897.643 2.915M21 12a9.77 9.77 0 0 1-4.725 8.25m0 0c-.91.354-1.897.564-2.915.643M12 21a9.77 9.77 0 0 1-8.25-4.725m0 0c-.354-.91-.564-1.897-.643-2.915M3 12a9.77 9.77 0 0 1 4.725-8.25m0 0c.91-.354 1.897-.564 2.915-.643M12 2.25v.008v-.008Zm0 2.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12 12.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-800">Try 60-second math puzzles</p>
+                                    <p class="text-sm text-gray-600">Improves quick decision-making under time pressure.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="btn-primary w-full mt-4 bg-yellow-500 hover:bg-yellow-600" onclick="showScreen('application-screen')">Start Time Practice</button>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Well-being Recommendations</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-purple-500 flex-shrink-0 mt-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-800">Aim for 7-8 hours sleep</p>
+                                    <p class="text-sm text-gray-600">Your scores drop by 15% when you get less than 6 hours.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-purple-500 flex-shrink-0 mt-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.001 6.001 0 0 0-1.5-.189m-7.659 4.096A11.952 11.952 0 0 0 12 21c4.606 0 8.641-2.067 10.97-5.334M12 18d-2.25 2.25M12 18d2.25 2.25m-4.5-10.5h1.5m-1.5 0a.75.75 0 0 1 .75-.75h.75c.414 0 .75.336.75.75m-1.5 0h1.5m-1.5 0a.75.75 0 00-.75.75v.75c0 .414.336.75.75.75h.75m-1.5-1.5h1.5" />
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-gray-800">Try 5-min breathing exercises daily</p>
+                                    <p class="text-sm text-gray-600">Helps manage stress and improve focus during study.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="btn-primary w-full mt-4 bg-purple-500 hover:bg-purple-600" onclick="showScreen('health-screen')">Guided Mindfulness</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="application-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('home-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">Apply Your Knowledge</span>
+                    <div class="w-6 h-6"></div>
+                </div>
+                <div class="flex-grow p-4 overflow-y-auto">
+                    <p class="text-gray-700 mb-4">Put your skills to the test with these real-life challenges!</p>
+
+                    <div class="card bg-green-50 border-green-200">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Budget Planning</h3>
+                        <p class="text-sm text-gray-600 mb-3">Topic: Algebra</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>10 mins</span>
+                            <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-xs font-medium">New</span>
+                        </div>
+                        <button class="btn-primary w-full bg-green-500 hover:bg-green-600">Start Challenge</button>
+                    </div>
+
+                    <div class="card bg-blue-50 border-blue-200">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Map Reading & Navigation</h3>
+                        <p class="text-sm text-gray-600 mb-3">Topic: Geometry</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>15 mins</span>
+                            <span class="px-2 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-medium">In Progress</span>
+                        </div>
+                        <button class="btn-primary w-full bg-blue-500 hover:bg-blue-600">Continue Challenge</button>
+                    </div>
+
+                    <div class="card bg-purple-50 border-purple-200">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-800">Science Experiment Design</h3>
+                        <p class="text-sm text-gray-600 mb-3">Topic: Scientific Method</p>
+                        <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>20 mins</span>
+                            <span class="px-2 py-1 bg-purple-200 text-purple-800 rounded-full text-xs font-medium">New</span>
+                        </div>
+                        <button class="btn-primary w-full bg-purple-500 hover:bg-purple-600">Start Challenge</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profile-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('home-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">Profile</span>
+                    <div class="w-6 h-6"></div>
+                </div>
+                <div class="flex-grow p-4 flex flex-col items-center justify-center text-center">
+                    <img src="https://placehold.co/100x100/bc2026/ffffff?text=Magesh" alt="Student Avatar" class="rounded-full border-4 border-red-200 mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Magesh R</h2>
+                    <p class="text-gray-600 mb-6">Grade 7 Student</p>
+                    <div class="card w-full max-w-xs text-left">
+                        <p class="text-gray-700 mb-2"><span class="font-semibold">Email:</span> magesh@xseededucation.com</p>
+                        <p class="text-gray-700 mb-2"><span class="font-semibold">School:</span> Springfield Middle</p>
+                        <p class="text-gray-700"><span class="font-semibold">Joined:</span> Jan 15, 2024</p>
+                    </div>
+                    <button class="btn-primary w-full max-w-xs mt-6 bg-red-500 hover:bg-red-600">Log Out</button>
+                </div>
+            </div>
+
+            <!-- Voice Search Screen (ChatGPT-like UI) -->
+            <div id="voice-search-screen" class="screen">
+                <div class="header">
+                    <button onclick="showScreen('home-screen')" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    <span class="text-lg font-semibold">AI Chat</span>
+                    <div class="w-6 h-6"></div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Initial AI message -->
+                    <div class="ai-message chat-message">Hello! How can I help you learn today?</div>
+                    <!-- Dummy messages for better visibility and scrolling test -->
+                    <div class="chat-message user-message">Tell me about fractions.</div>
+                    <div class="ai-message chat-message">Fractions represent parts of a whole. They consist of a numerator (top number) and a denominator (bottom number).</div>
+                    <div class="chat-message user-message">Can you give me an example?</div>
+                    <div class="ai-message chat-message">Certainly! If you have a pizza cut into 8 slices and you eat 3, you've eaten 3/8 of the pizza. The remaining 5 slices represent 5/8 of the pizza.</div>
+                    <div class="chat-message user-message">What about place value?</div>
+                    <div class="ai-message chat-message">Place value is the value of each digit in a number. For example, in the number 123, the '1' is in the hundreds place, '2' in the tens place, and '3' in the ones place.</div>
+                </div>
+
+                <div class="chat-processing-indicator" id="chatProcessingIndicator">AI is thinking...</div>
+
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type your message or ask a question...">
+                
+                    <!-- Send Button with Paper Airplane Icon -->
+                    <button id="chatSendBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path d="M3.478 2.405a.75.75 0 0 0-.926.94l2.432 7.917H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.917a.75.75 0 0 0 .926.94 60.542 60.542 0 0 0 18.445-8.916.75.75 0 0 0 0-1.352A60.542 60.542 0 0 0 3.478 2.405Z" />
+                        </svg>
+                    </button>                    
+                    
+                    <!-- Microphone Button with Mic Icon -->
+                    <button class="microphone-button" id="microphoneBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+                            <path d="M12 15a3 3 0 003-3V6a3 3 0 00-6 0v6a3 3 0 003 3z"/>
+                            <path d="M5 13a7 7 0 0014 0h-2a5 5 0 01-10 0H5z"/>
+                            <path d="M11 19h2v2h-2z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+            </div>
+
+            <div class="bottom-nav" id="bottom-nav">
+                <div class="nav-item active" onclick="showScreen('home-screen', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 9.75L12 3l9 6.75M4.5 10.5V19.5a1.5 1.5 0 001.5 1.5H18a1.5 1.5 0 001.5-1.5V10.5" />
+                    </svg>
+                    <span>Home</span>
+                </div>
+                <div class="nav-item" onclick="showScreen('learn-screen', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-6 0h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>Learn</span>
+                </div>
+                <div class="nav-item" onclick="showScreen('health-screen', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25C21 5.765 18.9 3.75 16.312 3.75c-1.935 0-3.597 1.126-4.312 2.733C11.285 4.876 9.623 3.75 7.687 3.75 5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                    </svg>
+                    <span>Health</span>
+                </div>
+                <div class="nav-item" onclick="showScreen('insights-screen', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M9 17v-6m4 6v-9m4 9V7" />
+                    </svg>
+                    <span>Insights</span>
+                </div>
+                <div class="nav-item" onclick="showScreen('voice-search-screen', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="h-6 w-6"
+                         viewBox="0 0 24 24"
+                         fill="currentColor">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M9 4.5a.75.75 0 01.72.544l.814 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.814 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.467 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.395 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z"/>
+                    </svg>
+                    <span>AI</span>
+                </div>
+
+                <div class="nav-item" onclick="showScreen('profile-screen', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                    <span>Profile</span>
+                </div>
+            </div>
+
+
+        </div>
+
+        <script>
+            // Initial performance percentage for the digital twin
+            let currentPerformance = 50;
+            // Current slide index for the intro screen carousel
+            let currentSlide = 0;
+
+            // Data for the intro screen slides
+            const introSlides = [
+                {
+                    image: "https://placehold.co/150x150/bc2026/ffffff?text=Welcome",
+                    title: "Welcome to Your Learning Journey!",
+                    description: "Track your progress, get personalized insights, and achieve your academic goals with ease."
+                },
+                {
+                    image: "https://placehold.co/150x150/bc2026/ffffff?text=Progress",
+                    title: "Monitor Your Progress",
+                    description: "See your performance level at a glance and understand where you stand in each subject."
+                },
+                {
+                    image: "https://placehold.co/150x150/bc2026/ffffff?text=Insights",
+                    title: "Personalized Insights",
+                    description: "Receive tailored recommendations to improve your understanding and focus on areas that need attention."
+                },
+                {
+                    image: "https://placehold.co/150x150/bc2026/ffffff?text=Quiz",
+                    title: "Engage with Quizzes",
+                    description: "Test your knowledge with interactive quizzes and reinforce your learning."
+                }
+            ];
+
+            /**
+             * Dynamically renders the intro slides into the DOM.
+             */
+            function renderSlides() {
+                const slidesContainer = document.querySelector('.intro-slides-container');
+                slidesContainer.innerHTML = ''; // Clear any existing slides
+                introSlides.forEach((slide, index) => {
+                    const slideElement = document.createElement('div');
+                    slideElement.classList.add('intro-slide');
+                    slideElement.innerHTML = `
+                        <img src="${slide.image}" alt="${slide.title}" class="intro-image">
+                        <h2 class="intro-title">${slide.title}</h2>
+                        <p class="intro-description">${slide.description}</p>
+                    `;
+                    slidesContainer.appendChild(slideElement);
+                });
+                renderPaginationDots(); // Render pagination dots after slides are created
+            }
+
+            /**
+             * Renders the pagination dots for the intro screen.
+             */
+            function renderPaginationDots() {
+                const dotsContainer = document.querySelector('.pagination-dots');
+                dotsContainer.innerHTML = ''; // Clear any existing dots
+                introSlides.forEach((_, index) => {
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+                    if (index === currentSlide) {
+                        dot.classList.add('active'); // Mark current slide's dot as active
+                    }
+                    // Add click listener to navigate to the corresponding slide
+                    dot.addEventListener('click', () => showSlide(index));
+                    dotsContainer.appendChild(dot);
+                });
+            }
+
+            /**
+             * Shows a specific slide in the intro screen carousel.
+             * @param {number} index The index of the slide to show.
+             */
+            function showSlide(index) {
+                const slides = document.querySelectorAll('.intro-slide');
+                slides.forEach((slide, i) => {
+                    if (i === index) {
+                        slide.classList.add('active'); // Show the target slide
+                    } else {
+                        slide.classList.remove('active'); // Hide other slides
+                    }
+                });
+                currentSlide = index; // Update current slide index
+                updateIntroButtons(); // Update button visibility based on current slide
+                renderPaginationDots(); // Update active state of pagination dots
+            }
+
+            /**
+             * Navigates to the next slide in the intro screen.
+             */
+            function nextSlide() {
+                if (currentSlide < introSlides.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            }
+
+            /**
+             * Navigates to the previous slide in the intro screen.
+             */
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            }
+
+            /**
+             * Updates the visibility of "Previous", "Next", and "Get Started" buttons
+             * on the intro screen based on the current slide.
+             */
+            function updateIntroButtons() {
+                const prevButton = document.getElementById('prev-button');
+                const nextButton = document.getElementById('next-button');
+                const getStartedBtn = document.getElementById('get-started-btn');
+
+                if (prevButton) {
+                    if (currentSlide === 0) {
+                        prevButton.classList.add('hidden'); // Hide 'Previous' on first slide
+                    } else {
+                        prevButton.classList.remove('hidden');
+                    }
+                }
+
+                if (nextButton && getStartedBtn) {
+                    if (currentSlide === introSlides.length - 1) {
+                        nextButton.classList.add('hidden'); // Hide 'Next' on last slide
+                        getStartedBtn.classList.remove('hidden'); // Show 'Get Started'
+                    } else {
+                        nextButton.classList.remove('hidden');
+                        getStartedBtn.classList.add('hidden');
+                    }
+                }
+            }
+
+            /**
+             * Transitions from the splash screen to the intro screen.
+             */
+            function transitionToIntro() {
+                const splashScreen = document.getElementById('splash-screen');
+                const introScreen = document.getElementById('intro-screen');
+                if (splashScreen) {
+                    splashScreen.classList.add('hidden'); // Start fading out splash screen
+                }
+                setTimeout(() => {
+                    if (splashScreen) {
+                        splashScreen.style.display = 'none'; // Fully hide splash after transition
+                    }
+                    if (introScreen) {
+                        introScreen.classList.remove('hidden'); // Show intro screen
+                        renderSlides(); // Initial render of slides and set button states
+                        showSlide(0); // Ensure the first slide is shown correctly
+                    }
+                }, 1000); // Matches splash screen fade out duration
+            }
+
+            /**
+             * Handles the "Get Started" button click, transitioning from intro to main app content.
+             */
+            function onGetStarted() {
+                const introScreen = document.getElementById('intro-screen');
+                const mainAppContent = document.getElementById('main-app-content');
+                const bottomNav = document.getElementById('bottom-nav');
+
+                if (introScreen) {
+                    introScreen.classList.add('hidden');
+                }
+                setTimeout(() => {
+                    if (introScreen) {
+                        introScreen.style.display = 'none';
+                    }
+                    if (mainAppContent) {
+                        mainAppContent.classList.remove('hidden'); // Main content now visible
+                        console.log('Main app content is now visible.');
+                        console.log('mainAppContent dimensions:', mainAppContent.offsetWidth, mainAppContent.offsetHeight);
+                    }
+
+                    // Explicitly ensure bottom nav is visible when main content loads
+                    if (bottomNav) {
+                        bottomNav.style.display = 'flex';
+                        console.log('Bottom nav explicitly set to flex on get started.');
+                        console.log('Bottom nav dimensions:', bottomNav.offsetWidth, bottomNav.offsetHeight);
+                    } else {
+                        console.error('Bottom nav element not found in onGetStarted!');
+                    }
+
+                    // Pass the correct nav item for 'home-screen' directly
+                    const homeNavItem = document.querySelector('#bottom-nav .nav-item:first-child');
+                    showScreen('home-screen', homeNavItem);
+                    updateDigitalTwinUI(); // Initialize digital twin UI state
+                }, 500);
+            }
+
+            /**
+             * Shows a specific screen within the main app content and updates the active navigation item.
+             * @param {string} screenId The ID of the screen to show (e.g., 'home-screen', 'learn-screen').
+             * @param {HTMLElement} [navItem=null] The navigation item element that was clicked.
+             */
+            function showScreen(screenId, navItem = null) {
+                console.log(`Attempting to show screen: ${screenId}`);
+                const screens = document.querySelectorAll('.screen');
+                screens.forEach(screen => {
+                    screen.classList.remove('active'); // Deactivate all screens
+                });
+                const targetScreen = document.getElementById(screenId);
+                if (targetScreen) {
+                    targetScreen.classList.add('active'); // Activate the target screen
+                    console.log(`Screen '${screenId}' activated.`);
+                } else {
+                    console.error(`Screen with ID ${screenId} not found!`);
+                }
+
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.classList.remove('active'); // Deactivate all nav items
+                });
+
+                // Activate the correct nav item
+                if (navItem) {
+                    navItem.classList.add('active'); // Activate the clicked nav item
+                } else {
+                    // Fallback: find the nav item based on screenId if not passed directly
+                    navItems.forEach(item => {
+                        const itemOnClick = item.getAttribute('onclick');
+                        if (itemOnClick && itemOnClick.includes(`'${screenId}'`)) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+
+                // Handle bottom navigation visibility
+                const bottomNav = document.getElementById('bottom-nav');
+                if (bottomNav) {
+                    if (screenId === 'quiz-screen') {
+                        bottomNav.style.display = 'none';
+                        console.log('Bottom nav hidden for quiz screen.');
+                    } else {
+                        // For all other screens, ensure it's visible (default CSS handles 'flex')
+                        bottomNav.style.display = 'flex'; // Keep this line to override any potential previous 'none'
+                        console.log('Bottom nav shown for other screens.');
+                    }
+                } else {
+                    console.error('Bottom navigation element not found!');
+                }
+
+                // Scroll to top of chat messages when navigating to voice search screen
+                if (screenId === 'voice-search-screen') {
+                    const chatMessages = document.getElementById('chatMessages');
+                    if (chatMessages) {
+                        chatMessages.scrollTop = 0; // Scroll to the top
+                        console.log('Chat messages scrolled to top.');
+                    }
+                }
+            }
+
+            /**
+             * Updates the label for the stress level slider.
+             * @param {string} value The current value of the stress level slider (1, 2, or 3).
+             */
+            function updateStressLabel(value) {
+                const stressValueSpan = document.getElementById('stress-value');
+                if (stressValueSpan) {
+                    if (value == 1) {
+                        stressValueSpan.innerText = 'Low';
+                    } else if (value == 2) {
+                        stressValueSpan.innerText = 'Medium';
+                    } else {
+                        stressValueSpan.innerText = 'High';
+                    }
+                }
+            }
+
+            /**
+             * Adjusts the current performance percentage and updates the digital twin UI.
+             * @param {number} delta The amount to change the performance by (e.g., 10 for increase, -10 for decrease).
+             */
+            function adjustPerformance(delta) {
+                currentPerformance = Math.max(0, Math.min(100, currentPerformance + delta)); // Keep within 0-100 range
+                updateDigitalTwinUI(); // Update the visual representation
+            }
+
+            /**
+             * Updates the circular progress bar appearance and performance display
+             * based on the `currentPerformance` value.
+             */
+            function updateDigitalTwinUI() {
+                const circularProgressBar = document.getElementById('circular-progress-bar');
+                const performancePercentageElement = document.getElementById('performance-percentage');
+                const currentScoreTextElement = document.getElementById('current-score-text');
+                const mainProgressBar = document.getElementById('main-progress-bar');
+                const progressMessage = document.getElementById('progress-message');
+
+                if (!circularProgressBar || !performancePercentageElement || !currentScoreTextElement || !mainProgressBar || !progressMessage) {
+                    console.error("One or more performance UI elements not found!");
+                    return;
+                }
+
+                performancePercentageElement.innerText = `${currentPerformance}%`;
+                currentScoreTextElement.innerText = `${currentPerformance}%`;
+                mainProgressBar.style.width = `${currentPerformance}%`;
+
+                // Calculate the degree for the conic gradient
+                const progressDegree = currentPerformance * 3.6; // 360 degrees / 100% = 3.6 degrees per percent
+
+                let fillColor;
+                let message;
+
+                // Determine fill color and message based on performance level
+                if (currentPerformance < 60) {
+                    fillColor = '#EF4444'; // Red 500 (Struggling)
+                    message = 'Needs more focus on core concepts.';
+                } else if (currentPerformance < 80) {
+                    fillColor = '#FACC15'; // Yellow 500 (Improving)
+                    message = 'Good progress! Keep practicing.';
+                } else if (currentPerformance < 90) {
+                    fillColor = '#3B82F6'; // Blue 500 (Proficient)
+                    message = 'Excellent work! You\'re nearly there.';
+                } else { // 90% and above
+                    fillColor = '#A855F7';   // Purple 500 (Mastery)
+                    message = 'Outstanding! Maintaining high performance.';
+                }
+
+                // Update the conic gradient background for the circular progress bar
+                circularProgressBar.style.background = `conic-gradient(${fillColor} ${progressDegree}%, #fbe8e9 ${progressDegree}%)`;
+                
+                progressMessage.innerText = message;
+            }
+
+
+            // Initialize MathJax for LaTeX rendering (if needed for mathematical expressions)
+            // This script is loaded after the content that uses LaTeX to ensure elements are present
+            var mathJaxScript = document.createElement('script');
+            mathJaxScript.type = 'text/javascript';
+            mathJaxScript.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+            mathJaxScript.onload = function() {
+                // Configure MathJax to process new content after screen changes
+                MathJax.startup.promise.then(() => {
+                    MathJax.typesetPromise();
+                });
+            };
+            document.head.appendChild(mathJaxScript);
+
+            // Event listener for DOMContentLoaded to ensure all HTML elements are loaded before script execution
+            document.addEventListener('DOMContentLoaded', () => {
+                // Initialize intro screen buttons and their event listeners
+                const prevButton = document.getElementById('prev-button');
+                const nextButton = document.getElementById('next-button');
+                const getStartedBtn = document.getElementById('get-started-btn');
+
+                if (prevButton) prevButton.addEventListener('click', prevSlide);
+                if (nextButton) nextButton.addEventListener('click', nextSlide);
+                if (getStartedBtn) getStartedBtn.addEventListener('click', onGetStarted);
+
+                // Start the splash screen sequence after a delay
+                setTimeout(() => {
+                    transitionToIntro();
+                }, 3000); // Display splash for 3 seconds
+
+                // --- Chat Message Management (for Voice Search Screen) ---
+                // Get references to chat-related DOM elements
+                const chatMessages = document.getElementById('chatMessages');
+                const chatInput = document.getElementById('chatInput');
+                const chatSendBtn = document.getElementById('chatSendBtn');
+                const microphoneBtn = document.getElementById('microphoneBtn');
+                const chatProcessingIndicator = document.getElementById('chatProcessingIndicator');
+
+                // Console logs for debugging: confirm elements are found
+                console.log('chatMessages element:', chatMessages);
+                console.log('chatInput element:', chatInput);
+                console.log('chatSendBtn element:', chatSendBtn);
+                console.log('microphoneBtn element:', microphoneBtn);
+                console.log('chatProcessingIndicator element:', chatProcessingIndicator);
+
+                /**
+                 * Adds a new message to the chat interface.
+                 * @param {string} text The text content of the message.
+                 * @param {'user' | 'ai'} sender The sender of the message ('user' or 'ai').
+                 */
+                function addMessage(text, sender) {
+                    // Basic check to ensure chatMessages element exists before trying to append
+                    if (!chatMessages) {
+                        console.error('chatMessages element not found!');
+                        return;
+                    }
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('chat-message');
+                    messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+                    messageDiv.textContent = text;
+                    chatMessages.appendChild(messageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom to show new message
+                }
+
+                /**
+                 * Simulates an AI response based on the user's query.
+                 * This function is updated to provide more detailed and context-aware responses
+                 * based on the XSEED curriculum content for Grade 5 Maths, Block 1, LP1.
+                 * @param {string} query The user's query.
+                 */
+                function simulateAIResponse(query) {
+                    // Basic checks for essential chat elements
+                    if (!chatProcessingIndicator || !chatMessages) {
+                        console.error('Chat elements not found for AI response simulation!');
+                        return;
+                    }
+                    chatProcessingIndicator.style.display = 'block'; // Show "AI is thinking..."
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Keep scrolling to bottom while thinking
+
+                    // Simulate a delay for AI processing
+                    let currentChatTimeout = setTimeout(() => {
+                        chatProcessingIndicator.style.display = 'none'; // Hide "AI is thinking..."
+                        let responseText = '';
+                        const lowerQuery = query.toLowerCase();
+
+                        // XSEED Grade 5 Maths, Block 1, LP1 related responses
+                        if (lowerQuery.includes('place value')) {
+                            responseText = 'In XSEED Grade 5 Maths, Block 1, LP1, we focus on understanding the place value of digits in large numbers, typically up to 1,00,00,000 (1 Crore). For example, in 7,45,21,300, the place value of 4 is ten lakhs.';
+                        } else if (lowerQuery.includes('indian number system')) {
+                            responseText = 'The Indian Number System uses place values like Ones, Tens, Hundreds, Thousands, Ten Thousands, Lakhs, Ten Lakhs, Crores. Commas are placed after Hundreds, then after every two digits (e.g., 1,23,45,678).';
+                        } else if (lowerQuery.includes('international number system')) {
+                            responseText = 'The International Number System uses place values like Ones, Tens, Hundreds, Thousands, Ten Thousands, Hundred Thousands, Millions, Ten Millions. Commas are placed after every three digits from the right (e.g., 12,345,678).';
+                        } else if (lowerQuery.includes('skip counting')) {
+                            responseText = 'Skip counting involves counting by a specific number. In XSEED Grade 5, you might practice skip counting by large numbers like 1,000s, 10,000s, or even 1,00,000s to build number sense.';
+                        } else if (lowerQuery.includes('comparing numbers') || lowerQuery.includes('order numbers')) {
+                            responseText = 'To compare or order large numbers, first check the number of digits. The number with more digits is larger. If they have the same number of digits, compare from the leftmost digit. This is a key skill in XSEED Grade 5 Maths, Block 1.';
+                        } else if (lowerQuery.includes('fractions')) {
+                            responseText = 'Fractions represent parts of a whole. They consist of a numerator (top number) and a denominator (bottom number). Would you like to practice adding or subtracting fractions?';
+                        } else if (lowerQuery.includes('math') || lowerQuery.includes('mathematics')) {
+                            responseText = 'Math is vast! Are you interested in numbers, operations, geometry, or something else specific from your XSEED curriculum?';
+                        } else if (lowerQuery.toLowerCase().includes('hello') || lowerQuery.toLowerCase().includes('hi')) {
+                            responseText = 'Hello there! How can I assist you with your learning goals today? I can help with XSEED Grade 5 Maths topics like place value, number systems, and comparing numbers.';
+                        } else {
+                            responseText = `I'm not sure how to respond to "${query}" yet, but I'm learning! Can you try asking about specific XSEED Grade 5 Maths topics like "place value", "number systems", "skip counting", or "comparing numbers"?`;
+                        }
+                        addMessage(responseText, 'ai'); // Add AI's response to the chat
+                    }, 1500); // Simulate processing time of 1.5 seconds
+                }
+
+                // --- Typed Search Logic ---
+                /**
+                 * Handles sending a chat message when the send button is clicked or Enter is pressed.
+                 */
+                const sendChatMessage = () => {
+                    if (!chatInput) {
+                        console.error('chatInput element not found!');
+                        return;
+                    }
+                    const query = chatInput.value.trim();
+                    if (query) {
+                        addMessage(query, 'user'); // Add user's message to chat
+                        chatInput.value = ''; // Clear input field
+                        simulateAIResponse(query); // Get AI response
+                    }
+                };
+
+                // Add event listeners only if the elements are found
+                if (chatSendBtn) chatSendBtn.addEventListener('click', sendChatMessage);
+                if (chatInput) chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        sendChatMessage();
+                    }
+                });
+
+                // --- Voice Search Logic ---
+                let isListening = false; // State to track if microphone is active
+                let currentVoiceTimeout = null; // To manage speech simulation timeouts
+
+                if (microphoneBtn) microphoneBtn.addEventListener('click', () => {
+                    // Check for essential elements before proceeding
+                    if (!chatInput || !chatProcessingIndicator) {
+                        console.error('Chat input or processing indicator not found for microphone functionality!');
+                        return;
+                    }
+                    isListening = !isListening; // Toggle listening state
+
+                    // Clear any pending timeouts to prevent unexpected behavior
+                    if (currentVoiceTimeout) {
+                        clearTimeout(currentVoiceTimeout);
+                        currentVoiceTimeout = null;
+                    }
+
+                    if (isListening) {
+                        microphoneBtn.classList.add('listening'); // Add pulse animation
+                        chatProcessingIndicator.style.display = 'none'; // Hide AI thinking indicator
+                        chatInput.value = 'Listening...'; // Show listening status in input field
+                        chatInput.disabled = true; // Disable typing while listening
+
+                        // Simulate speech recognition after a delay (e.g., 2 seconds of "speaking")
+                        currentVoiceTimeout = setTimeout(() => {
+                            if (isListening) { // Check if still in listening state (user didn't tap again)
+                                const simulatedQuery = "Tell me about place value in XSEED Grade 5."; // Example simulated spoken text
+                                chatInput.value = simulatedQuery; // Display transcribed text in input
+                                microphoneBtn.classList.remove('listening'); // Stop pulse animation
+                                isListening = false; // Automatically stop listening after simulated speech
+                                chatInput.disabled = false; // Re-enable input
+                                addMessage(simulatedQuery, 'user'); // Add simulated user message to chat
+                                chatInput.value = ''; // Clear input after adding message
+                                simulateAIResponse(simulatedQuery); // Trigger AI response for the spoken query
+                            }
+                        }, 2000); // Simulate user speaking for 2 seconds
+                    } else {
+                        // User tapped again to stop listening before the simulated speech finished
+                        microphoneBtn.classList.remove('listening'); // Stop pulse animation
+                        chatInput.disabled = false; // Re-enable input
+                        if (chatInput.value === 'Listening...') {
+                            chatInput.value = ''; // Clear input if nothing was spoken
+                        } else {
+                            // If there was simulated speech but not yet processed results
+                            const query = chatInput.value;
+                            if (query && query !== 'Listening...') {
+                                addMessage(query, 'user'); // Add user message to chat
+                                simulateAIResponse(query); // Trigger AI response
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+</body>
+</html>

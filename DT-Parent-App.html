@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Performance Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for Inter font and general body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* App Container for Phone View */
+        .app-container {
+            width: 100%;
+            max-width: 450px; /* Slightly wider for more content */
+            min-height: 100vh; /* Ensure it takes full viewport height on mobile */
+            background-color: #fff;
+            border-radius: 2rem; /* More rounded edges */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto; /* Center the phone view */
+            display: flex;
+            flex-direction: column;
+        }
+        @media (min-width: 640px) { /* Apply margin on larger screens */
+            .app-container {
+                margin: 2rem auto;
+                min-height: auto; /* Reset min-height for desktop */
+            }
+        }
+
+        /* Specific styles for the content within the app-container */
+        .app-content-padding {
+            padding: 1.5rem; /* Consistent padding inside app views */
+            flex-grow: 1; /* Allow content to grow */
+        }
+
+        /* Styles for SVG Line Chart */
+        .line-chart-svg-container {
+            position: relative;
+            width: 100%;
+            height: 220px; /* Taller chart */
+            background-color: #f9fafb; /* light gray background */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .line-chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+        .line-chart-svg .grid-line {
+            stroke: #e5e7eb; /* gray-300 */
+            stroke-width: 1;
+        }
+        .line-chart-svg .data-line {
+            stroke: #bc2026; /* Primary color */
+            stroke-width: 3;
+            fill: none;
+            transition: stroke-dasharray 1s ease-out; /* Animation for line drawing */
+        }
+        .line-chart-svg .data-point {
+            fill: #bc2026; /* Primary color */
+            stroke: #ffffff; /* white border */
+            stroke-width: 2;
+            cursor: pointer;
+            transition: r 0.2s ease-in-out;
+        }
+        .line-chart-svg .data-point:hover {
+            r: 8;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            z-index: 100;
+        }
+        .tooltip.active {
+            opacity: 1;
+        }
+
+        /* Bar Chart Styles */
+        .bar-chart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .bar-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .bar-label {
+            min-width: 120px; /* Ensure labels don't collapse */
+            font-size: 0.95rem;
+            color: #4b5563;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .bar-progress-wrapper {
+            flex-grow: 1;
+            background-color: #e5e7eb;
+            border-radius: 0.5rem;
+            height: 24px;
+            overflow: hidden;
+        }
+        .bar-visual {
+            height: 100%;
+            background-color: #bc2026; /* Primary color */
+            border-radius: 0.5rem;
+            transition: width 1s ease-out;
+        }
+        .bar-value {
+            margin-left: 0.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #1f2937;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            background-color: #fff;
+            border-top: 1px solid #e5e7eb;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 -4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-top-left-radius: 2rem;
+            border-top-right-radius: 2rem;
+            z-index: 20;
+            flex-shrink: 0; /* Prevent nav from shrinking */
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #6b7280; /* gray-500 */
+            transition: color 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: #bc2026; /* Primary color */
+        }
+        .nav-item:hover {
+            color: #bc2026; /* Primary color */
+        }
+
+        /* New styles for Key Metrics cards */
+        .metric-card {
+            background-color: #fff;
+            border-radius: 1rem; /* More rounded */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem; /* Increased padding */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 160px; /* Ensure consistent height */
+        }
+        .metric-card h3 {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            color: #1f2937; /* gray-900 */
+            margin-bottom: 1rem;
+        }
+        .metric-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem; /* Space between items */
+        }
+        .metric-item:last-child {
+            margin-bottom: 0;
+        }
+        .metric-icon {
+            width: 2.25rem; /* Larger icon size */
+            height: 2.25rem; /* Larger icon size */
+            color: #bc2026; /* Primary color */
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        .metric-label {
+            font-size: 0.95rem; /* text-base */
+            font-weight: 500;
+            color: #4b5563; /* gray-700 */
+        }
+        .metric-value {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700; /* font-bold */
+            color: #1f2937; /* gray-900 */
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="app-container">
+        <header class="bg-gradient-to-r from-[#bc2026] to-[#8a171d] p-5 text-white flex items-center justify-between rounded-t-2xl">
+            <img src="https://homedelivery.xseedsuperteacher.in/cdn/shop/files/logo_base-02_1b604237-c802-442f-bbee-46bdc3367c0a_1200x1200.jpg?v=1613382055" 
+                 alt="XSEED Logo" 
+                 class="h-8 sm:h-10 w-auto"
+                 onerror="this.onerror=null;this.src='https://placehold.co/150x40/cccccc/333333?text=XSEED+Logo+Fallback';"
+            >
+            <h1 class="text-xl font-bold ml-4 hidden sm:block">My Child's Dashboard</h1>
+            <div class="w-9 h-9 bg-red-200 rounded-full flex items-center justify-center text-red-800 font-bold text-base">SD</div>
+        </header>
+
+        <div class="app-content-padding">
+            <div class="mb-6 bg-gradient-to-r from-[#bc2026] to-[#8a171d] p-5 rounded-xl shadow-lg text-white">
+                <p class="text-xl font-semibold">Student:</p>
+                <p class="text-3xl font-extrabold mt-1"><span id="parentStudentName">Sanjana</span></p>
+            </div>
+
+            <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Overall Progress (Last 5 Assessments)</h3>
+                <div id="parentOverallProgressChart" class="line-chart-svg-container">
+                    <div class="tooltip" id="parentTooltip"></div>
+                </div>
+                <div class="flex justify-around text-sm mt-4 text-gray-600 font-medium">
+                    <span>Week 1</span>
+                    <span>Week 2</span>
+                    <span>Week 3</span>
+                    <span>Week 4</span>
+                    <span>Week 5</span>
+                </div>
+            </div>
+
+            <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Recent Assessment Details</h3>
+                <div class="flex flex-col space-y-3">
+                    <div class="flex justify-between items-center text-gray-700 text-lg">
+                        <span class="font-medium">Last Score:</span>
+                        <span class="font-bold text-green-600">95% (19/20)</span>
+                    </div>
+                    <div class="flex justify-between items-center text-gray-700 text-lg">
+                        <span class="font-medium">Incorrect Answers:</span>
+                        <span class="font-bold text-red-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-gray-700 text-lg">
+                        <span class="font-medium">Skipped Questions:</span>
+                        <span class="font-bold text-yellow-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-gray-700 text-lg">
+                        <span class="font-medium">Initial Score:</span>
+                        <span class="font-bold text-gray-600">50% (10/20)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Subject/Topic Mastery</h3>
+                <div id="parentTopicMasteryChart" class="bar-chart-container">
+                    </div>
+            </div>
+
+            <div class="flex flex-col gap-6 mb-8">
+                <div class="metric-card">
+                    <h3>Time Management</h3>
+                    <div class="space-y-3">
+                        <div class="metric-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <p class="metric-label">Avg. Time per Question:</p>
+                                <p class="metric-value" id="parentAvgTime">33 seconds</p>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2A9 9 0 111 10a9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <p class="metric-label">Skipped Questions:</p>
+                                <p class="metric-value" id="parentSkipped">2 (down from 5)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <h3>Health & Well-being Correlation</h3>
+                    <div class="space-y-3">
+                        <div class="metric-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                            </svg>
+                            <div>
+                                <p class="metric-label">Avg. Sleep:</p>
+                                <p class="metric-value" id="parentAvgSleep">7.2 hours/night</p>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <div>
+                                <p class="metric-label">Stress Levels:</p>
+                                <p class="metric-value" id="parentStressLevel">Moderate (improved)</p>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                            <div>
+                                <p class="metric-label">Correlation:</p>
+                                <p class="metric-value" id="parentHealthCorrelation">Scores 10% higher with 7+ hours sleep.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-gradient-to-r from-green-400 to-green-500 rounded-xl shadow-lg text-center text-white mb-6">
+                <h3 class="text-xl font-semibold mb-3">Predicted Performance</h3>
+                <p class="text-3xl font-extrabold">Projected Score: <span id="parentPredictedScore">95%</span></p>
+                <p class="text-sm mt-1">in 2 weeks</p>
+                <p class="text-base mt-2">Keep up the great work!</p>
+            </div>
+
+            <div class="p-6 bg-red-50 rounded-xl shadow-md">
+                <h3 class="text-xl font-semibold mb-4 text-red-800">Recommendations for Sanjana</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Encourage 15-minute daily practice sessions on Algebra (current mastery: 70%).</li>
+                    <li>Ensure consistent sleep (aim for 7-8 hours) to maintain focus.</li>
+                    <li>Celebrate small wins! Positive reinforcement boosts confidence.</li>
+                    <li>Review word problems together using real-life examples.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- <nav class="bottom-nav">
+            <div class="nav-item active">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l7 7m-2 2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span class="text-xs font-medium">Dashboard</span>
+            </div>
+            <div class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.205 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.795 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.795 5 16.5 5c1.705 0 3.332.477 4.5 1.253v13C19.832 18.477 18.205 18 16.5 18c-1.705 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span class="text-xs font-medium">Activity</span>
+            </div>
+            <div class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h2m0 5l4-4m0 0l4 4m-4-4v11a3 3 0 01-3 3H5a3 3 0 01-3-3V6a3 3 0 013-3h2" />
+                </svg>
+                <span class="text-xs font-medium">Reports</span>
+            </div>
+            <div class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="text-xs font-medium">Profile</span>
+            </div>
+        </nav> -->
+    </div>
+
+    <script>
+        // Dummy Data for demonstration
+        const dummyData = {
+            parent: {
+                studentName: "Sanjana",
+                overallProgress: [50, 65, 72, 80, 95], // Scores over 5 weeks
+                topicMastery: [
+                    { name: "Fractions", score: 90 },
+                    { name: "Geometry", score: 85 },
+                    { name: "Algebra", score: 70 },
+                    { name: "Decimals", score: 92 },
+                    { name: "Word Problems", score: 78 }
+                ],
+                avgTime: "33 seconds",
+                skippedQuestions: "2 (down from 5)",
+                avgSleep: "7.2 hours/night",
+                stressLevel: "Moderate (improved)",
+                healthCorrelation: "Scores 10% higher with 7+ hours sleep.",
+                predictedScore: "95%" /* Updated to 95% for consistency with goal */
+            }
+        };
+
+        // Get DOM elements
+        const parentOverallProgressChart = document.getElementById('parentOverallProgressChart');
+        const parentTooltip = document.getElementById('parentTooltip');
+        const parentTopicMasteryChart = document.getElementById('parentTopicMasteryChart');
+
+        /**
+         * Renders a bar chart based on provided data.
+         * @param {HTMLElement} container - The DOM element to render the chart into.
+         * @param {Array<Object>} data - An array of objects with 'name' and 'score' properties.
+         * @param {string} labelKey - The key for the label (e.g., 'name', 'grade').
+         * @param {string} valueKey - The key for the value (e.g., 'score').
+         */
+        function renderBarChart(container, data, labelKey, valueKey) {
+            if (!container) {
+                console.error('Bar chart container not found.');
+                return;
+            }
+            container.innerHTML = ''; // Clear previous content
+            const maxScore = 100; // Assuming scores are out of 100
+
+            data.forEach(item => {
+                const percentage = (item[valueKey] / maxScore) * 100;
+                const barItem = document.createElement('div');
+                barItem.className = 'bar-item';
+                barItem.innerHTML = `
+                    <span class="bar-label">${item[labelKey]}</span>
+                    <div class="bar-progress-wrapper">
+                        <div class="bar-visual" style="width: 0%;" data-target-width="${percentage}"></div>
+                    </div>
+                    <span class="bar-value">${item[valueKey]}%</span>
+                `;
+                container.appendChild(barItem);
+
+                // Animate bars
+                setTimeout(() => {
+                    const barVisual = barItem.querySelector('.bar-visual');
+                    if (barVisual) {
+                        barVisual.style.width = `${percentage}%`;
+                    }
+                }, 100); // Small delay for animation effect
+            });
+        }
+
+        /**
+         * Renders a conceptual line chart for progress over time using SVG.
+         * @param {HTMLElement} container - The DOM element to render the chart into.
+         * @param {Array<number>} scores - An array of scores over time.
+         * @param {HTMLElement} tooltipElement - The tooltip element to show on hover.
+         */
+        function renderLineChart(container, scores, tooltipElement) {
+            if (!container) {
+                console.error('Line chart container not found.');
+                return;
+            }
+            container.innerHTML = ''; // Clear previous content
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("class", "line-chart-svg");
+            container.appendChild(svg);
+
+            // Ensure container has dimensions before calculating SVG coordinates
+            const observer = new ResizeObserver(entries => {
+                for (let entry of entries) {
+                    if (entry.target === container) {
+                        const width = container.offsetWidth - 30; // Adjust for padding
+                        const height = container.offsetHeight - 30; // Adjust for padding
+                        const padding = 20;
+
+                        // Define scales
+                        const xScale = (index) => padding + (index / (scores.length - 1)) * (width - 2 * padding);
+                        const yScale = (score) => height - padding - ((score - 0) / (100 - 0)) * (height - 2 * padding); // Scores from 0 to 100
+
+                        // Clear existing SVG elements (except tooltip)
+                        Array.from(svg.children).forEach(child => child.remove());
+
+                        // Draw grid lines (horizontal)
+                        [50, 70, 90].forEach(yVal => {
+                            const yPos = yScale(yVal);
+                            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                            line.setAttribute("x1", padding);
+                            line.setAttribute("y1", yPos);
+                            line.setAttribute("x2", width - padding);
+                            line.setAttribute("y2", yPos);
+                            line.setAttribute("stroke", "#e5e7eb"); /* gray-300 */
+                            line.setAttribute("strokeWidth", "1");
+                            svg.appendChild(line);
+                        });
+
+                        // Create path data for the line
+                        let pathData = scores.map((score, i) => `${xScale(i)},${yScale(score)}`).join(" ");
+                        const path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+                        path.setAttribute("points", pathData);
+                        path.setAttribute("stroke", "#bc2026"); /* Primary color */
+                        path.setAttribute("strokeWidth", "3");
+                        path.setAttribute("fill", "none");
+                        svg.appendChild(path);
+
+                        // Animate line drawing
+                        const pathLength = path.getTotalLength();
+                        path.style.strokeDasharray = pathLength;
+                        path.style.strokeDashoffset = pathLength;
+                        setTimeout(() => {
+                            path.style.strokeDashoffset = 0;
+                        }, 200);
+
+                        // Draw data points and add interactivity
+                        scores.forEach((score, i) => {
+                            const cx = xScale(i);
+                            const cy = yScale(score);
+
+                            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                            circle.setAttribute("cx", cx);
+                            circle.setAttribute("cy", cy);
+                            circle.setAttribute("r", 6); /* Radius */
+                            circle.setAttribute("fill", "#bc2026"); /* Primary color */
+                            circle.setAttribute("stroke", "#ffffff"); /* white border */
+                            circle.setAttribute("strokeWidth", "2");
+                            circle.setAttribute("cursor", "pointer");
+                            svg.appendChild(circle);
+
+                            // Tooltip interaction
+                            circle.addEventListener('mouseenter', (e) => {
+                                if (tooltipElement) {
+                                    tooltipElement.textContent = `Score: ${score}%`;
+                                    tooltipElement.style.left = `${e.clientX + 10}px`;
+                                    tooltipElement.style.top = `${e.clientY - 30}px`;
+                                    tooltipElement.classList.add('active');
+                                }
+                            });
+                            circle.addEventListener('mouseleave', () => {
+                                if (tooltipElement) {
+                                    tooltipElement.classList.remove('active');
+                                }
+                            });
+                        });
+                        observer.disconnect(); // Disconnect after first render
+                    }
+                }
+            });
+            observer.observe(container); // Start observing the container
+        }
+
+
+        // Function to populate Parent View data
+        function populateParentView() {
+            document.getElementById('parentStudentName').textContent = dummyData.parent.studentName;
+            document.getElementById('parentAvgTime').textContent = dummyData.parent.avgTime;
+            document.getElementById('parentSkipped').textContent = dummyData.parent.skippedQuestions;
+            document.getElementById('parentAvgSleep').textContent = dummyData.parent.avgSleep;
+            document.getElementById('parentStressLevel').textContent = dummyData.parent.stressLevel;
+            document.getElementById('parentHealthCorrelation').textContent = dummyData.parent.healthCorrelation;
+            document.getElementById('parentPredictedScore').textContent = dummyData.parent.predictedScore;
+
+            // Render charts
+            renderLineChart(parentOverallProgressChart, dummyData.parent.overallProgress, parentTooltip);
+            renderBarChart(parentTopicMasteryChart, dummyData.parent.topicMastery, 'name', 'score');
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateParentView();
+        });
+    </script>
+</body>
+</html>
