@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Homework</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for a clean look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for better scrolling on content */
+            min-height: 100vh;
+        }
+        /* Inter font import for consistency */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        /* Custom styles for subtle shadow and modern feel */
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .header-bg {
+            background-color: #bc2026; /* Red from the screenshot */
+        }
+        .start-button-blue {
+            background-color: #3b82f6; /* Blue from the screenshot */
+            transition: background-color 0.3s ease;
+        }
+        .start-button-blue:hover {
+            background-color: #2563eb; /* Darker blue on hover */
+        }
+        .start-button-green {
+            background-color: #22c55e; /* Green from the screenshot */
+            transition: background-color 0.3s ease;
+        }
+        .start-button-green:hover {
+            background-color: #16a34a; /* Darker green on hover */
+        }
+        textarea {
+            resize: vertical; /* Allow vertical resizing of textarea */
+            min-height: 100px; /* Minimum height for the textarea */
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <!-- Main application container -->
+    <div class="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg mt-8 mb-8 md:mt-12 flex flex-col">
+
+        <!-- Concept List View -->
+        <div id="conceptListView" class="flex flex-col flex-grow">
+            <!-- Header for Concept List -->
+            <header class="header-bg p-4 flex items-center justify-between text-white rounded-t-lg flex-shrink-0">
+                <div class="w-6"></div> <!-- Placeholder for alignment -->
+                <h1 class="text-xl font-semibold flex-grow text-center">Learn</h1>
+                <div class="w-6"></div> <!-- Placeholder for alignment -->
+            </header>
+
+            <main class="p-6 flex-grow overflow-y-auto">
+                <p class="text-gray-700 mb-6 text-sm md:text-base">
+                    Explore lessons and activities to boost your knowledge!
+                </p>
+
+                <!-- Fractions Card -->
+                <div class="card bg-blue-50 p-5 rounded-xl border border-blue-200 mb-4">
+                    <h2 class="text-lg md:text-xl font-semibold text-blue-800 mb-1">Fractions - Real-Time Homework</h2>
+                    <p class="text-gray-600 text-sm">Understanding parts of a whole, comparing, and simple sharing.</p>
+                    <!-- <div class="flex items-center text-gray-500 text-xs mt-2">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>5-10 mins</span>
+                    </div> -->
+                    <button
+                        class="start-button-blue mt-4 w-full py-2 px-4 rounded-xl text-white font-semibold text-base md:text-lg hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        onclick="showActivityDetail('fractions')"
+                    >
+                        Start
+                    </button>
+                </div>
+
+                <!-- Shape Spotter Card (New) -->
+                <div class="card bg-green-50 p-5 rounded-xl border border-green-200 mb-4">
+                    <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-1">Geometry - Shape Spotter</h2>
+                    <p class="text-gray-600 text-sm">Find and name 2D shapes in your surroundings.</p>
+                    <!-- <div class="flex items-center text-gray-500 text-xs mt-2">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>5-10 mins</span>
+                    </div> -->
+                    <button
+                        class="start-button-green mt-4 w-full py-2 px-4 rounded-xl text-white font-semibold text-base md:text-lg hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                        onclick="showActivityDetail('shapeSpotter')"
+                    >
+                        Start
+                    </button>
+                </div>
+
+                <!-- Perimeter Prep Card (New) -->
+                <div class="card bg-green-50 p-5 rounded-xl border border-green-200 mb-4">
+                    <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-1">Geometry - Perimeter Prep</h2>
+                    <p class="text-gray-600 text-sm">Trace the edges of objects to understand boundaries.</p>
+                    <!-- <div class="flex items-center text-gray-500 text-xs mt-2">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>5-10 mins</span>
+                    </div> -->
+                    <button
+                        class="start-button-green mt-4 w-full py-2 px-4 rounded-xl text-white font-semibold text-base md:text-lg hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                        onclick="showActivityDetail('perimeterPrep')"
+                    >
+                        Start
+                    </button>
+                </div>
+
+                <!-- Angle Prep Card (New) -->
+                <div class="card bg-green-50 p-5 rounded-xl border border-green-200 mb-4">
+                    <h2 class="text-lg md:text-xl font-semibold text-green-800 mb-1">Geometry - Angle Prep</h2>
+                    <p class="text-gray-600 text-sm">Explore and describe corners of objects.</p>
+                    <!-- <div class="flex items-center text-gray-500 text-xs mt-2">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>5-10 mins</span>
+                    </div> -->
+                    <button
+                        class="start-button-green mt-4 w-full py-2 px-4 rounded-xl text-white font-semibold text-base md:text-lg hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                        onclick="showActivityDetail('anglePrep')"
+                    >
+                        Start
+                    </button>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- Activity Detail View (Initially hidden) -->
+        <div id="activityDetailView" class="hidden flex flex-col flex-grow">
+            <!-- Header for Activity Detail -->
+            <header class="header-bg p-4 flex items-center justify-between text-white rounded-t-lg flex-shrink-0">
+                <button class="text-2xl font-bold p-1 rounded-full hover:bg-white hover:bg-opacity-20 focus:outline-none" onclick="showConceptList()">&larr;</button>
+                <h1 id="detailHeaderTitle" class="text-xl font-semibold flex-grow text-center pr-8"></h1>
+                <div class="w-6"></div> <!-- Placeholder for potential right icon if needed -->
+            </header>
+
+            <main class="p-6 flex-grow overflow-y-auto">
+                <p class="text-gray-700 mb-6 text-sm md:text-base">
+                    Welcome to your real-time learning adventure! Here are some fun things to do around your home today.
+                    Observe carefully and learn!
+                </p>
+
+                <!-- Activity Card (Content will be updated by JS) -->
+                <div id="currentActivityCard" class="card bg-gray-50 p-5 rounded-xl border border-gray-200 mb-6">
+                    <!-- Activity missions will be loaded here by JavaScript -->
+                </div>
+
+                <!-- Student Submission Section -->
+                <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+                    <h2 class="text-lg md:text-xl font-semibold text-blue-800 mb-3">What I Learned/Noticed Today:</h2>
+                    <textarea
+                        id="studentLearning"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none text-gray-800 text-sm"
+                        placeholder="Type here about what you did, what shapes you found, or what you learned about sharing! For example: 'I found a round clock and a square window! My cookie halves were almost the same.'"
+                        rows="5"
+                    ></textarea>
+                    <button
+                        class="submit-button start-button-blue mt-4 w-full py-3 px-4 rounded-xl text-white font-semibold text-base md:text-lg hover:shadow-md focus:outline-none focus:ring-2 focus="ring-blue-500 focus:ring-offset-2"
+                        onclick="handleSubmit()"
+                    >
+                        Submit My Learning
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // References to the main view containers
+        const conceptListView = document.getElementById('conceptListView');
+        const activityDetailView = document.getElementById('activityDetailView');
+        const detailHeaderTitle = document.getElementById('detailHeaderTitle');
+        const currentActivityCard = document.getElementById('currentActivityCard');
+        const studentLearningTextarea = document.getElementById('studentLearning');
+
+        // Define activity content for each concept
+        const activities = {
+            fractions: {
+                title: "Fractions Homework",
+                missions: `
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-3">Today's Mission:</h2>
+                    <div class="mb-4">
+                        <h3 class="font-medium text-gray-700 text-base mb-1">1. Dinner Plate Divider</h3>
+                        <p class="text-gray-600 text-sm">
+                            When serving a food item that can be easily divided (like a piece of roti, toast, or a small pizza slice), help your child "make two equal halves" for themselves or for two people.
+                            <br>
+                            *Question to ask: "Did we cut it fairly? Is your half the same size as mine?"*
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Learning Focus: Visual comparison of halves, understanding the concept of "equal shares."
+                        </p>
+                    </div>
+                `
+            },
+            // New separate Geometry concepts
+            shapeSpotter: {
+                title: "Geometry - Shape Spotter",
+                missions: `
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-3">Today's Mission:</h2>
+                    <div class="mb-4">
+                        <h3 class="font-medium text-gray-700 text-base mb-1">1. Shape Spotter Challenge</h3>
+                        <p class="text-gray-600 text-sm">
+                            Any time you're walking around the house, in a car, or at a store, give your child a "challenge" to find a specific shape. For example: "Tonight, your homework is to find 3 circles in the living room!" or "Tomorrow, when we go to the shop, find as many rectangles as you can."
+                            <br>
+                            *Question to ask: "What shape is that? How do you know?" (e.g., "It's a square because all its sides are straight and look the same.")*
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Learning Focus: Recognizing and naming 2D shapes (circle, square, rectangle, triangle) in real-world objects.
+                        </p>
+                    </div>
+                `
+            },
+            perimeterPrep: {
+                title: "Geometry - Perimeter Prep",
+                missions: `
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-3">Today's Mission:</h2>
+                    <div class="mb-4">
+                        <h3 class="font-medium text-gray-700 text-base mb-1">1. Walking the Edge</h3>
+                        <p class="text-gray-600 text-sm">
+                            Anytime you're near a rectangular or square object like a mat, a book, or a table, ask your child to "walk" their fingers along the "edge" or "border" of the object. You can say, "Let's trace the outside of this book with our fingers."
+                            <br>
+                            *Question to ask: "How many 'sides' did your finger walk?" (Don't introduce the word "perimeter" yet, just the concept of 'around the outside').*
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Learning Focus: Developing an early intuitive understanding of what perimeter means – the boundary of a shape.
+                        </p>
+                    </div>
+                `
+            },
+            anglePrep: {
+                title: "Geometry - Angle Prep",
+                missions: `
+                    <h2 class="text-lg md:text-xl font-semibold text-gray-800 mb-3">Today's Mission:</h2>
+                    <div class="mb-4">
+                        <h3 class="font-medium text-gray-700 text-base mb-1">1. Pointy Corners</h3>
+                        <p class="text-gray-600 text-sm">
+                            While playing with blocks, looking at furniture, or even reading a book, point out "corners" of objects – like the corner of a book, a table, or a building block.
+                            <br>
+                            *Question to ask: "Is this corner pointy, or is it wide open?" Focus on distinguishing between sharp corners and wide-open ones without formal terminology. You can even use your thumb and index finger to show a sharp corner versus a wide-open one.*
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2">
+                            Learning Focus: Early recognition of different "types" of angles (sharp vs. wide) without formal terminology.
+                        </p>
+                    </div>
+                `
+            }
+        };
+
+        // Function to show the concept list view and hide the detail view
+        function showConceptList() {
+            conceptListView.classList.remove('hidden');
+            activityDetailView.classList.add('hidden');
+            studentLearningTextarea.value = ''; // Clear textarea when going back
+        }
+
+        // Function to show the activity detail view and hide the concept list view
+        function showActivityDetail(conceptType) {
+            conceptListView.classList.add('hidden');
+            activityDetailView.classList.remove('hidden');
+
+            // Update the header title and activity content based on the selected concept
+            const selectedActivity = activities[conceptType];
+            if (selectedActivity) {
+                detailHeaderTitle.textContent = selectedActivity.title;
+                currentActivityCard.innerHTML = selectedActivity.missions;
+            } else {
+                detailHeaderTitle.textContent = "Activity";
+                currentActivityCard.innerHTML = "<p class='text-red-500'>Activity not found.</p>";
+            }
+        }
+
+        // Simple mock alert for submission, as actual saving would require a backend.
+        // Replaced alert() with a custom modal for better user experience within an iframe.
+        function handleSubmit() {
+            const learningText = studentLearningTextarea.value;
+            if (learningText.trim() === '') {
+                showModal('Please type something you learned or noticed before submitting!');
+            } else {
+                showModal('Great job! Your response has been submitted:\n\n"' + learningText + '"\n\n(This is a mock submission)');
+                // In a real application, you would send 'learningText' to a database or API here.
+                studentLearningTextarea.value = ''; // Clear the textarea after submission
+                showConceptList(); // Go back to concept list after submission
+            }
+        }
+
+        // Function to display a custom modal message
+        function showModal(message) {
+            let modal = document.getElementById('customAlertModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'customAlertModal';
+                modal.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 z-50';
+                modal.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+                        <p class="text-gray-800 text-lg mb-6 whitespace-pre-wrap"></p>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            OK
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                modal.querySelector('button').onclick = () => modal.classList.add('hidden');
+            }
+            modal.querySelector('p').textContent = message;
+            modal.classList.remove('hidden');
+        }
+
+
+        // Initialize by showing the concept list when the page loads
+        document.addEventListener('DOMContentLoaded', showConceptList);
+    </script>
+</body>
+</html>

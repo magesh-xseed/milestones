@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0; /* Light blue-gray for a softer background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            background-color: #ffffff;
+            border-radius: 0;
+            box-shadow: 0 0px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        @media (min-width: 640px) {
+            #chat-container {
+                height: 90vh;
+                border-radius: 1.5rem;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .chat-header {
+            padding: 1rem 1.5rem;
+            background-color: #B02E2E; /* Deep Red for Header */
+            color: white;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        #chat-display {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            scroll-behavior: smooth;
+            background-color: #f9fbfd; /* Very light background for chat area */
+        }
+
+        .message-bubble {
+            max-width: 85%;
+            padding: 0.65rem 0.9rem;
+            border-radius: 1.1rem;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #F0F0F0; /* Light Gray for User Messages */
+            color: #333333; /* Dark text for readability */
+            border-bottom-right-radius: 0.4rem;
+        }
+
+        .ollama-message {
+            align-self: flex-start;
+            background-color: #B02E2E; /* Deep Red for Ollama Messages (matching header) */
+            color: white; /* White text for readability */
+            border-bottom-left-radius: 0.4rem;
+        }
+
+        #input-area {
+            display: flex;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            gap: 0.5rem;
+            align-items: center;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 0.7rem 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 1.5rem;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            resize: none;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        
+        #user-input::placeholder {
+            color: #868e96;
+            font-style: italic;
+        }
+
+        #user-input:focus {
+            border-color: #B02E2E; /* Red border on focus */
+            box-shadow: 0 0 0 3px rgba(176, 46, 46, 0.25); /* Red shadow on focus */
+        }
+
+        #send-button {
+            background-color: #B02E2E; /* Red for send button */
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            line-height: 1;
+        }
+        #send-button:hover {
+            background-color: #9B1C1C; /* Darker red on hover */
+        }
+        #send-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Renamed to a class as it will be dynamically created */
+        .loading-indicator-bubble {
+            align-self: flex-start;
+            background-color: #ffe0e0; /* Very light red */
+            color: #B02E2E; /* Darker Red */
+            padding: 0.65rem 0.9rem;
+            border-radius: 1.1rem;
+            font-style: italic;
+        }
+
+        #send-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div class="chat-header">
+            AI Chat
+        </div>
+        <div id="chat-display">
+            <div class="ollama-message message-bubble">
+                Hello! How can I help you learn today?
+            </div>
+        </div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Type your message or ask a question">
+            <button id="send-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M3.478 2.405a.75.75 0 0 0-.926.94l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.599 60.599 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.599 60.599 0 0 0 3.478 2.405Z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const BACKEND_API_URL = "http://localhost:3001/api/ollama/lesson-plan-chat"; 
+
+        const chatDisplay = document.getElementById('chat-display');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        // loadingIndicator is now created dynamically, so no direct DOM element reference here
+
+        /**
+         * Adds a message bubble to the chat display.
+         * @param {string} message - The text content of the message.
+         * @param {string} sender - 'user' or 'ollama' or 'loading' to style the bubble.
+         * @param {string} [id] - Optional ID for the message bubble (useful for removing loading indicator).
+         */
+        function addMessage(message, sender, id = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message-bubble');
+            if (sender === 'user') {
+                messageDiv.classList.add('user-message');
+            } else if (sender === 'ollama') {
+                messageDiv.classList.add('ollama-message');
+            } else if (sender === 'loading') {
+                messageDiv.classList.add('loading-indicator-bubble'); // Use the new class
+                messageDiv.textContent = message; // "Thinking..."
+            }
+            if (id) {
+                messageDiv.id = id;
+            }
+            messageDiv.textContent = message;
+            chatDisplay.appendChild(messageDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            return messageDiv; // Return the created div for potential later removal
+        }
+
+        /**
+         * Sends the user's message to the custom Express API and displays the response.
+         */
+        async function sendMessage() {
+            const query = userInput.value.trim();
+            if (!query) return;
+
+            addMessage(query, 'user');
+            userInput.value = '';
+
+            // Dynamically create and add the loading indicator
+            const loadingIndicatorElement = addMessage("Processing...", 'loading', 'loading-indicator');
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+
+            try {
+                const response = await fetch(BACKEND_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json(); 
+                    addMessage(data.trim(), 'ollama');
+                } else {
+                    const errorText = await response.text();
+                    console.error('Backend API Error:', response.status, errorText);
+                    addMessage(`Error: Could not connect to the backend server or receive a valid response. Status: ${response.status}. Please check your Node.js server and CORS settings.`, 'ollama');
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                addMessage(`Error: Could not reach the backend server. Please ensure your Node.js server is running at ${BACKEND_API_URL} and check for network/CORS issues.`, 'ollama');
+            } finally {
+                // Remove the loading indicator after the request is complete
+                if (loadingIndicatorElement && loadingIndicatorElement.parentNode) {
+                    loadingIndicatorElement.parentNode.removeChild(loadingIndicatorElement);
+                }
+                chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            }
+        }
+
+        // Event Listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                sendMessage();
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
