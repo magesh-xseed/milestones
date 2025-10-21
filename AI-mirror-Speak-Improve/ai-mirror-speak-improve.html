@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Mirror Dashboard</title>
+    <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN for icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Custom styles to handle the primary color and hover effects globally */
@@ -37,7 +39,8 @@
 <body class="font-sans">
 
     <div id="root" class="min-h-screen bg-gray-200 p-4 flex items-center justify-center">
-        </div>
+        <!-- The application will render here -->
+    </div>
 
     <script>
         // --- CONFIGURATION & MOCK DATA ---
@@ -127,7 +130,7 @@
 
         // --- STATE MANAGEMENT (Simplified for Vanilla JS) ---
         let state = {
-            view: 'dashboard', // 'dashboard', 'camera', 'processing'
+            view: 'dashboard', // Start on dashboard, requiring button click to access camera
             sessionHistory: sessionReports,
             latestReport: sessionReports[0],
             currentTopic: DEFAULT_TOPIC,
@@ -136,8 +139,68 @@
             transcriptReport: null,
             overallScore: 'B+',
             isEditingTopic: false,
-            tempTopic: DEFAULT_TOPIC
+            tempTopic: DEFAULT_TOPIC,
+            // NEW CAMERA STATES
+            cameraStatus: 'Awaiting Activation', // 'Accessing', 'Active', 'Error:...'
+            mediaStream: null,
         };
+
+        // --- CAMERA STREAM FUNCTIONS ---
+
+        /**
+         * Requests camera access and starts the video stream.
+         * Updates global state with status and stream object.
+         */
+        async function startCameraStream() {
+            // 1. Update state to show 'Accessing' and re-render the status overlay
+            updateState({ cameraStatus: 'Accessing', mediaStream: null });
+
+            try {
+                // Request video stream access (using 'user' for front camera and mirroring effect)
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user' }
+                });
+                
+                // Success
+                updateState({ 
+                    mediaStream: stream, 
+                    cameraStatus: 'Active' 
+                });
+
+                // Crucial: Manually set the stream to the video element *after* render
+                // This ensures the DOM has updated before we access the video element ID
+                setTimeout(() => {
+                    const videoElement = document.getElementById('liveCameraFeed');
+                    if (videoElement) {
+                        videoElement.srcObject = stream;
+                        videoElement.play();
+                    }
+                }, 0); 
+
+            } catch (error) {
+                console.error('Camera Error:', error);
+                let status = 'Error: Unknown';
+                if (error.name === 'NotAllowedError') {
+                    status = 'Error: Permission Denied. You must grant access in browser settings.';
+                } else if (error.name === 'NotFoundError') {
+                    status = 'Error: No camera found on this device.';
+                } else if (error.name === 'NotReadableError') {
+                    status = 'Error: Camera is in use by another application.';
+                }
+                updateState({ cameraStatus: status, mediaStream: null });
+            }
+        }
+
+        /**
+         * Stops all tracks on the media stream and cleans up the state.
+         */
+        function stopCameraStream() {
+            if (state.mediaStream) {
+                state.mediaStream.getTracks().forEach(track => track.stop());
+            }
+            updateState({ mediaStream: null, cameraStatus: 'Awaiting Activation' });
+        }
+
 
         // --- UTILITY FUNCTIONS ---
         const updateState = (newState) => {
@@ -176,10 +239,11 @@
             };
             
             const fluencyMetric = report.metrics.find(m => m.title === 'Fluency');
-            const topIssueMetric = report.metrics.reduce((min, current) => {
+            const worstMetric = report.metrics.reduce((min, current) => {
+                // Find the first metric with a 'red' color, otherwise fallback to fluency.
                 if (current.color.includes('red')) return current;
                 return min;
-            }, fluencyMetric);
+            }, fluencyMetric); // Start min reduction with fluency
 
             // Annotated Transcript HTML generation
             const transcriptHTML = mockTranscript.map((item) => {
@@ -214,6 +278,7 @@
                 <div class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
                     <div class="bg-white w-full max-w-md h-full max-h-[700px] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
                         
+                        <!-- Header -->
                         <div class="p-5 bg-primary text-white flex justify-between items-center shadow-lg">
                             <h2 class="text-xl font-bold flex items-center">
                                 ${renderIcon('BookOpen', 'h-5 w-5 mr-2')}
@@ -224,17 +289,20 @@
                             </button>
                         </div>
 
+                        <!-- Content Area -->
                         <div class="p-4 overflow-y-auto flex-1">
                             <p class="text-sm font-semibold text-gray-600 mb-3 border-b pb-2">Topic: ${report.topic}</p>
 
+                            <!-- Key Issue Summary -->
                             <div class="bg-red-50 border-l-4 border-red-400 p-3 mb-4 rounded-lg">
                                 <p class="text-red-700 font-bold flex items-center">
                                     ${renderIcon('AlertTriangle', 'h-4 w-4 mr-2')}
-                                    Top Focus Area: ${topIssueMetric.title}
+                                    Top Focus Area: ${worstMetric.title}
                                 </p>
-                                <p class="text-red-600 text-sm mt-1">${topIssueMetric.detail}</p>
+                                <p class="text-red-600 text-sm mt-1">${worstMetric.detail}</p>
                             </div>
                             
+                            <!-- Legend/Key -->
                             <div class="flex justify-between items-center text-xs text-gray-600 p-2 bg-gray-100 rounded-lg mb-4 shadow-inner">
                                 <span class="flex items-center">
                                     <span class="w-2 h-2 rounded-full bg-red-500 mr-1"></span> Grammar
@@ -247,6 +315,7 @@
                                 </span>
                             </div>
 
+                            <!-- Annotated Transcript -->
                             <h3 class='text-lg font-bold text-gray-800 mb-2'>Annotated Transcript</h3>
                             <div class="leading-relaxed text-gray-700 text-base mb-6">
                                 <div class="inline">
@@ -255,12 +324,14 @@
                                 <p class="text-xs text-gray-400 mt-4 text-center border-t pt-2">--- End of Recorded Speech ---</p>
                             </div>
                             
+                            <!-- Summary of Tips -->
                             <h3 class='text-lg font-bold text-gray-800 mb-3 mt-4 border-t pt-4'>Summary of Tips (${tipsList.length} Issues Found)</h3>
                             <div class="space-y-3">
                                 ${tipsSummaryHTML}
                             </div>
                         </div>
                         
+                        <!-- Footer/Close Button -->
                         <div class="p-4 border-t border-gray-200">
                             <button
                                 onclick="updateState({showTranscriptModal: false, transcriptReport: null})"
@@ -312,37 +383,68 @@
         // --- SCREEN GENERATORS ---
 
         const CameraScreen = (topic, focusMode) => {
+            const isCameraActive = state.cameraStatus === 'Active';
+            const isError = state.cameraStatus.startsWith('Error');
+            const isLoading = state.cameraStatus === 'Accessing';
+
             return `
                 <div class="relative h-full bg-black flex flex-col items-center justify-end p-8">
-                    <div class="absolute inset-0 bg-gray-800/90 flex items-center justify-center z-0">
-                        <span class="text-white text-3xl font-bold border border-white p-4">Camera Feed Active (Mirror)</span>
+                    
+                    <!-- Video Element (Actual Camera Feed) -->
+                    <video 
+                        id="liveCameraFeed" 
+                        class="absolute inset-0 w-full h-full object-cover z-0 transform scale-x-[-1]" 
+                        autoplay 
+                        playsinline 
+                        muted
+                        style="${isCameraActive ? 'display: block;' : 'display: none;'}"
+                    ></video>
+
+                    <!-- Status Overlay (Shown when not active) -->
+                    <div class="absolute inset-0 bg-gray-900/90 flex items-center justify-center z-10" 
+                        style="${isCameraActive ? 'display: none;' : 'display: flex;'}"
+                    >
+                        <div class="text-center text-white p-4">
+                            ${isLoading ? `<svg class="animate-spin h-10 w-10 text-white mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>` : ''}
+                            
+                            <p class="text-2xl font-bold mb-2">${state.cameraStatus}</p>
+                            ${isError ? 
+                                `<p class="text-sm text-red-300">Click the button below to return to the dashboard and try again.</p>` : 
+                                `<p class="text-sm opacity-80">Please grant camera permission in your browser.</p>`
+                            }
+                        </div>
                     </div>
 
-                    <div class="absolute top-0 w-full p-4 bg-black/40 text-center z-10">
+
+                    <!-- Top Prompt Overlay -->
+                    <div class="absolute top-0 w-full p-4 bg-black/40 text-center z-20">
                         <p class="text-white text-sm opacity-80">
                             ${focusMode ? `FOCUSED DRILL: ${focusMode}` : 'Prompt:'}
                         </p>
                         <p class="text-white font-medium">${topic}</p>
                     </div>
 
-                    <div class="w-full flex justify-around p-4 mb-8 bg-black/40 rounded-xl relative z-10">
+                    <!-- Real-time Metrics (Simulated) -->
+                    <div class="w-full flex justify-around p-4 mb-8 bg-black/40 rounded-xl relative z-20">
                         <div class="flex flex-col items-center">
-                            <p class="text-4xl font-black text-red-400">01:45</p>
+                            <p class="text-4xl font-black ${isCameraActive ? 'text-green-400' : 'text-gray-400'}">00:15</p>
                             <p class="text-xs text-white opacity-80">Timer (Max 2:00)</p>
                         </div>
                         <div class="flex flex-col items-center">
-                            <p class="text-4xl font-black text-white">217</p>
+                            <p class="text-4xl font-black text-white">45</p>
                             <p class="text-xs text-white opacity-80">Words Spoken</p>
                         </div>
                     </div>
 
+                    <!-- Stop Button - Calls handleStopRecording which updates view state -->
                     <button
                         onclick="handleStopRecording()"
-                        class="w-20 h-20 bg-primary hover-bg-darker rounded-full shadow-2xl transition duration-150 flex items-center justify-center border-4 border-white/50 relative z-10"
+                        class="w-20 h-20 bg-primary hover-bg-darker rounded-full shadow-2xl transition duration-150 flex items-center justify-center border-4 border-white/50 relative z-20"
+                        title="Stop Recording"
                     >
                         <span class="w-8 h-8 bg-white rounded-md"></span>
                     </button>
-                    <p class="text-white text-sm mt-3 relative z-10">Tap to End Session</p>
+                    <p class="text-white text-sm mt-3 relative z-20">Tap to End Session</p>
                 </div>
             `;
         };
@@ -365,8 +467,10 @@
                 <div class="p-6 pb-8 bg-gray-50">
                     <h1 class="text-3xl font-extrabold text-gray-900 mb-6">AI Mirror Dashboard</h1>
                     
+                    <!-- Overall Score -->
                     <div class="bg-primary text-white p-6 rounded-2xl shadow-xl mb-6 relative">
                         
+                        <!-- Grade Info Icon and Tooltip -->
                         <div class="absolute top-4 right-4 group">
                             ${renderIcon('Info', 'h-5 w-5 text-white cursor-pointer opacity-70 hover:opacity-100 transition-opacity')}
                             <div class="absolute right-0 top-7 w-72 bg-white text-gray-800 p-4 rounded-xl shadow-2xl text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20 transform translate-x-1">
@@ -382,21 +486,25 @@
                                 </p>
                             </div>
                         </div>
+                        <!-- End Grade Info -->
+
                         <p class="text-sm font-light opacity-80">Overall Speaking Average</p>
                         <p class="text-6xl font-black mt-1">${overallScore}</p>
                         <p class="text-sm font-light mt-2">Current Grade (Based on last 5 sessions)</p>
                     </div>
 
+                    <!-- Topic Card (Editable) -->
                     <div class="bg-white p-5 rounded-xl shadow-md border-t-4 border-gray-300 mb-8">
                         <div class="flex justify-between items-center mb-2">
                             <h2 class="text-lg font-semibold text-gray-700">Practice Topic</h2>
                             
+                            <!-- Button Group for Randomize and Edit -->
                             <div class='flex space-x-3'>
                                 <button 
                                     onclick="handleRandomizeTopic()" 
-                                    class="text-gray-500 hover:text-darker text-sm font-medium flex items-center transition duration-150 ${isEditing ? 'opacity-50 cursor-not-allowed' : 'text-primary'}"
+                                    class="text-gray-500 hover:text-darker text-sm font-medium flex items-center transition duration-150 ${state.isEditingTopic ? 'opacity-50 cursor-not-allowed' : 'text-primary'}"
                                     title="Generate Random Topic"
-                                    ${isEditing ? 'disabled' : ''}
+                                    ${state.isEditingTopic ? 'disabled' : ''}
                                 >
                                     ${renderIcon('Shuffle', 'h-4 w-4')}
                                 </button>
@@ -405,19 +513,19 @@
                                     class="text-primary hover:text-darker text-sm font-medium flex items-center"
                                 >
                                     ${renderIcon('Edit', 'h-4 w-4 mr-1')}
-                                    ${isEditing ? 'Cancel' : 'Edit'}
+                                    ${state.isEditingTopic ? 'Cancel' : 'Edit'}
                                 </button>
                             </div>
                         </div>
                         
-                        ${isEditing ? (
+                        ${state.isEditingTopic ? (
                             `
                             <textarea
                                 id="topic-input"
                                 onchange="updateState({tempTopic: this.value})"
                                 class="w-full text-gray-900 text-xl font-medium leading-relaxed border border-gray-300 rounded p-2 focus:ring-2 focus:ring-primary resize-none"
                                 rows="3"
-                            >${tempTopic}</textarea>
+                            >${state.tempTopic}</textarea>
                             <button
                                 onclick="handleSaveTopic()"
                                 class="mt-3 w-full py-2 bg-primary text-white font-bold rounded-lg hover-bg-darker"
@@ -426,10 +534,11 @@
                             </button>
                             `
                         ) : (
-                            `<p class="text-gray-900 text-xl font-medium leading-relaxed">${currentTopic}</p>`
+                            `<p class="text-gray-900 text-xl font-medium leading-relaxed">${state.currentTopic}</p>`
                         )}
                     </div>
 
+                    <!-- Start Button -->
                     <button
                         onclick="handleStartSession()"
                         class="w-full py-4 bg-primary hover-bg-darker text-white font-bold text-lg rounded-full shadow-2xl transition duration-150 transform hover:scale-[1.01] flex items-center justify-center"
@@ -443,6 +552,7 @@
 
         const FocusAreaSection = (latestReport) => {
             const fluencyMetric = latestReport.metrics.find(m => m.title === 'Fluency');
+            // Determine the worst metric: the first one marked red, otherwise Fluency as a default focus area
             const worstMetric = latestReport.metrics.reduce((min, current) => {
                 if (current.color.includes('red')) return current;
                 return min;
@@ -455,6 +565,7 @@
                         Your Improvement Focus
                     </h1>
                     
+                    <!-- Redesigned Focus Card for High Impact -->
                     <div class="bg-white p-5 rounded-xl shadow-lg border-l-8 border-primary">
                         <div class="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
                             <p class="text-xl font-bold text-gray-800 flex items-center">
@@ -480,6 +591,7 @@
                         </div>
                     </div>
                     
+                    <!-- Prominent Action Button -->
                     <button
                         onclick="handleStartDrill('${worstMetric.title}')"
                         class="mt-6 w-full py-3 bg-primary hover-bg-darker text-white font-bold text-lg rounded-full shadow-lg transition duration-150 transform hover:scale-[1.01]"
@@ -509,6 +621,7 @@
                     </h1>
                     <p class="text-gray-500 mb-6">Topic: ${report.topic} <span class="font-semibold ml-2">(${report.date})</span></p>
 
+                    <!-- Overall Score Block -->
                     <div class="bg-primary text-white p-6 rounded-2xl shadow-xl mb-6 flex justify-between items-center">
                         <div>
                             <p class="text-sm font-light opacity-80">Final Performance Score</p>
@@ -520,15 +633,18 @@
                         </div>
                     </div>
 
+                    <!-- Summary Tip -->
                     <div class="bg-gray-50 p-4 rounded-xl shadow-md border-l-4 border-indigo-500 mb-6">
                         <p class="text-sm font-semibold text-darker mb-1">AI Summary:</p>
                         <p class="text-gray-700 italic leading-relaxed">"${report.summaryTip}"</p>
                     </div>
 
+                    <!-- Detailed Metrics -->
                     <h2 class="text-xl font-bold text-gray-800 mb-4">Detailed Breakdown</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         ${metricsHTML}
                     </div>
+                    <!-- Transcript Button -->
                     <button
                         onclick="handleOpenTranscriptModal(${report.id})"
                         class="mt-6 w-full py-3 font-bold text-lg rounded-full transition duration-150 shadow-sm flex items-center justify-center bg-gray-200 hover:bg-gray-300 text-gray-800"
@@ -563,11 +679,13 @@
                 <div class="p-6 bg-gray-50 border-t border-gray-200">
                     <h1 class="text-3xl font-extrabold text-gray-900 mb-6">Long-Term Progress</h1>
                     
+                    <!-- Trends -->
                     <div class="grid grid-cols-2 gap-4 mb-8">
                         ${TrendCard("Overall Score", "B+", 5)}
                         ${TrendCard("Unique Words", "↑ 15%", 15)}
                     </div>
 
+                    <!-- Chart Section -->
                     <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                         ${renderIcon('BarChart3', 'w-5 h-5 mr-2 text-primary')}
                         Last 10 Sessions Performance
@@ -576,6 +694,7 @@
                         ${MockChart()}
                     </div>
 
+                    <!-- History -->
                     <h2 class="text-xl font-bold text-gray-800 mb-4">Session History</h2>
                     <div class="space-y-3 pb-4">
                         ${historyHTML}
@@ -611,13 +730,16 @@
 
         const handleStartSession = () => {
             updateState({ focusMode: null, latestReport: sessionReports[0], view: 'camera' });
+            startCameraStream(); // <-- Start camera when session begins
         };
         
         const handleStartDrill = (drillMetric) => {
             updateState({ focusMode: drillMetric, latestReport: sessionReports[0], view: 'camera' });
+            startCameraStream(); // <-- Start camera when drill begins
         };
 
         const handleStopRecording = () => {
+            stopCameraStream(); // <-- Stop camera before processing
             updateState({ view: 'processing' });
             
             // Simulate new session report generation
@@ -640,13 +762,25 @@
                     color: 'bg-green-100/70'
                 };
 
+                // Add the new report to the history (at the beginning)
                 const newHistory = [newReport, ...state.sessionHistory];
                 
+                // Recalculate the overall score average (simplified, using the last 5 reports)
+                const scoreSum = newHistory.slice(0, 5).reduce((sum, report) => sum + report.scorePercentage, 0);
+                const scoreAvg = scoreSum / Math.min(newHistory.length, 5);
+                let overallScoreLetter = 'A';
+                if (scoreAvg < 93 && scoreAvg >= 87) overallScoreLetter = 'A-';
+                else if (scoreAvg < 87 && scoreAvg >= 83) overallScoreLetter = 'B+';
+                else if (scoreAvg < 83 && scoreAvg >= 70) overallScoreLetter = 'B';
+                else if (scoreAvg < 70) overallScoreLetter = 'C+';
+
+
                 updateState({
                     sessionHistory: newHistory,
                     latestReport: newReport,
                     focusMode: null,
-                    view: 'dashboard'
+                    view: 'dashboard',
+                    overallScore: overallScoreLetter 
                 });
                 scrollToReport();
 
@@ -654,6 +788,8 @@
         };
 
         const handleViewReport = (reportId) => {
+            // Stop camera if somehow still running when viewing a report
+            stopCameraStream(); 
             const report = state.sessionHistory.find(r => r.id === reportId);
             if (report) {
                 updateState({ latestReport: report });
