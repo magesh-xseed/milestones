@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSEED Smart Homework</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Load Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- TAILWIND CONFIG: Defining the custom color theme based on user request -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'xseed-primary': '#bc2026', // Main Theme Color (Red/Maroon)
+                        'xseed-primary-light': '#fef2f2', // Light background for streak/accents
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Base styles to mimic a mobile screen/container */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e5e7eb; /* Slightly darker gray background for contrast */
+        }
+        #app-container {
+            max-width: 420px; /* Standard mobile width */
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff; /* App background color */
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+            position: relative; 
+        }
+        /* Custom scrollbar for content area */
+        #main-content::-webkit-scrollbar, 
+        #chat-history::-webkit-scrollbar {
+            width: 4px;
+        }
+        #main-content::-webkit-scrollbar-thumb, 
+        #chat-history::-webkit-scrollbar-thumb {
+            background-color: #9ca3af; /* Gray-400 */
+            border-radius: 2px;
+        }
+
+        /* Custom step colors for the dashboard view */
+        .step-list li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem; /* text-sm */
+            color: #4b5563; /* text-gray-600 */
+        }
+
+        /* Uses the xseed-primary color for the list bullet */
+        .step-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.4rem;
+            width: 6px;
+            height: 6px;
+            background-color: #bc2026; /* xseed-primary */
+            border-radius: 50%;
+        }
+        
+        /* Specific styling for completed steps on the dashboard */
+        .step-list li.completed {
+            text-decoration: line-through;
+            opacity: 0.7;
+            color: #9ca3af; /* text-gray-400 */
+        }
+        
+        /* Uses a distinct green for completed status */
+        .step-list li.completed::before {
+            background-color: #10b981; /* green-500 */
+        }
+
+        /* Enforce max height on input fields in detail view */
+        textarea {
+            max-height: 10rem;
+        }
+        
+        /* Chat UI Styles */
+        #chat-window {
+            position: absolute; 
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 90vh; 
+            background-color: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; 
+            z-index: 50; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* FIX: When hidden, translate off-screen, disable pointer events, AND set opacity to 0 */
+        #chat-window.hidden {
+            transform: translateY(100%);
+            pointer-events: none; 
+            opacity: 0; 
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <!-- Header is outside the scrollable content -->
+        <div id="header"></div>
+        <!-- Main content now handles all scrolling content -->
+        <div id="main-content" class="flex-1 overflow-y-auto"></div>
+        
+        <!-- AI Tutor Chat Interface (Rendered by JS) -->
+        <div id="chat-ui"></div>
+    </div>
+
+    <script type="module">
+        // --- FIREBASE SETUP (Mandatory Globals Check) ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        let db, auth;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+
+        async function initFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                setLogLevel('Debug');
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Firebase Initialization Error:", error);
+            }
+        }
+        // Retaining the Firebase structure as requested in the initial code.
+
+        // --- MOCK STEP DATA FOR ASSIGNMENTS (Unchanged) ---
+        // 1. Saturation and Unsaturated Fats (Science Practical)
+        const fatSaturationSteps = [
+            { 
+                id: 'sat-1', 
+                title: 'Step 1: Prediction', 
+                type: 'Prediction', 
+                icon: 'zap', 
+                time: 60, 
+                safety: 'none', 
+                prompt: 'You have a sample of **Olive Oil** (Unsaturated, plant-based) and a sample of **Cheese** (Saturated, animal-based). Predict which one will be completely liquid if left on a counter for 10 minutes, and explain why using the terms "**Saturated**" or "**Unsaturated**" from the lesson.', 
+                completed: false 
+            },
+            { 
+                id: 'sat-2', 
+                title: 'Step 2: Start Practical', 
+                type: 'Timer/Photo', 
+                icon: 'thermometer', 
+                time: 90, 
+                safety: 'none', 
+                requiresTimer: true, // Timer IS required for this observation step
+                prompt: 'Place 1 tsp of **Olive Oil** and 1 small cube of **Cheese** in separate, labeled dishes (no heat needed). Start the **90-second timer** now. Upload a photo showing the initial setup.', 
+                completed: false 
+            },
+            { 
+                id: 'sat-3', 
+                title: 'Step 3: Analyze Results', 
+                type: 'Short Answer', 
+                icon: 'flask-conical', 
+                time: 120, 
+                safety: 'none', 
+                prompt: 'Observe the samples after the timer finishes. Based on the lesson content, explain the relationship between the **liquid/solid state** you observed and why one of these fat types ("**Saturated**") is associated with increasing cholesterol and the risk of heart disease.', 
+                completed: false 
+            },
+        ];
+
+        // 2. 9-Digit Numbers (Math Practical/Lab)
+        const mathSteps = [
+            {
+                id: 'math-1',
+                title: 'Step 1: Prediction',
+                type: 'Prediction',
+                icon: 'zap',
+                time: 60,
+                safety: 'none',
+                prompt: 'The number $54,32,10,987$ (Indian System) is read as "Fifty-Four Crore, Thirty-Two Lakh...". Predict how many "**Hundreds of Millions**" it will contain in the International System. (Guess a number and explain why the comma placement changes).',
+                completed: false
+            },
+            {
+                id: 'math-2',
+                title: 'Step 2: Practice Conversion',
+                type: 'Timer/Photo',
+                icon: 'calculator',
+                time: 60,
+                safety: 'none',
+                requiresTimer: false, // Timer is NOT required, just a photo of the completed work
+                prompt: 'Lab Work: Convert the number $54,32,10,987$ to the **International Number System format** ($XXX,XXX,XXX$). Practice reading it out loud correctly. Type the correctly formatted number below and upload a photo of your handwritten steps.',
+                completed: false
+            },
+            {
+                id: 'math-3',
+                title: 'Step 3: Analyze Results',
+                type: 'Short Answer',
+                icon: 'lightbulb',
+                time: 90,
+                safety: 'none',
+                prompt: 'Analyze Results: In one sentence, explain the primary difference in how **commas** are placed when writing a 9-digit number in the **International System** (e.g., $543,210,987$) compared to the **Indian System** (e.g., $54,32,10,987$).',
+                completed: false
+            },
+        ];
+
+        // 3. Introduction to Computing Systems (CS Lab)
+        const csSteps = [
+            {
+                id: 'cs-1',
+                title: 'Step 1: Prediction',
+                type: 'Prediction',
+                icon: 'zap',
+                time: 60,
+                safety: 'none',
+                prompt: 'A computer represents all data using "**Binary Code** ($0$s and $1$s$). Predict the 8-bit binary code for the decimal number **13**. (Example: $5 = 00000101$). Write your 8-digit guess below.',
+                completed: false
+            },
+            {
+                id: 'cs-2',
+                title: 'Step 2: Start Practical',
+                type: 'Timer/Photo',
+                icon: 'laptop',
+                time: 120,
+                safety: 'none',
+                requiresTimer: true, // Timer IS required for this focused conversion lab work
+                prompt: 'Lab Work: Use the division-by-two method to convert the decimal number **42** into its 8-bit binary equivalent. Start the **120-second timer** to complete the conversion and write down the steps/final code. (No photo needed)',
+                completed: false
+            },
+            {
+                id: 'cs-3',
+                title: 'Step 3: Analyze Results',
+                type: 'Short Answer',
+                icon: 'cpu',
+                time: 90,
+                safety: 'none',
+                prompt: 'Analyze Results: If the 8-bit binary code you found for 42 was $00101010$, explain what the **first two "1"s from the right** (at positions $2^1$ and $2^5$) represent in terms of **power-of-two place values** (Hint: Place values are 1, 2, 4, 8, 16, 32, 64, 128).',
+                completed: false
+            },
+        ];
+
+
+        // Assignments array - All colors set to the primary theme color for uniformity
+        const assignments = [
+            { id: 'assign-4', subject: 'G6 > SCIENCE > B1', lesson: 'Saturation and Unsaturated Fats', progress: 'Not Started', status: 'Due Tomorrow', color: 'xseed-primary', steps: fatSaturationSteps, icon: 'activity' },
+            { id: 'assign-math', subject: 'G6 > MATH > B1', lesson: '9-Digit Numbers (100 Million)', progress: 'Not Started', status: 'New Practical', color: 'xseed-primary', steps: mathSteps, icon: 'sigma' },
+            { id: 'assign-cs', subject: 'G6 > CS > B1', lesson: 'Introduction to Computing Systems', progress: 'Not Started', status: 'Lab Lesson', color: 'xseed-primary', steps: csSteps, icon: 'monitor' }, 
+        ];
+
+        // Filter for pending/in-progress assignments for the header count
+        const pendingAssignments = assignments.filter(a => a.status !== 'Graded' && a.status !== 'Completed');
+
+        // --- STATE MANAGEMENT ---
+        let state = {
+            currentScreen: 'dashboard', // 'dashboard' or 'detail'
+            currentAssignmentId: 'assign-4', // Default to the first assignment
+            currentStepIndex: 0, 
+            streak: 7,
+            timerState: 'ready', // ready, running, finished
+            timerSeconds: 0, // Will be set correctly on screen load
+            intervalId: null,
+            // --- NEW CHAT STATE ---
+            isChatOpen: false,
+            chatHistory: [], // Stores {role: 'user' | 'model', text: '...', sources: [...]}
+            isChatLoading: false,
+        };
+
+        const elements = {
+            header: document.getElementById('header'),
+            content: document.getElementById('main-content'),
+            chatUI: document.getElementById('chat-ui'),
+        };
+        
+        // --- HELPER FUNCTIONS ---
+        // FIX: Convert Markdown bold (**text**) to HTML strong (<strong>text</strong>) and math to LaTeX (only $...$)
+        const formatMarkdown = (text) => {
+            if (!text) return '';
+            let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Basic math formatting (since we can't fully render LaTeX in basic HTML)
+            html = html.replace(/\$(.*?)\$/g, '<span class="font-serif italic text-xseed-primary">$1</span>');
+            return html;
+        };
+        
+        // --- NEW VOICE-TO-TEXT MOCK FUNCTION ---
+        function handleVoiceToText() {
+            const inputField = document.getElementById('step-input');
+            
+            // Mock VTT behavior
+            if (!inputField) return;
+            
+            const mockVTTText = "- I am recording my prediction now. I think the olive oil will be completely liquid because it is an unsaturated fat, which means its molecules do not pack together as tightly as saturated fats, allowing it to remain liquid at room temperature.";
+            
+            console.log("Mock VTT started. In a real application, this would prompt the user for microphone access.");
+            
+            // Show listening state
+            const originalPlaceholder = inputField.placeholder;
+            inputField.placeholder = "Listening... Speak now!";
+            inputField.classList.add('animate-pulse', 'border-red-500');
+            
+            setTimeout(() => {
+                // Restore original state
+                inputField.placeholder = originalPlaceholder;
+                inputField.classList.remove('animate-pulse', 'border-red-500');
+
+                // Append/Set the mock text
+                if (inputField.value.trim() === '') {
+                    inputField.value = mockVTTText;
+                } else {
+                    // Add to a new line if there is existing content
+                    inputField.value += `\n${mockVTTText}`;
+                }
+                
+                console.log("Mock VTT completed. Text added to the input field.");
+            }, 1500); // Simulate 1.5 second transcription time
+        }
+        
+        // --- CHAT LOGIC ---
+
+        function toggleChat() {
+            state.isChatOpen = !state.isChatOpen;
+            // Clear history or set context when opening chat for a new step
+            if (state.isChatOpen) {
+                // If the chat history is empty, set the initial context
+                if (state.chatHistory.length === 0) {
+                    setChatContext();
+                }
+            } 
+            renderApp();
+        }
+        
+        function setChatContext() {
+            const assignment = assignments.find(a => a.id === state.currentAssignmentId);
+            const currentStep = assignment.steps[state.currentStepIndex];
+            
+            if (assignment && currentStep) {
+                // Reset history and set initial message when context changes
+                state.chatHistory = [{
+                    role: 'model',
+                    // UPDATED: Shorter, more focused welcome message
+                    text: `Hello! I'm your AI Tutor for **${assignment.lesson} (${currentStep.title})**.
+                    
+I'm here to give you **hints**, explain **concepts**, and provide **simple examples**. 
+***I cannot solve the assignment for you.*** What question do you have right now?`
+                }];
+            }
+        }
+        
+        async function handleChatSubmit(event) {
+            event.preventDefault();
+            const input = document.getElementById('chat-input');
+            const userQuery = input.value.trim();
+
+            if (!userQuery) return;
+            
+            // Add user message to history
+            state.chatHistory.push({ role: 'user', text: userQuery });
+            input.value = ''; // Clear input
+            state.isChatLoading = true;
+            renderChatUI(); // Re-render to show user message and loading indicator
+
+            try {
+                await callGemini(userQuery);
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                state.chatHistory.push({ 
+                    role: 'model', 
+                    text: 'Oops! I ran into an error trying to connect to the server. Please try again in a moment.' 
+                });
+            } finally {
+                state.isChatLoading = false;
+                renderChatUI(); // Final re-render
+            }
+        }
+        
+        // Gemini API Implementation
+        async function callGemini(userQuery) {
+            const assignment = assignments.find(a => a.id === state.currentAssignmentId);
+            const currentStep = assignment.steps[state.currentStepIndex];
+            
+            // System prompt remains strict on not giving the direct answer
+            const systemPrompt = `You are a friendly, knowledgeable XSEED **AI Chat** assistant for a Grade 6 student, ready to help with any doubt related to their current homework assignment: **${assignment.lesson}**. 
+            The student is currently viewing step: "${currentStep.title}" with the main prompt: "${currentStep.prompt}". 
+            You must provide clear explanations, simple examples, and relevant hints to clarify concepts, but **never give the direct answer to the homework question**. Your tone should be encouraging and supportive.`;
+
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            
+            // Map chat history for API payload 
+            const chatHistoryForAPI = state.chatHistory.map(msg => ({ 
+                role: msg.role === 'user' ? 'user' : 'model', 
+                parts: [{ text: msg.text }] 
+            }));
+
+            // The last entry is the user's new query, so we use the full history
+            const payload = {
+                contents: chatHistoryForAPI,
+                tools: [{ "google_search": {} }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            const maxRetries = 3;
+            let response, result;
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        result = await response.json();
+                        break; // Success, break out of loop
+                    } else if (response.status === 429 && i < maxRetries - 1) {
+                        // Implement exponential backoff for rate limiting
+                        const delay = Math.pow(2, i) * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue;
+                    } else {
+                        throw new Error(`API returned status ${response.status}`);
+                    }
+                } catch (e) {
+                    if (i === maxRetries - 1) throw e;
+                }
+            }
+
+            const candidate = result?.candidates?.[0];
+            let modelText = 'I am currently unable to provide assistance. Please check your internet connection.';
+            let sources = [];
+
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                modelText = candidate.content.parts[0].text;
+                
+                // Extract grounding sources
+                const groundingMetadata = candidate.groundingMetadata;
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                    sources = groundingMetadata.groundingAttributions
+                        .map(attribution => ({
+                            uri: attribution.web?.uri,
+                            title: attribution.web?.title,
+                        }))
+                        .filter(source => source.uri && source.title);
+                }
+            }
+            
+            // Add model response to history
+            state.chatHistory.push({ role: 'model', text: modelText, sources: sources });
+        }
+
+        // --- NAVIGATION & UTILS (Unchanged) ---
+
+        function goToDashboard() {
+            state.currentScreen = 'dashboard';
+            // Clear any active timers
+            stopTimer(); 
+            // Close and reset chat state when leaving detail view
+            state.isChatOpen = false;
+            state.chatHistory = [];
+            renderApp();
+        }
+
+        function goToDetail(id) {
+            const assignment = assignments.find(a => a.id === id);
+            
+            state.currentAssignmentId = id;
+            
+            // If the assignment has steps, set up the step state
+            if (assignment.steps && assignment.steps.length > 0) {
+                let firstIncompleteIndex = assignment.steps.findIndex(step => !step.completed);
+                state.currentStepIndex = firstIncompleteIndex !== -1 ? firstIncompleteIndex : 0;
+                
+                const currentStep = assignment.steps[state.currentStepIndex];
+                state.timerSeconds = currentStep ? currentStep.time : 0;
+                state.timerState = 'ready';
+                
+                state.currentScreen = 'detail';
+                state.chatHistory = []; // Ensure chat history is cleared for a new assignment
+            } else {
+                state.currentScreen = 'detail';
+            }
+            
+            renderApp();
+        }
+        
+        function goToStep(index) {
+            const assignment = assignments.find(a => a.id === state.currentAssignmentId);
+            if (assignment && assignment.steps && index >= 0 && index < assignment.steps.length) {
+                stopTimer(); // Stop any running timer
+                state.currentStepIndex = index;
+                const newStep = assignment.steps[index];
+                state.timerSeconds = newStep ? newStep.time : 0;
+                state.timerState = 'ready'; // Reset timer state
+                state.chatHistory = []; // Reset chat history for the new step context
+                renderApp();
+            }
+        }
+
+        const formatTime = (seconds) => {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        };
+        
+        function handleNextStep() {
+            const currentAssignment = assignments.find(a => a.id === state.currentAssignmentId);
+            
+            if (!currentAssignment || !currentAssignment.steps || currentAssignment.steps.length === 0) {
+                goToDashboard();
+                return;
+            }
+
+            // Mark current step as completed for visual feedback (mock)
+            currentAssignment.steps[state.currentStepIndex].completed = true;
+                
+            if (state.currentStepIndex < currentAssignment.steps.length - 1) {
+                state.currentStepIndex++;
+                // Reset timer state for the newly selected step
+                stopTimer();
+                state.timerState = 'ready'; 
+                state.timerSeconds = currentAssignment.steps[state.currentStepIndex].time;
+                state.chatHistory = []; // Reset chat history for the new step context
+                renderApp(); // Render the next step
+            } else {
+                // Final submission/completion logic here
+                currentAssignment.status = 'Completed'; // Mock status update
+                currentAssignment.progress = 'Completed'; // Mock progress update
+                goToDashboard(); // Return to dashboard
+            }
+        }
+        
+        // --- TIMER LOGIC (Used in Screen 2) ---
+        function toggleTimer() {
+            if (state.timerState === 'ready' || state.timerState === 'finished') {
+                startTimer();
+            } else if (state.timerState === 'running') {
+                stopTimer();
+            }
+        }
+        
+        function startTimer() {
+            if (state.intervalId || state.timerSeconds === 0) return;
+
+            state.timerState = 'running';
+            
+            state.intervalId = setInterval(() => {
+                if (state.timerSeconds > 0) {
+                    state.timerSeconds--;
+                    renderDetail(); // Re-render to update the timer display
+                } else {
+                    stopTimer();
+                    state.timerState = 'finished';
+                    renderDetail(); 
+                }
+            }, 1000);
+            renderDetail();
+        }
+
+        function stopTimer() {
+            if (state.intervalId) {
+                clearInterval(state.intervalId);
+                state.intervalId = null;
+            }
+            // If stopping while running, set state to paused (or ready/finished if applicable)
+            if(state.timerState === 'running') {
+                 state.timerState = 'ready'; 
+            }
+            renderDetail();
+        }
+
+
+        // --- SCREEN 1: DASHBOARD RENDERING ---
+
+        function renderDashboard() {
+            // Header for Dashboard
+            elements.header.innerHTML = `
+                <div class="p-5 pt-5 bg-white shadow-lg border-b border-gray-100">
+                    <!-- Title and Streak in the same line -->
+                    <div class="flex justify-between items-center"> 
+                        <h1 class="text-3xl font-extrabold text-gray-900" style="font-size: 1.4rem;">XSEED Smart Homework</h1>
+                    </div>
+                    <!-- Added mt-2 for separation from the title/streak line -->
+                    
+                    
+                     <div class="flex justify-between items-center"> 
+                        <div class="text-gray-500 text-sm mt-2" style="margin-top: 0px;">You have ${pendingAssignments.length} assignments pending.</div>
+                        <div class="flex items-center text-sm font-bold text-xseed-primary bg-xseed-primary-light p-2 rounded-full border border-xseed-primary/30 shadow-inner">
+                            <i data-lucide="award" class="mr-1 w-4 h-4 fill-xseed-primary/50 text-xseed-primary"></i>
+                            ${state.streak} Day Streak
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Content for Dashboard
+            let dashboardContent = `
+                <div class="p-4 space-y-4 pb-10">
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">Pending Work</h2>
+            `;
+
+            assignments.forEach(assign => {
+                const isCompleted = assign.status === 'Graded' || assign.status === 'Completed';
+                const hasSteps = assign.steps && assign.steps.length > 0;
+                
+                const colorCode = 'xseed-primary'; 
+                
+                const buttonColor = isCompleted 
+                    ? 'bg-green-600 text-white hover:bg-green-700' 
+                    : `bg-${colorCode} text-white hover:bg-${colorCode}/90`;
+                
+                const icon = isCompleted ? 'check-circle' : (hasSteps ? 'chevron-right' : 'file-text');
+
+                let buttonLabel = 'View Grade';
+                if (!isCompleted) {
+                    buttonLabel = hasSteps ? 'Start Practical' : 'Start Work'; 
+                }
+                
+                let stepsListHtml = '';
+                if (hasSteps && !isCompleted) {
+                    const stepsHtml = assign.steps.slice(0, 3).map(step => `
+                        <li class="${step.completed ? 'completed' : ''}">
+                            ${step.title}
+                        </li>
+                    `).join('');
+                    stepsListHtml = `
+                        <div class="mt-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                            <h4 class="text-xs font-bold uppercase text-gray-500 mb-2">Next Steps:</h4>
+                            <ul class="step-list">
+                                ${stepsHtml}
+                            </ul>
+                        </div>
+                    `;
+                }   
+
+
+                dashboardContent += `
+                    <div 
+                        class="assignment-card flex flex-col p-5 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all cursor-pointer border-l-8 border-${colorCode}"
+                        data-id="${assign.id}"
+                    >
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-${colorCode}">
+                                    ${assign.subject}
+                                </span>
+                                <h3 class="text-lg font-extrabold text-gray-900 mt-1">${assign.lesson}</h3>
+                            </div>
+                            <!-- Icon background and color use theme colors -->
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-xseed-primary-light text-${colorCode} flex-shrink-0">
+                                <i data-lucide="${assign.icon}" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+
+                        <!-- Step List Integration -->
+                        ${stepsListHtml}
+                        
+                        <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-sm text-gray-500">
+                            <div>
+                                Status: <span class="font-semibold text-gray-700">${assign.status}</span>
+                            </div>
+                            <button 
+                                class="flex items-center px-4 py-2 rounded-full font-bold transition-colors shadow-md text-sm ${buttonColor}"
+                                onclick="goToDetail('${assign.id}')"
+                            >
+                                ${buttonLabel}
+                                <i data-lucide="${icon}" class="ml-1 w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            dashboardContent += `</div>`;
+            elements.content.innerHTML = dashboardContent;
+            
+            window.goToDetail = goToDetail; 
+        }
+
+
+        // --- SCREEN 2: DETAIL VIEW RENDERING ---
+
+        function renderDetail() {
+            const assignment = assignments.find(a => a.id === state.currentAssignmentId);
+            
+            // Handle assignments with no steps
+            if (!assignment || !assignment.steps || assignment.steps.length === 0) {
+                 elements.header.innerHTML = `
+                    <div class="p-4 pt-10 bg-gray-700 shadow-xl border-b border-gray-800">
+                        <button onclick="goToDashboard()" class="flex items-center text-white mb-3 text-sm font-semibold hover:text-gray-200 transition-colors">
+                            <i data-lucide="chevron-left" class="mr-1 w-5 h-5"></i>
+                            Back to Homework
+                        </button>
+                        <h1 class="text-2xl font-extrabold text-white">${assignment.lesson}</h1>
+                        <div class="mt-2 text-gray-200">${assignment.subject} Document Work</div>
+                    </div>
+                `;
+                elements.content.innerHTML = `<div class="p-6 text-center text-gray-500 pb-12">
+                    <i data-lucide="${assignment.icon}" class="w-12 h-12 text-gray-400 mx-auto mb-4"></i>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">${assignment.status}</h2>
+                    <p>This is a **document-based task** (like an essay or report). You would typically access a text editor here.</p>
+                    <button onclick="goToDashboard()" class="mt-6 px-6 py-2 bg-gray-700 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg active:scale-95">Return to Dashboard</button>
+                </div>`;
+                return;
+            }
+
+            const steps = assignment.steps;
+            const currentStep = steps[state.currentStepIndex];
+            const totalSteps = steps.length;
+            const currentStepNumber = state.currentStepIndex + 1;
+            const progress = Math.round((currentStepNumber / totalSteps) * 100);
+            
+            const primaryColorClass = `xseed-primary`; 
+            const accentColor = `bg-${primaryColorClass}`;
+            
+            const requiresTimer = currentStep.type === 'Timer/Photo' && currentStep.requiresTimer === true;
+            
+            const safePrompt = formatMarkdown(currentStep.prompt); // Use the new formatting function
+
+            // Header for Detail View
+            elements.header.innerHTML = `
+                <div class="p-4 pt-10 bg-xseed-primary shadow-xl border-b">
+                    <button onclick="goToDashboard()" class="flex items-center text-white mb-3 text-sm font-semibold hover:text-gray-200 transition-colors">
+                        <i data-lucide="chevron-left" class="mr-1 w-5 h-5"></i>
+                        Back to Homework
+                    </button>
+                    <h1 class="text-2xl font-extrabold text-white">${assignment.lesson}</h1>
+                    <div class="mt-2 text-xseed-primary-light">${assignment.subject} Practical</div>
+                </div>
+            `;
+            
+            // Stepper/Timeline UI 
+            let stepperUI = `<div class="p-4 pt-6 bg-white border-b border-gray-100 sticky top-0 z-10 shadow-inner">`;
+
+            steps.forEach((step, index) => {
+                const isActive = index === state.currentStepIndex;
+                const isCompleted = step.completed;
+
+                let iconClass = 'text-gray-400 bg-gray-100';
+                let lineClass = 'bg-gray-300';
+                let titleClass = 'cursor-pointer opacity-80';
+                let onClickAttr = `onclick="goToStep(${index})"`;
+
+                if (isCompleted) {
+                    iconClass = 'text-white bg-green-500 shadow-lg';
+                    lineClass = 'bg-green-500';
+                    titleClass = 'cursor-pointer hover:text-green-600';
+                } else if (isActive) {
+                    iconClass = `text-white ${accentColor} shadow-xl ring-4 ring-xseed-primary-light`;
+                    titleClass = 'cursor-pointer font-bold !text-gray-900';
+                } else {
+                    titleClass = `cursor-pointer hover:text-${primaryColorClass} opacity-80`;
+                }
+
+                stepperUI += `
+                    <div class="flex items-start ${index < totalSteps - 1 ? 'mb-2' : 'mb-0'}">
+                        <div class="flex flex-col items-center z-10 flex-shrink-0">
+                            <div class="w-8 h-8 flex items-center justify-center rounded-full font-bold transition-all duration-300 ${iconClass}">
+                                <i data-lucide="${isCompleted ? 'check' : step.icon}" class="w-4 h-4"></i>
+                            </div>
+                            ${index < totalSteps - 1 ? `<div class="w-0.5 h-8 transition-all duration-300 ${lineClass}"></div>` : ''}
+                        </div>
+                        
+                        <div 
+                            class="ml-3 mt-1 flex-1 text-gray-600 transition-all duration-300 ${titleClass}"
+                            ${onClickAttr}
+                        >
+                            <span class="block text-sm font-semibold">${step.title}</span>
+                            <span class="block text-xs text-gray-400">${step.type}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            stepperUI += `
+                <div class="mt-4">
+                    <p class="text-xs text-gray-500 mb-1 font-medium">Progress: Step ${currentStepNumber} of ${totalSteps}</p>
+                    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                            class="h-2 bg-xseed-primary rounded-full transition-all duration-500" 
+                            style="width: ${progress}%;"
+                        ></div>
+                    </div>
+                </div>
+            </div>`;
+
+            let detailContent = stepperUI;
+
+            detailContent += `<div class="p-4 pb-20">`;
+            
+            // Main Card Container 
+            detailContent += `<div class="bg-white p-6 rounded-2xl shadow-2xl border border-gray-100">`;
+            
+            detailContent += `<h3 class="text-xl font-extrabold mb-4 text-gray-800">${currentStep.title}</h3>`;
+
+            // --- SAFETY BANNER ---
+            if (currentStep.safety === 'requires_adult') {
+                detailContent += `
+                    <div class="flex items-start p-4 mb-6 text-sm font-bold text-red-800 bg-red-100 rounded-xl border-l-8 border-red-500 shadow-md">
+                        <i data-lucide="alert-triangle" class="mr-3 mt-0.5 flex-shrink-0 w-5 h-5"></i>
+                        <div>
+                            <p class="uppercase tracking-wider">ADULT SUPERVISION REQUIRED</p>
+                            <p class="font-normal text-xs mt-1">
+                                Do not proceed with this practical step without an adult present.
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // RENDER FIXED PROMPT
+            detailContent += `<p class="text-gray-600 mb-6">${safePrompt}</p>`;
+            
+            // --- AI CHAT TRIGGER: Prominent placement with clear explanation (UPDATED) ---
+            detailContent += `
+                <div class="mb-8 p-4 bg-xseed-primary-light border border-xseed-primary/30 rounded-xl shadow-inner flex flex-col md:flex-row items-start md:items-center justify-between">
+                    <div class="mb-3 md:mb-0">
+                        <h4 class="font-bold text-xseed-primary flex items-center mb-1">
+                            <i data-lucide="brain" class="w-5 h-5 mr-2 text-xseed-primary"></i>
+                            AI Tutor: Concept Help
+                        </h4>
+                        <!-- Text updated to use <strong> for correct bold rendering, and theme color accenting -->
+                        <p class="text-xs text-gray-700">
+                            Get <strong>hints</strong>, concept <strong>explanations</strong>, and <strong>examples</strong>. No direct answers provided.
+                        </p>
+                    </div>
+                    <!-- Button updated to use xseed-primary background -->
+                    <button 
+                        onclick="toggleChat()"
+                        class="w-full md:w-auto flex-shrink-0 px-5 py-2 text-sm font-bold bg-xseed-primary text-white rounded-full hover:bg-xseed-primary/90 transition-colors shadow-lg active:scale-95"
+                    >
+                        Open Chat
+                    </button>
+                </div>
+            `;
+
+            // --- INPUT FIELDS based on step type ---
+            if (currentStep.type === 'Timer/Photo') {
+                
+                // Conditional Timer Block
+                if (requiresTimer) {
+                    let timerButtonText, timerButtonClass;
+                    let timerIcon = 'play';
+
+                    switch (state.timerState) {
+                        case 'ready':
+                            timerButtonText = 'Start Timer';
+                            timerButtonClass = 'bg-xseed-primary text-white hover:bg-xseed-primary/90';
+                            break;
+                        case 'running':
+                            timerButtonText = 'Pause Timer';
+                            timerButtonClass = 'bg-red-500 text-white hover:bg-red-600'; 
+                            timerIcon = 'pause';
+                            break;
+                        case 'finished':
+                            timerButtonText = 'Timer Finished!';
+                            timerButtonClass = 'bg-green-600 text-white hover:bg-green-700';
+                            timerIcon = 'check-circle';
+                            break;
+                    }
+
+                    detailContent += `
+                        <div class="flex flex-col items-center justify-center p-6 bg-xseed-primary-light border border-xseed-primary/30 rounded-xl mb-8 shadow-xl">
+                            <i data-lucide="clock" class="text-xseed-primary mb-3 w-8 h-8"></i>
+                            <p class="text-6xl font-mono font-extrabold text-gray-900 mb-2">
+                                ${formatTime(state.timerSeconds)}
+                            </p>
+                            <p class="text-sm text-gray-500 mb-4">Initial Time: ${formatTime(currentStep.time)}</p>
+                            
+                            <button 
+                                id="timer-btn"
+                                class="flex items-center px-6 py-2 rounded-full font-bold transition-all shadow-lg text-lg active:scale-95 ${timerButtonClass}"
+                            >
+                                ${timerButtonText}
+                                <i data-lucide="${timerIcon}" class="ml-2 w-5 h-5"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+
+                // Photo Upload Block (Call to Action)
+                detailContent += `
+                    <button id="upload-photo-btn" class="flex items-center justify-center w-full p-4 border-2 border-dashed border-xseed-primary/40 bg-xseed-primary-light rounded-xl text-xseed-primary font-bold hover:bg-xseed-primary-light/70 transition-colors shadow-md text-base active:scale-99 mb-6">
+                        <i data-lucide="camera" class="mr-2 w-5 h-5"></i>
+                        Upload Photo Evidence
+                    </button>
+                `;
+
+            } 
+            
+            // --- GENERAL INPUT (Prediction & Short Answer) ---
+            if (currentStep.type === 'Prediction' || currentStep.type === 'Short Answer' || currentStep.type === 'Timer/Photo') {
+                 detailContent += `
+                    <div class="flex items-end space-x-3 mb-4">
+                        <textarea
+                            id="step-input"
+                            class="flex-1 p-4 border-2 border-gray-300 rounded-xl focus:border-xseed-primary focus:ring-4 focus:ring-xseed-primary-light transition-all resize-none h-40 shadow-inner text-gray-800"
+                            placeholder="- Type your response here, or use the mic for Voice-to-Text..."
+                        >${currentStep.completed ? 'This step has been previously completed. Review your submitted text here.' : ''}</textarea>
+                        
+                        <!-- Voice-to-Text Button -->
+                        <button
+                            id="vtt-btn"
+                            class="flex-shrink-0 w-12 h-12 bg-xseed-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-xseed-primary/90 active:scale-95 transition-all"
+                            onclick="handleVoiceToText()"
+                        >
+                            <i data-lucide="mic" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                    
+                    ${currentStep.completed ? '<p class="mt-2 text-sm text-green-600 font-semibold flex items-center"><i data-lucide="check-circle" class="w-4 h-4 mr-1"></i> This step is completed.</p>' : ''}
+                 `;
+            }
+            
+            detailContent += `</div>`; // Close Main Card Container
+            
+            // --- ACTION BUTTON ---
+            const isLastStep = state.currentStepIndex === totalSteps - 1;
+            const buttonText = isLastStep ? 'Finish Assignment' : 'Complete Step & Next';
+            const buttonIcon = isLastStep ? 'check-circle' : 'arrow-right';
+
+            if (!currentStep.completed) {
+                detailContent += `
+                    <div class="p-4 pt-6 flex justify-center w-full">
+                        <button 
+                            id="next-step-btn"
+                            class="flex items-center justify-center px-8 py-3 bg-xseed-primary text-white font-bold rounded-full shadow-xl hover:bg-xseed-primary/90 transition-all transform hover:scale-[1.01] active:scale-95 text-lg w-full max-w-sm"
+                        >
+                            ${buttonText} 
+                            <i data-lucide="${buttonIcon}" class="ml-2 w-5 h-5"></i>
+                        </button>
+                    </div>
+                `;
+            } else if (state.currentStepIndex < totalSteps - 1) {
+                detailContent += `
+                    <div class="p-4 pt-6 flex justify-center w-full">
+                        <button 
+                            id="next-step-btn"
+                            class="flex items-center justify-center px-8 py-3 bg-gray-200 text-gray-600 font-bold rounded-full transition-all text-lg w-full max-w-sm hover:bg-gray-300 active:scale-95"
+                            onclick="handleNextStep()"
+                        >
+                            Move to Next Step
+                            <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                        </button>
+                    </div>
+                `;
+            }
+
+            detailContent += `</div>`; // Close Detail Content Wrapper
+
+            elements.content.innerHTML = detailContent;
+
+            // Attach event listeners
+            const nextBtn = document.getElementById('next-step-btn');
+            if (nextBtn && !currentStep.completed) {
+                if (nextBtn.textContent.includes('Finish Assignment') || nextBtn.textContent.includes('Complete Step & Next')) {
+                    nextBtn.addEventListener('click', handleNextStep);
+                }
+            }
+            
+            if (requiresTimer) {
+                const timerBtn = document.getElementById('timer-btn');
+                if (timerBtn) {
+                    timerBtn.addEventListener('click', toggleTimer);
+                }
+            }
+            
+            const uploadBtn = document.getElementById('upload-photo-btn');
+            if (uploadBtn) {
+                uploadBtn.addEventListener('click', () => {
+                    console.log("Mock: Upload Photo dialog opened.");
+                });
+            }
+        }
+
+        // --- NEW: CHAT UI RENDERING ---
+        function renderChatUI() {
+            // Note: The AI Chat is only available on the 'detail' screen.
+            if (state.currentScreen !== 'detail') {
+                elements.chatUI.innerHTML = ''; 
+                return;
+            }
+            
+            // Chat Window (Modal)
+            let chatWindowHtml = `
+                <div id="chat-window" class="${state.isChatOpen ? '' : 'hidden'}">
+                    <!-- Chat Header: Updated to AI Chat -->
+                    <div class="flex items-center justify-between p-4 bg-xseed-primary text-white rounded-t-2xl shadow-lg flex-shrink-0">
+                        <div class="flex items-center">
+                            <!-- UPDATED: Changed icon to 'brain' for AI -->
+                            <i data-lucide="brain" class="w-5 h-5 mr-2"></i>
+                            <h3 class="text-lg font-bold">AI Homework Tutor</h3>
+                        </div>
+                        <button onclick="toggleChat()" class="p-1 rounded-full hover:bg-xseed-primary/90 active:bg-xseed-primary/80">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Chat History Area -->
+                    <div id="chat-history" class="flex-1 p-4 space-y-4 overflow-y-auto">
+                        ${state.chatHistory.map(message => `
+                            <div class="flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}">
+                                <div class="max-w-[80%] p-3 rounded-xl shadow-md ${message.role === 'user' 
+                                    ? 'bg-xseed-primary text-white rounded-br-none' 
+                                    : 'bg-gray-100 text-gray-800 rounded-tl-none border border-gray-200'
+                                }">
+                                    <p class="whitespace-pre-wrap">${formatMarkdown(message.text)}</p>
+                                    ${message.sources && message.sources.length > 0 ? `
+                                        <div class="text-xs mt-2 pt-2 border-t border-gray-300">
+                                            <p class="font-semibold text-gray-500 mb-1">Source:</p>
+                                            ${message.sources.map(source => `
+                                                <a href="${source.uri}" target="_blank" class="text-xseed-primary hover:text-xseed-primary/80 block truncate">
+                                                    <i data-lucide="link" class="inline-block w-3 h-3 mr-1"></i>${source.title}
+                                                </a>
+                                            `).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                        
+                        <!-- Loading Indicator -->
+                        ${state.isChatLoading ? `
+                            <div class="flex justify-start">
+                                <div class="max-w-[80%] p-3 rounded-xl bg-gray-100 text-gray-800 rounded-tl-none border border-gray-200">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-xseed-primary rounded-full animate-bounce"></div>
+                                        <div class="w-2 h-2 bg-xseed-primary rounded-full animate-bounce delay-75"></div>
+                                        <div class="w-2 h-2 bg-xseed-primary rounded-full animate-bounce delay-150"></div>
+                                        <span>AI Chat is typing...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Chat Input -->
+                    <form id="chat-form" class="p-4 bg-white border-t border-gray-200 flex flex-shrink-0">
+                        <input 
+                            id="chat-input" 
+                            type="text" 
+                            placeholder="Ask a question about the homework..." 
+                            class="flex-1 p-3 border border-gray-300 rounded-l-full focus:outline-none focus:border-xseed-primary text-gray-800 transition-colors"
+                            ${state.isChatLoading ? 'disabled' : ''}
+                        />
+                        <button 
+                            type="submit" 
+                            class="w-12 h-12 bg-xseed-primary text-white rounded-r-full flex items-center justify-center hover:bg-xseed-primary/90 active:bg-xseed-primary/80 transition-colors shadow-lg ml-[-1px]"
+                            ${state.isChatLoading ? 'disabled' : ''}
+                        >
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
+                    </form>
+                </div>
+            `;
+            
+            elements.chatUI.innerHTML = chatWindowHtml;
+            
+            // Scroll chat history to bottom after rendering
+            const chatHistoryElement = document.getElementById('chat-history');
+            if (chatHistoryElement) {
+                chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
+            }
+
+            // Attach chat submit listener
+            const chatForm = document.getElementById('chat-form');
+            if (chatForm) {
+                chatForm.addEventListener('submit', handleChatSubmit);
+            }
+        }
+
+
+        // --- MASTER RENDER FUNCTION (Consolidated icon creation here) ---
+        function renderApp() {
+            if (state.currentScreen === 'dashboard') {
+                renderDashboard();
+            } else if (state.currentScreen === 'detail') {
+                renderDetail();
+            }
+            // Always call renderChatUI as the last step to ensure the Chat modal
+            // is correctly managed based on the current screen state.
+            renderChatUI();
+            
+            // CONSOLIDATED: Create all icons after all dynamic HTML is in the DOM
+            lucide.createIcons(); 
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = function () {
+            // Expose required functions globally for inline onclick attributes
+            window.goToDashboard = goToDashboard;
+            window.goToDetail = goToDetail;
+            window.goToStep = goToStep;
+            window.handleNextStep = handleNextStep;
+            window.toggleTimer = toggleTimer;
+            window.toggleChat = toggleChat; // Expose new chat toggle
+            window.handleVoiceToText = handleVoiceToText; // Expose VTT function
+
+            // Note: initFirebase is defined but not called as the UI functionality 
+            // does not strictly depend on it for basic rendering.
+            
+            renderApp();
+        };
+
+    </script>
+</body>
+</html>
