@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confidence Premium Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F0F4F8;
+        }
+        
+        .brand-yellow { color: #ffc60c; }
+        .brand-bg-yellow { background-color: #ffc60c; }
+        
+        .main-container-curve {
+            border-radius: 40px 0 0 40px;
+            background-color: #FFFFFF;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.02);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 12px 40px rgba(255, 198, 12, 0.04);
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: #ffc60c;
+        }
+
+        /* Mouse-Following Tooltip Styling */
+        #dynamic-tooltip {
+            position: fixed;
+            pointer-events: none;
+            background: rgba(15, 23, 42, 0.95);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 11px;
+            z-index: 1000;
+            display: none;
+            max-width: 220px;
+            line-height: 1.4;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: translate(15px, 15px);
+        }
+
+        .nav-active {
+            background-color: #ffc60c;
+            color: #000000 !important;
+            box-shadow: 0 8px 20px rgba(255, 198, 12, 0.3);
+        }
+
+        .custom-table-container {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+        }
+
+        .retool-header-style {
+            background-color: #fde68a !important;
+            color: #0d0d0d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            font-size: 11px;
+        }
+
+        .table-row-hover:hover {
+            background-color: #fefce8;
+        }
+
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Modal Transitions */
+        #modalOverlay {
+            transition: opacity 0.3s ease;
+        }
+        #modalContainer {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            accent-color: #ffc60c;
+            cursor: pointer;
+        }
+
+        .table-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
+        .table-scroll::-webkit-scrollbar-track { background: transparent; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .table-scroll::-webkit-scrollbar-thumb:hover { background: #ffc60c; }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+    
+    <!-- Floating Global Tooltip -->
+    <div id="dynamic-tooltip"></div>
+
+    <!-- Add Lead Modal -->
+    <div id="modalOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none">
+        <div id="modalContainer" class="bg-white w-full max-w-2xl rounded-[40px] shadow-2xl p-10 scale-90">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Add New Lead</h2>
+                    <p class="text-xs text-gray-400 font-medium">Capture student details and communication preferences</p>
+                </div>
+                <button onclick="toggleModal(false)" class="p-2 hover:bg-gray-100 rounded-xl transition-colors">
+                    <i data-lucide="x" class="w-6 h-6 text-gray-400"></i>
+                </button>
+            </div>
+
+            <form id="addLeadForm" class="grid grid-cols-2 gap-x-6 gap-y-5" onsubmit="submitLead(event)">
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-1">Full Name*</label>
+                    <input type="text" name="name" required class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-yellow-400 rounded-2xl p-4 text-sm outline-none transition-all" placeholder="Enter full name">
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-1">Country Code*</label>
+                    <div class="relative">
+                        <select name="code" required class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-yellow-400 rounded-2xl p-4 text-sm outline-none transition-all appearance-none cursor-pointer">
+                            <option value="+91">+91 (India)</option>
+                            <option value="+1">+1 (USA)</option>
+                            <option value="+44">+44 (UK)</option>
+                            <option value="+61">+61 (Australia)</option>
+                            <option value="+971">+971 (UAE)</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-1">Mobile*</label>
+                    <input type="tel" name="mobile" required class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-yellow-400 rounded-2xl p-4 text-sm outline-none transition-all" placeholder="e.g. 9876543210">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-1">Email</label>
+                    <input type="email" name="email" class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-yellow-400 rounded-2xl p-4 text-sm outline-none transition-all" placeholder="name@email.com">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-1">Child Name</label>
+                    <input type="text" name="child" class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-yellow-400 rounded-2xl p-4 text-sm outline-none transition-all" placeholder="Child's full name">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-gray-400 uppercase tracking-widest px-1">Grade</label>
+                    <div class="relative">
+                        <select name="grade" class="w-full bg-gray-50 border border-transparent focus:bg-white focus:border-yellow-400 rounded-2xl p-4 text-sm outline-none transition-all appearance-none cursor-pointer">
+                            <option value="">Select Grade</option>
+                            <option value="1">Grade 1</option>
+                            <option value="2">Grade 2</option>
+                            <option value="3">Grade 3</option>
+                            <option value="4">Grade 4</option>
+                            <option value="5">Grade 5</option>
+                            <option value="6">Grade 6</option>
+                            <option value="7">Grade 7</option>
+                            <option value="8">Grade 8</option>
+                            <option value="9">Grade 9</option>
+                            <option value="10">Grade 10</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Communication Preferences -->
+                <div class="col-span-2 mt-2 space-y-4 bg-gray-50 p-6 rounded-[24px]">
+                    <div class="flex items-center space-x-3 cursor-pointer group" onclick="this.querySelector('input').click()">
+                        <input type="checkbox" name="commContact" class="checkbox-custom" checked>
+                        <span class="text-sm font-semibold text-gray-700">Send Email Communication for Contact Lead</span>
+                    </div>
+                    <div class="flex items-center space-x-3 cursor-pointer group" onclick="this.querySelector('input').click()">
+                        <input type="checkbox" name="commEvent" class="checkbox-custom">
+                        <span class="text-sm font-semibold text-gray-700">Send Email Communication for Event</span>
+                    </div>
+                </div>
+
+                <div class="col-span-2 pt-4">
+                    <button type="submit" class="w-full brand-bg-yellow text-black font-bold py-4 rounded-2xl shadow-lg shadow-yellow-400/20 hover:scale-[1.01] active:scale-95 transition-all">Save Lead Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="w-72 bg-[#F0F4F8] p-8 flex flex-col hidden lg:flex flex-shrink-0">
+        <div class="mb-12 px-2">
+            <img src="https://confiidence.com/images/confidence-logo.png" alt="Confidence Logo" class="h-20 object-contain">
+        </div>
+
+        <nav class="flex-1 space-y-1 overflow-y-auto pr-2">
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 px-4">Main Menu</p>
+            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
+                <i data-lucide="home" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="font-semibold">Home</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
+                <i data-lucide="calendar" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="font-semibold">Events</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 p-4 nav-active rounded-2xl group transition-all">
+                <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="font-semibold">Leads</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
+                <i data-lucide="award" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="font-semibold">Mentor</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="font-semibold">Student Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
+                <i data-lucide="file-text" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="font-semibold">Audit Logs</span>
+            </a>
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-10 mb-4 px-4">System</p>
+            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+                <span class="font-semibold">Settings</span>
+            </a>
+        </nav>
+
+        <div class="mt-auto pt-6">
+            <div class="bg-white/50 p-4 rounded-3xl border border-white/80">
+                <div class="flex items-center space-x-3 mb-3">
+                    <div class="w-10 h-10 brand-bg-yellow rounded-2xl flex items-center justify-center text-black font-bold">JD</div>
+                    <div class="overflow-hidden">
+                        <p class="text-sm font-bold text-gray-900 truncate">John Doe</p>
+                        <p class="text-[10px] text-gray-400">Administrator</p>
+                    </div>
+                </div>
+                <button class="w-full py-2 text-xs font-bold text-red-500 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">Log Out</button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 main-container-curve flex flex-col overflow-hidden my-2 mr-2">
+        <header class="h-24 flex items-center justify-between px-10 border-b border-gray-50 flex-shrink-0">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Leads Management</h1>
+                <p class="text-xs text-gray-400 font-medium">Real-time leads monitoring & conversion</p>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button onclick="exportToCSV()" class="flex items-center space-x-2 bg-white border border-gray-200 text-gray-700 px-5 py-3 rounded-2xl text-sm font-bold hover:bg-gray-50 transition-all">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    <span>Export CSV</span>
+                </button>
+                <button onclick="toggleModal(true)" class="flex items-center space-x-2 bg-black text-white px-5 py-3 rounded-2xl text-sm font-bold hover:bg-zinc-800 transition-all shadow-lg shadow-black/10">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>Add Lead</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 bg-[#F9FBFE]">
+            <!-- Stats Row -->
+            <div class="grid grid-cols-5 gap-6 mb-10">
+                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger" 
+                     data-tooltip="<strong>New Leads</strong><br>Profiles created in the last 24 hours.">
+                    <div class="w-11 h-11 bg-yellow-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="user-plus" class="w-5 h-5 text-yellow-600"></i></div>
+                    <h3 class="text-2xl font-bold text-gray-900" id="statNew">0</h3>
+                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
+                        New Leads <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
+                     data-tooltip="<strong>Accepted</strong><br>Leads passed audit and assigned mentor.">
+                    <div class="w-11 h-11 bg-green-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i></div>
+                    <h3 class="text-2xl font-bold text-gray-900">12</h3>
+                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
+                        Accepted <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
+                     data-tooltip="<strong>Rejected</strong><br>Inactive or spam profiles.">
+                    <div class="w-11 h-11 bg-red-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="x-circle" class="w-5 h-5 text-red-600"></i></div>
+                    <h3 class="text-2xl font-bold text-gray-900">2</h3>
+                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
+                        Rejected <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
+                     data-tooltip="<strong>Pending</strong><br>Waiting for payment or contact.">
+                    <div class="w-11 h-11 bg-orange-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="clock" class="w-5 h-5 text-orange-600"></i></div>
+                    <h3 class="text-2xl font-bold text-gray-900">5</h3>
+                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
+                        Pending <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
+                     data-tooltip="<strong>Completed</strong><br>Active customers with billing.">
+                    <div class="w-11 h-11 bg-blue-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="credit-card" class="w-5 h-5 text-blue-600"></i></div>
+                    <h3 class="text-2xl font-bold text-gray-900">41</h3>
+                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
+                        Completed <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Datatable Section -->
+            <div class="bg-white rounded-[40px] p-8 shadow-sm border border-gray-100">
+                <div class="flex items-center justify-between mb-8 px-2">
+                    <h2 class="text-xl font-bold text-gray-900 flex items-center">
+                        <span class="w-2 h-8 brand-bg-yellow rounded-full mr-4"></span>
+                        Leads Database
+                    </h2>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="relative group">
+                            <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" id="leadSearch" onkeyup="handleSearch()" placeholder="Filter results..." class="bg-gray-50 border border-gray-200 focus:bg-white focus:border-yellow-400 rounded-2xl py-2.5 pl-12 pr-6 text-sm w-72 transition-all outline-none">
+                        </div>
+                        <div id="searchInfo" class="text-xs text-gray-400 hidden italic">Filtering results...</div>
+                    </div>
+                </div>
+
+                <div class="table-scroll overflow-x-auto custom-table-container">
+                    <table class="w-full text-left border-collapse min-w-[2000px]">
+                        <thead>
+                            <tr class="retool-header-style">
+                                <th class="p-4 border-b border-yellow-300">Full Name</th>
+                                <th class="p-4 border-b border-yellow-300 text-center">Country Code</th>
+                                <th class="p-4 border-b border-yellow-300">Mobile</th>
+                                <th class="p-4 border-b border-yellow-300">Child Name</th>
+                                <th class="p-4 border-b border-yellow-300 text-center">Grade</th>
+                                <th class="p-4 border-b border-yellow-300">Email</th>
+                                <th class="p-4 border-b border-yellow-300 text-center">Lead ID</th>
+                                <th class="p-4 border-b border-yellow-300">Status</th>
+                                <th class="p-4 border-b border-yellow-300">Subscription Type</th>
+                                <th class="p-4 border-b border-yellow-300">Sync Status</th>
+                                <th class="p-4 border-b border-yellow-300">Email Preference</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm text-gray-600" id="tableBody"></tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="mt-8 flex items-center justify-between px-2">
+                    <p class="text-xs font-medium text-gray-400">Showing <span class="text-black font-bold" id="pageRange">0</span> of <span class="text-black font-bold" id="totalCount">0</span> leads</p>
+                    <div class="flex space-x-2" id="paginationControls">
+                        <button onclick="changePage('prev')" class="w-10 h-10 flex items-center justify-center rounded-2xl border border-gray-100 hover:bg-gray-50 transition-colors text-gray-400"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                        <div id="pageButtons" class="flex space-x-2"></div>
+                        <button onclick="changePage('next')" class="w-10 h-10 flex items-center justify-center rounded-2xl border border-gray-100 hover:bg-gray-50 transition-colors text-gray-400"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Extended Mock Data for Pagination Testing
+        const leadsData = [
+            { name: "Arjun Mehta", code: "+91", mobile: "9876543210", child: "Rohan Mehta", grade: "8", email: "arjun.m@example.com", id: "LD0041", status: "ACCEPTED", sub: "Monthly", sync: "Success", comm: "Contact" },
+            { name: "Sarah Jenkins", code: "+44", mobile: "7700900123", child: "Leo Jenkins", grade: "5", email: "sarah.j@outlook.co.uk", id: "LD0042", status: "NEW LEAD", sub: "Annual", sync: "Processing", comm: "None" },
+            { name: "Michael Chen", code: "+1", mobile: "4155550198", child: "Emily Chen", grade: "10", email: "m.chen@techcorp.com", id: "LD0043", status: "REJECTED", sub: "One-time", sync: "Failed", comm: "Both" },
+            { name: "Priya Sharma", code: "+91", mobile: "9988776655", child: "Aavya Sharma", grade: "3", email: "priya.s@gmail.com", id: "LD0044", status: "NEW LEAD", sub: "Monthly", sync: "Success", comm: "Contact" },
+            { name: "David Miller", code: "+1", mobile: "2025550143", child: "Jake Miller", grade: "7", email: "d.miller@gmail.com", id: "LD0045", status: "ACCEPTED", sub: "Annual", sync: "Success", comm: "Event" },
+            { name: "Yuki Tanaka", code: "+81", mobile: "9012345678", child: "Kenji Tanaka", grade: "4", email: "tanaka.y@nifty.jp", id: "LD0046", status: "NEW LEAD", sub: "Monthly", sync: "Success", comm: "Both" },
+            { name: "Elena Rossi", code: "+39", mobile: "3334445555", child: "Luca Rossi", grade: "6", email: "rossi.e@libero.it", id: "LD0047", status: "ACCEPTED", sub: "Annual", sync: "Success", comm: "Contact" },
+            { name: "Omar Farooq", code: "+971", mobile: "501234567", child: "Zaid Farooq", grade: "9", email: "o.farooq@emirates.com", id: "LD0048", status: "NEW LEAD", sub: "Monthly", sync: "Processing", comm: "None" },
+            { name: "Sophie Martin", code: "+33", mobile: "612345678", child: "Chloe Martin", grade: "2", email: "martin.s@orange.fr", id: "LD0049", status: "ACCEPTED", sub: "One-time", sync: "Success", comm: "Contact" },
+            { name: "Hans Weber", code: "+49", mobile: "1723456789", child: "Lukas Weber", grade: "8", email: "weber.h@web.de", id: "LD0050", status: "REJECTED", sub: "Annual", sync: "Failed", comm: "Event" },
+            { name: "Anita Desai", code: "+91", mobile: "9123456789", child: "Saanvi Desai", grade: "5", email: "desai.a@tata.com", id: "LD0051", status: "ACCEPTED", sub: "Monthly", sync: "Success", comm: "Both" },
+            { name: "Robert Wilson", code: "+1", mobile: "6505550122", child: "Ben Wilson", grade: "10", email: "r.wilson@stanford.edu", id: "LD0052", status: "NEW LEAD", sub: "Annual", sync: "Success", comm: "Contact" },
+            { name: "Isabella Silva", code: "+55", mobile: "11987654321", child: "Gabriel Silva", grade: "3", email: "silva.i@uol.com.br", id: "LD0053", status: "ACCEPTED", sub: "Monthly", sync: "Success", comm: "None" },
+            { name: "Kim Ji-soo", code: "+82", mobile: "1012345678", child: "Kim Min-jun", grade: "7", email: "jisoo.k@naver.com", id: "LD0054", status: "NEW LEAD", sub: "One-time", sync: "Processing", comm: "Contact" },
+            { name: "Liam O'Connor", code: "+353", mobile: "871234567", child: "Sean O'Connor", grade: "6", email: "liam.oc@eir.ie", id: "LD0055", status: "ACCEPTED", sub: "Annual", sync: "Success", comm: "Event" },
+            { name: "Fatima Al-Sayed", code: "+966", mobile: "501234567", child: "Noor Al-Sayed", grade: "4", email: "fatima.as@aramco.com", id: "LD0056", status: "NEW LEAD", sub: "Monthly", sync: "Success", comm: "Both" },
+            { name: "John Smith", code: "+1", mobile: "2125550199", child: "Alice Smith", grade: "9", email: "jsmith@nyu.edu", id: "LD0057", status: "ACCEPTED", sub: "Monthly", sync: "Success", comm: "Contact" },
+            { name: "Maria Garcia", code: "+34", mobile: "600123456", child: "Carlos Garcia", grade: "5", email: "m.garcia@telefonica.es", id: "LD0058", status: "NEW LEAD", sub: "Annual", sync: "Success", comm: "None" },
+            { name: "Alex Wong", code: "+852", mobile: "91234567", child: "Felix Wong", grade: "8", email: "a.wong@hku.hk", id: "LD0059", status: "ACCEPTED", sub: "One-time", sync: "Success", comm: "Both" },
+            { name: "Svetlana Ivanova", code: "+7", mobile: "9161234567", child: "Dmitry Ivanov", grade: "10", email: "ivanova.s@mail.ru", id: "LD0060", status: "REJECTED", sub: "Annual", sync: "Failed", comm: "Contact" }
+        ];
+
+        let currentPage = 1;
+        const itemsPerPage = 8;
+        let filteredLeads = [...leadsData];
+
+        // Tooltip Logic
+        const tooltip = document.getElementById('dynamic-tooltip');
+        document.addEventListener('mousemove', (e) => {
+            const trigger = e.target.closest('.tooltip-trigger');
+            if (trigger) {
+                tooltip.innerHTML = trigger.dataset.tooltip;
+                tooltip.style.display = 'block';
+                tooltip.style.left = e.clientX + 'px';
+                tooltip.style.top = e.clientY + 'px';
+            } else {
+                tooltip.style.display = 'none';
+            }
+        });
+
+        // Modal Controls
+        function toggleModal(show) {
+            const overlay = document.getElementById('modalOverlay');
+            const container = document.getElementById('modalContainer');
+            if (show) {
+                overlay.classList.remove('pointer-events-none');
+                overlay.classList.add('opacity-100');
+                container.classList.remove('scale-90');
+                container.classList.add('scale-100');
+            } else {
+                overlay.classList.add('pointer-events-none');
+                overlay.classList.remove('opacity-100');
+                container.classList.add('scale-90');
+                container.classList.remove('scale-100');
+            }
+        }
+
+        // Handle Add Lead Form
+        function submitLead(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            // Determine comm preference string
+            let commPref = "None";
+            const contact = formData.get('commContact');
+            const eventPref = formData.get('commEvent');
+            if (contact && eventPref) commPref = "Both";
+            else if (contact) commPref = "Contact";
+            else if (eventPref) commPref = "Event";
+
+            const newLead = {
+                name: formData.get('name'),
+                code: formData.get('code'),
+                mobile: formData.get('mobile'),
+                child: formData.get('child') || "-",
+                grade: formData.get('grade') || "-",
+                email: formData.get('email') || "No Email",
+                id: "LD" + (leadsData.length + 41).toString().padStart(4, '0'),
+                status: "NEW LEAD",
+                sub: "Monthly",
+                sync: "Success",
+                comm: commPref
+            };
+
+            leadsData.unshift(newLead);
+            filteredLeads = [...leadsData];
+            
+            updateStats();
+            toggleModal(false);
+            event.target.reset();
+            handleSearch();
+        }
+
+        function updateStats() {
+            const newCount = leadsData.filter(l => l.status === 'NEW LEAD').length;
+            document.getElementById('statNew').innerText = newCount;
+        }
+
+        // Search Logic
+        function handleSearch() {
+            const term = document.getElementById('leadSearch').value.toLowerCase();
+            const info = document.getElementById('searchInfo');
+            
+            if (term) info.classList.remove('hidden');
+            else info.classList.add('hidden');
+
+            filteredLeads = leadsData.filter(l => 
+                l.name.toLowerCase().includes(term) || 
+                l.email.toLowerCase().includes(term) || 
+                l.id.toLowerCase().includes(term) ||
+                l.mobile.includes(term)
+            );
+            
+            currentPage = 1;
+            renderTable();
+        }
+
+        // CSV Export Logic
+        function exportToCSV() {
+            const headers = ["Full Name", "Country Code", "Mobile", "Child Name", "Grade", "Email", "Lead ID", "Status", "Comm Preference"];
+            const rows = filteredLeads.map(l => [
+                l.name, l.code, l.mobile, l.child, l.grade, l.email, l.id, l.status, l.comm
+            ]);
+
+            const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `confidence_leads_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedData = filteredLeads.slice(startIndex, startIndex + itemsPerPage);
+            
+            if (paginatedData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="12" class="p-20 text-center text-gray-400 font-medium">No leads found matching your search.</td></tr>`;
+            } else {
+                tbody.innerHTML = paginatedData.map(row => `
+                    <tr class="table-row-hover transition-colors border-b border-gray-50 group">
+                        <td class="p-4 font-bold text-gray-900">${row.name}</td>
+                        <td class="p-4 text-center font-medium">${row.code}</td>
+                        <td class="p-4 font-medium">${row.mobile}</td>
+                        <td class="p-4 text-gray-500">${row.child}</td>
+                        <td class="p-4 text-center"><span class="${row.grade !== '-' ? 'bg-gray-100' : ''} px-3 py-1 rounded-lg text-[10px] font-bold">${row.grade !== '-' ? 'GRADE ' + row.grade : '-'}</span></td>
+                        <td class="p-4 text-blue-500 hover:underline cursor-pointer">${row.email}</td>
+                        <td class="p-4 text-center"><code class="bg-gray-100 px-2 py-1 rounded text-[10px]">#${row.id}</code></td>
+                        <td class="p-4"><span class="status-pill ${getStatusClass(row.status)}">${row.status}</span></td>
+                        <td class="p-4 font-bold">${row.sub}</td>
+                        <td class="p-4">
+                            <span class="flex items-center text-xs ${getSyncClass(row.sync)} font-bold">
+                                <i data-lucide="${row.sync === 'Success' ? 'check' : row.sync === 'Processing' ? 'refresh-cw' : 'alert-circle'}" class="w-3 h-3 mr-1 ${row.sync === 'Processing' ? 'animate-spin' : ''}"></i> 
+                                ${row.sync}
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <span class="text-[11px] font-bold px-3 py-1 rounded-full ${row.comm === 'None' ? 'bg-gray-100 text-gray-400' : 'bg-indigo-50 text-indigo-600'}">
+                                ${row.comm}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+            
+            document.getElementById('pageRange').innerText = filteredLeads.length > 0 ? `${startIndex + 1} - ${Math.min(startIndex + itemsPerPage, filteredLeads.length)}` : "0";
+            document.getElementById('totalCount').innerText = filteredLeads.length;
+            renderPagination();
+            lucide.createIcons();
+        }
+
+        function getStatusClass(status) {
+            if (status === 'ACCEPTED') return 'bg-green-100 text-green-700';
+            if (status === 'REJECTED') return 'bg-red-100 text-red-700';
+            return 'bg-yellow-100 text-yellow-700';
+        }
+
+        function getSyncClass(sync) {
+            if (sync === 'Success') return 'text-green-500';
+            if (sync === 'Processing') return 'text-orange-400';
+            return 'text-red-400';
+        }
+
+        function renderPagination() {
+            const pageButtons = document.getElementById('pageButtons');
+            const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
+            pageButtons.innerHTML = '';
+            
+            const startPage = Math.max(1, currentPage - 1);
+            const endPage = Math.min(totalPages, startPage + 2);
+
+            for (let i = 1; i <= totalPages; i++) {
+                // Show first, last, and window around current
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    const btn = document.createElement('button');
+                    btn.innerText = i;
+                    btn.className = i === currentPage 
+                        ? "w-10 h-10 flex items-center justify-center rounded-2xl brand-bg-yellow font-bold text-sm shadow-lg shadow-yellow-400/20"
+                        : "w-10 h-10 flex items-center justify-center rounded-2xl border border-gray-100 hover:bg-gray-50 transition-colors text-sm font-bold text-gray-400";
+                    btn.onclick = () => { currentPage = i; renderTable(); };
+                    pageButtons.appendChild(btn);
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    const dot = document.createElement('span');
+                    dot.innerText = '...';
+                    dot.className = "w-10 h-10 flex items-end justify-center pb-2 text-gray-300 font-bold";
+                    pageButtons.appendChild(dot);
+                }
+            }
+        }
+
+        function changePage(dir) {
+            const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
+            if (dir === 'next' && currentPage < totalPages) currentPage++;
+            else if (dir === 'prev' && currentPage > 1) currentPage--;
+            renderTable();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
