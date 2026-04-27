@@ -1,3 +1,4 @@
+# streamlit run /Users/mahesh.r/Xseed/milestone/ollama/app.py
 # app.py
 import streamlit as st
 import requests

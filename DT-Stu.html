@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+         /* App Container for Phone View */
+         .app-container {
+            width: 100%;
+            max-width: 450px; /* Slightly wider for more content */
+            min-height: 100vh; /* Ensure it takes full viewport height on mobile */
+            background-color: #fff;
+            border-radius: 2rem; /* More rounded edges */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto; /* Center the phone view */
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 640px) { /* Apply margin on larger screens */
+            .app-container {
+                margin: 2rem auto;
+                min-height: auto; /* Reset min-height for desktop */
+            }
+        }
+        .screen {
+            min-height: 50rem;
+            flex-grow: 1;
+            /* padding: 20px; */
+            overflow-y: auto;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: #bc2026; /* Primary color */
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
+        .bottom-nav {
+            background-color: #ffffff;
+            border-top: 1px solid #e5e7eb; /* Gray 200 */
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            flex-shrink: 0; /* Prevent nav from shrinking */
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #6b7280; /* Gray 500 */
+            font-size: 0.75rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 10px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .nav-item.active {
+            color: #bc2026; /* Primary color */
+            background-color: #fbe8e9; /* Light shade of primary */
+        }
+        .nav-item:hover {
+            background-color: #f3f4f6; /* Gray 100 */
+        }
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+        .card {
+            background-color: #f9fafb; /* Gray 50 */
+            border-radius: 15px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        .btn-primary {
+            background-color: #bc2026; /* Primary color */
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #a31b21; /* Darker shade of primary */
+        }
+        .progress-bar-container {
+            background-color: #fbe8e9; /* Light shade of primary */
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-bar {
+            background-color: #bc2026; /* Primary color */
+            height: 100%;
+            border-radius: 9999px;
+            width: 50%; /* Example width */
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #fbe8e9; /* Light shade of primary */
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #bc2026; /* Primary color */
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #bc2026; /* Primary color */
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Specific styles for Quiz Screen to hide bottom nav */
+        #quiz-screen .bottom-nav {
+            display: none;
+        }
+
+        /* Digital Twin Hologram Styling */
+        #digital-twin-container {
+            width: 120px;
+            height: 180px; /* Increased height for full body */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin: 0 auto 20px;
+            background-color: #4d0c0f; /* Dark shade for digital twin background */
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.05) 1px, transparent 1px), radial-gradient(circle at center, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            border-radius: 10px;
+            overflow: hidden; /* Ensure glow stays within bounds */
+        }
+
+        #digital-twin-body-svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0.5; /* Base translucency for hologram effect */
+            transition: fill 0.5s ease-in-out, filter 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            /* Using CSS variables for dynamic glow color */
+            --current-glow-color: #bc2026; /* Default: Primary color */
+            filter: drop-shadow(0 0 10px var(--current-glow-color)); /* Initial glow */
+            animation: flicker 0.8s infinite alternate; /* Constant subtle flicker */
+        }
+
+        /* Keyframes for flicker effect */
+        @keyframes flicker {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.6; }
+            25%, 75% { opacity: 0.45; }
+        }
+
+        /* Specific glow intensity and color for levels */
+        .digital-twin-glow.struggling {
+            --current-glow-color: #EF4444; /* Red 500 */
+            filter: drop-shadow(0 0 8px var(--current-glow-color));
+        }
+        .digital-twin-glow.improving {
+            --current-glow-color: #FACC15; /* Yellow 500 */
+            filter: drop-shadow(0 0 12px var(--current-glow-color));
+        }
+        .digital-twin-glow.proficient {
+            --current-glow-color: #3B82F6; /* Blue 500 */
+            filter: drop-shadow(0 0 16px var(--current-glow-color));
+        }
+        .digital-twin-glow.mastery {
+            --current-glow-color: #A855F7;   /* Purple 500 */
+            filter: drop-shadow(0 0 20px var(--current-glow-color)) drop-shadow(0 0 30px var(--current-glow-color));
+            animation: pulse-glow 1.5s infinite alternate, flicker 0.8s infinite alternate; /* Combine pulse and flicker */
+        }
+
+        /* Keyframes for pulse glow effect (only for mastery) */
+        @keyframes pulse-glow {
+            from { filter: drop-shadow(0 0 20px var(--current-glow-color)) drop-shadow(0 0 30px var(--current-glow-color)); }
+            to { filter: drop-shadow(0 0 25px var(--current-glow-color)) drop-shadow(0 0 40px var(--current-glow-color)); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .app-container {
+                max-width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .header, .bottom-nav {
+                border-radius: 0;
+            }
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div id="home-screen" class="screen active">
+
+            <header class="bg-gradient-to-r from-[#bc2026] to-[#8a171d] p-5 text-white flex items-center justify-between rounded-t-2xl">
+                <img src="https://homedelivery.xseedsuperteacher.in/cdn/shop/files/logo_base-02_1b604237-c802-442f-bbee-46bdc3367c0a_1200x1200.jpg?v=1613382055" 
+                    alt="XSEED Logo" 
+                    class="h-8 sm:h-10 w-auto"
+                    onerror="this.onerror=null;this.src='https://placehold.co/150x40/cccccc/333333?text=XSEED+Logo+Fallback';"
+                >
+                <h1 class="text-xl font-bold ml-4 hidden sm:block">Hi, Magesh!</h1>
+                <div class="w-9 h-9 bg-red-200 rounded-full flex items-center justify-center text-red-800 font-bold text-base">MR</div>
+            </header>
+
+            <div class="flex-grow p-4 overflow-y-auto">
+                <div class="card bg-gradient-to-br from-red-600 to-red-800 text-white shadow-lg text-center">
+                    <h2 class="text-xl font-bold mb-4">Your Performance Level</h2>
+                    <div id="digital-twin-container" class="relative w-32 h-40 mx-auto mb-4 flex items-center justify-center">
+                        <svg id="digital-twin-body-svg" viewBox="0 0 100 200" class="w-full h-full absolute">
+                            <circle cx="50" cy="25" r="15" fill="currentColor"/>
+                            <path fill="currentColor"
+                                d="M50,40 C40,40 35,45 35,55 L35,110 C35,120 25,125 25,140 L25,180 C25,190 35,200 50,200 C65,200 75,190 75,180 L75,140 C75,125 65,120 65,110 L65,55 C65,45 60,40 50,40 Z" />
+                        </svg>
+                        <span id="performance-percentage" class="relative z-10 text-3xl font-bold">50%</span>
+                    </div>
+                    <p class="text-sm mb-3">Current Score: <span class="font-semibold" id="current-score-text">50%</span> &rarr; Target: <span class="font-semibold">95%+</span></p>
+                    <div class="progress-bar-container bg-white bg-opacity-30">
+                        <div class="progress-bar" id="main-progress-bar" style="width: 50%;"></div>
+                    </div>
+                    <p class="text-xs mt-2 text-right" id="progress-message">On Track for 75% by next week!</p>
+                </div>
+
+                <!-- <div class="flex justify-center space-x-4 mb-6">
+                    <button class="btn-primary bg-green-500 hover:bg-green-600 px-6" onclick="adjustPerformance(10)">Increase Performance</button>
+                    <button class="btn-primary bg-red-500 hover:bg-red-600 px-6" onclick="adjustPerformance(-10)">Decrease Performance</button>
+                </div> -->
+
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Health Snapshot</h3>
+                    <div class="flex justify-around items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-500 mb-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                            </svg>
+                            <span class="text-sm text-gray-600">Sleep: 5.5h</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-yellow-500 mb-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182A9.757 9.757 0 0 1 9.75 18c-2.21 0-4.241-.588-6-1.664m0 0 1.95-2.19m-1.95 2.19c-.27-.47-.525-.964-.768-1.47a10.007 10.007 0 0 1 4.992-6.326M12 2.25a9.77 9.77 0 0 1 8.25 4.725m0 0c.354.91.564 1.897.643 2.915M21 12a9.77 9.77 0 0 1-4.725 8.25m0 0c-.91.354-1.897.564-2.915.643M12 21a9.77 9.77 0 0 1-8.25-4.725m0 0c-.354-.91-.564-1.897-.643-2.915M3 12a9.77 9.77 0 0 1 4.725-8.25m0 0c.91-.354 1.897-.564 2.915-.643M12 2.25v.008v-.008Zm0 2.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12 12.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+                            </svg>
+                            <span class="text-sm text-gray-600">Mood: Stressed</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-red-500 mb-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.174 3.355 1.945 3.355h14.027c1.77 0 2.818-1.855 1.945-3.355L13.94 2.4A1.875 1.875 0 0 0 12.06 2.4L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                            <span class="text-sm text-gray-600">Stress: High</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Next Recommended Activity</h3>
+                    <p class="text-gray-700 mb-4">Based on your recent performance, let's strengthen your foundation!</p>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 12 21a8.987 8.987 0 0 1 9-8.758V6.538a9.757 9.757 0 0 0-2.956-.446 9.935 9.935 0 0 0-1.932-.079 11.975 11.975 0 0 1-2.104.093m-.38-1.089h.008v.008H12.008z" />
+                        </svg>
+                        <p class="font-medium text-gray-800">Micro-lesson: Fractions Basics</p>
+                    </div>
+                    <button class="btn-primary w-full" onclick="showScreen('learn-screen')">Start Activity</button>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Recent Quiz Results</h3>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center text-gray-700">
+                            <span>Quiz 1 (Fractions)</span>
+                            <span class="font-semibold text-red-500">60%</span>
+                        </li>
+                        <li class="flex justify-between items-center text-gray-700">
+                            <span>Quiz 2 (Geometry)</span>
+                            <span class="font-semibold text-orange-500">55%</span>
+                        </li>
+                        <li class="flex justify-between items-center text-gray-700">
+                            <span>Quiz 3 (Algebra)</span>
+                            <span class="font-semibold text-green-500">85%</span>
+                        </li>
+                    </ul>
+                    <button class="btn-primary w-full mt-4 bg-gray-200 text-gray-800 hover:bg-gray-300" onclick="showScreen('quiz-results-screen')">View All Results</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="learn-screen" class="screen">
+            <div class="header">
+                <button onclick="showScreen('home-screen')" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <span class="text-lg font-semibold">Learning Modules</span>
+                <div class="w-6 h-6"></div> </div>
+            <div class="flex-grow p-4 overflow-y-auto">
+                <div class="relative mb-4">
+                    <input type="text" placeholder="Search topics..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Fractions</h3>
+                    <p class="text-sm text-gray-600 mb-3">Progress: <span class="font-semibold">40%</span></p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 40%; background-color: #f59e0b;"></div> </div>
+                    <button class="btn-primary w-full mt-4 bg-orange-500 hover:bg-orange-600" onclick="showScreen('quiz-screen')">Continue Lesson</button>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Geometry</h3>
+                    <p class="text-sm text-gray-600 mb-3">Progress: <span class="font-semibold">30%</span></p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 30%; background-color: #10b981;"></div> </div>
+                    <button class="btn-primary w-full mt-4 bg-emerald-500 hover:bg-emerald-600" onclick="showScreen('quiz-screen')">Start Lesson</button>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Algebra</h3>
+                    <p class="text-sm text-gray-600 mb-3">Progress: <span class="font-semibold">0%</span></p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 0%; background-color: #ef4444;"></div> </div>
+                    <button class="btn-primary w-full mt-4 bg-red-500 hover:bg-red-600" onclick="showScreen('quiz-screen')">Start Lesson</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="quiz-screen" class="screen">
+            <div class="header">
+                <button onclick="showScreen('learn-screen')" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <span class="text-lg font-semibold">Quiz: Fractions</span>
+                <div class="flex items-center text-sm">
+                    <span class="mr-2">Q 1/15</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <span>01:30</span>
+                </div>
+            </div>
+            <div class="flex-grow p-4 overflow-y-auto flex flex-col justify-between">
+                <div>
+                    <div class="card mb-6 bg-blue-50">
+                        <p class="text-lg font-medium text-gray-800 mb-4">What is 3/4 + 2/4?</p>
+                        <div class="space-y-4">
+                            <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                <input type="radio" name="answer" value="A" class="form-radio h-5 w-5 text-red-600">
+                                <span class="ml-3 text-base text-gray-700">A. 1/4</span>
+                            </label>
+                            <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                <input type="radio" name="answer" value="B" class="form-radio h-5 w-5 text-red-600">
+                                <span class="ml-3 text-base text-gray-700">B. 5/4</span>
+                            </label>
+                            <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                <input type="radio" name="answer" value="C" class="form-radio h-5 w-5 text-red-600">
+                                <span class="ml-3 text-base text-gray-700">C. 3/8</span>
+                            </label>
+                            <label class="flex items-center p-3 rounded-lg border border-blue-200 bg-white cursor-pointer hover:bg-blue-100 transition duration-200">
+                                <input type="radio" name="answer" value="D" class="form-radio h-5 w-5 text-red-600">
+                                <span class="ml-3 text-base text-gray-700">D. 6/4</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-between space-x-4 mt-6">
+                    <button class="btn-primary flex-1 bg-gray-300 text-gray-800 hover:bg-gray-400">Skip</button>
+                    <button class="btn-primary flex-1" onclick="showScreen('quiz-results-screen')">Next</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <div id="quiz-results-screen" class="screen">
+            <div class="header">
+                <button onclick="showScreen('home-screen')" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <span class="text-lg font-semibold">Quiz Completed!</span>
+                <div class="w-6 h-6"></div>
+            </div>
+            <div class="flex-grow p-4 overflow-y-auto">
+                <div class="card bg-gradient-to-br from-green-500 to-teal-600 text-white shadow-lg text-center">
+                    <h2 class="text-2xl font-bold mb-2">Your Score: 12/15</h2>
+                    <p class="text-sm">(80%)</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Summary</h3>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <p class="text-2xl font-bold text-green-600">12</p>
+                            <p class="text-sm text-gray-600">Correct</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-red-600">2</p>
+                            <p class="text-sm text-gray-600">Incorrect</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-500">1</p>
+                            <p class="text-sm text-gray-600">Skipped</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Time Management</h3>
+                    <div class="w-full h-32 bg-gray-100 rounded-lg flex items-end p-2">
+                        <div class="flex-1 bg-green-400 h-2/3 rounded-sm mx-1" title="Q1: 25s"></div>
+                        <div class="flex-1 bg-red-400 h-3/4 rounded-sm mx-1" title="Q2: 40s"></div>
+                        <div class="flex-1 bg-green-400 h-1/2 rounded-sm mx-1" title="Q3: 20s"></div>
+                        <div class="flex-1 bg-yellow-400 h-full rounded-sm mx-1" title="Q4: 65s (Slow)"></div>
+                        <div class="flex-1 bg-green-400 h-2/3 rounded-sm mx-1" title="Q5: 30s"></div>
+                        <div class="flex-1 bg-red-400 h-3/4 rounded-sm mx-1" title="Q6: 45s"></div>
+                        <div class="flex-1 bg-gray-400 h-1/3 rounded-sm mx-1" title="Q7: Skipped"></div>
+                        </div>
+                    <p class="text-sm text-gray-600 mt-2">Green: Good time, Red: Too slow, Yellow: Skipped</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Detailed Review</h3>
+                    <ul class="space-y-4">
+                        <li class="p-3 rounded-lg bg-green-50 border border-green-200">
+                            <p class="font-medium text-gray-800">Q1: A pizza is cut into 8 slices. You eat 3 slices. What fraction is left?</p>
+                            <p class="text-sm text-green-700">Your Answer: 5 out of 8 (Correct) - Time: 25 seconds</p>
+                        </li>
+                        <li class="p-3 rounded-lg bg-red-50 border border-red-200">
+                            <p class="font-medium text-gray-800">Q2: Simplify: 2x plus 3y minus x.</p>
+                            <p class="text-sm text-red-700">Your Answer: 5xy (Incorrect) - Correct Answer: x plus 3y - Time: 40 seconds</p>
+                            <p class="text-xs text-gray-600 mt-1">Review: Combining like terms.</p>
+                        </li>
+                        <li class="p-3 rounded-lg bg-gray-50 border border-gray-200">
+                            <p class="font-medium text-gray-800">Q3: Find the area of a circle with radius 5.</p>
+                            <p class="text-sm text-gray-700">Skipped - Time: 10 seconds</p>
+                            <p class="text-xs text-gray-600 mt-1">Review: Use the formula for area of a circle: pi times radius squared.</p>
+                        </li>
+                    </ul>
+                    <button class="btn-primary w-full mt-4" onclick="showScreen('insights-screen')">Review Weak Topics</button>
+                </div>
+
+                <button class="btn-primary w-full mt-4 bg-gray-200 text-gray-800 hover:bg-gray-300" onclick="showScreen('home-screen')">Back to Dashboard</button>
+            </div>
+        </div>
+
+        <div id="health-screen" class="screen">
+            <div class="header">
+                <button onclick="showScreen('home-screen')" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <span class="text-lg font-semibold">Your Well-being</span>
+                <div class="w-6 h-6"></div>
+            </div>
+            <div class="flex-grow p-4 overflow-y-auto">
+                <div class="card mb-4">
+                    <label for="date-picker" class="block text-sm font-medium text-gray-700 mb-2">Select Date:</label>
+                    <input type="date" id="date-picker" value="2025-05-31" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-red-400 focus:border-transparent">
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Sleep</h3>
+                    <label for="sleep-hours" class="block text-sm font-medium text-gray-700 mb-2">Hours Slept: <span id="sleep-value">7.5</span>h</label>
+                    <input type="range" id="sleep-hours" min="4" max="10" step="0.5" value="7.5" oninput="document.getElementById('sleep-value').innerText = this.value">
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Mood Today</h3>
+                    <div class="flex justify-around items-center space-x-2">
+                        <button class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200 text-4xl">😊</button>
+                        <button class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200 text-4xl">😐</button>
+                        <button class="p-3 rounded-full bg-red-100 border-2 border-red-500 transition duration-200 text-4xl">😟</button>
+                        <button class="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-200 text-4xl">😔</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Stress Level</h3>
+                    <label for="stress-level" class="block text-sm font-medium text-gray-700 mb-2">Level: <span id="stress-value">Medium</span></label>
+                    <input type="range" id="stress-level" min="1" max="3" step="1" value="2" oninput="updateStressLabel(this.value)">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>Low</span>
+                        <span>Medium</span>
+                        <span>High</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Daily Habits</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600 rounded">
+                            <span class="ml-2 text-gray-700">Mindfulness Break (5 min)</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600 rounded">
+                            <span class="ml-2 text-gray-700">Exercise (30 min)</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="form-checkbox h-5 w-5 text-red-600 rounded" checked>
+                            <span class="ml-2 text-gray-700">Study (1 hr)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn-primary w-full mt-4">Save Daily Log</button>
+
+                <div class="card mt-4">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Historical Data (Last 7 Days)</h3>
+                    <div class="w-full h-40 bg-gray-100 rounded-lg flex items-end p-2">
+                        <div class="flex-1 bg-blue-300 h-3/5 rounded-sm mx-0.5" title="Day 1: Good"></div>
+                        <div class="flex-1 bg-yellow-300 h-2/5 rounded-sm mx-0.5" title="Day 2: OK"></div>
+                        <div class="flex-1 bg-green-300 h-4/5 rounded-sm mx-0.5" title="Day 3: Great"></div>
+                        <div class="flex-1 bg-red-300 h-1/5 rounded-sm mx-0.5" title="Day 4: Bad"></div>
+                        <div class="flex-1 bg-blue-300 h-3/5 rounded-sm mx-0.5" title="Day 5: Good"></div>
+                        <div class="flex-1 bg-green-300 h-4/5 rounded-sm mx-0.5" title="Day 6: Great"></div>
+                        <div class="flex-1 bg-yellow-300 h-2/5 rounded-sm mx-0.5" title="Day 7: OK"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Sleep trend over the week.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="insights-screen" class="screen">
+            <div class="header">
+                <button onclick="showScreen('home-screen')" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <span class="text-lg font-semibold">Digital Twin Insights</span>
+                <div class="w-6 h-6"></div>
+            </div>
+            <div class="flex-grow p-4 overflow-y-auto">
+                <div class="card bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg text-center">
+                    <h2 class="text-xl font-bold mb-2">Performance Prediction</h2>
+                    <p class="text-4xl font-extrabold mb-2">92%</p>
+                    <p class="text-sm">Projected score within 2 weeks</p>
+                    <p class="text-xs mt-1 opacity-80">Confidence: High</p>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Weak Topics Identified</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500 flex-shrink-0 mt-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.174 3.355 1.945 3.355h14.027c1.77 0 2.818-1.855 1.945-3.355L13.94 2.4A1.875 1.875 0 0 0 12.06 2.4L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                            <div>
+                                <p class="font-medium text-gray-800">Fractions: Needs 2 more micro-lessons</p>
+                                <p class="text-sm text-gray-600">Your accuracy is 40% here. Focus on adding and subtracting.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500 flex-shrink-0 mt-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.174 3.355 1.945 3.355h14.027c1.77 0 2.818-1.855 1.945-3.355L13.94 2.4A1.875 1.875 0 0 0 12.06 2.4L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                            <div>
+                                <p class="font-medium text-gray-800">Geometry: Focus on Area & Volume</p>
+                                <p class="text-sm text-gray-600">You skipped 2 questions on these concepts in the last quiz.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn-primary w-full mt-4" onclick="showScreen('learn-screen')">Go to Fractions Lessons</button>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Time Management Tips</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <div>
+                                <p class="font-medium text-gray-800">Practice "Skip & Revisit" Strategy</p>
+                                <p class="text-sm text-gray-600">You spend too long on difficult questions. Try skipping after 60s.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-500 flex-shrink-0 mt-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182A9.757 9.757 0 0 1 9.75 18c-2.21 0-4.241-.588-6-1.664m0 0 1.95-2.19m-1.95 2.19c-.27-.47-.525-.964-.768-1.47a10.007 10.007 0 0 1 4.992-6.326M12 2.25a9.77 9.77 0 0 1 8.25 4.725m0 0c.354.91.564 1.897.643 2.915M21 12a9.77 9.77 0 0 1-4.725 8.25m0 0c-.91.354-1.897.564-2.915.643M12 21a9.77 9.77 0 0 1-8.25-4.725m0 0c-.354-.91-.564-1.897-.643-2.915M3 12a9.77 9.77 0 0 1 4.725-8.25m0 0c.91-.354 1.897-.564 2.915-.643M12 2.25v.008v-.008Zm0 2.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12 12.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
+                            </svg>
+                            <div>
+                                <p class="font-medium text-gray-800">Try 60-second math puzzles</p>
+                                <p class="text-sm text-gray-600">Improves quick decision-making under time pressure.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn-primary w-full mt-4 bg-yellow-500 hover:bg-yellow-600" onclick="showScreen('application-screen')">Start Time Practice</button>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Well-being Recommendations</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start space-x-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-purple-500 flex-shrink-0 mt-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                            </svg>
+                            <div>
+                                <p class="font-medium text-gray-800">Aim for 7-8 hours sleep</p>
+                                <p class="text-sm text-gray-600">Your scores drop by 15% when you get less than 6 hours.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start space-x-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-purple-500 flex-shrink-0 mt-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.001 6.001 0 0 0-1.5-.189m-7.659 4.096A11.952 11.952 0 0 0 12 21c4.606 0 8.641-2.067 10.97-5.334M12 18d-2.25 2.25M12 18d2.25 2.25m-4.5-10.5h1.5m-1.5 0a.75.75 0 0 1 .75-.75h.75c.414 0 .75.336.75.75m-1.5 0h1.5m-1.5 0a.75.75 0 0 0-.75.75v.75c0 .414.336.75.75.75h.75m-1.5-1.5h1.5" />
+                            </svg>
+                            <div>
+                                <p class="font-medium text-gray-800">Try 5-min breathing exercises daily</p>
+                                <p class="text-sm text-gray-600">Helps manage stress and improve focus during study.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn-primary w-full mt-4 bg-purple-500 hover:bg-purple-600" onclick="showScreen('health-screen')">Guided Mindfulness</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="application-screen" class="screen">
+            <div class="header">
+                <button onclick="showScreen('home-screen')" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <span class="text-lg font-semibold">Apply Your Knowledge</span>
+                <div class="w-6 h-6"></div>
+            </div>
+            <div class="flex-grow p-4 overflow-y-auto">
+                <p class="text-gray-700 mb-4">Put your skills to the test with these real-life challenges!</p>
+
+                <div class="card bg-green-50 border-green-200">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Budget Planning</h3>
+                    <p class="text-sm text-gray-600 mb-3">Topic: Algebra</p>
+                    <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>10 mins</span>
+                        <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-xs font-medium">New</span>
+                    </div>
+                    <button class="btn-primary w-full bg-green-500 hover:bg-green-600">Start Challenge</button>
+                </div>
+
+                <div class="card bg-blue-50 border-blue-200">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Map Reading & Navigation</h3>
+                    <p class="text-sm text-gray-600 mb-3">Topic: Geometry</p>
+                    <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>15 mins</span>
+                        <span class="px-2 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-medium">In Progress</span>
+                    </div>
+                    <button class="btn-primary w-full bg-blue-500 hover:bg-blue-600">Continue Challenge</button>
+                </div>
+
+                <div class="card bg-purple-50 border-purple-200">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Science Experiment Design</h3>
+                    <p class="text-sm text-gray-600 mb-3">Topic: Scientific Method</p>
+                    <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>20 mins</span>
+                        <span class="px-2 py-1 bg-purple-200 text-purple-800 rounded-full text-xs font-medium">New</span>
+                    </div>
+                    <button class="btn-primary w-full bg-purple-500 hover:bg-purple-600">Start Challenge</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile-screen" class="screen">
+            <div class="header">
+                <button onclick="showScreen('home-screen')" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </button>
+                <span class="text-lg font-semibold">Profile</span>
+                <div class="w-6 h-6"></div>
+            </div>
+            <div class="flex-grow p-4 flex flex-col items-center justify-center text-center" style="height: 50rem;">
+                <img src="https://placehold.co/100x100/bc2026/ffffff?text=Magesh" alt="Student Avatar" class="rounded-full border-4 border-red-200 mb-4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Magesh R</h2>
+                <p class="text-gray-600 mb-6">Grade 7 Student</p>
+                <div class="card w-full max-w-xs text-left">
+                    <p class="text-gray-700 mb-2"><span class="font-semibold">Email:</span> magesh.r@xseededucation.com</p>
+                    <p class="text-gray-700 mb-2"><span class="font-semibold">School:</span> Springfield Middle</p>
+                    <p class="text-gray-700"><span class="font-semibold">Joined:</span> Jan 15, 2024</p>
+                </div>
+                <button class="btn-primary w-full max-w-xs mt-6 bg-red-500 hover:bg-red-600">Log Out</button>
+            </div>
+        </div>
+
+        <div class="bottom-nav" id="bottom-nav">
+            <div class="nav-item active" onclick="showScreen('home-screen', this)">
+                <!-- Home Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 9.75L12 3l9 6.75M4.5 10.5V19.5a1.5 1.5 0 001.5 1.5H18a1.5 1.5 0 001.5-1.5V10.5" />
+                </svg>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('learn-screen', this)">
+                <!-- Book Icon (Learn) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-6 0h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span>Learn</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('health-screen', this)">
+                <!-- Heart Icon (Health) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25C21 5.765 18.9 3.75 16.312 3.75c-1.935 0-3.597 1.126-4.312 2.733C11.285 4.876 9.623 3.75 7.687 3.75 5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                </svg>
+                <span>Health</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('insights-screen', this)">
+                <!-- Chart Bar Icon (Insights) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M9 17v-6m4 6v-9m4 9V7" />
+                </svg>
+                <span>Insights</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('profile-screen', this)">
+                <!-- User Icon (Profile) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                <span>Profile</span>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        let currentPerformance = 50; // Initial performance percentage
+
+        // Function to show a specific screen and update active nav item
+        function showScreen(screenId, navItem = null) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            if (navItem) {
+                navItem.classList.add('active');
+            } else {
+                // If navigating from a back button, find the corresponding nav item
+                const targetScreenId = screenId;
+                navItems.forEach(item => {
+                    const itemScreenId = item.onclick.toString().match(/'([^']+)'/)[1];
+                    if (itemScreenId === targetScreenId) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            // Hide bottom nav for quiz screen
+            const bottomNav = document.getElementById('bottom-nav');
+            if (screenId === 'quiz-screen') {
+                bottomNav.style.display = 'none';
+            } else {
+                bottomNav.style.display = 'flex';
+            }
+        }
+
+        // Function to update stress level label
+        function updateStressLabel(value) {
+            const stressValueSpan = document.getElementById('stress-value');
+            if (value == 1) {
+                stressValueSpan.innerText = 'Low';
+            } else if (value == 2) {
+                stressValueSpan.innerText = 'Medium';
+            } else {
+                stressValueSpan.innerText = 'High';
+            }
+        }
+
+        // Function to adjust performance and update UI
+        function adjustPerformance(delta) {
+            currentPerformance = Math.max(0, Math.min(100, currentPerformance + delta));
+            updateDigitalTwinUI();
+        }
+
+        // Function to update the digital student (SVG) and performance display
+        function updateDigitalTwinUI() {
+            const digitalTwinBodySvg = document.getElementById('digital-twin-body-svg');
+            const performancePercentageElement = document.getElementById('performance-percentage');
+            const currentScoreTextElement = document.getElementById('current-score-text');
+            const mainProgressBar = document.getElementById('main-progress-bar');
+            const progressMessage = document.getElementById('progress-message');
+
+            performancePercentageElement.innerText = `${currentPerformance}%`;
+            currentScoreTextElement.innerText = `${currentPerformance}%`;
+            mainProgressBar.style.width = `${currentPerformance}%`;
+
+            let glowColor;
+            let glowClass;
+            let message;
+
+            // Determine glow color, glow class, and message based on performance
+            if (currentPerformance < 60) {
+                glowColor = '#EF4444'; // Red 500
+                glowClass = 'struggling';
+                message = 'Needs more focus on core concepts.';
+            } else if (currentPerformance < 80) {
+                glowColor = '#FACC15'; // Yellow 500
+                glowClass = 'improving';
+                message = 'Good progress! Keep practicing.';
+            } else if (currentPerformance < 90) {
+                glowColor = '#3B82F6'; // Blue 500
+                glowClass = 'proficient';
+                message = 'Excellent work! You\'re nearly there.';
+            } else { // 90% and above
+                glowColor = '#A855F7';   // Purple 500
+                glowClass = 'mastery';
+                message = 'Outstanding! Maintaining high performance.';
+            }
+
+            // Update SVG fill color
+            digitalTwinBodySvg.style.fill = glowColor;
+
+            // Remove previous glow classes and add the current one to the SVG element
+            digitalTwinBodySvg.classList.remove('struggling', 'improving', 'proficient', 'mastery');
+            digitalTwinBodySvg.classList.add('digital-twin-glow', glowClass);
+            // Set CSS variable for glow filter to use the current color
+            digitalTwinBodySvg.style.setProperty('--current-glow-color', glowColor);
+            
+            // Reset and apply animation if mastery (to restart animation on class change)
+            if (glowClass === 'mastery') {
+                digitalTwinBodySvg.style.animation = 'pulse-glow 1.5s infinite alternate, flicker 0.8s infinite alternate';
+            } else {
+                digitalTwinBodySvg.style.animation = 'flicker 0.8s infinite alternate'; // Always flicker
+            }
+
+            progressMessage.innerText = message;
+        }
+
+
+        // Initialize MathJax for LaTeX rendering
+        // Ensure this script is loaded after the content that uses LaTeX
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+        script.onload = function() {
+            // Configure MathJax to process new content after screen changes
+            MathJax.startup.promise.then(() => {
+                MathJax.typesetPromise();
+            });
+        };
+        document.head.appendChild(script);
+
+        // Initial screen load and UI update
+        window.onload = () => {
+            showScreen('home-screen', document.querySelector('.nav-item.active'));
+            updateDigitalTwinUI(); // Call to set initial digital twin state
+        };
+
+    </script>
+</body>
+</html>

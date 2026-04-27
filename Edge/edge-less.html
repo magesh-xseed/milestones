@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSEED Academic Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FBF9F7;
+            color: #1C1917;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .orb {
+            position: fixed;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.04;
+            pointer-events: none;
+        }
+        .pill-nav-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        .lesson-card-glow {
+            box-shadow: 0 20px 50px -12px rgba(123, 3, 35, 0.08);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#7b0323]/10">
+
+    <!-- Decorative Blur Orbs -->
+    <div class="orb top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#f59138]"></div>
+    <div class="orb bottom-[-5%] left-[-5%] w-[300px] h-[300px] bg-[#7b0323]"></div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 w-full glass border-b border-[#E7E5E4]">
+        <div class="max-w-[1440px] mx-auto h-20 px-6 flex items-center justify-between">
+            
+            <!-- Brand Identity -->
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-[#7b0323] rounded-2xl flex items-center justify-center shadow-lg shadow-[#7b0323]/20 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black text-xl tracking-tight leading-none text-[#7b0323]">XSEED</span>
+                    <span class="text-[10px] font-bold tracking-[0.2em] text-[#A8A29E] uppercase mt-0.5">Academic Lead</span>
+                </div>
+            </div>
+
+            <!-- Centered Pill Navigation -->
+            <nav class="hidden md:flex items-center bg-[#F5F5F4] p-1 rounded-2xl border border-[#E7E5E4] pill-nav-shadow">
+                <button class="px-6 py-2.5 rounded-xl bg-white text-[#7b0323] shadow-sm font-bold text-[11px] tracking-widest transition-all">LESSON PLAN</button>
+                <button class="px-6 py-2.5 rounded-xl text-[#78716C] hover:text-[#7b0323] font-bold text-[11px] tracking-widest transition-all">ACADEMY</button>
+                <button class="px-6 py-2.5 rounded-xl text-[#78716C] hover:text-[#7b0323] font-bold text-[11px] tracking-widest transition-all">INSIGHTS</button>
+            </nav>
+
+            <!-- Profile Context -->
+            <div class="flex items-center gap-5">
+                <button class="relative p-2 text-[#78716C] hover:bg-[#F5F5F4] rounded-full transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-[#f59138] rounded-full border-2 border-white"></span>
+                </button>
+                <div class="h-8 w-[1px] bg-[#E7E5E4]"></div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-[11px] font-black text-[#1C1917] leading-none mb-0.5">Venkateswaran</p>
+                        <p class="text-[9px] font-bold text-[#A8A29E] tracking-wider uppercase">Lead Admin</p>
+                    </div>
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Profile" class="w-10 h-10 rounded-2xl border border-[#E7E5E4] bg-white">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1280px] mx-auto px-6 py-12">
+        
+        <!-- Rich Recently Opened Lesson Section -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 bg-[#f59138] rounded-full"></div>
+                    <h2 class="text-[11px] font-black tracking-[0.2em] text-[#78716C] uppercase">Continue where you left off</h2>
+                </div>
+                <button class="text-[10px] font-black text-[#7b0323] uppercase tracking-widest hover:opacity-70 transition-opacity">History</button>
+            </div>
+
+            <!-- Immersive Hero Card -->
+            <div class="group relative overflow-hidden bg-white border border-[#E7E5E4] rounded-[3rem] lesson-card-glow transition-all duration-700 hover:shadow-2xl">
+                <div class="flex flex-col lg:flex-row min-h-[340px]">
+                    
+                    <!-- Content Left -->
+                    <div class="flex-1 p-10 lg:p-14 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-6">
+                                <span class="px-3 py-1 bg-[#7b0323]/5 text-[#7b0323] text-[10px] font-bold tracking-widest rounded-full border border-[#7b0323]/10">GRADE 1</span>
+                                <span class="px-3 py-1 bg-[#f59138]/5 text-[#f59138] text-[10px] font-bold tracking-widest rounded-full border border-[#f59138]/10 uppercase">Mathematics</span>
+                            </div>
+                            <h3 class="text-4xl lg:text-5xl font-black text-[#1C1917] tracking-tight leading-none mb-4">The Magic of <br/>Multiplication</h3>
+                            <p class="text-[#78716C] font-medium text-lg max-w-md">Block 4: Grouping & Arrays • Lesson 2 of 5</p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-center gap-4 mt-10">
+                            <button class="w-full sm:w-auto flex items-center justify-center gap-4 px-8 py-5 rounded-[1.5rem] bg-[#7b0323] text-white font-black text-[11px] tracking-[0.15em] uppercase shadow-xl shadow-[#7b0323]/20 hover:bg-[#5a0219] transition-all transform hover:-translate-y-1">
+                                <span>Continue Lesson</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                            <div class="flex items-center gap-3 px-6 py-4 rounded-[1.5rem] bg-[#F5F5F4] border border-[#E7E5E4]">
+                                <div class="h-1.5 w-24 bg-[#E7E5E4] rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#f59138] rounded-full" style="width: 45%"></div>
+                                </div>
+                                <span class="text-[10px] font-black text-[#78716C]">45% Done</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Right -->
+                    <div class="w-full lg:w-[45%] min-h-[300px] relative overflow-hidden bg-[#fff9f2]">
+                        <img src="https://i.pinimg.com/736x/04/12/e2/0412e2605fae142104756f65b2636877.jpg" alt="Lesson Visual" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-r from-white via-white/20 to-transparent lg:from-white lg:via-white/0 lg:to-transparent"></div>
+                        
+                        <!-- Overlay Tag -->
+                        <div class="absolute top-8 right-8 bg-white/90 backdrop-blur px-5 py-3 rounded-2xl border border-white shadow-xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-[#f8ed99] rounded-xl flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7b0323" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.5 1.5"/><path d="M14 11l-4-4"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-[#A8A29E] uppercase tracking-wider">Estimated Time</p>
+                                    <p class="text-xs font-black text-[#1C1917]">15 Minutes Left</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grade 1 Curriculum -->
+        <div class="space-y-16">
+            <section class="space-y-8">
+                <div class="flex items-center justify-between border-b border-[#E7E5E4] pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-1.5 h-6 bg-[#7b0323] rounded-full"></div>
+                        <h2 class="text-sm font-black tracking-[0.2em] text-[#78716C] uppercase">GRADE 1 Subjects</h2>
+                    </div>
+                    <button class="text-[10px] font-black text-[#7b0323] uppercase tracking-widest hover:underline decoration-2 underline-offset-4">View All</button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Subject: English -->
+                    <div class="group relative bg-white rounded-[2.5rem] border border-[#E7E5E4] hover:border-[#7b0323]/20 p-8 flex flex-col justify-between min-h-[260px] transition-all duration-500 hover:shadow-2xl hover:shadow-black/5">
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start">
+                                <div class="flex flex-col">
+                                    <h4 class="font-black text-2xl tracking-tight text-[#1C1917] mb-1">English</h4>
+                                    <span class="text-[10px] font-black text-[#A8A29E] tracking-widest uppercase">Curriculum Plan</span>
+                                </div>
+                                <div class="p-3 rounded-2xl bg-[#f0f7ff] text-[#4A90E2]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative z-10 pt-8">
+                            <div class="mb-6">
+                                <div class="flex justify-between items-end mb-2.5">
+                                    <span class="text-[10px] font-black text-[#1C1917] uppercase tracking-wider">Progress</span>
+                                    <span class="text-[11px] font-black text-[#7b0323]">65%</span>
+                                </div>
+                                <div class="h-2 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#7b0323] rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <button class="w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-[11px] tracking-[0.15em] uppercase bg-[#7b0323] text-white transition-all group-hover:bg-[#5a0219] shadow-lg shadow-[#7b0323]/10">
+                                <span>View Subject Blocks</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                            </button>
+                        </div>
+                        <div class="absolute right-8 bottom-24 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Subject: Mathematics -->
+                    <div class="group relative bg-white rounded-[2.5rem] border border-[#E7E5E4] hover:border-[#7b0323]/20 p-8 flex flex-col justify-between min-h-[260px] transition-all duration-500 hover:shadow-2xl hover:shadow-black/5">
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start">
+                                <div class="flex flex-col">
+                                    <h4 class="font-black text-2xl tracking-tight text-[#1C1917] mb-1">Mathematics</h4>
+                                    <span class="text-[10px] font-black text-[#A8A29E] tracking-widest uppercase">Curriculum Plan</span>
+                                </div>
+                                <div class="p-3 rounded-2xl bg-[#fff0f5] text-[#E91E63]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative z-10 pt-8">
+                            <div class="mb-6">
+                                <div class="flex justify-between items-end mb-2.5">
+                                    <span class="text-[10px] font-black text-[#1C1917] uppercase tracking-wider">Progress</span>
+                                    <span class="text-[11px] font-black text-[#7b0323]">30%</span>
+                                </div>
+                                <div class="h-2 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#7b0323] rounded-full" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <button class="w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-[11px] tracking-[0.15em] uppercase bg-[#7b0323] text-white transition-all group-hover:bg-[#5a0219] shadow-lg shadow-[#7b0323]/10">
+                                <span>View Subject Blocks</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                            </button>
+                        </div>
+                        <div class="absolute right-8 bottom-24 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Subject: EVS -->
+                    <div class="group relative bg-white rounded-[2.5rem] border border-[#E7E5E4] hover:border-[#7b0323]/20 p-8 flex flex-col justify-between min-h-[260px] transition-all duration-500 hover:shadow-2xl hover:shadow-black/5">
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start">
+                                <div class="flex flex-col">
+                                    <h4 class="font-black text-2xl tracking-tight text-[#1C1917] mb-1">EVS</h4>
+                                    <span class="text-[10px] font-black text-[#A8A29E] tracking-widest uppercase">Curriculum Plan</span>
+                                </div>
+                                <div class="p-3 rounded-2xl bg-[#f2faf3] text-[#4CAF50]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative z-10 pt-8">
+                            <div class="mb-6">
+                                <div class="flex justify-between items-end mb-2.5">
+                                    <span class="text-[10px] font-black text-[#1C1917] uppercase tracking-wider">Progress</span>
+                                    <span class="text-[11px] font-black text-[#7b0323]">10%</span>
+                                </div>
+                                <div class="h-2 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#7b0323] rounded-full" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <button class="w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-[11px] tracking-[0.15em] uppercase bg-[#7b0323] text-white transition-all group-hover:bg-[#5a0219] shadow-lg shadow-[#7b0323]/10">
+                                <span>View Subject Blocks</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                            </button>
+                        </div>
+                        <div class="absolute right-8 bottom-24 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+</body>
+</html>

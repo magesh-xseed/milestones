@@ -1,0 +1,744 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LP 1 — Earth's Rotation · Advanced UI</title>
+  <!-- Tailwind CDN + Inter font -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    /* Theme Colors & Variables - Light Theme for Comfort Reading */
+    :root{
+      --brand-1: #b91c1c; /* Softer Red (Primary Accent) */
+      --brand-2: #ef4444; /* Lighter Red */
+      --accent: #f59e0b; /* Softer Yellow/Gold (Secondary Accent) */
+      --text-main: #111827; /* Darker Gray for better contrast */
+      --text-muted: #6b7280; /* Gray-500 */
+      --glass: rgba(255,255,255,0.95); /* Higher opacity for light theme */
+      --card: rgba(255,255,255,0.98);
+      --shadow-color: rgba(185, 28, 28, 0.08); /* Softer Red Shadow */
+    }
+
+    html,body{height:100%;}
+    /* Light, comfortable background */
+    body{
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 50%, #ffffff 100%);
+      color: var(--text-main);
+      line-height: 1.8; /* Increased for readability */
+      transition: background-color 0.5s ease;
+      scroll-behavior: smooth;
+    }
+
+    /* Smooth scrolling for all elements */
+    html { scroll-behavior: smooth; }
+
+    /* Advanced Glass-Card with softer shadows for light theme */
+    .glass-card{
+      background:var(--card);
+      backdrop-filter: blur(20px);
+      box-shadow: 
+        0 4px 20px var(--shadow-color), 
+        inset 0 1px 0 rgba(255,255,255,1), 
+        0 0 0 1px rgba(255,255,255,0.5);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Very smooth easing */
+    }
+    .glass-card:hover {
+        box-shadow: 
+          0 8px 25px rgba(185, 28, 28, 0.12), 
+          inset 0 1px 0 rgba(255,255,255,1);
+        transform: translateY(-1px);
+    }
+
+    /* Section Headings - Softer underline */
+    .section-title{
+      letter-spacing:0.5px;
+      color:var(--brand-1);
+      font-weight:700; /* Slightly lighter weight */
+      text-transform: uppercase;
+      position: relative;
+    }
+    .fancy-underline{position:relative; display:inline-block}
+    .fancy-underline:after{
+      content:'';
+      position:absolute;
+      left:0; bottom:-6px;
+      width:50px; height:3px;
+      border-radius:2px;
+      background:linear-gradient(90deg,var(--brand-2),var(--brand-1));
+      opacity:0.8;
+      transform-origin:left;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.5s ease-out;
+    }
+    .fancy-underline:hover:after{transform:scaleX(1.5); width:80px;}
+
+    /* Responsive Grid - Adjust for single column on mobile */
+    @media (min-width:1024px){
+      .layout-grid{display:grid; grid-template-columns: 300px 1fr; gap:32px; align-items:start} /* Removed right column */
+    }
+
+    /* Primary Button - Softer gradients */
+    .btn-primary{
+      background:linear-gradient(135deg,var(--brand-2),var(--brand-1));
+      color:white;
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 4px 12px rgba(185, 28, 28, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(185, 28, 28, 0.25);
+    }
+    .btn-primary:active{
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(185, 28, 28, 0.2);
+    }
+
+    /* Ghost Button */
+    .btn-ghost{
+        background: rgba(255,255,255,0.8);
+        border: 1px solid rgba(0,0,0,0.08);
+        color: var(--text-main);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .btn-ghost:hover{
+        background: rgba(255,255,255,1);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    /* Focus Ring - Softer */
+    .focus-ring:focus{
+      outline:none;
+      box-shadow:0 0 0 3px rgba(185, 28, 28, 0.15);
+      border-radius:8px;
+    }
+
+    /* Lesson Label Pill - Softer */
+    .label-pill{
+        background:linear-gradient(135deg,#fef2f2,#fee2e2);
+        color:var(--brand-1);
+        font-weight:700;
+        padding:8px 14px;
+        border-radius:16px;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(185, 28, 28, 0.08);
+        transition: all 0.3s ease;
+    }
+    .label-pill:hover {
+      transform: scale(1.02);
+    }
+
+    /* Active Navigation Link */
+    .nav-active{
+        background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+        border-left: 3px solid var(--brand-1);
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        transform: translateX(2px);
+        transition: all 0.3s ease;
+    }
+
+    /* Info Cards - More whitespace */
+    .info-card{
+        border-radius: 12px;
+        background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+        border: 1px solid rgba(229, 231, 235, 0.8);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        overflow: hidden;
+    }
+    .info-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Enhanced Table - Softer borders */
+    table {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    th {
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      color: white;
+    }
+    tbody tr:hover {
+      background: rgba(185, 28, 28, 0.02);
+    }
+    td, th { padding: 1rem; }
+
+    /* Modal - Light theme */
+    #notesPanel {
+      backdrop-filter: blur(20px);
+    }
+    #notesPanel .glass-card {
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Smooth Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.02);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--brand-1);
+      border-radius: 4px;
+    }
+
+    /* Specific screen scroll - Ensure sections are scrollable independently if needed, but main is smooth */
+    main { overflow-y: auto; max-height: 100vh; }
+
+    /* Responsive - Single column on mobile, no right aside */
+    @media (max-width: 1023px) {
+      .layout-grid { grid-template-columns: 1fr; gap: 24px; }
+      aside { order: 1; position: static; }
+      main { order: 2; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="max-w-[1400px] mx-auto py-12 px-6">
+
+    <!-- Top bar (Enhanced Header) -->
+    <header class="flex items-center justify-between mb-12 gap-6 border-b border-gray-200 pb-6">
+      <div class="flex items-center gap-6">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-amber-400 flex items-center justify-center text-white text-2xl font-extrabold shadow-xl">LP</div>
+        <div>
+          <div class="text-sm text-gray-500 tracking-wider uppercase">Advanced Curriculum Module</div>
+          <h1 class="text-3xl font-bold tracking-tight mt-1">LP 1 · Changes in the Sky Across the Day</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 glass-card px-6 py-3 rounded-2xl text-sm no-print">
+          <span class="material-icons text-gray-500 text-lg">schedule</span>
+          <span class="text-xs text-gray-600">Duration</span>
+          <span class="px-4 py-2 rounded-full text-xs font-semibold text-white shadow-md" style="background:linear-gradient(135deg,var(--brand-2),var(--brand-1))">35 mins</span>
+        </div>
+
+        <button id="printBtn" class="btn-ghost px-6 py-3 rounded-2xl text-sm focus-ring no-print">
+          <span class="material-icons mr-2 text-lg">print</span>Print / Export
+        </button>
+        <button id="notesToggle" class="btn-primary px-6 py-3 rounded-2xl text-sm focus-ring no-print">
+          <span class="material-icons mr-2 text-lg">edit_note</span>My Notes
+        </button>
+      </div>
+    </header>
+
+    <!-- Main layout grid - Removed right aside -->
+    <div class="layout-grid">
+
+      <!-- LEFT: Navigation / Quick tools -->
+      <aside class="glass-card p-8 rounded-3xl sticky top-8 border-l-4 border-amber-300 max-h-screen overflow-y-auto">
+        <div class="mb-6 border-b pb-5">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-widest">Class Focus</div>
+              <div class="text-sm font-medium text-gray-600">Grade 4</div>
+            </div>
+            <span class="material-icons text-amber-500 text-lg">school</span>
+          </div>
+          <h3 class="text-2xl font-bold mt-3 text-brand-1">Earth's Rotation</h3>
+        </div>
+
+        <nav id="nav-menu" class="space-y-3">
+          <a href="#teacher" class="flex items-center gap-4 p-4 rounded-2xl transition nav-active focus-ring">
+            <span class="material-icons text-brand-1 text-lg">info</span>
+            <span class="label-pill flex-1">TEACHER SUMMARY</span>
+          </a>
+          <a href="#aim" class="flex items-center gap-4 p-4 rounded-2xl transition hover:bg-gray-50 focus-ring">
+            <span class="material-icons text-gray-400 text-lg">lightbulb_outline</span>
+            <span class="text-sm font-medium flex-1">Aim & Keywords</span>
+          </a>
+          <a href="#action" class="flex items-center gap-4 p-4 rounded-2xl transition hover:bg-gray-50 focus-ring">
+            <span class="material-icons text-gray-400 text-lg">play_circle_outline</span>
+            <span class="text-sm font-medium flex-1">Action & Demo</span>
+          </a>
+          <a href="#analysis" class="flex items-center gap-4 p-4 rounded-2xl transition hover:bg-gray-50 focus-ring">
+            <span class="material-icons text-gray-400 text-lg">analytics</span>
+            <span class="text-sm font-medium flex-1">Analysis & HOTS</span>
+          </a>
+          <a href="#application" class="flex items-center gap-4 p-4 rounded-2xl transition hover:bg-gray-50 focus-ring">
+            <span class="material-icons text-gray-400 text-lg">assignment</span>
+            <span class="text-sm font-medium flex-1">Application & Work</span>
+          </a>
+        </nav>
+
+        <div class="mt-10 pt-5 border-t border-gray-100">
+          <div class="text-xs text-gray-400 mb-4 uppercase tracking-wider flex items-center">
+            <span class="material-icons mr-2 text-sm">inventory_2</span>Required Resources
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-center gap-4 text-sm font-medium info-card p-3">
+              <span class="material-icons text-blue-500 text-lg">public</span>
+              Earth printout (A3)
+            </li>
+            <li class="flex items-center gap-4 text-sm font-medium info-card p-3">
+              <span class="material-icons text-yellow-500 text-lg">flashlight_on</span>
+              High-Lumen Flashlight
+            </li>
+            <li class="flex items-center gap-4 text-sm font-medium info-card p-3">
+              <span class="material-icons text-amber-500 text-lg">straighten</span>
+              Tape & String
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- CENTER: Main content - Now full width, smooth scroll -->
+      <main class="space-y-12 overflow-y-auto max-h-screen">
+
+        <!-- Hero banner advanced -->
+        <section class="glass-card rounded-3xl p-10">
+          <div class="flex flex-col lg:flex-row gap-10 items-center">
+            <div class="flex-1 space-y-6">
+              <h1 class="text-4xl font-bold leading-tight tracking-tight text-brand-1">Why does the Sun appear to move across the sky?</h1>
+              <p class="text-xl text-gray-600 leading-relaxed">A high-fidelity, teacher-focused module demonstrating Earth's rotation and correlating observations to astronomical principles.</p>
+
+              <div class="flex flex-col sm:flex-row gap-4">
+                <button class="btn-primary px-8 py-4 rounded-2xl text-base font-semibold focus-ring">
+                  <span class="material-icons mr-2 text-lg">play_arrow</span>Start Lesson
+                </button>
+                <button class="btn-ghost px-8 py-4 rounded-2xl text-base font-semibold focus-ring">
+                  <span class="material-icons mr-2 text-lg">share</span>Share Module
+                </button>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-96 relative">
+              <div class="relative rounded-3xl overflow-hidden shadow-xl border border-white/50">
+                <img src="https://placehold.co/900x450/e74c3c/ffffff?text=3D+Rotation+Simulator" alt="Interactive Earth's rotation simulation" class="w-full h-64 object-cover">
+                <div class="absolute left-6 bottom-6 bg-white/90 backdrop-blur-md text-brand-1 px-5 py-2 rounded-xl text-sm font-bold shadow-lg uppercase tracking-wide flex items-center">
+                  <span class="material-icons mr-2 text-lg">visibility</span>Live Interactive Demo
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Teacher Summary compact -->
+        <section id="teacher" class="glass-card rounded-3xl p-10">
+          <div class="flex items-start justify-between gap-6">
+            <div class="flex-1">
+              <h2 class="section-title fancy-underline text-2xl mb-4 flex items-center">
+                <span class="material-icons mr-3 text-3xl">info_outline</span>TEACHER SUMMARY
+              </h2>
+              <p class="text-lg text-gray-700 leading-relaxed">A clear demonstration is key: Use a student (Earth), a flashlight (Sun), and a labeled printout to show that the Sun's apparent motion is caused by <strong>Earth's West-to-East rotation</strong>.</p>
+            </div>
+
+            <div class="text-right flex-shrink-0">
+              <div class="text-xs text-gray-400 uppercase tracking-widest">Readiness</div>
+              <div class="mt-3 inline-flex items-center gap-3">
+                <span class="material-icons text-green-500 text-lg">check_circle</span>
+                <div class="px-4 py-2 rounded-full text-xs font-semibold text-green-800 bg-green-100">Confirmed Ready</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- compact component chips -->
+          <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="info-card p-6 text-center">
+              <div class="material-icons text-brand-1 text-2xl mb-2">lightbulb</div>
+              <div class="text-xs text-gray-500 uppercase font-semibold">Aim</div>
+              <div class="font-bold mt-1 text-brand-1">Explain Sun Motion</div>
+            </div>
+            <div class="info-card p-6 text-center">
+              <div class="material-icons text-brand-1 text-2xl mb-2">play_arrow</div>
+              <div class="text-xs text-gray-500 uppercase font-semibold">Action</div>
+              <div class="font-bold mt-1 text-brand-1">Physical Demo</div>
+            </div>
+            <div class="info-card p-6 text-center">
+              <div class="material-icons text-brand-1 text-2xl mb-2">assessment</div>
+              <div class="text-xs text-gray-500 uppercase font-semibold">Assessment</div>
+              <div class="font-bold mt-1 text-brand-1">Time-of-Day Labeling</div>
+            </div>
+            <div class="info-card p-6 text-center">
+              <div class="material-icons text-brand-1 text-2xl mb-2">update</div>
+              <div class="text-xs text-gray-500 uppercase font-semibold">Last Update</div>
+              <div class="font-bold mt-1 text-brand-1">Dec 9, 2025</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AIM section -->
+        <section id="aim" class="glass-card rounded-3xl p-10">
+          <div class="flex items-center justify-between border-b pb-4 mb-6">
+            <h3 class="section-title fancy-underline text-2xl flex items-center">
+              <span class="material-icons mr-3 text-3xl">lightbulb</span>AIM & KEYWORDS
+            </h3>
+            <div class="text-base font-semibold text-gray-600 flex items-center">
+              <span class="material-icons mr-2">schedule</span>8 mins
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+              <p class="text-lg text-gray-700 leading-relaxed">Students will observe how <strong>Earth's rotation</strong> causes the Sun's <em>apparent</em> movement and correctly associate this motion with cardinal directions (<strong>East</strong> & <strong>West</strong>).</p>
+
+              <div class="info-card p-6">
+                <div class="text-sm text-gray-500 uppercase mb-4 font-semibold flex items-center">
+                  <span class="material-icons mr-2">build</span>Setup Steps
+                </div>
+                <ol class="list-decimal list-inside ml-4 text-base text-gray-700 space-y-3">
+                  <li>Secure Earth printout to student (ensure correct poles/locations).</li>
+                  <li>Place flashlight (Sun) on a fixed elevated surface.</li>
+                  <li>Review <strong>West → East</strong> rotation direction before starting.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="info-card p-6 flex flex-col justify-between h-full">
+              <div>
+                <div class="text-sm text-gray-500 uppercase mb-4 font-semibold flex items-center">
+                  <span class="material-icons mr-2">label</span>Core Vocabulary
+                </div>
+                <div class="flex flex-wrap gap-3 mb-6">
+                  <button class="px-4 py-2 rounded-full bg-red-50 text-brand-1 text-sm font-medium keyword-btn focus-ring transition hover:bg-red-100">rotation</button>
+                  <button class="px-4 py-2 rounded-full bg-red-50 text-brand-1 text-sm font-medium keyword-btn focus-ring transition hover:bg-red-100">equator</button>
+                  <button class="px-4 py-2 rounded-full bg-red-50 text-brand-1 text-sm font-medium keyword-btn focus-ring transition hover:bg-red-100">east</button>
+                  <button class="px-4 py-2 rounded-full bg-red-50 text-brand-1 text-sm font-medium keyword-btn focus-ring transition hover:bg-red-100">west</button>
+                </div>
+              </div>
+              <div id="kwDef" class="mt-auto text-base text-gray-600 p-4 border-l-2 border-brand-2 bg-gray-50 rounded-xl h-24 overflow-hidden flex items-center justify-center">
+                <span class="text-gray-400 italic flex items-center">
+                  <span class="material-icons mr-2">help_outline</span>Click a keyword for its definition.
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ACTION (expandable) -->
+        <section id="action" class="glass-card rounded-3xl p-10">
+          <div class="flex items-center justify-between border-b pb-4 mb-6">
+            <h3 class="section-title fancy-underline text-2xl flex items-center">
+              <span class="material-icons mr-3 text-3xl">play_arrow</span>ACTION & DEMO
+            </h3>
+            <div class="text-base font-semibold text-gray-600 flex items-center">
+              <span class="material-icons mr-2">schedule</span>8 mins
+            </div>
+          </div>
+
+          <div class="space-y-8 text-gray-700">
+            <div class="flex items-start gap-6 info-card p-6">
+              <div class="w-10 h-10 rounded-xl bg-brand-1 text-white grid place-items-center font-bold flex-shrink-0 shadow-lg">1</div>
+              <div class="flex-1">
+                <div class="font-bold text-xl mb-2">Initialize & Align</div>
+                <div class="text-base text-gray-600 leading-relaxed">Designate classroom <strong>East</strong> and <strong>West</strong> clearly. Position volunteer so 'Sun' is at 'morning' (East).</div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-6 info-card p-6">
+              <div class="w-10 h-10 rounded-xl bg-brand-1 text-white grid place-items-center font-bold flex-shrink-0 shadow-lg">2</div>
+              <div class="flex-1">
+                <div class="font-bold text-xl mb-2">Execute Rotation</div>
+                <div class="text-base text-gray-600 leading-relaxed">Volunteer performs a slow, controlled <strong>West → East</strong> rotation. Students track the Sun's apparent <strong>East → West</strong> motion.</div>
+              </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-amber-50 border border-amber-100 shadow-md">
+              <div class="font-bold text-base text-amber-800 flex items-center gap-3 mb-3">
+                <span class="material-icons text-amber-600">lightbulb_outline</span>Teacher Strategy
+              </div>
+              <div class="text-base text-gray-700 leading-relaxed">Have students focus on a specific point on the Earth printout (like their city) to truly grasp the concept of local day and night.</div>
+            </div>
+
+            <div class="mt-6 pt-6 border-t info-card p-6">
+              <details class="group">
+                <summary class="cursor-pointer font-semibold text-xl text-brand-1 hover:text-red-900 transition flex items-center gap-3 group-open:rotate-90">
+                  <span class="material-icons transition-transform">expand_more</span>View Detailed Script & Misconception Check
+                </summary>
+                <div class="mt-4 text-base text-gray-600 ml-2 pt-4 border-t border-gray-200">
+                  <ol class="list-disc ml-6 space-y-3">
+                    <li><strong>Scripting:</strong> "Notice that you are spinning, not the Sun. This spin is called <strong>rotation</strong>."</li>
+                    <li><strong>Observation Cue:</strong> Ask students: "When the volunteer faces the Sun, what time of day is it for them?"</li>
+                    <li><strong>Misconception:</strong> Address the common belief that the Sun orbits the Earth.</li>
+                  </ol>
+                </div>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <!-- ANALYSIS -->
+        <section id="analysis" class="glass-card rounded-3xl p-10">
+          <div class="flex items-center justify-between border-b pb-4 mb-6">
+            <h3 class="section-title fancy-underline text-2xl flex items-center">
+              <span class="material-icons mr-3 text-3xl">analytics</span>ANALYSIS & H.O.T.S.
+            </h3>
+            <div class="text-base font-semibold text-gray-600 flex items-center">
+              <span class="material-icons mr-2">schedule</span>10 mins
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="info-card p-8">
+              <div class="font-bold text-2xl text-brand-1 mb-4 flex items-center">
+                <span class="material-icons mr-3">table_view</span>Data-Driven Discussion
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-6">Collect and synthesize observations from the class. Use the table below to structure the discussion and ensure key concepts are covered.</p>
+
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="text-left uppercase tracking-wider">
+                    <th class="py-4 px-6 font-semibold">Sun Position (Apparent)</th>
+                    <th class="py-4 px-6 font-semibold">Part of Day (Local)</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  <tr>
+                    <td class="py-4 px-6 font-medium">Rises from East</td>
+                    <td class="py-4 px-6 font-semibold text-brand-1">Morning</td>
+                  </tr>
+                  <tr class="bg-gray-50">
+                    <td class="py-4 px-6 font-medium">Highest Point (South)</td>
+                    <td class="py-4 px-6 font-semibold text-brand-1">Noon</td>
+                  </tr>
+                  <tr>
+                    <td class="py-4 px-6 font-medium">Sets toward West</td>
+                    <td class="py-4 px-6 font-semibold text-brand-1">Evening</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="info-card p-8">
+              <div class="font-bold text-2xl text-brand-1 mb-4 flex items-center">
+                <span class="material-icons mr-3">psychology</span>Higher-Order Thinking (HOTS)
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-6">Challenge students to apply the rotation concept to hypothetical scenarios, promoting deeper conceptual understanding.</p>
+
+              <div class="space-y-4">
+                <div class="p-5 bg-red-50 rounded-xl text-base text-gray-700 border-l-4 border-red-300 shadow-sm">
+                  <strong class="block mb-2">Prompt 1:</strong> If Earth rotated twice as fast, how long would a 'day' be?
+                </div>
+                <div class="p-5 bg-red-50 rounded-xl text-base text-gray-700 border-l-4 border-red-300 shadow-sm">
+                  <strong class="block mb-2">Prompt 2:</strong> If Earth rotated East → West, where would the Sun appear to rise?
+                </div>
+              </div>
+              <button class="mt-6 w-full px-6 py-3 rounded-xl btn-ghost text-base font-semibold focus-ring">
+                <span class="material-icons mr-2">refresh</span>Load More HOTS Prompts
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- APPLICATION -->
+        <section id="application" class="glass-card rounded-3xl p-10">
+          <div class="flex items-center justify-between border-b pb-4 mb-6">
+            <h3 class="section-title fancy-underline text-2xl flex items-center">
+              <span class="material-icons mr-3 text-3xl">assignment</span>APPLICATION & ASSESSMENT
+            </h3>
+            <div class="text-base font-semibold text-gray-600 flex items-center">
+              <span class="material-icons mr-2">schedule</span>17 mins
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="info-card p-8">
+              <div class="font-bold text-2xl text-brand-1 mb-4 flex items-center">
+                <span class="material-icons mr-3">description</span>Classwork · Worksheet 1.1: Cardinal Labeling
+              </div>
+              <p class="text-base text-gray-600 leading-relaxed mb-6">Students apply their learning by labeling key times of day and directions on an Earth rotation diagram.</p>
+
+              <div class="flex flex-col sm:flex-row gap-4">
+                <button class="flex-1 px-6 py-4 rounded-2xl btn-primary text-base font-semibold focus-ring">
+                  <span class="material-icons mr-2 text-lg">open_in_new</span>Open Interactive Worksheet
+                </button>
+                <button class="flex-1 px-6 py-4 rounded-2xl btn-ghost text-base font-semibold focus-ring">
+                  <span class="material-icons mr-2 text-lg">download</span>Download PDF
+                </button>
+              </div>
+            </div>
+
+            <div class="info-card p-8">
+              <div class="font-bold text-2xl text-brand-1 mb-4 flex items-center">
+                <span class="material-icons mr-3">accessibility</span>Teacher Differentiation & Scaffolds
+              </div>
+              <ul class="text-base text-gray-600 list-disc ml-6 space-y-3 leading-relaxed">
+                <li><strong>Support:</strong> Provide a pre-labeled compass rose on the student's desk.</li>
+                <li><strong>Challenge:</strong> Assign an optional research prompt on the concept of the <strong>celestial sphere</strong>.</li>
+                <li><strong>Wrap-up:</strong> Have students create a 3-panel comic strip demonstrating rotation.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ASSESSMENT RUBRIC -->
+        <section class="glass-card rounded-3xl p-10">
+          <div class="flex items-center justify-between border-b pb-4 mb-6">
+            <h3 class="section-title fancy-underline text-2xl flex items-center">
+              <span class="material-icons mr-3 text-3xl">assessment</span>PERFORMANCE RUBRIC
+            </h3>
+            <div class="text-base font-semibold text-gray-600 flex items-center">
+              <span class="material-icons mr-2">description</span>Evaluate Worksheet 1.1
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="info-card p-6 rounded-2xl bg-red-50 border-l-4 border-red-300 shadow-lg">
+              <div class="text-xl font-bold text-brand-1 mb-3 flex items-center">
+                <span class="material-icons mr-2">trending_down</span>A · Approaching
+              </div>
+              <div class="text-base text-gray-600 leading-relaxed">Identifies Sun moves (but may not explain <em>why</em>).</div>
+            </div>
+            <div class="info-card p-6 rounded-2xl bg-amber-50 border-l-4 border-amber-300 shadow-lg">
+              <div class="text-xl font-bold text-amber-700 mb-3 flex items-center">
+                <span class="material-icons mr-2">trending_flat</span>M · Meeting
+              </div>
+              <div class="text-base text-gray-600 leading-relaxed">Correctly explains Earth's rotation causes apparent motion.</div>
+            </div>
+            <div class="info-card p-6 rounded-2xl bg-green-50 border-l-4 border-green-300 shadow-lg">
+              <div class="text-xl font-bold text-green-700 mb-3 flex items-center">
+                <span class="material-icons mr-2">trending_up</span>E · Exceeding
+              </div>
+              <div class="text-base text-gray-600 leading-relaxed">Predicts time of day/direction changes in hypothetical scenarios.</div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- NOTES PANEL (Modal) -->
+  <div id="notesPanel" class="fixed inset-0 hidden items-center justify-center z-50 bg-black/30 backdrop-blur-sm">
+    <div class="absolute inset-0" id="overlay"></div>
+    <div class="relative w-full max-w-6xl mx-4 p-6">
+      <div class="glass-card rounded-3xl p-10 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-start justify-between gap-6 border-b pb-5 mb-6">
+          <div>
+            <h3 class="font-bold text-2xl text-brand-1 flex items-center">
+              <span class="material-icons mr-3 text-3xl">edit_note</span>My Personal Lesson Notes
+            </h3>
+            <p class="text-base text-gray-500 leading-relaxed">Observations, reminders, or adaptations (auto-saved locally).</p>
+          </div>
+          <div class="flex gap-3">
+            <button id="closeNotes" class="btn-ghost px-6 py-3 rounded-xl focus-ring">Close</button>
+            <button id="saveNotes" class="btn-primary px-6 py-3 rounded-xl focus-ring">Save Changes</button>
+          </div>
+        </div>
+
+        <textarea id="notesArea" class="w-full h-80 p-6 rounded-2xl border border-gray-200 text-base focus-ring leading-relaxed" placeholder="Write observations, reminders, or adaptions..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // keyword definitions
+    const keywords = {
+      rotation: 'The spinning of a body on its axis. Earth\'s rotation takes approximately 24 hours and is the cause of day and night.',
+      equator: 'An imaginary circle around the middle of a planet or other celestial body, equidistant from the poles.',
+      east: 'The cardinal direction from which the Sun appears to rise due to Earth\'s rotation.',
+      west: 'The cardinal direction where the Sun appears to set.'
+    };
+
+    const kwDefBox = document.getElementById('kwDef');
+
+    document.querySelectorAll('.keyword-btn').forEach(b => {
+      b.addEventListener('click', ()=>{
+        const k = b.textContent.trim();
+        kwDefBox.innerHTML = `<strong class="capitalize font-bold text-brand-1 block mb-2">${k}:</strong> <span class="text-gray-700">${keywords[k] || 'Definition not available.'}</span>`;
+        kwDefBox.style.height = 'auto';
+        setTimeout(() => { kwDefBox.style.height = kwDefBox.scrollHeight + 'px'; }, 10);
+      })
+    })
+
+    // notes modal logic
+    const notesToggle = document.getElementById('notesToggle');
+    const notesPanel = document.getElementById('notesPanel');
+    const closeNotes = document.getElementById('closeNotes');
+    const overlay = document.getElementById('overlay');
+    const notesArea = document.getElementById('notesArea');
+
+    // load saved notes
+    try{ const saved = localStorage.getItem('lp1_notes_v2'); if(saved) notesArea.value = saved; }catch(e){}
+
+    notesToggle.addEventListener('click', ()=>{ 
+      notesPanel.classList.remove('hidden'); 
+      notesPanel.classList.add('flex'); 
+      notesArea.focus();
+    })
+    closeNotes.addEventListener('click', ()=>{ notesPanel.classList.add('hidden'); notesPanel.classList.remove('flex'); })
+    overlay.addEventListener('click', ()=>{ notesPanel.classList.add('hidden'); notesPanel.classList.remove('flex'); })
+
+    document.getElementById('saveNotes').addEventListener('click', ()=>{
+      localStorage.setItem('lp1_notes_v2', notesArea.value);
+      // Visual feedback
+      const btn = document.getElementById('saveNotes');
+      const original = btn.innerHTML;
+      btn.innerHTML = '<span class="material-icons mr-2">check</span>Saved!';
+      btn.style.background = '#10b981';
+      setTimeout(() => { btn.innerHTML = original; btn.style.background = ''; }, 2000);
+    })
+
+    // print/export
+    document.getElementById('printBtn').addEventListener('click', ()=>{
+      window.print();
+    })
+
+    // deep-link scrolling & active nav state
+    const navMenu = document.getElementById('nav-menu');
+    const sections = document.querySelectorAll('main section[id]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        const activeLink = navMenu.querySelector(`a[href="#${id}"]`);
+
+        navMenu.querySelectorAll('a').forEach(link => link.classList.remove('nav-active'));
+
+        if (entry.isIntersecting) {
+          activeLink.classList.add('nav-active');
+        } else if (id === 'teacher' && entry.boundingClientRect.top > 0) {
+            navMenu.querySelector('a[href="#teacher"]').classList.add('nav-active');
+        }
+      });
+    }, { rootMargin: '0px 0px -50% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      })
+    })
+
+    // Accessibility: Trap focus in modal
+    notesPanel.addEventListener('focusin', (e) => {
+      if (e.target === notesPanel && !notesPanel.contains(e.relatedTarget)) {
+        closeNotes.focus();
+      }
+    });
+  </script>
+
+</body>
+</html>
+```

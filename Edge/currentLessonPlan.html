@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LP 2: Saturated and Unsaturated Fats</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use Inter font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        /* Custom class for the structured lesson boxes (Mimics the clean, bordered look) */
+        .lesson-box {
+            display: flex;
+            align-items: stretch;
+            border-radius: 0.5rem; 
+            overflow: hidden;
+            background-color: white; 
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            margin-bottom: 0.75rem; /* slight spacing between boxes */
+        }
+        .lesson-label {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-weight: 600; /* font-semibold */
+            color: #155e75; /* dark teal text */
+            background-color: #99f6e4; /* light teal background (teal-200) */
+            flex-shrink: 0;
+            width: 150px; /* fixed width for the label column */
+            display: flex;
+            align-items: center;
+        }
+        .lesson-content {
+            padding: 1rem 1.5rem;
+            color: #1f2937; /* gray-800 */
+            background-color: #f0fdfa; /* very light teal background (teal-50) */
+            flex-grow: 1;
+            /* Ensures border matches the screenshot where content visually ends the box */
+            border-left: 1px solid #ccfbf1; /* subtle divider */
+        }
+        /* Style for the red vertical line next to "TEACHER SUMMARY" and other headers */
+        .summary-header {
+            border-left: 4px solid #ef4444; /* red-500 */
+            padding-left: 0.75rem;
+        }
+        /* Custom checkbox style to match the screenshot's design */
+        input[type="checkbox"] {
+            border-radius: 4px;
+            color: #ef4444; /* red-500 for the checkmark color */
+            --tw-ring-shadow: 0 0 #0000;
+            cursor: pointer;
+        }
+        .action-step-number {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background-color: #a7f3d0; /* emerald-200 / light green */
+            color: #065f46; /* emerald-800 / dark green */
+            font-weight: 600;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        .action-step-text {
+            flex-grow: 1;
+        }
+
+        /* ANALYSIS Custom Styles */
+        .analysis-section {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        .analysis-header-banner {
+            padding: 1rem;
+            background-color: #99f6e4; /* teal-200 */
+            color: #0f766e; /* teal-700 */
+            font-weight: 600;
+            position: relative;
+        }
+        .explanation-box {
+            background-color: white;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        .h-tip {
+            border-left: 5px solid #ef4444; /* red-500 */
+            background-color: #fef2f2; /* red-50 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+        .h-tip h4 {
+            background-color: #ef4444; /* red-500 */
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        /* Table styles to match the orange screenshot */
+        .fat-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .fat-table th, .fat-table td {
+            border: 1px solid #f97316; /* orange-500 border for inner lines */
+            padding: 0.75rem;
+            text-align: center;
+        }
+        .fat-table th {
+            background-color: #f97316; /* orange-500 */
+            color: white;
+            font-weight: 700;
+            border-color: #f97316;
+        }
+        .fat-table tr:nth-child(even) {
+            background-color: #fef3c7; /* yellow-100 */
+        }
+        .fat-table tr:nth-child(odd) {
+            background-color: #fffbeb; /* yellow-50 */
+        }
+
+        /* APPLICATION CUSTOM STYLES */
+        .app-header-banner {
+            background-color: #ccfbf1; /* teal-100 */
+            color: #0f766e; /* teal-700 */
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 0.5rem 0.5rem 0 0;
+            border-bottom: 1px solid #99f6e4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .app-content-box {
+            background-color: white;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0 0 0.5rem 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        .app-item-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f0fdfa; /* teal-50 */
+            border: 1px solid #ccfbf1; /* teal-100 */
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+        .app-item-card img {
+            flex-shrink: 0;
+            margin-right: 1rem;
+        }
+        .differentiation-tip {
+            background-color: #fef2f2; /* red-50 */
+            border-left: 5px solid #ef4444; /* red-500 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+            color: #b91c1c; /* red-700 */
+        }
+        .differentiation-tip strong {
+            color: #ef4444; /* red-500 */
+            font-weight: 700;
+        }
+        .more-practice-step-number {
+            background-color: #bae6fd; /* light blue */
+            color: #0369a1; /* dark blue */
+        }
+        .homework-action-step-number {
+            background-color: #fcd34d; /* amber-300 */
+            color: #92400e; /* amber-800 */
+        }
+
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Functionality for keyword definitions
+            const keywords = [
+                { word: 'translucent', definition: 'Allowing light to pass through but diffusing it so that objects on the opposite side are not clearly visible. The fat test uses this property.' },
+                { word: 'saturated fat', definition: 'A type of fat, mostly from animal sources (like butter and red meat), that is typically solid at room temperature and can increase bad cholesterol levels.' },
+                { word: 'unsaturated fat', definition: 'A type of fat, mostly from plant sources (like vegetable oil and nuts), that is typically liquid at room temperature and is considered healthier for the heart.' }
+            ];
+
+            const keywordSpans = document.querySelectorAll('.keyword-tag');
+            const definitionBox = document.getElementById('keyword-definition');
+            const definitionText = document.getElementById('definition-text');
+
+            keywordSpans.forEach(span => {
+                span.addEventListener('click', () => {
+                    const word = span.textContent;
+                    const item = keywords.find(k => k.word === word);
+
+                    // Deselect previous
+                    keywordSpans.forEach(s => s.classList.remove('bg-pink-300'));
+
+                    if (item) {
+                        definitionText.innerHTML = `<span class="font-bold capitalize">${item.word}:</span> ${item.definition}`;
+                        definitionBox.classList.remove('hidden');
+                        span.classList.add('bg-pink-300'); // Highlight selected tag
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body class="p-0 sm:p-0">
+
+    <div class="max-w-4xl mx-auto bg-white shadow-xl">
+        
+        <!-- Header Image (Updated to a specific, relevant seed) -->
+        <div class="relative w-full overflow-hidden">
+            <img src="https://picsum.photos/seed/saturated-unsaturated-fats-mix/1200/300" 
+                 alt="A selection of foods including butter, avocado, and oil, visually representing saturated and unsaturated fats." 
+                 class="w-full h-auto object-cover opacity-70"
+                 onerror="this.onerror=null;this.src='https://placehold.co/1200x300/155e75/99f6e4?text=Nutrition+Lesson+Plan';">
+            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white text-center p-4 tracking-tight shadow-text">
+                    SATURATED vs UNSATURATED FATS
+                </h1>
+            </div>
+            <!-- Duration Badge (35 mins) -->
+            <span class="absolute bottom-4 right-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full opacity-90">35 mins</span>
+        </div>
+
+        <div class="p-6 pb-0">
+            <!-- Teacher Summary Header -->
+            <header class="mb-6">
+                <h2 class="text-xl font-bold text-gray-800 summary-header uppercase tracking-wider">Teacher Summary</h2>
+            </header>
+            
+            <!-- Lesson Components (AIM, ACTION, ANALYSIS, APPLICATION, ASSESSMENT) -->
+            <section class="space-y-3 mb-6">
+                
+                <!-- AIM -->
+                <div class="lesson-box">
+                    <div class="lesson-label bg-teal-200">AIM</div>
+                    <div class="lesson-content">To differentiate between saturated and unsaturated fats.</div>
+                </div>
+
+                <!-- ACTION -->
+                <div class="lesson-box">
+                    <div class="lesson-label bg-teal-200">ACTION</div>
+                    <div class="lesson-content">Demonstrate test for fats and discuss its types.</div>
+                </div>
+
+                <!-- ANALYSIS -->
+                <div class="lesson-box">
+                    <div class="lesson-label bg-teal-200">ANALYSIS</div>
+                    <div class="lesson-content">How are saturated and unsaturated fats different?</div>
+                </div>
+
+                <!-- APPLICATION -->
+                <div class="lesson-box">
+                    <div class="lesson-label bg-teal-200">APPLICATION</div>
+                    <div class="lesson-content">
+                        <p>Classwork: Worksheet 1.2</p>
+                        <p>Homework: Practice Questions 1-3</p>
+                    </div>
+                </div>
+
+                <!-- ASSESSMENT -->
+                <div class="lesson-box">
+                    <div class="lesson-label bg-teal-200">ASSESSMENT</div>
+                    <div class="lesson-content">
+                        <p class="font-medium">A: Identify foods containing fats.</p>
+                        <p class="font-medium">M: Differentiate the 2 types of fats.</p>
+                        <p class="font-medium">E: Explain the importance of fats.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- AIM Section - Unchanged -->
+        <section class="p-6 pt-0">
+            <!-- AIM Header Banner -->
+            <div class="flex justify-between items-center p-4 rounded-t-xl bg-teal-100 border-b border-teal-200">
+                <h3 class="text-xl font-bold text-gray-800">AIM</h3>
+                <!-- Speaker Icon -->
+                <svg class="w-6 h-6 text-gray-600 cursor-pointer hover:text-red-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a2.5 2.5 0 00-3.536 0L8.464 12a2.5 2.5 0 000 3.536l3.536 3.536a2.5 2.5 0 003.536 0l3.536-3.536a2.5 2.5 0 000-3.536L15.536 8.464z"></path></svg>
+            </div>
+            <!-- Introduction Text -->
+            <div class="p-4 bg-white shadow-lg rounded-b-xl border border-t-0 border-gray-200 mb-8">
+                <p class="text-gray-700">
+                    We already know that fat is a very important nutrient required by the body because it provides energy. Today, we will learn to differentiate between different types of fats.
+                </p>
+            </div>
+
+            <!-- RESOURCES WE WILL NEED - Updated icons for better look -->
+            <header class="mb-4">
+                <h2 class="text-xl font-bold text-gray-800 summary-header uppercase tracking-wider">RESOURCES WE WILL NEED</h2>
+            </header>
+            
+            <ul class="space-y-2">
+                <!-- Item 1: Content Book -->
+                <li class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white shadow-sm">
+                    <label class="flex items-center space-x-3 text-gray-700">
+                        <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500" checked>
+                        <span class="text-base">Content Book</span>
+                    </label>
+                    <img src="https://placehold.co/40x40/94a3b8/e2e8f0?text=Book" alt="Content Book Icon" class="w-10 h-10 object-cover rounded-md border p-1">
+                </li>
+                
+                <!-- Item 2: Worksheet 1.2 -->
+                <li class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white shadow-sm">
+                    <label class="flex items-center space-x-3 text-gray-700">
+                        <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500" checked>
+                        <span class="text-base">Worksheet 1.2</span>
+                    </label>
+                    <img src="https://placehold.co/40x40/a7f3d0/065f46?text=Sheet" alt="Worksheet Icon" class="w-10 h-10 object-cover rounded-md border p-1">
+                </li>
+
+                <!-- Item 3: Notebook -->
+                <li class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white shadow-sm">
+                    <label class="flex items-center space-x-3 text-gray-700">
+                        <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500" checked>
+                        <span class="text-base">Notebook</span>
+                    </label>
+                    <img src="https://placehold.co/40x40/fcd34d/92400e?text=Note" alt="Notebook Icon" class="w-10 h-10 object-cover rounded-md border p-1">
+                </li>
+
+                <!-- Item 4: Ingredients -->
+                <li class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white shadow-sm">
+                    <label class="flex items-center space-x-3 text-gray-700">
+                        <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500" checked>
+                        <span class="text-base">A cube of butter, 1 teaspoon of vegetable oil, fruit juice, few peanuts (1 set for the class)</span>
+                    </label>
+                    <img src="https://placehold.co/40x40/fdb4b4/7f1d1d?text=Food" alt="Ingredients Icon" class="w-10 h-10 object-cover rounded-md border p-1">
+                </li>
+
+                <!-- Item 5: Filter Paper -->
+                <li class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white shadow-sm">
+                    <label class="flex items-center space-x-3 text-gray-700">
+                        <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500" checked>
+                        <span class="text-base">4 sheets of filter paper (1 for the class)</span>
+                    </label>
+                    <img src="https://placehold.co/40x40/93c5fd/1d4ed8?text=Paper" alt="Filter Paper Icon" class="w-10 h-10 object-cover rounded-md border p-1">
+                </li>
+                
+                <!-- Item 6: Tablespoon -->
+                <li class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white shadow-sm">
+                    <label class="flex items-center space-x-3 text-gray-700">
+                        <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500" checked>
+                        <span class="text-base">1 tablespoon (1 for the class)</span>
+                    </label>
+                    <img src="https://placehold.co/40x40/d1d5db/374151?text=Spoon" alt="Tablespoon Icon" class="w-10 h-10 object-cover rounded-md border p-1">
+                </li>
+            </ul>
+
+            <!-- KEYWORDS WE WILL USE - Unchanged -->
+            <header class="mb-4 mt-8">
+                <h2 class="text-xl font-bold text-gray-800 summary-header uppercase tracking-wider">KEYWORDS WE WILL USE</h2>
+            </header>
+            
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-md mb-8">
+                <p class="text-gray-600 mb-4">Tap the keywords below to see the definitions.</p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="keyword-tag px-3 py-1 bg-pink-100 text-pink-700 rounded-lg font-medium cursor-pointer hover:bg-pink-200 transition">translucent</span>
+                    <span class="keyword-tag px-3 py-1 bg-pink-100 text-pink-700 rounded-lg font-medium cursor-pointer hover:bg-pink-200 transition">saturated fat</span>
+                    <span class="keyword-tag px-3 py-1 bg-pink-100 text-pink-700 rounded-lg font-medium cursor-pointer hover:bg-pink-200 transition">unsaturated fat</span>
+                </div>
+                <!-- Area for displaying the definition -->
+                <div id="keyword-definition" class="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg hidden text-sm text-gray-700">
+                    <p id="definition-text"></p>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- ACTION SECTION (Updated with real image links) -->
+        <section class="p-6 pt-0">
+
+            <!-- Action Header Banner -->
+            <div class="flex justify-between items-center p-4 rounded-t-xl bg-teal-100 border-b border-teal-200 mb-6">
+                <h3 class="text-xl font-bold text-gray-800">ACTION</h3>
+                <div class="flex items-center space-x-4">
+                    <!-- Duration -->
+                    <div class="flex items-center text-sm text-gray-600">
+                        <!-- Group Icon -->
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20h-5v-2a3 3 0 00-5.356-1.857M12 18H5.356M12 18v2m-7-2v2m12 0h-5m0 0a3 3 0 00-3-3H5a3 3 0 00-3 3v2h20zM7 7c0-2.209 1.791-4 4-4s4 1.791 4 4c0 1.05-.42 2.05-1.17 2.72L12 10l-1.83-.98C9.42 9.05 9 8.05 9 7z"></path></svg>
+                        8 mins
+                    </div>
+                    <!-- My Notes Button -->
+                    <button class="bg-red-500 text-white text-sm font-semibold px-4 py-1 rounded-full hover:bg-red-600 transition">My Notes</button>
+                    <!-- Speaker Icon -->
+                    <svg class="w-6 h-6 text-gray-600 cursor-pointer hover:text-red-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a2.5 2.5 0 00-3.536 0L8.464 12a2.5 2.5 0 000 3.536l3.536 3.536a2.5 2.5 0 003.536 0l3.536-3.536a2.5 2.5 0 000-3.536L15.536 8.464z"></path></svg>
+                </div>
+            </div>
+
+            <!-- Step-by-Step Instructions -->
+            <div class="space-y-6 text-lg text-gray-700">
+                <!-- Step 1 (Checked) -->
+                <div class="flex items-start">
+                    <span class="action-step-number bg-emerald-200 text-emerald-800">1</span>
+                    <span class="action-step-text">For today's activity, let's get into pairs.</span>
+                </div>
+
+                <!-- Step 2 (Checked) -->
+                <div class="flex items-start">
+                    <span class="action-step-number bg-emerald-200 text-emerald-800">2</span>
+                    <span class="action-step-text">We will be using these resources.</span>
+                </div>
+
+                <!-- Image Tiles (Oil, Juice, Butter, Peanuts) - Now using specific image seeds -->
+                <div class="flex flex-wrap lg:flex-nowrap justify-center gap-4 py-4">
+                    
+                    <div class="w-full sm:w-1/2 lg:w-1/4 p-2 bg-white rounded-xl shadow-inner border border-gray-100">
+                        <img src="https://picsum.photos/seed/vegetable-oil/300/200" 
+                             alt="Bowl of vegetable oil" 
+                             class="w-full h-auto object-contain rounded-lg"
+                             onerror="this.onerror=null;this.src='https://placehold.co/300x200/99f6e4/155e75?text=Vegetable+Oil';">
+                    </div>
+                    <div class="w-full sm:w-1/2 lg:w-1/4 p-2 bg-white rounded-xl shadow-inner border border-gray-100">
+                        <img src="https://picsum.photos/seed/orange-juice/300/200" 
+                             alt="Glass of fruit juice" 
+                             class="w-full h-auto object-contain rounded-lg"
+                             onerror="this.onerror=null;this.src='https://placehold.co/300x200/99f6e4/155e75?text=Fruit+Juice';">
+                    </div>
+                    <div class="w-full sm:w-1/2 lg:w-1/4 p-2 bg-white rounded-xl shadow-inner border border-gray-100">
+                        <img src="https://picsum.photos/seed/dairy-butter/300/200" 
+                             alt="Slices of butter" 
+                             class="w-full h-auto object-contain rounded-lg"
+                             onerror="this.onerror=null;this.src='https://placehold.co/300x200/99f6e4/155e75?text=Butter+Block';">
+                    </div>
+                    <div class="w-full sm:w-1/2 lg:w-1/4 p-2 bg-white rounded-xl shadow-inner border border-gray-100">
+                        <img src="https://picsum.photos/seed/peanuts-nuts/300/200" 
+                             alt="Pile of peanuts" 
+                             class="w-full h-auto object-contain rounded-lg"
+                             onerror="this.onerror=null;this.src='https://placehold.co/300x200/99f6e4/155e75?text=Peanuts';">
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex items-start">
+                    <span class="action-step-number">3</span>
+                    <span class="action-step-text">Let's test a few food items to know if they contain fats.</span>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex items-start">
+                    <span class="action-step-number">4</span>
+                    <span class="action-step-text">Let's place a few drops of oil, fruit juice, and butter on 1 filter paper each.</span>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="flex items-start">
+                    <span class="action-step-number">5</span>
+                    <span class="action-step-text">Next, crush a few peanuts and rub them in between the folds of a fresh filter paper.</span>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="flex items-start">
+                    <span class="action-step-number">6</span>
+                    <span class="action-step-text">Dry the sheets of filter paper and observe the papers for translucent spots when kept against the sunlight.</span>
+                </div>
+                
+                <!-- Step 7 -->
+                <div class="flex items-start">
+                    <span class="action-step-number">7</span>
+                    <span class="action-step-text">Let's record the observations in the table drawn on the board.</span>
+                </div>
+
+                <!-- Step 8 (Implied: Discussion about the chart/results) -->
+                <div class="flex items-start">
+                    <span class="action-step-number">8</span>
+                    <span class="action-step-text">Look at the pictures showing types of fats in your Content Book. Discuss with your partner about the different types of fat that exist.</span>
+                </div>
+
+                <!-- Step 9 (Watch Video) -->
+                <div class="flex items-start">
+                    <span class="action-step-number">9</span>
+                    <span class="action-step-text">Now let's watch a video.</span>
+                </div>
+
+                <!-- Video Placeholder (Updated to a realistic thumbnail link) -->
+                <div class="mt-4 p-4 bg-gray-900 rounded-xl shadow-lg relative overflow-hidden" style="padding-bottom: 56.25%;">
+                    <!-- Aspect Ratio Box (16:9) -->
+                    <div class="absolute inset-0 flex items-center justify-center bg-cover bg-center" 
+                         style="background-image: url('https://picsum.photos/seed/fat-molecule-video/1200/675');"
+                         onerror="this.onerror=null;this.style.backgroundImage='url(https://placehold.co/1200x675/6b7280/ffffff?text=FAT+TYPES+VIDEO)';">
+                        <div class="relative z-10 p-4 rounded-full bg-red-600/80 hover:bg-red-700/90 cursor-pointer transition">
+                            <!-- Play button icon -->
+                            <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teacher Tip (Matches Screenshot 3) -->
+            <div class="mt-8 p-4 rounded-xl border-l-4 border-red-500 bg-red-100 shadow-md">
+                <h4 class="text-lg font-bold text-red-700 mb-1">Teacher Tip</h4>
+                <p class="text-sm text-gray-700">
+                    Tell students that fats are present in foods that leave a translucent patch. Prepare a set of filter papers and dry them beforehand. Show them to the students. Invite a few students to fill the table on the board.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- ANALYSIS Section (Unchanged content, continued from previous files) -->
+        <section class="p-6 pt-0 mb-10">
+            
+            <!-- Analysis Time/Notes/Audio Bar -->
+            <div class="flex justify-between items-center p-4 rounded-t-xl bg-teal-100 border-b border-teal-200 mb-6">
+                <h3 class="text-xl font-bold text-gray-800">ANALYSIS</h3>
+                <div class="flex items-center space-x-4">
+                    <!-- Duration -->
+                    <div class="flex items-center text-sm text-gray-600">
+                        <!-- Clock Icon -->
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        10 mins
+                    </div>
+                    <!-- My Notes Button -->
+                    <button class="bg-red-500 text-white text-sm font-semibold px-4 py-1 rounded-full hover:bg-red-600 transition">My Notes</button>
+                    <!-- Speaker Icon -->
+                    <svg class="w-6 h-6 text-gray-600 cursor-pointer hover:text-red-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a2.5 2.5 0 00-3.536 0L8.464 12a2.5 2.5 0 000 3.536l3.536 3.536a2.5 2.5 0 003.536 0l3.536-3.536a2.5 2.5 0 000-3.536L15.536 8.464z"></path></svg>
+                </div>
+            </div>
+
+            <!-- PART 1: ACTIVITY DISCUSSION -->
+            <div class="analysis-section">
+                <div class="analysis-header-banner">
+                    PART 1
+                    <h4 class="text-xl font-bold mt-1">ACTIVITY DISCUSSION</h4>
+                </div>
+                <div class="explanation-box">
+                    <p class="font-bold text-gray-800 mb-3">OK, now let's discuss the activity.</p>
+                    <div class="p-3 bg-white border border-gray-300 rounded-lg">
+                        <p class="text-lg font-semibold text-teal-800">Question: How can you identify the presence of fats in a given food item?</p>
+                        <p class="text-sm text-gray-600 mt-1">Let's hear from at least 3 students!</p>
+                    </div>
+
+                    <h5 class="text-xl font-bold text-gray-800 mt-6 mb-3">ACTIVITY EXPLANATION</h5>
+                    <ul class="space-y-2 list-disc list-inside ml-4 text-gray-700">
+                        <li>Foods that contain fats leave a translucent spot on filter paper.</li>
+                        <li>Foods like vegetable oil, butter, and peanuts have fats in them.</li>
+                        <li>Foods like fruit juice do not contain fats. They may wet the filter paper which dries up after sometime.</li>
+                    </ul>
+
+                    <!-- Fat Test Table (Replicated design) -->
+                    <table class="fat-table mt-6">
+                        <thead>
+                            <tr>
+                                <th>Food Items</th>
+                                <th>Translucent spot seen on filter paper (Yes/No)</th>
+                                <th>Fats present/absent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Vegetable oil</td>
+                                <td>Yes</td>
+                                <td>Present</td>
+                            </tr>
+                            <tr>
+                                <td>Butter</td>
+                                <td>Yes</td>
+                                <td>Present</td>
+                            </tr>
+                            <tr>
+                                <td>Peanuts</td>
+                                <td>Yes</td>
+                                <td>Present</td>
+                            </tr>
+                            <tr>
+                                <td>Juice</td>
+                                <td>No</td>
+                                <td>Absent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PART 2: GENERALIZED DISCUSSION -->
+            <div class="analysis-section">
+                <div class="analysis-header-banner bg-teal-200">
+                    PART 2
+                    <h4 class="text-xl font-bold mt-1">GENERALIZED DISCUSSION</h4>
+                </div>
+                <div class="explanation-box">
+                    <p class="font-bold text-gray-800 mb-3">OK, now let's generalize our discussion.</p>
+                    <div class="p-3 bg-white border border-gray-300 rounded-lg">
+                        <p class="text-lg font-semibold text-teal-800">Question: Which food items in the demonstration are saturated and unsaturated fats and how are they different?</p>
+                        <p class="text-sm text-gray-600 mt-1">Let's hear from at least 3 students!</p>
+                    </div>
+
+                    <h5 class="text-xl font-bold text-gray-800 mt-6 mb-3">GENERAL EXPLANATION</h5>
+                    <ul class="space-y-2 list-disc list-inside ml-4 text-gray-700">
+                        <li>Butter is an animal fat. Animal fats, like those present in red meat, are mostly saturated fats.</li>
+                        <li>Saturated fats tend to exist in the solid form at room temperature.</li>
+                        <li>Vegetable oil and peanuts are obtained from plants. Fats from plants and few animals, like fish, are unsaturated fats.</li>
+                        <li>Most unsaturated fats exist in the liquid form at room temperature.</li>
+                    </ul>
+                    
+                    <!-- Comparison Flowchart (Replicated design) -->
+                    <div class="mt-6 flex flex-col items-center">
+                        <p class="text-center font-bold text-gray-800 mb-4">Saturated vs. Unsaturated Fats</p>
+                        <div class="grid grid-cols-2 gap-6 w-full max-w-lg">
+                            <!-- Saturated Column -->
+                            <div class="flex flex-col items-center">
+                                <span class="bg-amber-400 text-gray-800 font-bold px-4 py-2 rounded-lg shadow-md">Saturated Fats</span>
+                                <div class="w-px h-6 bg-gray-400"></div>
+                                <div class="bg-sky-200 text-gray-700 p-3 rounded-lg text-center text-sm shadow-sm border border-sky-300 mb-4">
+                                    Mostly present in animal foods like red meat
+                                </div>
+                                <div class="w-px h-6 bg-gray-400"></div>
+                                <div class="bg-sky-200 text-gray-700 p-3 rounded-lg text-center text-sm shadow-sm border border-sky-300">
+                                    Should be eaten in limited amounts
+                                </div>
+                            </div>
+                            <!-- Unsaturated Column -->
+                            <div class="flex flex-col items-center">
+                                <span class="bg-amber-400 text-gray-800 font-bold px-4 py-2 rounded-lg shadow-md">Unsaturated Fats</span>
+                                <div class="w-px h-6 bg-gray-400"></div>
+                                <div class="bg-sky-200 text-gray-700 p-3 rounded-lg text-center text-sm shadow-sm border border-sky-300 mb-4">
+                                    Mostly present in plant-based foods and in fish
+                                </div>
+                                <div class="w-px h-6 bg-gray-400"></div>
+                                <div class="bg-sky-200 text-gray-700 p-3 rounded-lg text-center text-sm shadow-sm border border-sky-300">
+                                    Can be eaten more than saturated fats
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- PART 3: HIGHER-ORDER THINKING -->
+            <div class="analysis-section">
+                <div class="analysis-header-banner">
+                    PART 3
+                    <h4 class="text-xl font-bold mt-1">HIGHER-ORDER THINKING</h4>
+                </div>
+                <div class="explanation-box">
+                    <p class="font-bold text-gray-800 mb-3">OK, now let's try some higher-order thinking!</p>
+                    <div class="p-3 bg-white border border-gray-300 rounded-lg">
+                        <p class="text-lg font-semibold text-teal-800">Question: Consuming too much fatty foods can lead to various diseases. Are all fats bad for us? Why/Why not?</p>
+                        <p class="text-sm text-gray-600 mt-1">Let's hear from at least 3 students!</p>
+                    </div>
+
+                    <h5 class="text-xl font-bold text-gray-800 mt-6 mb-3">HOTS EXPLANATION</h5>
+                    <ul class="space-y-2 list-disc list-inside ml-4 text-gray-700">
+                        <li>While too much fat can be harmful to our body, fat is an essential nutrient that protects organs, provides energy when needed, and regulates body temperature.</li>
+                        <li>Studies have shown that unsaturated fats are healthier than saturated fats.</li>
+                        <li>Saturated fats increase blood cholesterol level which, in turn, increases the risk of heart diseases and can even lead to heart failure.</li>
+                        <li>Unsaturated fats regulate the blood cholesterol level and are good for our heart and our overall health.</li>
+                    </ul>
+
+                    <!-- Teacher Tip -->
+                    <div class="h-tip">
+                        <h4>Teacher Tip</h4>
+                        <p class="text-sm text-gray-700">
+                            If students can understand, discuss about HDL (good) and LDL (bad) cholesterol types in simple terms to help them understand that all types of cholesterol are not necessarily bad for the body.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- APPLICATION Section (Unchanged content, continued from previous files) -->
+        <section class="p-6 pt-0 mb-10">
+            
+            <!-- APPLICATION Header -->
+            <div class="app-header-banner">
+                <h3 class="text-xl font-bold text-gray-800">APPLICATION</h3>
+                <div class="flex items-center space-x-4">
+                    <!-- Duration -->
+                    <div class="flex items-center text-sm text-gray-600">
+                        <!-- Clock Icon -->
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        17 mins
+                    </div>
+                    <!-- My Notes Button -->
+                    <button class="bg-red-500 text-white text-sm font-semibold px-4 py-1 rounded-full hover:bg-red-600 transition">My Notes</button>
+                    <!-- Speaker Icon -->
+                    <svg class="w-6 h-6 text-gray-600 cursor-pointer hover:text-red-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a2.5 2.5 0 00-3.536 0L8.464 12a2.5 2.5 0 000 3.536l3.536 3.536a2.5 2.5 0 003.536 0l3.536-3.536a2.5 2.5 0 000-3.536L15.536 8.464z"></path></svg>
+                </div>
+            </div>
+
+            <div class="app-content-box">
+                <!-- CLASSWORK - WORKBOOK -->
+                <div class="mb-8">
+                    <h4 class="text-lg font-bold text-gray-800 summary-header uppercase tracking-wider mb-3">CLASSWORK - WORKBOOK <span class="text-xs font-normal text-gray-500 ml-2">(10 mins)</span></h4>
+                    
+                    <p class="text-gray-700 mb-4">OK, now it's time for some Application. Let's find our workbook and complete Worksheet 1.2. I repeat, Worksheet 1.2! Please do the worksheet on your own.</p>
+                    
+                    <!-- Worksheet 1.2 Card (Updated Icon) -->
+                    <div class="app-item-card max-w-sm">
+                        <img src="https://placehold.co/40x40/a7f3d0/065f46?text=Sheet" alt="Worksheet Icon" class="w-10 h-10 object-cover rounded-md border p-1">
+                        <span class="text-lg font-semibold text-gray-700">Worksheet 1.2</span>
+                    </div>
+
+                    <!-- Teacher Differentiation Tips -->
+                    <div class="differentiation-tip mt-6">
+                        <h5 class="text-lg font-bold text-red-700 mb-2">Teacher Differentiation Tips</h5>
+                        <p class="text-sm text-gray-700 mb-3">This is a good time to walk around the class and see what each child is doing.</p>
+                        
+                        <p class="text-sm font-bold mt-2">Those needing more help</p>
+                        <p class="text-sm text-gray-700 ml-3">Which type of fats can increase cholesterol - saturated or unsaturated?</p>
+                        
+                        <p class="text-sm font-bold mt-2">Extra Challenge</p>
+                        <p class="text-sm text-gray-700 ml-3">How are unsaturated fats beneficial for our body?</p>
+                    </div>
+                </div>
+
+                <!-- CLASSWORK - MORE PRACTICE -->
+                <div class="mb-8 border-t pt-6">
+                    <h4 class="text-lg font-bold text-gray-800 summary-header uppercase tracking-wider mb-4">CLASSWORK - MORE PRACTICE <span class="text-xs font-normal text-gray-500 ml-2">(7 mins)</span></h4>
+                    
+                    <p class="text-gray-700 mb-4">OK, now time for some more practice.</p>
+
+                    <div class="space-y-4 text-gray-700">
+                        <!-- Step 1 -->
+                        <div class="flex items-start">
+                            <span class="action-step-number more-practice-step-number">1</span>
+                            <span class="action-step-text flex items-center">
+                                <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500 mr-2">
+                                Read the section, Saturated and Unsaturated Fats, in the Content Book.
+                            </span>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="flex items-start">
+                            <span class="action-step-number more-practice-step-number">2</span>
+                            <span class="action-step-text flex items-center">
+                                <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500 mr-2">
+                                Write 1 thing in the lesson you already knew, 1 new thing you learned, and anything that you still do not understand.
+                            </span>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="flex items-start">
+                            <span class="action-step-number more-practice-step-number">3</span>
+                            <span class="action-step-text flex items-center">
+                                <input type="checkbox" class="form-checkbox w-5 h-5 accent-red-500 mr-2">
+                                Share with your partner.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HOMEWORK -->
+                <div class="border-t pt-6">
+                    <h4 class="text-lg font-bold text-gray-800 summary-header uppercase tracking-wider mb-3">HOMEWORK</h4>
+                    
+                    <p class="text-gray-700 mb-4">Answer Practice Questions 1-3 in your notebook. (You don't have to copy them. They are in your Content Book!)</p>
+                    
+                    <!-- Practice Questions Card (Updated Icon) -->
+                    <div class="app-item-card max-w-sm border-amber-300 bg-amber-50">
+                        <span class="action-step-number homework-action-step-number mr-4">
+                             <!-- Notebook/List Icon -->
+                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </span>
+                        <span class="text-lg font-semibold text-gray-700">Practice Questions 1-3</span>
+                    </div>
+
+                    <!-- Assign Homework Button Placeholder -->
+                    <button class="w-full mt-4 py-2 text-red-600 border border-red-600 rounded-lg font-semibold hover:bg-red-50 transition">
+                        Assign Homework
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ASSESSMENT Section (Extracted from PDF, placed below Application) -->
+        <section class="p-6 pt-0 border-t">
+            <div class="flex justify-between items-center p-4 rounded-t-xl bg-red-100 border-b border-red-200">
+                <h3 class="text-xl font-bold text-gray-800">ASSESSMENT</h3>
+                <div class="flex items-center space-x-4">
+                    <!-- Check Icon -->
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+            </div>
+            <div class="p-5 bg-white rounded-b-xl shadow-lg border border-t-0 border-gray-200">
+                <h4 class="text-lg font-bold text-gray-800 mb-4">Check <span class="ml-2 bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full text-sm">Worksheet 1.2</span></h4>
+                <ul class="list-none space-y-3">
+                    <li class="p-3 border-l-4 border-red-500 bg-red-50 rounded-md">
+                        <span class="font-bold text-red-600 block">A: Approaching</span>
+                        <span class="text-gray-700 text-sm">Students can identify foods that contain fats.</span>
+                    </li>
+                    <li class="p-3 border-l-4 border-yellow-500 bg-yellow-50 rounded-md">
+                        <span class="font-bold text-yellow-600 block">M: Meeting</span>
+                        <span class="text-gray-700 text-sm">Students can differentiate between saturated and unsaturated fats.</span>
+                    </li>
+                    <li class="p-3 border-l-4 border-green-500 bg-green-50 rounded-md">
+                        <span class="font-bold text-green-600 block">E: Exceeding</span>
+                        <span class="text-gray-700 text-sm">Students can explain the importance of fats.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Teacher Reference and Feedback Placeholder (Matching the bottom of the PDF) -->
+        <footer class="p-6 pt-4 bg-gray-50 border-t">
+            <h2 class="text-xl font-bold text-gray-800 summary-header uppercase tracking-wider mb-4">TEACHER REFERENCE</h2>
+            <p class="text-gray-600 text-sm mb-6">1. https://www.diffen.com/difference/Saturated Fats vs Unsaturated Fats</p>
+
+            <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">FEEDBACK</h3>
+                <p class="text-gray-700 mb-4">How was this lesson plan? Your rating will help us to serve you better!</p>
+                <div class="flex justify-between items-center text-sm text-gray-600">
+                    <span><svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9l-5 5-5-5"></path></svg> Swipe right if completed</span>
+                    <button class="bg-indigo-500 text-white font-semibold px-4 py-1 rounded-full hover:bg-indigo-600 transition">ASK QUESTIONS →</button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

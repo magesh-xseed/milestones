@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LP 1 — Earth's Rotation · Advanced UI</title>
+  <!-- Tailwind CDN + Inter font -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Material Symbols Google Font Icons (Material Symbols Outlined) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+  <style>
+    /* Theme Colors & Variables - Light & Clean */
+    :root{
+      --brand-1: #1abc9c; /* Primary Accent: Turquoise/Teal */
+      --brand-2: #16a085; /* Darker Turquoise for hover/emphasis */
+      --dark-header: #006400; /* Dark Green Header/Divider */
+      --bg-highlight: #e0f7f3; /* Very Light Teal for section background fills */
+      --accent: #f59e0b; /* Amber (Secondary Accent - for Strategy/Meeting) - UNCHANGED */
+      --text-main: #1f2937; /* Dark Gray (main text) */
+      --text-muted: #6b7280; /* Gray-500 (secondary text) */
+      --text-light: #9ca3af; /* Gray-400 (tertiary text) */
+      --bg-primary: #ffffff; /* Pure White */
+      --bg-secondary: #f9fafb; /* Very Light Gray */
+      --border-color: #e5e7eb; /* Light Gray Border */
+      --shadow-color: rgba(26, 188, 156, 0.15); /* Subtle Green Shadow */
+    }
+
+    html,body{height:100%;}
+    /* Clean, minimal light background */
+    body{
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: #ffffff;
+      color: var(--text-main);
+      transition: background-color 0.3s;
+    }
+    
+    /* Global Material Symbols Style */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 20px;
+    }
+
+    /* Clean Card with Subtle Shadow (Updated for cleaner look) */
+    .glass-card{
+      background: var(--bg-primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer, wider shadow */
+      border: 1px solid #f1f5f9; /* Very light border */
+      transition: all 0.2s ease-in-out;
+    }
+    .glass-card:hover{
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08); /* Slightly more pronounced on hover */
+        border-color: #e2e8f0; /* Slight gray border change */
+    }
+
+    /* Section Headings - Clean Underline */
+    .section-title{
+      letter-spacing:0.8px;
+      color: var(--brand-2); /* Darker green for heading text */
+      font-weight:700;
+      text-transform: uppercase;
+      font-size: 1rem; /* Increased from 0.875rem */
+    }
+    .fancy-underline{position:relative; display:inline-block}
+    .fancy-underline:after{
+      content:'';
+      position:absolute;
+      left:0; bottom:-8px;
+      width:40px; height:2px;
+      border-radius:2px;
+      background: var(--brand-1);
+      opacity:1;
+      transform-origin:left;
+      transition: transform 0.3s ease-out;
+    }
+    .fancy-underline:hover:after{transform:scaleX(1.2);}
+
+    /* Responsive Grid */
+    @media (min-width:1024px){
+      .layout-grid{display:grid; grid-template-columns: 1fr; gap:24px; align-items:start}
+    }
+
+    /* Primary Button - Clean & Solid */
+    .btn-primary{
+      background: var(--brand-1);
+      color: white;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 2px 4px var(--shadow-color);
+    }
+    .btn-primary:hover{
+      background: var(--brand-2);
+      box-shadow: 0 4px 8px var(--shadow-color);
+    }
+    .btn-primary:active{
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px var(--shadow-color);
+    }
+
+    /* Ghost Button - Light Fill */
+    .btn-ghost{
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        transition: all 0.2s ease-in-out;
+    }
+    .btn-ghost:hover{
+        background: var(--bg-primary);
+        border-color: var(--brand-1);
+        color: var(--brand-1);
+    }
+
+    /* Accessible Focus Ring */
+    .focus-ring:focus{
+      outline:none;
+      box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
+      border-radius:8px;
+    }
+
+    /* Lesson Label Pill - Clean Design */
+    .label-pill{
+        background: var(--bg-secondary);
+        color: var(--brand-1);
+        font-weight:600;
+        padding:6px 12px;
+        border-radius:6px;
+        letter-spacing: 0.4px;
+        font-size: 0.875rem; /* Increased from 0.75rem */
+        border: 1px solid var(--border-color);
+        box-shadow: none;
+    }
+    
+    /* Navigation Link Base Style */
+    .nav-link {
+        display: flex; /* Ensure flex for icon/text alignment */
+        align-items: center;
+        gap: 12px;
+        padding: 12px; /* Increased padding */
+        border-radius: 8px; /* Match active state radius */
+        transition: all 0.2s ease-in-out;
+        /* Default state color */
+        color: var(--text-muted); 
+    }
+    /* Hover state for non-active links */
+    .nav-link:hover {
+        background-color: var(--bg-highlight); /* Use light highlight on hover */
+        color: var(--brand-2);
+    }
+    /* Ensure icons in nav links inherit color */
+    .nav-link .material-symbols-outlined {
+        color: var(--text-muted);
+        transition: color 0.2s;
+    }
+    .nav-link:hover .material-symbols-outlined {
+        color: var(--brand-2);
+    }
+    /* Ensure text within nav-link is styled consistently */
+    .nav-link span {
+        transition: color 0.2s;
+    }
+
+    /* Active Navigation Link (Clean Pill Look) */
+    .nav-active{
+        background: var(--bg-highlight); /* Light teal background for active state */
+        font-weight: 700;
+        box-shadow: 0 1px 3px rgba(26, 188, 156, 0.1);
+        color: var(--brand-2) !important; /* Ensure brand color is used for active text */
+    }
+    /* Ensure icons in active nav links use brand color */
+    .nav-active .material-symbols-outlined {
+        color: var(--brand-2) !important;
+        font-weight: 600; /* Give active icon slight weight boost */
+    }
+
+    /* Info Card - Clean & Minimal */
+    .info-card{
+        border-radius: 8px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        transition: all 0.15s ease-in-out;
+    }
+    .info-card:hover{
+        background: var(--bg-primary);
+        border-color: var(--brand-1);
+        box-shadow: 0 2px 6px var(--shadow-color);
+    }
+    /* Summary table labels use the primary light green background and dark text */
+    .summary-row-label{
+        background: var(--bg-highlight);
+        color: var(--brand-2);
+        border-right: 1px solid var(--border-color);
+    }
+    /* Removed .analysis-part-header as it is now done with inline Tailwind classes for a better screenshot match */
+    .question-box{
+        border-radius: 8px;
+        padding: 1rem;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+    }
+
+
+    /* NEW: Banner Styling (Updated to match screenshot) */
+    .big-banner-new {
+        /* Changed to a placeholder that reflects the Earth's Rotation theme more closely */
+        background-image: url('https://placehold.co/1400x350/a8dadc/1d3557?text=EARTH\'S+ROTATION+DEMO+IMAGE'); 
+        background-size: cover;
+        background-position: center;
+        height: 350px; /* Adjusted height to match proportions */
+        position: relative;
+    }
+    .time-badge {
+        background: rgba(0, 0, 0, 0.6); 
+        backdrop-filter: blur(2px); 
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="max-w-[1400px] mx-auto py-4 px-6">
+
+    <!-- Top bar (Updated Header with light teal background) -->
+   <header
+  class="flex items-center justify-between mb-8 gap-6 pb-5 border-b-2 sticky top-0 z-50 backdrop-blur-lg"
+  style="background: var(--bg-highlight); border-bottom-color: var(--dark-header); padding: 20px; border-radius: 8px;">
+
+      <div class="flex items-center gap-4">
+        <!-- Logo block - uses the primary green color -->
+        <div class="w-14 h-14 rounded-lg bg-gradient-to-br flex items-center justify-center text-white text-xl font-bold shadow-sm" style="color: white; background: var(--brand-1);">LP</div>
+        <div>
+          <div class="text-sm text-gray-700 tracking-wider uppercase font-medium">Advanced Curriculum Module</div>
+          <div class="text-2xl font-bold tracking-tight mt-1 text-gray-900">LP 1 · Changes in the Sky Across the Day</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 glass-card px-4 py-2 rounded-lg text-base no-print">
+          <span class="material-symbols-outlined text-gray-400">schedule</span>
+          <span class="text-sm text-gray-600">Duration</span>
+          <!-- Duration pill - uses the primary green color -->
+          <span class="px-3 py-1 rounded-full text-base font-semibold text-white" style="background: var(--brand-1);">35 mins</span>
+        </div>
+        <button id="notesToggle" class="btn-primary px-5 py-2.5 rounded-lg text-base focus-ring no-print">My Notes</button>
+      </div>
+    </header>
+
+    <div class="layout-grid">
+
+<!-- <aside class="glass-card p-6 rounded-lg sticky top-8">
+        <div class="mb-5 border-b border-gray-100 pb-4">
+          <div class="flex items-center justify-between">
+            <div class="text-xs text-gray-400 uppercase tracking-widest font-semibold">CLASS FOCUS</div>
+   
+            <div class="text-sm font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-md">Grade 4</div>
+          </div>
+          <h3 class="text-2xl font-extrabold mt-2" style="color: var(--brand-1);">Earth's Rotation</h3>
+        </div>
+
+        <nav id="nav-menu" class="space-y-1">
+          <a href="#teacher" class="nav-link nav-active">
+            <span class="label-pill">TEACHER SUMMARY</span>
+          </a>
+          <a href="#aim" class="nav-link">
+            <span class="material-symbols-outlined text-gray-400">target</span>
+            <span class="text-base font-medium">Aim & Keywords</span>
+          </a>
+          <a href="#action" class="nav-link">
+            <span class="material-symbols-outlined text-gray-400">auto_awesome_motion</span>
+            <span class="text-base font-medium">Action & Demo</span>
+          </a>
+          <a href="#analysis" class="nav-link">
+            <span class="material-symbols-outlined text-gray-400">psychology</span>
+            <span class="text-base font-medium">Analysis & HOTS</span>
+          </a>
+          <a href="#application" class="nav-link">
+            <span class="material-symbols-outlined text-gray-400">edit_document</span>
+            <span class="text-base font-medium">Application (Work)</span>
+          </a>
+          <a href="#reference" class="nav-link">
+            <span class="material-symbols-outlined text-gray-400">book</span>
+            <span class="text-base font-medium">Reference</span>
+          </a>
+          <a href="#qa" class="nav-link">
+            <span class="material-symbols-outlined text-gray-400">help_center</span>
+            <span class="text-base font-medium">Q & A</span>
+          </a>
+          <a href="#feedback" class="nav-link">
+            <span class="material-symbols-outlined text-gray-400">rate_review</span>
+            <span class="text-base font-medium">Feedback</span>
+          </a>
+        </nav>
+
+        <div class="mt-8 pt-4 border-t border-gray-100">
+          <div class="text-sm text-gray-500 mb-4 uppercase tracking-wider font-semibold">REQUIRED RESOURCES</div>
+          <ul class="space-y-3">
+            <li class="flex items-center gap-3 text-base font-medium text-gray-700">
+                <span class="w-6 h-6 rounded-full grid place-items-center text-sm" style="background: var(--bg-highlight); color: var(--brand-1);"><span class="material-symbols-outlined text-sm">globe_asia</span></span>
+                Earth printout (A3)
+            </li>
+            <li class="flex items-center gap-3 text-base font-medium text-gray-700">
+                <span class="w-6 h-6 rounded-full grid place-items-center text-sm" style="background: var(--bg-highlight); color: var(--brand-1);"><span class="material-symbols-outlined text-sm">flashlight_on</span></span>
+                High-Lumen Flashlight
+            </li>
+            <li class="flex items-center gap-3 text-base font-medium text-gray-700">
+                <span class="w-6 h-6 rounded-full grid place-items-center text-sm" style="background: var(--bg-highlight); color: var(--brand-1);"><span class="material-symbols-outlined text-sm">cable</span></span>
+                Tape & String
+            </li>
+          </ul>
+        </div>
+      </aside> -->
+
+      <!-- Main content -->
+      <main class="p-0 bg-transparent">
+        
+        <section class="big-banner-new rounded-lg overflow-hidden shadow-lg mb-8 relative">
+            <div class="absolute bottom-4 right-4 text-xs font-semibold text-white time-badge flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm" style="font-size: 16px;">schedule</span>
+                35 mins
+            </div>
+        </section>
+
+
+        <!-- Teacher Summary -->
+        <section id="teacher" class="glass-card rounded-lg p-8 mb-8">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 class="section-title fancy-underline">TEACHER SUMMARY</h2>
+              <p class="mt-3 text-lg text-gray-700 leading-relaxed">A clear demonstration is key: Use a student (Earth), a flashlight (Sun), and a labeled printout to show that the Sun's apparent motion is caused by <strong>Earth's West-to-East rotation</strong>.</p>
+            </div>
+          </div>
+
+          <!-- START: Detailed summary list structure (Colors match screenshot) -->
+          <div class="mt-6 space-y-3">
+              <!-- AIM Row -->
+              <div class="flex rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-32 flex-shrink-0 p-3 font-bold uppercase text-sm tracking-wider summary-row-label text-center">AIM</div>
+                  <div class="p-3 text-base text-gray-700 bg-white flex-grow">Explain Earth's rotation and its effect on the apparent position of the Sun.</div>
+              </div>
+              <!-- ACTION Row -->
+              <div class="flex rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-32 flex-shrink-0 p-3 font-bold uppercase text-sm tracking-wider summary-row-label text-center">ACTION</div>
+                  <div class="p-3 text-base text-gray-700 bg-white flex-grow">Demonstrate West-to-East rotation using a student and flashlight (Sun).</div>
+              </div>
+              <!-- ANALYSIS Row -->
+              <div class="flex rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-32 flex-shrink-0 p-3 font-bold uppercase text-sm tracking-wider summary-row-label text-center">ANALYSIS</div>
+                  <div class="p-3 text-base text-gray-700 bg-white flex-grow">Analyze observations to relate local day/night cycles to the global rotation concept.</div>
+              </div>
+              <!-- APPLICATION Row -->
+              <div class="flex rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-32 flex-shrink-0 p-3 font-bold uppercase text-sm tracking-wider summary-row-label text-center">APPLY</div>
+                  <div class="p-3 text-base text-gray-700 bg-white flex-grow">Worksheet 1.1: Label cardinal directions and times of day on Earth diagram.</div>
+              </div>
+              <!-- ASSESSMENT Row -->
+              <div class="flex rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-32 flex-shrink-0 p-3 font-bold uppercase text-sm tracking-wider summary-row-label text-center">ASSESS</div>
+                  <div class="p-3 text-base text-gray-700 bg-white flex-grow">Meeting criteria: Correctly explain that Earth's rotation causes the apparent motion of the Sun.</div>
+              </div>
+          </div>
+          <!-- END: Detailed summary list structure -->
+      </section>
+
+
+        <!-- Hero banner -->
+        <section class="glass-card rounded-lg p-8 mb-8">
+          <div class="flex flex-col lg:flex-row gap-8 items-center">
+            <div class="flex-1">
+              <h1 class="text-3xl font-bold leading-snug tracking-tight text-gray-900">Why does the Sun appear to move across the sky?</h1>
+              <p class="mt-3 text-lg text-gray-600">A comprehensive, teacher-focused module demonstrating Earth's rotation and correlating observations to astronomical principles.</p>
+
+              <!-- <div class="mt-6 flex items-center gap-4">
+                <button class="btn-primary px-6 py-3 rounded-lg text-base font-semibold">Start Lesson</button>
+                <button class="btn-ghost px-6 py-3 rounded-lg text-base font-semibold">Share Module</button>
+              </div> -->
+            </div>
+
+            <div class="w-full lg:w-96">
+              <div class="relative rounded-lg overflow-hidden shadow-sm border border-gray-200">
+                <!-- Placeholder for interactive 3D model or visual (Updated background color) -->
+                <img src="https://placehold.co/900x450/1abc9c/ffffff?text=3D+Rotation+Simulator" alt="hero" class="w-full h-48 object-cover">
+                <div class="absolute left-5 bottom-5 bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded text-sm font-semibold shadow-sm uppercase tracking-wider" style="color: var(--brand-1);">Live Interactive Demo</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+      <!-- AIM section -->
+        <section id="aim" class="glass-card rounded-lg p-8 mb-8">
+          <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+            <!-- Updated Heading Class for consistency -->
+            <h3 class="section-title fancy-underline">AIM & KEYWORDS</h3>
+            <div class="text-base font-semibold text-gray-600">8 mins</div>
+          </div>
+
+          <!-- Single Column Layout to accommodate the move -->
+          <div class="space-y-6"> 
+            
+            <p class="text-lg text-gray-700 leading-relaxed">Students will observe how <strong>Earth's rotation</strong> causes the Sun's <em>apparent</em> movement and correctly associate this motion with cardinal directions (<strong>East</strong> & <strong>West</strong>).</p>
+
+            <!-- Setup Steps -->
+            <div class="info-card p-4">
+              <div class="text-base text-gray-600 uppercase mb-3 font-semibold">Setup Steps</div>
+              <ol class="list-decimal list-inside ml-2 text-base text-gray-700 space-y-2">
+                <li>Secure Earth printout to student (ensure correct poles/locations).</li>
+                <li>Place flashlight (Sun) on a fixed elevated surface.</li>
+                <li>Review <strong>West → East</strong> rotation direction before starting.</li>
+              </ol>
+            </div>
+          
+            <!-- Keywords Card (Now uses pink colors from screenshot) -->
+            <div class="glass-card p-5 rounded-lg">
+                <!-- Keywords Title inside the card (Updated Heading Class) -->
+                <h3 class="text-lg font-bold mb-4 text-gray-700 uppercase tracking-wide">KEYWORDS WE WILL USE</h3>
+                
+                <p class="text-base text-gray-700 mb-4">Tap the keywords below to see the definitions.</p>
+                
+                <div class="flex flex-wrap gap-2 mb-6">
+                  <!-- Keyword buttons updated to pink theme to match screenshot -->
+                  <button class="px-3 py-1.5 rounded-full bg-pink-100 text-pink-700 text-base font-medium keyword-btn hover:bg-pink-200 transition">rotation</button>
+                  <button class="px-3 py-1.5 rounded-full bg-pink-100 text-pink-700 text-base font-medium keyword-btn transition">equator</button>
+                  <button class="px-3 py-1.5 rounded-full bg-pink-100 text-pink-700 text-base font-medium keyword-btn transition">east</button>
+                  <button class="px-3 py-1.5 rounded-full bg-pink-100 text-pink-700 text-base font-medium keyword-btn transition">west</button>
+                  <button class="px-3 py-1.5 rounded-full bg-pink-100 text-pink-700 text-base font-medium keyword-btn transition">North</button>
+                  <button class="px-3 py-1.5 rounded-full bg-pink-100 text-pink-700 text-base font-medium keyword-btn transition">South</button>
+                </div>
+                
+                <!-- KW Definition Display Box (Updated Styling) -->
+                <div id="kwDef" class="p-4 text-base rounded-lg border-l-4">
+                  <span class="text-gray-500 italic">Click a keyword to see its definition and relevance to the lesson.</span>
+                </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ACTION (expandable) -->
+        <section id="action" class="glass-card rounded-lg p-8 mb-8">
+          <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+            <h3 class="section-title fancy-underline">ACTION & DEMO</h3>
+            <div class="text-base font-semibold text-gray-600">8 mins</div>
+          </div>
+
+          <div class="mt-4 space-y-5 text-gray-700">
+            <!-- Step circles use the brand color -->
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full text-white grid place-items-center font-bold flex-shrink-0 shadow-sm text-lg" style="background: var(--brand-1);">1</div>
+              <div>
+                <div class="font-semibold text-xl text-gray-900">Initialize & Align</div>
+                <div class="text-base text-gray-600 mt-1">Designate classroom <strong>East</strong> and <strong>West</strong> clearly. Position volunteer so 'Sun' is at 'morning' (East).</div>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-full text-white grid place-items-center font-bold flex-shrink-0 shadow-sm text-lg" style="background: var(--brand-1);">2</div>
+              <div>
+                <div class="font-semibold text-xl text-gray-900">Execute Rotation</div>
+                <div class="text-base text-gray-600 mt-1">Volunteer performs a slow, controlled <strong>West → East</strong> rotation. Students track the Sun's apparent <strong>East → West</strong> motion.</div>
+              </div>
+            </div>
+
+            <!-- Teacher Strategy card keeps secondary accent (amber) -->
+            <div class="p-4 rounded-lg bg-amber-50 border border-amber-200">
+              <div class="font-semibold text-base text-amber-900 flex items-center gap-2"><span class="material-symbols-outlined">lightbulb</span>Teacher Tip</div>
+              <div class="text-base text-gray-700 mt-2">Have students focus on a specific point on the Earth printout (like their city) to truly grasp the concept of local day and night.</div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <details class="open:ring-1 p-3 rounded-lg" style="--tw-ring-color: var(--brand-1);">
+                <summary class="cursor-pointer font-semibold hover:text-gray-900 transition text-base" style="color: var(--brand-1);">View Detailed Script & Misconception Check</summary>
+                <div class="mt-3 text-base text-gray-600 ml-2">
+                  <ol class="list-disc ml-5 space-y-2">
+                    <li><strong>Scripting:</strong> "Notice that you are spinning, not the Sun. This spin is called <strong>rotation</strong>."</li>
+                    <li><strong>Observation Cue:</strong> Ask students: "When the volunteer faces the Sun, what time of day is it for them?"</li>
+                    <li><strong>Misconception:</strong> Address the common belief that the Sun orbits the Earth.</li>
+                  </ol>
+                </div>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <!-- ANALYSIS (Refined to match screenshot design closely) -->
+        <section id="analysis" class="glass-card rounded-lg p-0 mb-8 overflow-hidden">
+          <div class="flex items-center justify-between p-5 border-b border-gray-200">
+            <h3 class="section-title fancy-underline">ANALYSIS</h3>
+            <div class="text-base font-semibold text-gray-600">10 mins</div>
+          </div>
+
+          <!-- PART 1: ACTIVITY DISCUSSION -->
+          <div class="space-y-6">
+            <!-- Header now uses full-width colored bar matching the screenshot, with top radius -->
+            <div class="bg-green-100 text-green-800 p-4 font-bold uppercase tracking-wider rounded-t-lg">PART 1: ACTIVITY DISCUSSION</div>
+            <div class="px-6 pb-6 space-y-6">
+
+                <div class="question-box">
+                    <div class="font-semibold text-lg text-gray-900">Question: What did you notice when the Earth (teacher/student) turned around the Sun (flashlight)?</div>
+                    <div class="text-base text-gray-600 mt-1">Let's hear from at least 3 students!</div>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-lg text-gray-800 uppercase tracking-wide border-b pb-2">Activity Explanation</h4>
+                    <ul class="list-disc ml-5 space-y-2 text-base text-gray-700">
+                        <li>When the Earth turned around, the Sun appeared to move across the room, even though the flashlight was still.</li>
+                        <li>This apparent movement is an illusion caused by the Earth moving.</li>
+                    </ul>
+                </div>
+
+                <!-- RECORDED OBSERVATIONS Table (Table header now uses brand color and white text) -->
+                <div class="space-y-3">
+                    <h4 class="font-bold text-lg text-gray-800 uppercase tracking-wide border-b pb-2">Recorded Observations</h4>
+                    <table class="w-full text-base border-collapse rounded-lg overflow-hidden border border-gray-200">
+                        <thead>
+                            <!-- Applied brand color to the table header -->
+                            <tr class="text-left text-sm text-white uppercase tracking-wider font-semibold" style="background-color: var(--brand-1);">
+                                <th class="py-3 px-3">Sun Position (from the observer on Earth)</th>
+                                <th class="py-3 px-3">Part of the Day</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray-200"><td class="py-2 px-3 text-gray-700">The Sun is coming in from your left side (East)</td><td class="py-2 px-3 font-semibold text-gray-900">Morning</td></tr>
+                            <tr class="bg-gray-50 border-t border-gray-200"><td class="py-2 px-3 text-gray-700">The Sun is directly in front of you (High)</td><td class="py-2 px-3 font-semibold text-gray-900">Noon</td></tr>
+                            <tr class="border-t border-gray-200"><td class="py-2 px-3 text-gray-700">The Sun is moving toward your right side (West)</td><td class="py-2 px-3 font-semibold text-gray-900">Evening</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+
+
+          <!-- PART 2: GENERALIZED DISCUSSION -->
+          <div class="border-t border-gray-200 space-y-6">
+            <!-- Header now uses full-width colored bar matching the screenshot -->
+            <div class="bg-green-100 text-green-800 p-4 font-bold uppercase tracking-wider">PART 2: GENERALIZED DISCUSSION</div>
+            <div class="px-6 pb-6 space-y-6">
+
+                <div class="question-box">
+                    <div class="font-semibold text-lg text-gray-900">Question: Why does the Sun appear to move in the sky, and how does that change the day?</div>
+                    <div class="text-base text-gray-600 mt-1">Let's hear from at least 3 students!</div>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-lg text-gray-800 uppercase tracking-wide border-b pb-2">General Explanation</h4>
+                    <ul class="list-disc ml-5 space-y-2 text-base text-gray-700">
+                        <li>The Sun appears to move because the Earth rotates (spins) on its axis.</li>
+                        <li>The Earth rotates from **West to East** (counter-clockwise when viewed from the North Pole).</li>
+                        <li>This spinning causes the Sun to appear to rise in the East, be high above our head at noon, and set in the West, completing one day.</li>
+                    </ul>
+                </div>
+                
+                <!-- Day Cycle Pills (Colors updated to match screenshot: Orange/Yellow top, Light Blue bottom) -->
+                 <!-- Flowchart of Day Progression -->
+                    <div class="mt-6 flex flex-col items-center">
+                        <p class="text-center font-bold text-gray-800 mb-4">The Day Cycle Caused by Earth's Rotation</p>
+                        <div class="grid grid-cols-3 gap-4 w-full max-w-lg">
+                            <!-- East/Morning -->
+                            <div class="flex flex-col items-center">
+                                <span class="bg-amber-400 text-gray-800 font-bold px-4 py-2 rounded-lg shadow-md">EAST (Sunrise)</span>
+                                <div class="w-px h-4 bg-gray-400"></div>
+                                <div class="bg-sky-200 text-gray-700 p-3 rounded-lg text-center text-sm shadow-sm border border-sky-300">
+                                    Morning
+                                </div>
+                            </div>
+                            <!-- High/Noon -->
+                            <div class="flex flex-col items-center">
+                                <span class="bg-amber-400 text-gray-800 font-bold px-4 py-2 rounded-lg shadow-md">HIGH (Midday)</span>
+                                <div class="w-px h-4 bg-gray-400"></div>
+                                <div class="bg-sky-200 text-gray-700 p-3 rounded-lg text-center text-sm shadow-sm border border-sky-300">
+                                    Noon
+                                </div>
+                            </div>
+                            <!-- West/Evening -->
+                            <div class="flex flex-col items-center">
+                                <span class="bg-amber-400 text-gray-800 font-bold px-4 py-2 rounded-lg shadow-md">WEST (Sunset)</span>
+                                <div class="w-px h-4 bg-gray-400"></div>
+                                <div class="bg-sky-200 text-gray-700 p-3 rounded-lg text-center text-sm shadow-sm border border-sky-300">
+                                    Evening
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+          </div>
+
+          <!-- PART 3: HIGHER-ORDER THINKING -->
+          <div class="border-t border-gray-200 space-y-6">
+            <!-- Header now uses full-width colored bar matching the screenshot -->
+            <div class="bg-green-100 text-green-800 p-4 font-bold uppercase tracking-wider">PART 3: HIGHER-ORDER THINKING</div>
+            <div class="px-6 pb-6 space-y-6">
+                <div class="question-box">
+                    <div class="font-semibold text-lg text-gray-900">Question: If the Sun is low in the east, what time is it? If it is high in front of you, what time is it? If it is low in the west, what time is it?</div>
+                    <div class="text-base text-gray-600 mt-1">Let's hear from at least 3 students!</div>
+                </div>
+
+                <div class="space-y-3 p-4 rounded-lg bg-green-50 border-l-4 border-green-300">
+                    <h4 class="font-bold text-lg text-green-800 uppercase tracking-wide">HOTS Explanation / Prediction</h4>
+                    <ul class="list-disc ml-5 space-y-2 text-base text-gray-700">
+                        <li>If the Sun looks low in the east, it is **morning** (sunrise).</li>
+                        <li>If it is high right in front of you (or to the South in the Northern Hemisphere), it is **noon** (midday).</li>
+                        <li>If the Sun is low in the west, it is **evening** (sunset).</li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- APPLICATION - Refactored to match the clean, vertically separated block design from the screenshot -->
+        <section id="application" class="glass-card rounded-lg p-8 mb-8">
+          <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+            <h3 class="section-title fancy-underline">APPLICATION & WORK</h3>
+            <div class="text-base font-semibold text-gray-600">17 mins</div>
+          </div>
+
+          <div class="space-y-8">
+            
+            <!-- 1. CLASSWORK - WORKBOOK (Worksheet 1.1) -->
+            <div>
+                <div class="font-bold text-lg text-gray-800 uppercase tracking-wide border-l-4 pl-3" style="border-left-color: var(--brand-1);">CLASSWORK · WORKBOOK (10 MINS)</div>
+                <p class="mt-3 text-base text-gray-700 leading-relaxed">Students apply their learning by labeling key times of day and directions on an Earth rotation diagram.</p>
+
+                <!-- Worksheet File Card -->
+                <div class="info-card p-4 inline-flex items-center gap-3 mt-4 hover:shadow-lg transition cursor-pointer">
+                    <span class="material-symbols-outlined text-xl" style="color: var(--brand-1);">description</span>
+                    <span class="text-lg font-semibold text-gray-800">Worksheet 1.1: Rotation Diagram</span>
+                </div>
+
+
+                <!-- Teacher Differentiation Tips Card (Styled to stand out cleanly) -->
+                <div class="mt-8 p-4 rounded-lg border-l-4" style="background: var(--bg-highlight); border-left-color: var(--brand-2);">
+                    <div class="font-bold text-base mb-2" style="color: var(--brand-2);">Teacher Differentiation Tips</div>
+                    <p class="text-sm text-gray-700 leading-relaxed mb-3">This is a good time to walk around the class and check on student understanding, especially their grasp of East/West movement.</p>
+
+                    <div class="text-sm font-semibold mt-2" style="color: var(--brand-2);">Those needing more help (A)</div>
+                    <p class="text-sm text-gray-700 mt-1">Provide a pre-labeled compass rose on the student's desk and remind them which side was East (the left side when facing the "Sun" flashlight) and which side was West (the right side).</p>
+
+                    <div class="text-sm font-semibold mt-3" style="color: var(--brand-2);">Extra Challenge (E)</div>
+                    <p class="text-sm text-gray-700 mt-1">Assign an optional research prompt on the concept of the <strong>celestial sphere</strong> (the apparent sphere of the sky).</p>
+                </div>
+            </div>
+            
+            <!-- Divider -->
+            <div class="border-t border-gray-200 pt-8"></div>
+
+
+            <!-- 2. CLASSWORK - MORE PRACTICE (Extended Scenario) -->
+            <div>
+                <div class="font-bold text-lg text-gray-800 uppercase tracking-wide border-l-4 pl-3" style="border-left-color: var(--brand-1);">CLASSWORK · EXTENDED SCENARIO (7 MINS)</div>
+                <p class="mt-3 text-base text-gray-700 leading-relaxed">Students write a short, 3-sentence description of what they would observe if they lived on the opposite side of the world, linking it to the concept of rotation.</p>
+
+                <!-- Checkbox steps derived from screenshot style -->
+                <ul class="mt-4 space-y-3">
+                    <li class="flex items-start gap-3 text-base text-gray-700">
+                        <input type="checkbox" id="step1" class="mt-1 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500" disabled>
+                        <label for="step1">Imagine you are standing on the opposite side of the Earth.</label>
+                    </li>
+                    <li class="flex items-start gap-3 text-base text-gray-700">
+                        <input type="checkbox" id="step2" class="mt-1 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500" disabled>
+                        <label for="step2">Write 3 sentences describing what you see (Is it day or night? Where is the Sun?).</label>
+                    </li>
+                    <li class="flex items-start gap-3 text-base text-gray-700">
+                        <input type="checkbox" id="step3" class="mt-1 w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500" disabled>
+                        <label for="step3">Share your answer with a partner and check for accuracy.</label>
+                    </li>
+                </ul>
+                
+                <!-- Wrap-up suggestion -->
+                <div class="mt-6 p-4 rounded-lg bg-green-50 border border-green-200">
+                    <div class="font-semibold text-base text-green-800 flex items-center gap-2"><span class="material-symbols-outlined">auto_stories</span>Wrap-up Creative Task</div>
+                    <div class="text-base text-gray-700 mt-2">Have students create a 3-panel comic strip demonstrating Earth's rotation causing day and night.</div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-200 pt-8"></div>
+
+            <!-- 3. HOMEWORK -->
+            <div>
+                <div class="font-bold text-lg text-gray-800 uppercase tracking-wide border-l-4 pl-3" style="border-left-color: var(--brand-1);">HOMEWORK</div>
+                <p class="mt-3 text-base text-gray-700 leading-relaxed">Observe the Sun's position from your home at three different times tomorrow (morning, noon, evening) and record the cardinal direction.</p>
+
+                <div class="mt-6">
+                    <button class="px-4 py-2 rounded-lg btn-ghost text-base font-semibold">Assign Homework</button>
+                </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ASSESSMENT RUBRIC (Remains at the end) -->
+        <section class="glass-card rounded-lg p-8 mb-8">
+          <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+            <h3 class="section-title fancy-underline">PERFORMANCE RUBRIC</h3>
+            <div class="text-base font-semibold text-gray-600">Evaluate Worksheet 1.1</div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Rubric cards updated to match the theme's colors -->
+            <div class="p-4 rounded-lg bg-red-50 border-l-4 border-red-300">
+              <div class="text-lg font-semibold text-red-700">A · Approaching</div>
+              <div class="text-base text-gray-600 mt-1">Identifies Sun moves (but may not explain <em>why</em>).</div>
+            </div>
+            <div class="p-4 rounded-lg bg-amber-50 border-l-4 border-amber-300">
+              <div class="text-lg font-semibold text-amber-700">M · Meeting</div>
+              <div class="text-base text-gray-600 mt-1">Correctly explains Earth's rotation causes apparent motion.</div>
+            </div>
+            <div class="p-4 rounded-lg bg-green-50 border-l-4 border-green-300">
+              <div class="text-lg font-semibold text-green-700">E · Exceeding</div>
+              <div class="text-base text-gray-600 mt-1">Predicts time of day/direction changes in hypothetical scenarios.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- NEW SECTION 1: TEACHER REFERENCE -->
+        <section id="reference" class="glass-card rounded-lg p-8 mb-8">
+            <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+              <h3 class="section-title fancy-underline">TEACHER REFERENCE</h3>
+            </div>
+            <ol class="list-decimal ml-5 text-base text-gray-700 space-y-3">
+                <li>NASA Science. (2024, May 15). *Earth's Rotation and Revolution*. Retrieved from <a href="#" class="text-blue-600 hover:text-blue-800 underline">https://science.nasa.gov/earth/rotation/</a></li>
+                <li>Smith, J. (2022). *Teaching Elementary Astronomy: A Hands-on Approach*. Academic Press.</li>
+                <li>Clark, T. (2023, Sept 10). *Misconceptions in Early Earth Science*. Education Weekly.</li>
+            </ol>
+        </section>
+
+        <!-- NEW SECTION 2: QUESTION & ANSWERS -->
+        <section id="qa" class="glass-card rounded-lg p-0 mb-8 overflow-hidden">
+            <!-- Header uses the light green bar style -->
+            <div class="bg-green-100 text-green-800 p-4 font-bold uppercase tracking-wider">QUESTION & ANSWERS</div>
+            <div class="p-6">
+                <div class="flex items-center justify-between cursor-pointer group">
+                    <h4 class="text-xl font-semibold text-gray-800 group-hover:text-gray-900 transition">Ask a Question →</h4>
+                    <span class="material-symbols-outlined text-gray-400 group-hover:text-gray-700 transition">arrow_right_alt</span>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">Stuck on a concept? Ask a question about the lesson content.</p>
+            </div>
+        </section>
+
+        <!-- NEW SECTION 3: FEEDBACK -->
+        <section id="feedback" class="glass-card rounded-lg p-0 mb-8 overflow-hidden">
+            <!-- Header uses the light green bar style -->
+            <div class="bg-green-100 text-green-800 p-4 font-bold uppercase tracking-wider">FEEDBACK</div>
+            <div class="p-6">
+                <h4 class="text-xl font-bold text-gray-800">How was this lesson plan?</h4>
+                <p class="text-base text-gray-600 mt-1">Your rating will help us to serve you better!</p>
+                
+                <!-- Star Rating -->
+                <div class="flex gap-2 mt-4 text-3xl text-gray-300">
+                    <button aria-label="1 star rating" class="hover:text-yellow-500 transition focus-ring focus:text-yellow-500">★</button>
+                    <button aria-label="2 star rating" class="hover:text-yellow-500 transition focus-ring focus:text-yellow-500">★</button>
+                    <button aria-label="3 star rating" class="hover:text-yellow-500 transition focus-ring focus:text-yellow-500">★</button>
+                    <button aria-label="4 star rating" class="hover:text-yellow-500 transition focus-ring focus:text-yellow-500">★</button>
+                    <button aria-label="5 star rating" class="hover:text-yellow-500 transition focus-ring focus:text-yellow-500">★</button>
+                </div>
+
+                <!-- Completion Button (Swipe right style, using primary brand color) -->
+                <button class="mt-8 px-6 py-3 rounded-full text-white font-semibold flex items-center gap-3 transition hover:opacity-90 shadow-lg" style="background: var(--brand-1);">
+                    <span class="material-symbols-outlined text-xl animate-pulse">check_circle</span>
+                    Swipe right if completed
+                </button>
+            </div>
+        </section>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- NOTES PANEL (Modal) -->
+  <div id="notesPanel" class="fixed inset-0 hidden items-center justify-center z-50">
+    <div class="absolute inset-0 bg-black/40" id="overlay"></div>
+    <div class="relative w-full max-w-4xl p-4 sm:p-6">
+      <div class="glass-card rounded-lg p-8">
+        <div class="flex items-start justify-between gap-4 border-b border-gray-200 pb-4">
+          <div>
+            <h3 class="font-bold text-xl" style="color: var(--brand-1);">My Personal Lesson Notes</h3>
+            <p class="text-base text-gray-500">Observations, reminders, or adaptations (auto-saved locally).</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="closeNotes" class="btn-ghost px-4 py-2 rounded-lg text-base">Close</button>
+            <button id="saveNotes" class="btn-primary px-4 py-2 rounded-lg text-base">Save Changes</button>
+          </div>
+        </div>
+
+        <textarea id="notesArea" class="mt-4 w-full h-64 p-4 rounded-lg border border-gray-200 text-base focus-ring" placeholder="Write observations, reminders, or adaptions..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // keyword definitions
+    const keywords = {
+      rotation: 'The spinning of a body on its axis. Earth\'s rotation takes approximately 24 hours and is the cause of day and night.',
+      equator: 'An imaginary circle around the middle of a planet or other celestial body, equidistant from the poles.',
+      east: 'The cardinal direction from which the Sun appears to rise due to Earth\'s rotation.',
+      west: 'The cardinal direction where the Sun appears to set.'
+    };
+
+    const kwDefBox = document.getElementById('kwDef');
+    const defaultKwDefStyle = "p-4 text-base rounded-lg border-l-4"; // Keep base classes and set to text-base
+
+    // Set initial style for kwDefBox
+    kwDefBox.className = defaultKwDefStyle + " border-gray-300 bg-gray-50";
+
+
+    document.querySelectorAll('.keyword-btn').forEach(b => {
+      b.addEventListener('click', ()=>{
+        const k = b.textContent.trim();
+        const definition = keywords[k] || 'Definition not available.';
+
+        // Update definition box content and apply active style (using pink)
+        kwDefBox.innerHTML = `<strong class="capitalize font-bold text-pink-800">${k}</strong>: ${definition}`;
+        kwDefBox.className = defaultKwDefStyle + " border-pink-500 bg-pink-50"; // Use pink for active
+
+        // Reset all buttons and highlight only the active one (using pink)
+        document.querySelectorAll('.keyword-btn').forEach(otherBtn => {
+          otherBtn.classList.remove('bg-pink-700', 'text-white');
+          otherBtn.classList.add('bg-pink-100', 'text-pink-700', 'hover:bg-pink-200');
+        });
+        b.classList.remove('bg-pink-100', 'text-pink-700', 'hover:bg-pink-200');
+        b.classList.add('bg-pink-700', 'text-white');
+      })
+    })
+
+    // notes modal logic
+    const notesToggle = document.getElementById('notesToggle');
+    const notesPanel = document.getElementById('notesPanel');
+    const closeNotes = document.getElementById('closeNotes');
+    const overlay = document.getElementById('overlay');
+    const notesArea = document.getElementById('notesArea');
+
+    // load saved notes
+    try{ const saved = localStorage.getItem('lp1_notes_v2'); if(saved) notesArea.value = saved; }catch(e){}
+
+    notesToggle.addEventListener('click', ()=>{ notesPanel.classList.remove('hidden'); notesPanel.classList.add('flex'); })
+    closeNotes.addEventListener('click', ()=>{ notesPanel.classList.add('hidden'); notesPanel.classList.remove('flex'); })
+    overlay.addEventListener('click', ()=>{ notesPanel.classList.add('hidden'); notesPanel.classList.remove('flex'); })
+
+    document.getElementById('saveNotes').addEventListener('click', ()=>{
+      localStorage.setItem('lp1_notes_v2', notesArea.value);
+      console.log('Notes saved locally!');
+    })
+
+    // print/export
+    document.getElementById('printBtn').addEventListener('click', ()=>{
+      window.print();
+    })
+
+
+    // deep-link scrolling & active nav state
+    const navMenu = document.getElementById('nav-menu');
+    const sections = document.querySelectorAll('main section[id]');
+    
+    // Tracks the currently active link ID to minimize DOM updates
+    let activeSectionId = 'teacher'; 
+
+    /**
+     * Finds the currently active section based on scroll position.
+     * An element is considered active if its top edge is closest to the 
+     * viewport top (y=0) and it has not yet fully scrolled off screen.
+     */
+    const observer = new IntersectionObserver((entries) => {
+        let newActiveId = activeSectionId;
+        let minTop = Infinity;
+
+        // Iterate through all observed sections
+        entries.forEach(entry => {
+            const top = entry.boundingClientRect.top;
+            
+            // Only consider sections that are intersecting (visible)
+            // AND whose top edge is relatively close to the viewport top (e.g., within 200px)
+            if (entry.isIntersecting && top < 200) { 
+                // We want the section whose top is the smallest non-negative value 
+                // (closest to the top line, without being scrolled way off).
+                // Use a small negative margin to account for the sticky header
+                if (top >= -50 && top < minTop) { 
+                    minTop = top;
+                    newActiveId = entry.target.id;
+                }
+            }
+        });
+
+        // Fallback: If we scrolled all the way to the top, ensure 'teacher' is active.
+        if (window.scrollY < 50 && document.getElementById('teacher')) {
+            newActiveId = 'teacher';
+        }
+
+        // Only update the DOM if the active section has actually changed
+        if (newActiveId && newActiveId !== activeSectionId) {
+            // Remove active class from previous
+            navMenu.querySelector(`a[href="#${activeSectionId}"]`)?.classList.remove('nav-active');
+            
+            // Add active class to new current
+            const newActiveLink = navMenu.querySelector(`a[href="#${newActiveId}"]`);
+            if (newActiveLink) {
+                newActiveLink.classList.add('nav-active');
+                activeSectionId = newActiveId; // Update tracking variable
+            }
+        }
+    }, { 
+        // Monitor intersections with a threshold of 0.1 to catch initial visibility,
+        // and a negative top root margin to trigger slightly earlier, compensating for the sticky header.
+        rootMargin: '-50px 0px -70% 0px', 
+        threshold: 0.1 
+    }); 
+
+    // Observe all main content sections
+    sections.forEach(section => observer.observe(section));
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      })
+    })
+
+    // Initial check to set the active link on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        // The observer should handle initial state, but ensure a first trigger if needed.
+    });
+  </script>
+
+</body>
+</html>

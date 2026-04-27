@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Received - Confiidence</title>
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #4b4b4b;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        /* Outer Background */
+        .wrapper {
+            background-color: #f8fafc;
+            padding: 40px 15px;
+        }
+
+        /* Main Email Card - Added Shadow */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Header Section */
+        .header {
+            padding: 24px 34px 24px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .logo {
+            width: 320px;
+            height: auto;
+            display: inline-block;
+        }
+
+        /* Content Section */
+        .content {
+            padding: 0 50px 30px; /* Reduced bottom padding */
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #ecfdf5;
+            color: #059669;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+        }
+
+        .message {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #4b4b4b;
+            text-align: left;
+            margin-bottom: 30px; /* Reduced margin */
+        }
+
+        /* Next Steps Cards */
+        .steps-container {
+            background-color: #f8fafc;
+            border: 1px solid #f1f5f9;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 0 10px 25px; /* Reduced bottom margin */
+            text-align: left;
+        }
+
+        .step-item {
+            display: table;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-icon {
+            display: table-cell;
+            width: 48px;
+            height: 48px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 20px;
+            border: 1px solid #e2e8f0;
+            color: #4b4b4b;
+        }
+
+        .step-text {
+            display: table-cell;
+            padding-left: 20px;
+            vertical-align: middle;
+        }
+
+        .step-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #4b4b4b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+            opacity: 0.7;
+        }
+
+        .step-value {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* Support CTA */
+        .support-text {
+            font-size: 14px;
+            color: #4b4b4b;
+            margin-top: 0; /* Removed top margin */
+            margin-bottom: 10px; /* Tightened bottom margin */
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 30px 40px; /* Reduced vertical padding */
+            text-align: center;
+            background-color: #ffffff;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .footer-links {
+            margin-top: 12px;
+        }
+
+        .footer-links a {
+            color: #4b4b4b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        .copyright {
+            font-size: 11px;
+            color: #4b4b4b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media only screen and (max-width: 480px) {
+            .header { padding: 40px 20px; }
+            .content { padding: 0 25px 30px; }
+            .logo { width: 240px; }
+            .steps-container { padding: 20px; margin: 0 0 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <table role="presentation" class="container">
+            <!-- Branded Header -->
+            <tr>
+                <td class="header">
+                    <img src="https://confiidence.com/images/confidence-logo.png" alt="Confiidence" class="logo">
+                </td>
+            </tr>
+
+            <!-- Content Area -->
+            <tr>
+                <td class="content">
+                    <div class="status-badge">Application Received</div>
+                    
+                    <div class="message">
+                        Dear <strong>[Parent Name]</strong>,<br><br>
+                        Thank you for applying to Confiidence for <strong>[Child Name]</strong>.<br><br>
+                        We have successfully received your application. Our admissions team will review your details and reach out to you shortly via WhatsApp to schedule a brief interaction.
+                    </div>
+
+                    <!-- Next Step Info Section -->
+                    <div class="steps-container">
+                        <div class="step-item">
+                            <div class="step-icon">📋</div>
+                            <div class="step-text">
+                                <span class="step-label">Next Step</span>
+                                <span class="step-value">Application Review</span>
+                            </div>
+                        </div>
+                        <div style="height: 15px;"></div>
+                        <div class="step-item">
+                            <div class="step-icon">⏱️</div>
+                            <div class="step-text">
+                                <span class="step-label">Expected Response</span>
+                                <span class="step-value">Within 24-48 hours</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="support-text">
+                        If you have any urgent questions, feel free to reply to this email.
+                    </p>
+                </td>
+            </tr>
+
+            <!-- Footer Section -->
+            <tr>
+                <td class="footer">
+                    <div class="copyright">&copy; 2026 International Board Singapore.<br>All rights reserved.</div>
+                    <div class="footer-links">
+                        <a href="https://confiidence.com/privacypolicy.html" target="_blank">Privacy Policy</a>
+                        <span style="color: #cbd5e1;">&bull;</span>
+                        <a href="https://confiidence.com" target="_blank">Official Website</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

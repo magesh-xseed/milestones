@@ -17,10 +17,18 @@
         .brand-yellow { color: #ffc60c; }
         .brand-bg-yellow { background-color: #ffc60c; }
         
-        .main-container-curve {
-            border-radius: 40px 0 0 40px;
-            background-color: #FFFFFF;
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.02);
+        .stat-card {
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 12px 35px rgba(15, 23, 42, 0.05);
+        }
+
+        .table-card {
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #eef2ff;
+            box-shadow: 0 25px 55px rgba(15, 23, 42, 0.08);
         }
 
         .glass-card {
@@ -103,10 +111,39 @@
             cursor: pointer;
         }
 
+        .table-scroll {
+            position: relative;
+        }
         .table-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
         .table-scroll::-webkit-scrollbar-track { background: transparent; }
         .table-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
         .table-scroll::-webkit-scrollbar-thumb:hover { background: #ffc60c; }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 18px;
+            right: 24px;
+            z-index: 5;
+            background: rgba(15, 23, 42, 0.85);
+            color: #fff;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.35);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(3px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .scroll-hint.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .nav-link {
             border-radius: 999px;
@@ -115,14 +152,47 @@
 
         .nav-link.active {
             color: #111827;
-            background-color: rgba(255, 198, 12, 0.15);
+            background-color: rgb(255 198 12);
         }
     </style>
 </head>
-<body class="h-screen flex overflow-hidden">
+<body class="min-h-screen bg-[#F0F4F8]">
     
     <!-- Floating Global Tooltip -->
     <div id="dynamic-tooltip"></div>
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-slate-100">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-12">
+                    <a href="#" class="group">
+                        <img src="logo-black.png" alt="Confidence" class="h-20 opacity-90 transition-opacity group-hover:opacity-100">
+                    </a>
+
+                    <!-- Navigation Menu -->
+                    <nav class="hidden md:flex items-center space-x-2">
+                        <a href="#" class="nav-link active px-4 py-2 text-sm font-bold text-slate-800">Overview</a>
+                        <a href="#" class="nav-link px-4 py-2 text-sm font-semibold text-slate-400 hover:text-slate-800">Leads</a>
+                        <a href="#" class="nav-link px-4 py-2 text-sm font-semibold text-slate-400 hover:text-slate-800">Pipeline</a>
+                        <a href="#" class="nav-link px-4 py-2 text-sm font-semibold text-slate-400 hover:text-slate-800">Performance</a>
+                    </nav>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center space-x-5">
+                    
+                    <div class="flex items-center space-x-3 cursor-pointer group pl-2">
+                        <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-sm ring-2 ring-white group-hover:ring-yellow-400 transition-all">
+                            <img src="https://ui-avatars.com/api/?name=Alex+Rodriguez&background=ffc60c&color=fff" alt="Profile">
+                        </div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <!-- Add Lead Modal -->
     <div id="modalOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none">
@@ -211,175 +281,127 @@
         </div>
     </div>
 
-    <!-- Sidebar -->
-    <aside class="w-72 bg-[#F0F4F8] p-8 flex flex-col hidden lg:flex flex-shrink-0">
-        <div class="mb-12 px-2">
-            <img src="https://confiidence.com/images/confidence-logo.png" alt="Confidence Logo" class="h-20 object-contain">
-        </div>
-
-        <nav class="flex-1 space-y-1 overflow-y-auto pr-2">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4 px-4">Main Menu</p>
-            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
-                <i data-lucide="home" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                <span class="font-semibold">Home</span>
-            </a>
-            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
-                <i data-lucide="calendar" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                <span class="font-semibold">Events</span>
-            </a>
-            <a href="#" class="flex items-center space-x-4 p-4 nav-active rounded-2xl group transition-all">
-                <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                <span class="font-semibold">Leads</span>
-            </a>
-            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
-                <i data-lucide="award" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                <span class="font-semibold">Mentor</span>
-            </a>
-            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
-                <i data-lucide="layout-dashboard" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                <span class="font-semibold">Student Dashboard</span>
-            </a>
-            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
-                <i data-lucide="file-text" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                <span class="font-semibold">Audit Logs</span>
-            </a>
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-10 mb-4 px-4">System</p>
-            <a href="#" class="flex items-center space-x-4 p-4 text-gray-500 hover:text-black transition-all rounded-2xl group">
-                <i data-lucide="settings" class="w-5 h-5"></i>
-                <span class="font-semibold">Settings</span>
-            </a>
-        </nav>
-
-        <div class="mt-auto pt-6">
-            <div class="bg-white/50 p-4 rounded-3xl border border-white/80">
-                <div class="flex items-center space-x-3 mb-3">
-                    <div class="w-10 h-10 brand-bg-yellow rounded-2xl flex items-center justify-center text-black font-bold">JD</div>
-                    <div class="overflow-hidden">
-                        <p class="text-sm font-bold text-gray-900 truncate">John Doe</p>
-                        <p class="text-[10px] text-gray-400">Administrator</p>
+    <main class="main-container-curve flex-1 w-full flex flex-col overflow-hidden px-4 py-1">
+        <div class="w-full mx-auto space-y-6">
+            <section class="main-hero p-6">
+                <!-- Welcome & Action Row -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 space-y-3 md:space-y-0">
+                    <div>
+                        <nav class="flex text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 space-x-2">
+                            <span>Main</span>
+                            <span>/</span>
+                            <span class="text-yellow-500">Sales Dashboard</span>
+                        </nav>
+                        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Active Opportunities</h1>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="exportToCSV()" class="flex items-center space-x-2 px-5 py-3 rounded-2xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all text-xs font-bold shadow-sm">
+                            <i data-lucide="share" class="w-4 h-4 text-slate-400"></i>
+                            <span>Export</span>
+                        </button>
+                        <button onclick="toggleModal(true)" class="flex items-center space-x-2 px-6 py-3 rounded-2xl brand-bg-yellow text-white hover:shadow-yellow-400/30 hover:-translate-y-0.5 transition-all text-xs font-bold shadow-lg shadow-yellow-400/20">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>Create Lead</span>
+                        </button>
                     </div>
                 </div>
-                <button class="w-full py-2 text-xs font-bold text-red-500 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">Log Out</button>
-            </div>
-        </div>
-    </aside>
+            </section>
 
-    <main class="flex-1 main-container-curve flex flex-col overflow-hidden my-2 mr-2">
-        <header class="h-24 flex items-center justify-between px-10 border-b border-gray-50 flex-shrink-0">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Leads Management</h1>
-                <p class="text-xs text-gray-400 font-medium">Real-time leads monitoring & conversion</p>
-            </div>
-            
-            <div class="flex items-center space-x-4">
-                <button onclick="exportToCSV()" class="flex items-center space-x-2 bg-white border border-gray-200 text-gray-700 px-5 py-3 rounded-2xl text-sm font-bold hover:bg-gray-50 transition-all">
-                    <i data-lucide="download" class="w-4 h-4"></i>
-                    <span>Export CSV</span>
-                </button>
-                <button onclick="toggleModal(true)" class="flex items-center space-x-2 bg-black text-white px-5 py-3 rounded-2xl text-sm font-bold hover:bg-zinc-800 transition-all shadow-lg shadow-black/10">
-                    <i data-lucide="plus" class="w-4 h-4"></i>
-                    <span>Add Lead</span>
-                </button>
-            </div>
-        </header>
-
-        <div class="flex-1 overflow-y-auto p-8 bg-[#F9FBFE]">
-            <!-- Stats Row -->
-            <div class="grid grid-cols-5 gap-6 mb-10">
-                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger" 
-                     data-tooltip="<strong>New Leads</strong><br>Profiles created in the last 24 hours.">
-                    <div class="w-11 h-11 bg-yellow-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="user-plus" class="w-5 h-5 text-yellow-600"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-900" id="statNew">0</h3>
-                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
-                        New Leads <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
-                    </p>
-                </div>
-                
-                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
-                     data-tooltip="<strong>Accepted</strong><br>Leads passed audit and assigned mentor.">
-                    <div class="w-11 h-11 bg-green-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-900">12</h3>
-                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
-                        Accepted <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
-                    </p>
-                </div>
-
-                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
-                     data-tooltip="<strong>Rejected</strong><br>Inactive or spam profiles.">
-                    <div class="w-11 h-11 bg-red-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="x-circle" class="w-5 h-5 text-red-600"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-900">2</h3>
-                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
-                        Rejected <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
-                    </p>
+            <section class="space-y-6">
+                <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+                    <div class="stat-card p-6 flex flex-col items-center text-center tooltip-trigger" data-tooltip="<strong>New Leads</strong><br>Profiles created in the last 24 hours.">
+                        <span class="text-[11px] uppercase tracking-[0.3em] text-amber-500 font-semibold">New Leads</span>
+                        <span class="text-3xl font-extrabold text-slate-900 mt-3" id="statNew">0</span>
+                        <span class="text-[11px] text-slate-500 mt-2 flex items-center justify-center gap-2">
+                            <i data-lucide="info" class="w-3 h-3 text-slate-400"></i>
+                            24h volume
+                        </span>
+                    </div>
+                    <div class="stat-card p-6 flex flex-col items-center text-center tooltip-trigger" data-tooltip="<strong>Accepted</strong><br>Leads passed audit and assigned mentor.">
+                        <span class="text-[11px] uppercase tracking-[0.3em] text-emerald-500 font-semibold">Accepted</span>
+                        <span class="text-3xl font-extrabold text-slate-900 mt-3">12</span>
+                        <span class="text-[11px] text-slate-500 mt-2 flex items-center justify-center gap-2">
+                            <i data-lucide="info" class="w-3 h-3 text-slate-400"></i>
+                            Qualified & assigned
+                        </span>
+                    </div>
+                    <div class="stat-card p-6 flex flex-col items-center text-center tooltip-trigger" data-tooltip="<strong>Rejected</strong><br>Inactive or spam profiles.">
+                        <span class="text-[11px] uppercase tracking-[0.3em] text-rose-500 font-semibold">Rejected</span>
+                        <span class="text-3xl font-extrabold text-slate-900 mt-3">2</span>
+                        <span class="text-[11px] text-slate-500 mt-2 flex items-center justify-center gap-2">
+                            <i data-lucide="info" class="w-3 h-3 text-slate-400"></i>
+                            Low intent
+                        </span>
+                    </div>
+                    <div class="stat-card p-6 flex flex-col items-center text-center tooltip-trigger" data-tooltip="<strong>Pending</strong><br>Waiting for payment or contact.">
+                        <span class="text-[11px] uppercase tracking-[0.3em] text-orange-500 font-semibold">Pending</span>
+                        <span class="text-3xl font-extrabold text-slate-900 mt-3">5</span>
+                        <span class="text-[11px] text-slate-500 mt-2 flex items-center justify-center gap-2">
+                            <i data-lucide="info" class="w-3 h-3 text-slate-400"></i>
+                            Waiting for payment/contact
+                        </span>
+                    </div>
+                    <div class="stat-card p-6 flex flex-col items-center text-center tooltip-trigger" data-tooltip="<strong>Completed</strong><br>Active customers with billing.">
+                        <span class="text-[11px] uppercase tracking-[0.3em] text-sky-500">Completed</span>
+                        <span class="text-3xl font-extrabold text-slate-900 mt-3">41</span>
+                        <span class="text-[11px] text-slate-500 mt-2 flex items-center justify-center gap-2">
+                            <i data-lucide="info" class="w-3 h-3 text-slate-400"></i>
+                            Active billing
+                        </span>
+                    </div>
                 </div>
 
-                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
-                     data-tooltip="<strong>Pending</strong><br>Waiting for payment or contact.">
-                    <div class="w-11 h-11 bg-orange-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="clock" class="w-5 h-5 text-orange-600"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-900">5</h3>
-                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
-                        Pending <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
-                    </p>
-                </div>
-
-                <div class="glass-card rounded-[32px] p-6 flex flex-col items-center text-center tooltip-trigger"
-                     data-tooltip="<strong>Completed</strong><br>Active customers with billing.">
-                    <div class="w-11 h-11 bg-blue-50 rounded-2xl flex items-center justify-center mb-4"><i data-lucide="credit-card" class="w-5 h-5 text-blue-600"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-900">41</h3>
-                    <p class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mt-2 flex items-center">
-                        Completed <i data-lucide="info" class="w-3.5 h-3.5 ml-1.5 text-gray-300"></i>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Datatable Section -->
-            <div class="bg-white rounded-[40px] p-8 shadow-sm border border-gray-100">
-                <div class="flex items-center justify-between mb-8 px-2">
-                    <h2 class="text-xl font-bold text-gray-900 flex items-center">
-                        <span class="w-2 h-8 brand-bg-yellow rounded-full mr-4"></span>
-                        Leads Database
-                    </h2>
-                    
-                    <div class="flex items-center space-x-4">
-                        <div class="relative group">
-                            <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
-                            <input type="text" id="leadSearch" onkeyup="handleSearch()" placeholder="Filter results..." class="bg-gray-50 border border-gray-200 focus:bg-white focus:border-yellow-400 rounded-2xl py-2.5 pl-12 pr-6 text-sm w-72 transition-all outline-none">
+                <div class="table-card p-8">
+                    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-3">
+                            <span class="w-2 h-8 brand-bg-yellow rounded-full"></span>
+                            Leads Database
+                        </h2>
+                        <div class="flex items-center gap-3 w-full lg:w-auto">
+                            <div class="relative flex-1">
+                                <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+                                <input type="text" id="leadSearch" onkeyup="handleSearch()" placeholder="Filter results..." class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-12 py-2.5 text-sm outline-none transition focus:border-yellow-400 focus:bg-white">
+                            </div>
+                            <div id="searchInfo" class="text-xs text-gray-400 hidden italic">Filtering results...</div>
                         </div>
-                        <div id="searchInfo" class="text-xs text-gray-400 hidden italic">Filtering results...</div>
                     </div>
-                </div>
 
-                <div class="table-scroll overflow-x-auto custom-table-container">
-                    <table class="w-full text-left border-collapse min-w-[2000px]">
-                        <thead>
-                            <tr class="retool-header-style">
-                                <th class="p-4 border-b border-yellow-300">Full Name</th>
-                                <th class="p-4 border-b border-yellow-300 text-center">Country Code</th>
-                                <th class="p-4 border-b border-yellow-300">Mobile</th>
-                                <th class="p-4 border-b border-yellow-300">Child Name</th>
-                                <th class="p-4 border-b border-yellow-300 text-center">Grade</th>
-                                <th class="p-4 border-b border-yellow-300">Email</th>
-                                <th class="p-4 border-b border-yellow-300 text-center">Lead ID</th>
-                                <th class="p-4 border-b border-yellow-300">Status</th>
-                                <th class="p-4 border-b border-yellow-300">Subscription Type</th>
-                                <th class="p-4 border-b border-yellow-300">Sync Status</th>
-                                <th class="p-4 border-b border-yellow-300">Email Preference</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm text-gray-600" id="tableBody"></tbody>
-                    </table>
-                </div>
-                
-                <!-- Pagination -->
-                <div class="mt-8 flex items-center justify-between px-2">
-                    <p class="text-xs font-medium text-gray-400">Showing <span class="text-black font-bold" id="pageRange">0</span> of <span class="text-black font-bold" id="totalCount">0</span> leads</p>
-                    <div class="flex space-x-2" id="paginationControls">
-                        <button onclick="changePage('prev')" class="w-10 h-10 flex items-center justify-center rounded-2xl border border-gray-100 hover:bg-gray-50 transition-colors text-gray-400"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                        <div id="pageButtons" class="flex space-x-2"></div>
-                        <button onclick="changePage('next')" class="w-10 h-10 flex items-center justify-center rounded-2xl border border-gray-100 hover:bg-gray-50 transition-colors text-gray-400"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                    <div class="table-scroll overflow-x-auto custom-table-container">
+                        <table class="w-full text-left border-collapse min-w-[2000px]">
+                            <thead>
+                                <tr class="retool-header-style">
+                                    <th class="p-4 border-b border-yellow-300">Full Name</th>
+                                    <th class="p-4 border-b border-yellow-300 text-center">Country Code</th>
+                                    <th class="p-4 border-b border-yellow-300">Mobile</th>
+                                    <th class="p-4 border-b border-yellow-300">Child Name</th>
+                                    <th class="p-4 border-b border-yellow-300 text-center">Grade</th>
+                                    <th class="p-4 border-b border-yellow-300">Email</th>
+                                    <th class="p-4 border-b border-yellow-300 text-center">Lead ID</th>
+                                    <th class="p-4 border-b border-yellow-300">Status</th>
+                                    <th class="p-4 border-b border-yellow-300">Subscription Type</th>
+                                    <th class="p-4 border-b border-yellow-300">Sync Status</th>
+                                    <th class="p-4 border-b border-yellow-300">Email Preference</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm text-gray-600" id="tableBody"></tbody>
+                        </table>
+                        <div class="scroll-hint" id="scrollHint" role="status" aria-live="polite">
+                            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                            <span>Scroll for more</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                        <p class="text-xs font-medium text-gray-400">Showing <span class="text-black font-bold" id="pageRange">0</span> of <span class="text-black font-bold" id="totalCount">0</span> leads</p>
+                        <div class="flex items-center gap-2" id="paginationControls">
+                            <button onclick="changePage('prev')" class="w-10 h-10 rounded-2xl border border-gray-100 text-gray-400 hover:bg-gray-50 transition"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                            <div id="pageButtons" class="flex gap-2"></div>
+                            <button onclick="changePage('next')" class="w-10 h-10 rounded-2xl border border-gray-100 text-gray-400 hover:bg-gray-50 transition"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     </main>
 
@@ -411,6 +433,8 @@
         let currentPage = 1;
         const itemsPerPage = 8;
         let filteredLeads = [...leadsData];
+        const tableScrollEl = document.querySelector('.table-scroll');
+        const scrollHintEl = document.getElementById('scrollHint');
 
         // Tooltip Logic
         const tooltip = document.getElementById('dynamic-tooltip');
@@ -559,6 +583,7 @@
             document.getElementById('pageRange').innerText = filteredLeads.length > 0 ? `${startIndex + 1} - ${Math.min(startIndex + itemsPerPage, filteredLeads.length)}` : "0";
             document.getElementById('totalCount').innerText = filteredLeads.length;
             renderPagination();
+            evaluateScrollHint();
             lucide.createIcons();
         }
 
@@ -601,6 +626,12 @@
             }
         }
 
+        function evaluateScrollHint() {
+            if (!tableScrollEl || !scrollHintEl) return;
+            const needsScroll = tableScrollEl.scrollWidth > tableScrollEl.clientWidth;
+            scrollHintEl.classList.toggle('visible', needsScroll);
+        }
+
         function changePage(dir) {
             const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
             if (dir === 'next' && currentPage < totalPages) currentPage++;
@@ -608,9 +639,16 @@
             renderTable();
         }
 
+        tableScrollEl?.addEventListener('scroll', () => {
+            scrollHintEl?.classList.remove('visible');
+        });
+
+        window.addEventListener('resize', evaluateScrollHint);
+
         document.addEventListener('DOMContentLoaded', () => {
             renderTable();
             updateStats();
+            evaluateScrollHint();
         });
     </script>
 </body>
