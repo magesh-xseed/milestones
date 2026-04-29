@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSEED Academic Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --wine-red: #7B0323;
+            --amber-orange: #F49138;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: color-mix(in srgb, var(--amber-orange) 4%, white);
+            color: var(--wine-red);
+        }
+
+        .bg-wine { background-color: var(--wine-red); }
+        .text-wine { color: var(--wine-red); }
+        .text-muted-brand { color: color-mix(in srgb, var(--wine-red) 58%, white); }
+        .border-wine-5 { border-color: color-mix(in srgb, var(--wine-red) 8%, white); }
+        .bg-amber-light { background-color: color-mix(in srgb, var(--amber-orange) 10%, white); }
+        .card-shadow { box-shadow: 0 30px 60px -12px rgb(0 0 0 / 0.18); }
+        .soft-card-shadow { box-shadow: 0 18px 48px -28px color-mix(in srgb, var(--wine-red) 60%, transparent); }
+        .hero-gradient-overlay {
+            background: linear-gradient(75deg, rgb(0 0 0 / 0.78) 0%, rgb(0 0 0 / 0.54) 42%, rgb(0 0 0 / 0) 100%);
+        }
+        .orb {
+            position: fixed;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.04;
+            pointer-events: none;
+        }
+        .nav-button.active {
+            background-color: white;
+            color: var(--wine-red);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .today-fade-in {
+            animation: fade-in 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-[var(--wine-red)]/10 selection:text-[var(--wine-red)]">
+
+    <div class="orb top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[var(--amber-orange)]"></div>
+    <div class="orb bottom-[-5%] left-[-5%] w-[300px] h-[300px] bg-[var(--wine-red)]"></div>
+
+    <!-- Header -->
+    <header class="sticky top-0 w-full bg-white/70 backdrop-blur-xl border-b border-wine-5 z-50 px-6 md:px-12">
+        <div class="max-w-[1600px] mx-auto h-24 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-wine rounded-2xl flex items-center justify-center shadow-xl shadow-black/20 transform rotate-3">
+                    <i data-lucide="sparkles" class="text-[var(--amber-orange)] w-6 h-6"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-wine font-black text-2xl tracking-tight leading-none uppercase">XSEED</span>
+                    <span class="text-[10px] font-bold tracking-[0.4em] text-muted-brand uppercase">Excellence</span>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center bg-amber-light p-1.5 rounded-[2rem] border border-wine-5">
+                <button class="nav-button active flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-bold text-xs tracking-wider uppercase">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                    <span>Teacher Lesson Plan</span>
+                </button>
+                <button class="nav-button flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-bold text-xs tracking-wider uppercase text-muted-brand hover:text-wine">
+                    <i data-lucide="home" class="w-4 h-4"></i>
+                    <span>Parent Lesson Plan</span>
+                </button>
+                <button class="nav-button flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-bold text-xs tracking-wider uppercase text-muted-brand hover:text-wine">
+                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                    <span>Communication</span>
+                </button>
+                <button class="nav-button flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-bold text-xs tracking-wider uppercase text-muted-brand hover:text-wine">
+                    <i data-lucide="line-chart" class="w-4 h-4"></i>
+                    <span>Learnometer</span>
+                </button>
+                <button class="nav-button flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 font-bold text-xs tracking-wider uppercase text-muted-brand hover:text-wine">
+                    <i data-lucide="dumbbell" class="w-4 h-4"></i>
+                    <span>Practice Gym</span>
+                </button>
+            </nav>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden xl:flex items-center gap-3 group cursor-pointer pr-4">
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-wine">Venkateswaran</p>
+                        <p class="text-[10px] font-medium text-muted-brand">Academic Lead</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl border-2 border-wine-5 p-1 group-hover:border-[color:var(--wine-red)] transition-all">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" class="w-full h-full rounded-xl object-cover bg-amber-light">
+                    </div>
+                </div>
+                <button class="p-3 text-wine bg-[var(--wine-red)]/5 rounded-2xl transition-all hidden md:block hover:bg-[var(--wine-red)]/10">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                </button>
+                <button class="lg:hidden p-2 text-wine" id="menuToggle">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1280px] mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <!-- Continue Lesson Banner -->
+        <section class="mb-10 today-fade-in">
+            <article class="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden card-shadow group h-[420px]">
+                <img
+                    src="assets/light-shadow.jpeg"
+                    class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+                    alt="Light and Shadows"
+                />
+                <div class="absolute inset-0 hero-gradient-overlay"></div>
+                <div class="absolute inset-0 p-6 md:p-12 flex flex-col justify-end">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div class="max-w-2xl">
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-black uppercase tracking-[0.15em] shadow-xl mb-6">
+                                <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                                Science. Grade 4 - Block 01
+                            </span>
+                            <h1 class="text-4xl md:text-5xl font-black text-white mb-4 leading-none tracking-tight uppercase">
+                                Light and <br/>Shadows
+                            </h1>
+                            <p class="text-base md:text-lg font-medium text-white/80 max-w-xl">
+                                Explore the fascinating world of optics and understand how shadows shift throughout the day.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-start md:items-end gap-5">
+                            <div class="flex items-center gap-4 bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
+                                <div class="h-1.5 w-24 bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-[var(--amber-orange)] rounded-full shadow-[0_0_10px_var(--amber-orange)]" style="width: 45%"></div>
+                                </div>
+                                <span class="text-[10px] font-black text-white tracking-widest uppercase">45% Progress</span>
+                            </div>
+
+                            <button type="button" class="cursor-pointer bg-white text-[var(--wine-red)] px-10 py-5 rounded-2xl font-black flex items-center gap-3 transition-all duration-300 shadow-2xl hover:bg-[var(--amber-orange)] hover:text-white hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30">
+                                Continue Lesson
+                                <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section id="curriculum-sections" class="space-y-5"></section>
+    </main>
+
+    <script>
+        const currentGradeId = 'grade-4';
+
+        const iconPaths = {
+            book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+            math: '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="8" x2="12" y2="16"/>',
+            globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+            early: '<path d="M12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'
+        };
+
+        const subjectLibrary = {
+            earlyChildhood: {
+                name: 'Early Childhood',
+                subtitle: 'Foundation Plan',
+                progress: 42,
+                lastOpened: 'Yesterday, 2:10 PM',
+                icon: 'early',
+                iconClass: 'bg-amber-light text-[var(--amber-orange)]'
+            },
+            english: {
+                name: 'English',
+                subtitle: 'Curriculum Plan',
+                progress: 65,
+                lastOpened: 'Today, 9:15 AM',
+                icon: 'book',
+                iconClass: 'bg-amber-light text-[var(--wine-red)]'
+            },
+            mathematics: {
+                name: 'Mathematics',
+                subtitle: 'Curriculum Plan',
+                progress: 30,
+                lastOpened: 'Apr 26, 4:20 PM',
+                icon: 'math',
+                iconClass: 'bg-[var(--wine-red)]/10 text-[var(--wine-red)]'
+            },
+            evs: {
+                name: 'EVS',
+                subtitle: 'Curriculum Plan',
+                progress: 78,
+                lastOpened: 'Today, 10:30 AM',
+                icon: 'globe',
+                iconClass: 'bg-[var(--amber-orange)]/15 text-[var(--wine-red)]'
+            }
+        };
+
+        const primarySubjects = [
+            subjectLibrary.english,
+            subjectLibrary.mathematics,
+            subjectLibrary.evs
+        ];
+
+        const curriculumByGrade = [
+            { id: 'nursery', title: 'Nursery', shortTitle: 'Nursery', subjects: [subjectLibrary.earlyChildhood] },
+            { id: 'lkg', title: 'Lower Kindergarten (LKG)', shortTitle: 'LKG', subjects: [subjectLibrary.earlyChildhood] },
+            { id: 'ukg', title: 'Upper Kindergarten (UKG)', shortTitle: 'UKG', subjects: [subjectLibrary.earlyChildhood] },
+            ...Array.from({ length: 8 }, (_, index) => ({
+                id: `grade-${index + 1}`,
+                title: `Grade ${index + 1}`,
+                shortTitle: `G${index + 1}`,
+                subjects: primarySubjects.map((subject, subjectIndex) => ({
+                    ...subject,
+                    progress: Math.min(96, Math.max(8, subject.progress + ((index - 3) * 4) + (subjectIndex * 3))),
+                    lastOpened: index === 3 && subject.name === 'EVS' ? 'Today, 10:30 AM' : subject.lastOpened
+                }))
+            }))
+        ];
+
+        function renderIcon(iconName, className = '') {
+            return `
+                <svg class="${className}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    ${iconPaths[iconName]}
+                </svg>
+            `;
+        }
+
+        function averageProgress(grades) {
+            const subjects = grades.flatMap((grade) => grade.subjects);
+            if (!subjects.length) return 0;
+            return Math.round(subjects.reduce((sum, subject) => sum + subject.progress, 0) / subjects.length);
+        }
+
+        function renderSubjectCard(subject, grade) {
+            return `
+                <article class="group relative bg-white rounded-[2rem] border border-wine-5 hover:border-[color:var(--wine-red)] p-6 md:p-7 flex flex-col justify-between min-h-[260px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/10">
+                    <div class="flex justify-between items-start gap-5">
+                        <div class="min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-2">
+                                <h4 class="font-black text-2xl tracking-tight text-wine">${subject.name}</h4>
+                                ${grade.id === currentGradeId ? '<span class="rounded-full bg-[var(--amber-orange)]/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-[var(--wine-red)]">Current</span>' : ''}
+                            </div>
+                            <span class="text-[10px] font-black text-muted-brand tracking-widest uppercase">${subject.subtitle}</span>
+                        </div>
+                        <div class="shrink-0 p-3 rounded-2xl ${subject.iconClass}">
+                            ${renderIcon(subject.icon)}
+                        </div>
+                    </div>
+
+                    <div class="pt-8">
+                        <div class="mb-5">
+                            <div class="flex justify-between items-end mb-2.5">
+                                <span class="text-[10px] font-black text-wine uppercase tracking-wider">Progress</span>
+                                <span class="text-sm font-black text-[var(--wine-red)]">${subject.progress}%</span>
+                            </div>
+                            <div class="h-2.5 w-full bg-amber-light rounded-full overflow-hidden">
+                                <div class="h-full bg-[var(--amber-orange)] rounded-full" style="width: ${subject.progress}%"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-muted-brand mb-6">
+                            <i data-lucide="clock-3" class="w-4 h-4 text-[var(--amber-orange)]"></i>
+                            <span>Last opened: ${subject.lastOpened}</span>
+                        </div>
+                        <button type="button" class="cursor-pointer w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-[11px] tracking-[0.15em] uppercase bg-[var(--wine-red)] text-white transition-all duration-300 group-hover:bg-[var(--amber-orange)] group-hover:text-[var(--wine-red)] focus:outline-none focus:ring-4 focus:ring-[color:color-mix(in_srgb,var(--wine-red)_20%,transparent)] active:scale-95">
+                            <span>View Blocks</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderGradeSection(grade) {
+            const isCurrent = grade.id === currentGradeId;
+            return `
+                <section class="space-y-8 ${isCurrent ? 'rounded-[2rem] border border-[color:var(--wine-red)] bg-[var(--wine-red)]/[0.025] p-5 md:p-6' : ''}">
+                    <div class="flex items-center justify-between border-b border-wine-5 pb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-1.5 h-6 ${isCurrent ? 'bg-[var(--amber-orange)]' : 'bg-[var(--wine-red)]'} rounded-full"></span>
+                            <h2 class="text-sm font-black tracking-[0.2em] text-muted-brand uppercase">${grade.title} Subjects</h2>
+                            ${isCurrent ? '<span class="rounded-full bg-[var(--amber-orange)]/20 px-2.5 py-1 text-[9px] font-black uppercase tracking-widest text-[var(--wine-red)]">Current Grade</span>' : ''}
+                        </div>
+                        <span class="text-[10px] font-black text-[var(--wine-red)] uppercase tracking-widest">${averageProgress([grade])}% Average</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        ${grade.subjects.map((subject) => renderSubjectCard(subject, grade)).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderCurriculum() {
+            const container = document.getElementById('curriculum-sections');
+            container.innerHTML = curriculumByGrade.map(renderGradeSection).join('');
+            lucide.createIcons();
+        }
+
+        function render() {
+            renderCurriculum();
+            lucide.createIcons();
+        }
+
+    
+
+        render();
+    </script>
+</body>
+</html>

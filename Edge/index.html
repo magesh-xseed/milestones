@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSEED Academic Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --wine-red: #A41034;
+            --amber-orange: #F49138;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FBF9F7;
+            color: #1C1917;
+            overflow-x: hidden;
+        }
+        .bg-wine { background-color: var(--wine-red); }
+        .text-wine { color: var(--wine-red); }
+        .border-wine-5 { border-color: rgba(123, 3, 35, 0.05); }
+        .bg-amber-light { background-color: rgba(244, 145, 56, 0.05); }
+        .nav-button.active {
+            background-color: white;
+            color: var(--wine-red);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .focus-ring:focus-visible {
+            outline: 3px solid rgba(244, 145, 56, 0.45);
+            outline-offset: 3px;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .orb {
+            position: fixed;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.04;
+            pointer-events: none;
+        }
+        .pill-nav-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        .profile-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .profile-menu.hidden {
+            display: block;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-6px);
+        }
+        .profile-menu-item:hover {
+            background-color: #F8F5F2;
+        }
+        .profile-menu-item.sign-out:hover {
+            background-color: #FDF0F2;
+        }
+        /* Cinematic overlay for full-card images */
+        .hero-gradient-overlay {
+            background: linear-gradient(75deg, rgb(0 0 0 / 0.78) 0%, rgb(0 0 0 / 0.54) 42%, rgb(0 0 0 / 0) 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 30px 60px -12px rgba(28, 25, 23, 0.15);
+        }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .today-fade-in {
+            animation: fade-in 0.8s ease-out forwards;
+        }
+        .subject-card:hover {
+            border-color: rgba(123, 3, 35, 0.2);
+        }
+        .tab-panel[data-tab-panel="Communication"],
+        .tab-panel[data-tab-panel="Learnometer"],
+        .tab-panel[data-tab-panel="Practice Gym"] {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0;
+        }
+        .tab-panel[data-tab-panel="Communication"] .font-black,
+        .tab-panel[data-tab-panel="Learnometer"] .font-black,
+        .tab-panel[data-tab-panel="Practice Gym"] .font-black {
+            font-weight: 700 !important;
+        }
+        .tab-panel[data-tab-panel="Communication"] .tracking-tight,
+        .tab-panel[data-tab-panel="Communication"] .tracking-wider,
+        .tab-panel[data-tab-panel="Communication"] .tracking-widest,
+        .tab-panel[data-tab-panel="Learnometer"] .tracking-tight,
+        .tab-panel[data-tab-panel="Learnometer"] .tracking-wider,
+        .tab-panel[data-tab-panel="Learnometer"] .tracking-widest,
+        .tab-panel[data-tab-panel="Practice Gym"] .tracking-tight,
+        .tab-panel[data-tab-panel="Practice Gym"] .tracking-wider,
+        .tab-panel[data-tab-panel="Practice Gym"] .tracking-widest {
+            letter-spacing: 0 !important;
+        }
+        .tab-panel[data-tab-panel="Communication"] h1,
+        .tab-panel[data-tab-panel="Communication"] h2,
+        .tab-panel[data-tab-panel="Learnometer"] h1,
+        .tab-panel[data-tab-panel="Learnometer"] h2,
+        .tab-panel[data-tab-panel="Practice Gym"] h1,
+        .tab-panel[data-tab-panel="Practice Gym"] h2 {
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+        .communication-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 600 !important;
+            letter-spacing: -0.3px !important;
+        }
+        .communication-card-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+        }
+        .communication-meta {
+            color: #8B8B8B;
+            font-size: 12px;
+            font-weight: 500 !important;
+            letter-spacing: 0.2px !important;
+        }
+        .communication-content-text {
+            color: #2C2C2C;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .communication-content-text:last-child {
+            margin-bottom: 0;
+        }
+        .communication-action {
+            font-size: 13px;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px !important;
+        }
+        .communication-avatar {
+            font-size: 13px;
+            font-weight: 600 !important;
+            letter-spacing: 0;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden antialiased selection:bg-[#A41034]/10">
+
+    <!-- Decorative Blur Orbs -->
+    <div class="orb top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#f59138]"></div>
+    <div class="orb bottom-[-5%] left-[-5%] w-[300px] h-[300px] bg-[#A41034]"></div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 w-full border-b border-wine-5 bg-white px-6 backdrop-blur-xl md:px-12">
+        <div class="max-w-[1600px] mx-auto h-24 flex items-center justify-between">
+            <!-- Logo & Branding -->
+            <a href="#" class="focus-ring flex items-center" aria-label="SuperTeacher Edge home">
+                <img src="assets/st-edge-logo4.png" alt="SuperTeacher Edge" class="h-14 w-auto object-contain">
+            </a>
+
+            <!-- Navigation -->
+            <nav class="hidden lg:flex items-center bg-amber-light p-1.5 rounded-[2rem] border border-wine-5" aria-label="Primary navigation">
+                <button type="button" class="nav-button active focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold  tracking-wide" data-nav-title="Teacher Lesson Plan" aria-current="page">
+                    <!-- <i data-lucide="graduation-cap" class="w-4 h-4"></i> -->
+                    <span>Teacher Lesson Plan</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:text-wine" data-nav-title="Parent Lesson Plan">
+                    <!-- <i data-lucide="home" class="w-4 h-4"></i> -->
+                    <span>Parent Lesson Plan</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:text-wine" data-nav-title="Communication">
+                    <!-- <i data-lucide="message-square" class="w-4 h-4"></i> -->
+                    <span>Communication</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:text-wine" data-nav-title="Learnometer">
+                    <!-- <i data-lucide="line-chart" class="w-4 h-4"></i> -->
+                    <span>Learnometer</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:text-wine" data-nav-title="Practice Gym">
+                    <!-- <i data-lucide="dumbbell" class="w-4 h-4"></i> -->
+                    <span>Practice Gym</span>
+                </button>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-6">
+                <button type="button" class="focus-ring hidden p-3 text-wine bg-[#A41034]/5 rounded-2xl transition-all hover:bg-[#A41034]/10 md:block" aria-label="Open notifications">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                </button>
+                <div class="relative shrink-0">
+                    <button type="button" id="profileToggle" class="focus-ring flex h-10 w-10 items-center justify-center rounded-full bg-wine text-sm font-bold tracking-wide text-white shadow-[0_2px_8px_rgba(164,16,52,0.25)] transition-all hover:shadow-[0_4px_16px_rgba(164,16,52,0.35)]" aria-label="Open profile menu" aria-expanded="false">
+                        RS
+                    </button>
+                    <div id="profileMenu" class="profile-menu hidden absolute right-0 top-[calc(100%+10px)] z-[200] min-w-[210px] rounded-[14px] bg-white p-1.5 shadow-[0_8px_32px_rgba(26,18,16,0.12),0_1px_4px_rgba(26,18,16,0.06)] transition-all duration-200">
+                        <div class="border-b border-[#f0ebe6] px-3.5 pb-3 pt-2.5">
+                            <div class="text-sm font-bold text-[#1a1210]">Ravi Sharma</div>
+                            <div class="mt-0.5 text-xs text-[#8a7968]">Teacher</div>
+                        </div>
+                        <div class="py-1.5">
+                            <button type="button" class="profile-menu-item w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-[#1a1210] transition-colors">Profile</button>
+                            <button type="button" class="profile-menu-item w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-[#1a1210] transition-colors">Front Office</button>
+                            <button type="button" class="profile-menu-item w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-[#1a1210] transition-colors">Content Generation System</button>
+                        </div>
+                        <div class="border-t border-[#f0ebe6] pb-0.5 pt-1.5">
+                            <button type="button" class="profile-menu-item sign-out w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-wine transition-colors">Sign Out</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="focus-ring lg:hidden p-2 text-wine" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </div>
+        <nav id="mobileMenu" class="hidden border-t border-wine-5 pb-5 lg:hidden" aria-label="Mobile navigation">
+            <div class="grid gap-2 rounded-[1.5rem] bg-amber-light p-2">
+                <button type="button" class="nav-button active focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold  tracking-wide" data-nav-title="Teacher Lesson Plan" aria-current="page">
+                    <i data-lucide="graduation-cap" class="h-4 w-4"></i>
+                    <span>Teacher Lesson Plan</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:bg-white hover:text-wine" data-nav-title="Parent Lesson Plan">
+                    <i data-lucide="home" class="h-4 w-4"></i>
+                    <span>Parent Lesson Plan</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:bg-white hover:text-wine" data-nav-title="Communication">
+                    <i data-lucide="message-square" class="h-4 w-4"></i>
+                    <span>Communication</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:bg-white hover:text-wine" data-nav-title="Learnometer">
+                    <i data-lucide="line-chart" class="h-4 w-4"></i>
+                    <span>Learnometer</span>
+                </button>
+                <button type="button" class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:bg-white hover:text-wine" data-nav-title="Practice Gym">
+                    <i data-lucide="dumbbell" class="h-4 w-4"></i>
+                    <span>Practice Gym</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="tab-panel max-w-[1280px] mx-auto px-6 py-8" data-tab-panel="Teacher Lesson Plan">
+        
+        <!-- Updated Continue Lesson Section -->
+        <section class="mb-10 today-fade-in">
+
+            <section class="relative rounded-[3rem] overflow-hidden card-shadow group h-[420px]">
+                <!-- Background Image Covering Entire Card with Top Alignment -->
+                <img
+                    src="assets/light-shadow.jpeg"
+                    class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+                    alt="Light and Shadows"
+                />
+                
+                <!-- Dark Gradient Overlay for Readability -->
+                <div class="absolute inset-0 hero-gradient-overlay"></div>
+
+                <!-- Content Layer -->
+                <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+                    
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div class="max-w-2xl">
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-bold  tracking-wide shadow-xl mb-6">
+                                <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                                Science. Grade 4 - Block 01
+                            </span>
+                            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
+                                Light and <br/>Shadows
+                            </h1>
+                            <div class="max-w-2xl space-y-2 text-white/85">
+                                <p class="text-base md:text-lg font-semibold">
+                                    Changes in the Sky Across the Day
+                                </p>
+                                <p class="max-w-xl text-sm md:text-base font-medium leading-6 text-white/75">
+                                    Explain why the Sun appears to move in the sky and how it affects the length and rhythm of a day.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Action Row -->
+                        <div class="flex flex-col items-end gap-5">
+                            <div class="flex items-center gap-4 bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
+                                <div class="h-1.5 w-24 bg-white/20 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress 45% complete">
+                                    <div class="h-full bg-[#f59138] rounded-full shadow-[0_0_10px_#f59138]" style="width: 45%"></div>
+                                </div>
+                                <span class="text-[10px] font-bold text-white tracking-wide ">45% Progress</span>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="focus-ring bg-white text-[#1C1917] px-10 py-5 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-2xl hover:bg-[#f59138] hover:text-white hover:-translate-y-1 active:scale-95"
+                            >
+                                Continue Lesson
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- JSON-driven Curriculum Sections -->
+        <section id="curriculum-sections" class="space-y-16"></section>
+    </main>
+
+    <main class="tab-panel hidden max-w-[1280px] mx-auto px-6 py-6" data-tab-panel="Communication">
+        <section class="mx-auto mb-6 flex max-w-[70%] flex-col gap-4 max-lg:max-w-4xl max-sm:max-w-none md:flex-row md:items-center md:justify-between">
+            <h1 class="communication-title truncate text-[#1C1917]">Communication</h1>
+            <div class="flex flex-wrap items-center gap-3">
+                <button type="button" class="communication-action focus-ring flex items-center gap-2.5 rounded-2xl border border-[#E7E5E4] bg-white px-5 py-3  text-[#1C1917] transition-all hover:border-[#A41034]/20 active:scale-95">
+                    <i data-lucide="users" class="h-4 w-4"></i>
+                    Manage Groups
+                </button>
+                <button type="button" class="communication-action focus-ring flex items-center gap-2.5 rounded-2xl bg-[#A41034] px-5 py-3  text-white transition-all hover:bg-[#7a0c26] active:scale-95">
+                    <i data-lucide="plus" class="h-4 w-4"></i>
+                    New Announcement
+                </button>
+            </div>
+        </section>  
+
+        <aside id="communicationFilterToolbar" class="fixed bottom-20 left-4 right-4 z-40 hidden lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2" aria-label="Filter announcements by grade"></aside>
+
+        <section id="communicationFeed" class="mx-auto grid max-w-[70%] gap-6 max-lg:max-w-4xl max-sm:max-w-none"></section>
+    </main>
+
+    <main class="tab-panel hidden max-w-[1280px] mx-auto px-6" data-tab-panel="Learnometer" id="learnometerPanel"></main>
+
+    <main class="tab-panel hidden gym max-w-[1280px] mx-auto px-6 py-6" data-tab-panel="Practice Gym">
+        <section class="mx-auto mb-5 flex max-w-[70%] flex-col gap-4 max-lg:max-w-4xl max-sm:max-w-none md:flex-row md:items-end md:justify-between">
+            <div>
+                <h1 class="truncate font-['Poppins'] text-[26px] font-semibold leading-8 text-[#1C1917] tracking-[-0.3px]">Practice Gym</h1>
+            </div>
+            <div class="inline-flex w-fit items-center gap-1 rounded-xl border border-[#E5E5E5] bg-[#F6F6F6] p-1">
+                <button type="button" class="h-9 rounded-lg bg-white px-5 text-[13px] font-semibold text-[#A41034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]">Teacher</button>
+                <button type="button" class="h-9 rounded-lg px-5 text-[13px] font-semibold text-[#78716C] transition hover:text-[#1C1917]">Parent</button>
+            </div>
+        </section>
+
+        <section class="mx-auto max-w-[70%] rounded-2xl border border-[#E7E5E4] bg-white p-7 shadow-[0_18px_45px_rgba(28,25,23,0.07)] max-lg:max-w-4xl max-sm:max-w-none">
+            <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+                <label class="block">
+                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Grade</span>
+                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
+                        <i data-lucide="graduation-cap" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
+                            <option>Grade 4</option><option>Grade 1</option><option>Grade 2</option><option>Grade 3</option><option>Grade 5</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option>
+                        </select>
+                    </span>
+                </label>
+                <label class="block">
+                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Subject</span>
+                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
+                        <i data-lucide="book-open" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
+                            <option>Science</option><option>English</option><option>Mathematics</option>
+                        </select>
+                    </span>
+                </label>
+                <label class="block">
+                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Block</span>
+                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
+                        <i data-lucide="layers" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
+                            <option>Block 01: Light and Shadows</option><option>Block 02: Force and Motion</option><option>Block 03: Electricity Basics</option><option>Block 04: The Solar System</option>
+                        </select>
+                    </span>
+                </label>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+                <label class="block">
+                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Difficulty</span>
+                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
+                        <i data-lucide="gauge" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
+                            <option>Medium</option><option>Easy</option><option>Hard</option>
+                        </select>
+                    </span>
+                </label>
+                <div>
+                    <div class="mb-2 flex items-center justify-between">
+                        <span class="text-xs font-medium leading-5 text-[#8B8B8B]">Time Limit</span>
+                        <span class="text-sm font-semibold text-[#A41034]">Time Limit: 30 min</span>
+                    </div>
+                    <input type="range" min="0" max="4" value="2" class="h-2 w-full cursor-pointer accent-[#A41034]">
+                    <div class="mt-2 flex justify-between text-[11px] font-medium text-[#8B8B8B]"><span>15m</span><span>20m</span><span class="font-semibold text-[#A41034]">30m</span><span>45m</span><span>60m</span></div>
+                </div>
+            </div>
+
+            <div class="mt-5 flex justify-end">
+                <button type="button" class="focus-ring flex h-11 min-w-[220px] items-center justify-center gap-2 rounded-[10px] bg-[#A41034] px-5 text-[13px] font-semibold text-white tracking-[0.3px] transition-all hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)] active:scale-95">
+                    <i data-lucide="download" class="h-4 w-4"></i>
+                    Generate & Download PDF
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <aside id="gradeToolbar" class="fixed bottom-20 left-4 right-4 z-40 hidden lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2" aria-label="Quick navigation"></aside>
+    <button id="toolbarToggle" type="button" class="focus-ring fixed bottom-5 right-5 z-40 hidden h-12 w-12 place-items-center rounded-full border border-[#A41034]/10 bg-white/90 text-[#A41034] shadow-[0_16px_40px_rgba(123,3,35,0.18)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-[#fffaf3] lg:hidden" aria-label="Open quick navigation" aria-expanded="false">
+        <i data-lucide="panel-right-open" class="h-5 w-5"></i>
+    </button>
+
+    <script>
+        const currentGradeId = 'grade-4';
+        let activeGradeId = currentGradeId;
+        let activeBlockKey = '';
+        let toolbarOpen = false;
+        let currentToolbarView = 'home';
+        let activeAppTab = 'Teacher Lesson Plan';
+        const expandedGradeIds = new Set([currentGradeId]);
+        const collapsedBlockIds = new Set();
+
+        const iconPaths = {
+            book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+            math: '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="8" x2="12" y2="16"/>',
+            globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+            monitor: '<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+            flask: '<path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3 20.4 20a1.3 1.3 0 0 1-1.1 2H4.7a1.3 1.3 0 0 1-1.1-2L10 9.31"/><path d="M8.5 14h7"/>',
+            landmark: '<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7 12 2"/>',
+            hindi: '<path d="M4 4h16"/><path d="M7 4v16"/><path d="M7 12h5a4 4 0 0 0 0-8"/><path d="M17 4v16"/>',
+            early: '<path d="M12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'
+        };
+
+        const initialAnnouncements = [
+            {
+                id: 1,
+                author: 'XSEED Admin',
+                role: 'School Administrator',
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin',
+                timestamp: '2 hours ago',
+                audience: 'All Grades',
+                text: 'Dear Parents,\n\nWe are excited to announce our upcoming Annual Science Exhibition on May 15th. Students from Grade 3 to Grade 8 will be presenting their projects. All parents are warmly invited to attend between 10:00 AM - 1:00 PM.',
+                media: [{ type: 'image', url: 'https://picsum.photos/seed/scienceexpo/900/420', alt: 'Science Exhibition' }, { type: 'image', url: 'https://picsum.photos/seed/scienceexpo2/900/600', alt: 'Science Exhibition 2' }],
+                reactions: { '👍': 24, '❤️': 18, '🎉': 31, '😊': 12, '🙏': 8 },
+                myReactions: new Set()
+            },
+            {
+                id: 2,
+                author: 'Grade 4 Team',
+                role: 'Class Teachers',
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Grade4',
+                timestamp: '1 day ago',
+                audience: 'Grade 4',
+                text: 'Dear Parents,\n\nThe Mathematics Unit Assessment for Block 03 is scheduled for Friday, May 2nd. Please ensure your child has revised chapters on fractions and decimals. The assessment schedule and syllabus are attached below.',
+                media: { type: 'pdf', name: 'Assessment_Schedule_Grade4.pdf', size: '240 KB' },
+                reactions: { '👍': 45, '❤️': 12, '🎉': 5, '😊': 20, '🙏': 33 },
+                myReactions: new Set()
+            },
+            {
+                id: 3,
+                author: "Principal's Office",
+                role: 'Administration',
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Principal',
+                timestamp: '3 days ago',
+                audience: 'All Grades',
+                text: 'Dear Parents,\n\nSchool will remain closed on Thursday, May 1st on account of International Labour Day. Regular classes will resume on Friday, May 2nd. Wishing everyone a restful long weekend!',
+                media: null,
+                reactions: { '👍': 89, '❤️': 34, '🎉': 22, '😊': 56, '🙏': 12 },
+                myReactions: new Set()
+            },
+            {
+                id: 4,
+                author: 'Sports Department',
+                role: 'Physical Education',
+                avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sports',
+                timestamp: '1 week ago',
+                audience: 'Grade 5 - Grade 8',
+                text: 'We are incredibly proud to share that our school football team has won the Inter-School Championship 2026! Watch the highlights from the final match below. A huge congratulations to all the players and coaches! 🏆',
+                media: { type: 'video', thumbnail: 'https://picsum.photos/seed/football/900/450', alt: 'Football Championship Highlights' },
+                reactions: { '👍': 112, '❤️': 98, '🎉': 145, '😊': 67, '🙏': 23 },
+                myReactions: new Set()
+            },
+            {
+                id: 5,
+                author: 'Grade 2 Team',
+                role: 'Class Teachers',
+                timestamp: '2 days ago',
+                audience: 'Grade 2',
+                text: "Dear Parents,\n\nHere's a snapshot from today's hands-on activity where students created their own mini ecosystems in a jar. The excitement and curiosity in the classroom was wonderful to see!",
+                media: { type: 'image', url: 'https://picsum.photos/seed/classroom/400/700', alt: 'Classroom Activity' },
+                reactions: { '👍': 67, '❤️': 91, '🎉': 44, '😊': 38, '🙏': 15 },
+                myReactions: new Set()
+            }
+        ].map((announcement) => ({ ...announcement, myReactions: new Set() }));
+        const communicationGradeFilters = ['All Grades', 'Nursery', 'LKG', 'UKG', ...Array.from({ length: 8 }, (_, index) => `Grade ${index + 1}`)];
+        let communicationFilter = 'All Grades';
+
+        function escapeHtml(value = '') {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function initialsFromName(name) {
+            return name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
+        }
+
+        function audienceMatchesFilter(announcement, filter) {
+            if (filter === 'All Grades') return true;
+            if (announcement.audience === 'All Grades' || announcement.audience === filter) return true;
+
+            const range = announcement.audience.match(/Grade\s+(\d+)\s*-\s*Grade\s+(\d+)/i);
+            const grade = filter.match(/Grade\s+(\d+)/i);
+            if (!range || !grade) return false;
+
+            const gradeNumber = Number(grade[1]);
+            return gradeNumber >= Number(range[1]) && gradeNumber <= Number(range[2]);
+        }
+
+        function renderAnnouncementText(text) {
+            return text.split('\n\n')
+                .map((paragraph) => `<p class="text-[15px] font-medium leading-7 text-[#44403C]">${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function renderAnnouncementMedia(media) {
+            if (!media) return '';
+            if (Array.isArray(media)) {
+                return `
+                    <div class="mt-5 grid gap-3 ${media.length > 1 ? 'sm:grid-cols-2' : ''}">
+                        ${media.map((item) => `
+                            <img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.alt || '')}" class="h-64 w-full rounded-3xl object-cover">
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            if (media.type === 'image') {
+                return `
+                    <div class="mt-5 overflow-hidden rounded-3xl bg-[#F5F5F4]">
+                        <img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.alt || '')}" class="max-h-[520px] w-full object-cover">
+                    </div>
+                `;
+            }
+
+            if (media.type === 'pdf') {
+                return `
+                    <div class="mt-5 flex items-center gap-4 rounded-3xl border border-[#E7E5E4] bg-[#F5F5F4] p-4">
+                        <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-white">
+                            <i data-lucide="file-text" class="h-5 w-5"></i>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="truncate text-sm font-black text-[#1C1917]">${escapeHtml(media.name)}</p>
+                            <p class="mt-0.5 text-[11px] font-bold  tracking-wider text-[#A8A29E]">PDF · ${escapeHtml(media.size)}</p>
+                        </div>
+                        <button type="button" class="focus-ring rounded-2xl bg-white px-4 py-2.5 text-[10px] font-black  tracking-wider text-[#A41034] transition hover:bg-[#fff7ed]">View</button>
+                    </div>
+                `;
+            }
+
+            if (media.type === 'video') {
+                return `
+                    <div class="relative mt-5 overflow-hidden rounded-3xl bg-[#1C1917]">
+                        <img src="${escapeHtml(media.thumbnail)}" alt="${escapeHtml(media.alt || '')}" class="h-72 w-full object-cover opacity-80">
+                        <button type="button" class="focus-ring absolute inset-0 grid place-items-center" aria-label="Play video">
+                            <span class="grid h-16 w-16 place-items-center rounded-full bg-white/95 text-[#A41034] shadow-2xl">
+                                <i data-lucide="play" class="h-7 w-7 fill-current"></i>
+                            </span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            return '';
+        }
+
+        function renderReactions(announcement) {
+            return Object.entries(announcement.reactions).map(([emoji, count]) => {
+                const active = announcement.myReactions.has(emoji);
+                return `
+                    <button type="button" class="reaction-button focus-ring rounded-xl px-3 py-2 text-xs font-bold transition ${active ? 'bg-[#fff7ed] text-[#A41034] ring-1 ring-[#f59138]/30' : 'bg-[#F5F5F4] text-[#78716C] hover:bg-[#fff7ed] hover:text-[#A41034]'}" data-post-id="${announcement.id}" data-emoji="${escapeHtml(emoji)}">
+                        <span aria-hidden="true">${emoji}</span>
+                        <span>${count + (active ? 1 : 0)}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderAnnouncementCard(announcement) {
+            const avatar = escapeHtml(initialsFromName(announcement.author));
+
+            return `
+                <article class="rounded-[2.5rem] border border-[#E7E5E4] bg-white p-6 shadow-[0_18px_48px_rgba(28,25,23,0.05)]">
+                    <div class="mb-5 flex items-start justify-between gap-4">
+                        <div class="flex min-w-0 items-center gap-4">
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#A41034] text-sm font-bold tracking-normal text-white shadow-lg shadow-[#A41034]/20">${avatar}</div>
+                            <div class="min-w-0">
+                                <h2 class="truncate text-base font-bold text-[#1C1917]">${escapeHtml(announcement.author)}</h2>
+                                <p class="text-xs font-semibold  text-[#A8A29E]">${escapeHtml(announcement.role)} · ${escapeHtml(announcement.timestamp)}</p>
+                            </div>
+                        </div>
+                        <span class="shrink-0 rounded-full bg-[#F5F5F4] px-3 py-1 text-xs font-bold  text-[#78716C]">${escapeHtml(announcement.audience)}</span>
+                    </div>
+                    <div class="space-y-3">${renderAnnouncementText(announcement.text)}</div>
+                    ${renderAnnouncementMedia(announcement.media)}
+                    <div class="mt-5 flex flex-wrap gap-2">${renderReactions(announcement)}</div>
+                </article>
+            `;
+        }
+
+        function renderCommunicationFeed() {
+            const feed = document.getElementById('communicationFeed');
+            const filter = communicationFilter;
+            if (!feed) return;
+
+            const filtered = initialAnnouncements.filter((announcement) => audienceMatchesFilter(announcement, filter));
+            feed.innerHTML = filtered.length
+                ? filtered.map(renderAnnouncementCard).join('')
+                : '<div class="rounded-[2.5rem] border border-[#E7E5E4] bg-white p-10 text-center text-sm font-bold text-[#78716C]">No announcements for this grade.</div>';
+
+            feed.querySelectorAll('.reaction-button').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const post = initialAnnouncements.find((announcement) => announcement.id === Number(button.dataset.postId));
+                    if (!post) return;
+                    if (post.myReactions.has(button.dataset.emoji)) {
+                        post.myReactions.delete(button.dataset.emoji);
+                    } else {
+                        post.myReactions.add(button.dataset.emoji);
+                    }
+                    renderCommunicationFeed();
+                    lucide.createIcons();
+                });
+            });
+        }
+
+        function getCommunicationFilterLabel(filter) {
+            if (filter === 'All Grades') return 'All';
+            const grade = filter.match(/Grade\s+(\d+)/i);
+            return grade ? `G${grade[1]}` : filter;
+        }
+
+        function renderCommunicationFilterToolbar() {
+            const toolbar = document.getElementById('communicationFilterToolbar');
+            if (!toolbar) return;
+
+            toolbar.classList.toggle('hidden', activeAppTab !== 'Communication');
+            if (activeAppTab !== 'Communication') return;
+
+            toolbar.innerHTML = `
+                <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#A41034]/10 bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Filter announcements by grade">
+                    ${communicationGradeFilters.map((filter) => `
+                        <button type="button" class="communication-filter-button group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold text-[#A41034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A41034]/5 hover:text-[#5a0219] focus:outline-none lg:h-7 lg:min-w-7 lg:px-1.5 lg:text-[10px] ${filter === communicationFilter ? 'bg-[#f59138]/15 ring-1 ring-[#f59138]/30' : ''}" data-communication-filter="${escapeHtml(filter)}" aria-label="Show ${escapeHtml(filter)} announcements">
+                            <span>${escapeHtml(getCommunicationFilterLabel(filter))}</span>
+                            <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#A41034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#A41034] opacity-0 shadow-lg shadow-[#A41034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">${escapeHtml(filter)}</span>
+                        </button>
+                    `).join('')}
+                </nav>
+            `;
+
+            toolbar.querySelectorAll('.communication-filter-button').forEach((button) => {
+                button.addEventListener('click', () => {
+                    communicationFilter = button.dataset.communicationFilter || 'All Grades';
+                    renderCommunicationFilterToolbar();
+                    renderCommunicationFeed();
+                });
+            });
+        }
+
+        const LEARNOMETER_TEST = {
+            name: 'Mathematics Unit Assessment',
+            subject: 'Mathematics',
+            grade: 'Grade 4',
+            block: 'Block 03 - Fractions',
+            duration: 30
+        };
+
+        const LEARNOMETER_QUESTIONS = [
+            { text: 'If 3 out of 8 equal parts of a shape are shaded, what fraction is shaded?', options: ['3/8', '5/8', '8/3', '1/3'], answer: 0 },
+            { text: 'Which fraction is equivalent to 1/2?', options: ['2/4', '1/4', '3/4', '2/3'], answer: 0 },
+            { text: 'What is 1/4 + 1/4?', options: ['2/4', '2/8', '1/8', '4/1'], answer: 0 },
+            { text: 'Which of these fractions is the largest?', options: ['3/4', '1/2', '1/4', '2/5'], answer: 0 },
+            { text: 'A pizza is cut into 6 equal slices. You eat 2. What fraction of the pizza remains?', options: ['4/6', '2/6', '6/4', '2/3'], answer: 0 },
+            { text: 'What is 3/4 of 8?', options: ['6', '4', '3', '2'], answer: 0 },
+            { text: 'Which of these is a proper fraction?', options: ['3/5', '5/3', '5/5', '6/3'], answer: 0 },
+            { text: 'Simplify 4/8 to its lowest form.', options: ['1/2', '2/4', '4/8', '1/4'], answer: 0 },
+            { text: 'What fraction of one hour is 15 minutes?', options: ['1/4', '1/2', '1/3', '3/4'], answer: 0 },
+            { text: 'You have 2/5 of a ribbon. You add 1/5 more. What is the total?', options: ['3/5', '3/10', '2/10', '1/5'], answer: 0 }
+        ];
+
+        const learnometerState = {
+            step: 'login',
+            studentId: '',
+            teacherCode: '',
+            loginError: '',
+            testType: null,
+            currentQ: 0,
+            selected: null,
+            answers: [],
+            timeLeft: 0,
+            testDone: false,
+            timer: null
+        };
+
+        function learnometerLogo(size = 26) {
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" stroke-width="1.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>`;
+        }
+
+        function formatLearnometerTime(secs) {
+            const minutes = Math.floor(secs / 60).toString().padStart(2, '0');
+            const seconds = (secs % 60).toString().padStart(2, '0');
+            return `${minutes}:${seconds}`;
+        }
+
+        function stopLearnometerTimer() {
+            if (learnometerState.timer) {
+                clearInterval(learnometerState.timer);
+                learnometerState.timer = null;
+            }
+        }
+
+        function startLearnometerTimer() {
+            stopLearnometerTimer();
+            learnometerState.timer = setInterval(() => {
+                if (learnometerState.step !== 'test' || learnometerState.testDone) {
+                    stopLearnometerTimer();
+                    return;
+                }
+
+                if (learnometerState.timeLeft <= 1) {
+                    learnometerState.timeLeft = 0;
+                    learnometerState.testDone = true;
+                    stopLearnometerTimer();
+                    renderLearnometer();
+                    return;
+                }
+
+                learnometerState.timeLeft -= 1;
+                const timerNode = document.getElementById('learnometerTimer');
+                if (timerNode) timerNode.textContent = formatLearnometerTime(learnometerState.timeLeft);
+            }, 1000);
+        }
+
+        function startLearnometerTest(type) {
+            learnometerState.testType = type;
+            learnometerState.currentQ = 0;
+            learnometerState.selected = null;
+            learnometerState.answers = [];
+            learnometerState.timeLeft = LEARNOMETER_TEST.duration * 60;
+            learnometerState.testDone = false;
+            learnometerState.step = 'test';
+            renderLearnometer();
+            startLearnometerTimer();
+        }
+
+        function completeLearnometerQuestion() {
+            learnometerState.answers[learnometerState.currentQ] = learnometerState.selected;
+
+            if (learnometerState.currentQ + 1 >= LEARNOMETER_QUESTIONS.length) {
+                learnometerState.testDone = true;
+                stopLearnometerTimer();
+            } else {
+                learnometerState.currentQ += 1;
+                learnometerState.selected = null;
+            }
+
+            renderLearnometer();
+            if (learnometerState.step === 'test' && !learnometerState.testDone) startLearnometerTimer();
+        }
+
+        function resetLearnometer() {
+            stopLearnometerTimer();
+            learnometerState.step = 'login';
+            learnometerState.studentId = '';
+            learnometerState.teacherCode = '';
+            learnometerState.loginError = '';
+            learnometerState.testType = null;
+            learnometerState.currentQ = 0;
+            learnometerState.selected = null;
+            learnometerState.answers = [];
+            learnometerState.timeLeft = 0;
+            learnometerState.testDone = false;
+            renderLearnometer();
+        }
+
+        function renderLearnometerLogin() {
+            const ready = learnometerState.studentId.trim() && learnometerState.teacherCode.trim();
+            return `
+                <section class="flex min-h-[calc(100vh-80px)] items-start justify-center pt-16 tab-content max-sm:pt-8">
+                    <div class="w-full max-w-[460px]">
+                        <div class="mb-7 flex flex-col items-center fade-in">
+                            <h1 class="font-['Poppins'] text-[30px] font-semibold leading-9 tracking-[-0.3px] text-[#1C1917]">Learnometer</h1>
+                            <p class="mt-1 text-sm font-normal leading-6 text-[#8B8B8B]">Sign in to access your test</p>
+                        </div>
+                        <form id="learnometerLoginForm" class="slide-up rounded-[20px] border border-[#ECE8E4] bg-white p-8 shadow-[0_20px_50px_rgba(28,25,23,0.08)] max-sm:p-6">
+                            <div class="mb-6 space-y-5">
+                                <div>
+                                    <label class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">XSEED student ID</label>
+                                    <span class="flex h-[52px] items-center gap-3 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-4 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
+                                        <i data-lucide="id-card" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                                        <input id="learnometerStudentId" type="text" value="${escapeHtml(learnometerState.studentId)}" placeholder="e.g. XS-2026-04821" class="w-full bg-transparent text-sm font-medium text-[#1C1917] placeholder-[#B8B2AE] outline-none">
+                                    </span>
+                                </div>
+                                <div>
+                                    <label class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Teacher code</label>
+                                    <span class="flex h-[52px] items-center gap-3 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-4 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
+                                        <i data-lucide="key-round" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                                        <input id="learnometerTeacherCode" type="text" value="${escapeHtml(learnometerState.teacherCode)}" placeholder="e.g. TCH-8842" class="w-full bg-transparent text-sm font-medium text-[#1C1917] placeholder-[#B8B2AE] outline-none">
+                                    </span>
+                                </div>
+                            </div>
+                            ${learnometerState.loginError ? `
+                                <p class="mb-4 flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2 text-[12px] font-medium text-red-600">
+                                    <i data-lucide="circle-alert" class="h-3.5 w-3.5 shrink-0"></i>
+                                    ${escapeHtml(learnometerState.loginError)}
+                                </p>
+                            ` : ''}
+                            <button type="submit" class="focus-ring h-[52px] w-full rounded-xl text-[14px] font-semibold transition-all active:scale-[0.98] ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_14px_28px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F2EFEC] text-[#9A928D]'}">
+                                Sign in
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderLearnometerSelect() {
+            return `
+                <section class="flex min-h-[calc(100vh-80px)] items-center justify-center tab-content">
+                    <div class="w-full max-w-lg">
+                        <div class="fade-in mb-8 text-center">
+                            <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-100 bg-[#fff7ed] px-4 py-2">
+                                <div class="flex h-5 w-5 items-center justify-center rounded-lg bg-[#A41034]">${learnometerLogo(11)}</div>
+                                <span class="text-[11px] font-black text-amber-600">Student ID: ${escapeHtml(learnometerState.studentId)}</span>
+                            </div>
+                            <h1 class="text-3xl font-black tracking-tight text-[#1C1917]">Your Test is Ready</h1>
+                            <p class="mt-1 text-[13px] font-medium text-[#A8A29E]">Review the details below before you begin</p>
+                        </div>
+
+                        <div class="slide-up overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white">
+                            <div class="bg-[#A41034] px-8 py-6">
+                                <p class="mb-1 text-[10px] font-black  tracking-widest text-white/50">Assigned Test</p>
+                                <h2 class="text-xl font-black leading-snug text-white">${escapeHtml(LEARNOMETER_TEST.name)}</h2>
+                                <p class="mt-1 text-[12px] font-bold text-white/60">${escapeHtml(LEARNOMETER_TEST.grade)} · ${escapeHtml(LEARNOMETER_TEST.subject)}</p>
+                            </div>
+                            <div class="border-b border-[#F5F5F4] px-8 py-6">
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="text-center"><i data-lucide="package" class="mx-auto mb-1 h-6 w-6 text-[#A41034]"></i><p class="mb-0.5 text-[10px] font-black  tracking-wider text-[#A8A29E]">Block</p><p class="text-[12px] font-black text-[#1C1917]">${escapeHtml(LEARNOMETER_TEST.block)}</p></div>
+                                    <div class="text-center"><i data-lucide="circle-help" class="mx-auto mb-1 h-6 w-6 text-[#A41034]"></i><p class="mb-0.5 text-[10px] font-black  tracking-wider text-[#A8A29E]">Questions</p><p class="text-[12px] font-black text-[#1C1917]">${LEARNOMETER_QUESTIONS.length} questions</p></div>
+                                    <div class="text-center"><i data-lucide="timer" class="mx-auto mb-1 h-6 w-6 text-[#A41034]"></i><p class="mb-0.5 text-[10px] font-black  tracking-wider text-[#A8A29E]">Duration</p><p class="text-[12px] font-black text-[#1C1917]">${LEARNOMETER_TEST.duration} minutes</p></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-3 px-8 py-6">
+                                <button type="button" class="learnometer-start-test focus-ring flex w-full items-center justify-center gap-2 rounded-2xl bg-[#A41034] py-4 text-[12px] font-black  tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95" data-test-type="test">
+                                    <i data-lucide="play" class="h-4 w-4 fill-current"></i>
+                                    Start Test
+                                </button>
+                                <button type="button" class="learnometer-start-test focus-ring flex w-full items-center justify-center gap-2 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] py-4 text-[12px] font-black  tracking-wider text-[#1C1917] transition-all hover:bg-[#EEECEA] active:scale-95" data-test-type="practice">
+                                    <i data-lucide="pencil" class="h-4 w-4"></i>
+                                    Start Practice Test
+                                </button>
+                                <button type="button" id="learnometerSignOut" class="mt-1 text-center text-[11px] font-bold text-[#A8A29E] transition-colors hover:text-[#78716C]">
+                                    Sign out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderLearnometerTest() {
+            const question = LEARNOMETER_QUESTIONS[learnometerState.currentQ];
+            const progress = (learnometerState.currentQ / LEARNOMETER_QUESTIONS.length) * 100;
+            const warn = learnometerState.timeLeft < 60;
+            const badgeClass = learnometerState.testType === 'practice'
+                ? 'border border-amber-100 bg-amber-50 text-amber-600'
+                : 'border border-[#A41034]/15 bg-[#A41034]/[0.08] text-[#A41034]';
+            const options = question.options.map((option, index) => {
+                const selected = learnometerState.selected === index;
+                return `
+                    <button type="button" class="learnometer-option focus-ring w-full rounded-2xl border-2 px-6 py-4 text-left text-[13px] font-bold transition-all active:scale-[0.99] ${selected ? 'border-[#A41034] bg-[#A41034]/[0.08] text-[#A41034]' : 'border-transparent bg-[#F5F5F4] text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}" data-option-index="${index}">
+                        <span class="inline-flex items-center gap-3">
+                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 text-[10px] font-black transition-all ${selected ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}">${String.fromCharCode(65 + index)}</span>
+                            ${escapeHtml(option)}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+
+            return `
+                <section class="tab-content py-6">
+                    <div class="fade-in mb-8 flex items-center justify-between">
+                        <div>
+                            <div class="mb-1 flex items-center gap-2">
+                                <span class="rounded-full px-3 py-1 text-[9px] font-black  tracking-widest ${badgeClass}">
+                                    ${learnometerState.testType === 'practice' ? 'Practice Test' : 'Official Test'}
+                                </span>
+                            </div>
+                            <h1 class="text-2xl font-black leading-none tracking-tight text-[#1C1917]">${escapeHtml(LEARNOMETER_TEST.name)}</h1>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2 rounded-2xl border px-5 py-3 text-[13px] font-black transition-colors ${warn ? 'border-red-200 bg-red-50 text-red-500' : 'border-[#E7E5E4] bg-[#F5F5F4] text-[#1C1917]'}">
+                                <i data-lucide="clock" class="h-3.5 w-3.5"></i>
+                                <span id="learnometerTimer">${formatLearnometerTime(learnometerState.timeLeft)}</span>
+                            </div>
+                            <button type="button" id="learnometerExitTest" class="focus-ring rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-5 py-3 text-[11px] font-black  tracking-wider text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Exit</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <div class="mb-2 flex items-center justify-between">
+                            <span class="text-[10px] font-black  tracking-widest text-[#A8A29E]">Question ${learnometerState.currentQ + 1} of ${LEARNOMETER_QUESTIONS.length}</span>
+                            <span class="text-[10px] font-black  tracking-widest text-[#A41034]">${escapeHtml(LEARNOMETER_TEST.grade)} · ${escapeHtml(LEARNOMETER_TEST.subject)}</span>
+                        </div>
+                        <div class="h-1.5 w-full overflow-hidden rounded-full bg-[#F5F5F4]">
+                            <div class="h-full rounded-full bg-[#A41034] transition-all duration-500" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mx-auto max-w-2xl">
+                        <div class="fade-in mb-6 rounded-[2.5rem] border border-[#E7E5E4] bg-white p-10">
+                            <div class="mb-8 flex items-start gap-4">
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#A41034] text-[13px] font-black text-white">${learnometerState.currentQ + 1}</div>
+                                <p class="pt-1 text-[16px] font-bold leading-relaxed text-[#1C1917]">${escapeHtml(question.text)}</p>
+                            </div>
+                            <div class="space-y-3">${options}</div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="button" id="learnometerNext" ${learnometerState.selected === null ? 'disabled' : ''} class="focus-ring flex items-center gap-3 rounded-2xl px-8 py-4 text-[11px] font-black  tracking-wider transition-all active:scale-95 ${learnometerState.selected !== null ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#E7E5E4] text-[#A8A29E]'}">
+                                ${learnometerState.currentQ + 1 === LEARNOMETER_QUESTIONS.length ? 'Submit Test' : 'Next Question'}
+                                <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderLearnometerResults() {
+            const score = learnometerState.answers.filter((answer, index) => answer === LEARNOMETER_QUESTIONS[index]?.answer).length;
+            const pct = LEARNOMETER_QUESTIONS.length ? Math.round((score / LEARNOMETER_QUESTIONS.length) * 100) : 0;
+            const passed = pct >= 60;
+            const circumference = 2 * Math.PI * 52;
+            const badgeClass = learnometerState.testType === 'practice'
+                ? 'border border-amber-100 bg-amber-50 text-amber-600'
+                : 'border border-[#A41034]/15 bg-[#A41034]/[0.08] text-[#A41034]';
+
+            return `
+                <section class="tab-content py-12">
+                    <div class="mx-auto max-w-2xl">
+                        <div class="fade-in rounded-[2.5rem] border border-[#E7E5E4] bg-white p-12 text-center">
+                            <div class="mb-2 flex justify-center">
+                                <span class="rounded-full px-3 py-1 text-[9px] font-black  tracking-widest ${badgeClass}">
+                                    ${learnometerState.testType === 'practice' ? 'Practice Test Results' : 'Test Results'}
+                                </span>
+                            </div>
+                            <div class="relative mx-auto my-8 h-36 w-36">
+                                <svg viewBox="0 0 120 120" class="h-full w-full -rotate-90">
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="#F5F5F4" stroke-width="10" />
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="${passed ? '#A41034' : '#f59138'}" stroke-width="10" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference * (1 - pct / 100)}" stroke-linecap="round" style="transition: stroke-dashoffset 1.2s ease" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-3xl font-black text-[#1C1917]">${pct}%</span>
+                                    <span class="text-[9px] font-black  tracking-widest text-[#A8A29E]">Score</span>
+                                </div>
+                            </div>
+                            <h2 class="mb-1 text-3xl font-black tracking-tight text-[#1C1917]">${pct === 100 ? 'Perfect Score!' : passed ? 'Well Done!' : 'Keep Practising!'}</h2>
+                            <p class="mb-1 text-[13px] font-medium text-[#78716C]">${score} of ${LEARNOMETER_QUESTIONS.length} correct</p>
+                            <p class="mb-10 text-[10px] font-black  tracking-widest text-[#A8A29E]">${escapeHtml(LEARNOMETER_TEST.grade)} · ${escapeHtml(LEARNOMETER_TEST.subject)} · ${escapeHtml(LEARNOMETER_TEST.block)}</p>
+                            <div class="mb-10 grid grid-cols-3 gap-4">
+                                <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#4CAF50]">${score}</p><p class="mt-1 text-[10px] font-black  tracking-widest text-[#A8A29E]">Correct</p></div>
+                                <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#f59138]">${LEARNOMETER_QUESTIONS.length - score}</p><p class="mt-1 text-[10px] font-black  tracking-widest text-[#A8A29E]">Incorrect</p></div>
+                                <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#A8A29E]">${LEARNOMETER_QUESTIONS.length}</p><p class="mt-1 text-[10px] font-black  tracking-widest text-[#A8A29E]">Total</p></div>
+                            </div>
+                            <div class="flex items-center justify-center gap-3">
+                                <button type="button" id="learnometerBackToTest" class="focus-ring rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-8 py-4 text-[11px] font-black  tracking-wider text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Back to Test</button>
+                                <button type="button" id="learnometerRetry" class="focus-ring rounded-2xl bg-[#A41034] px-8 py-4 text-[11px] font-black  tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95">
+                                    ${learnometerState.testType === 'practice' ? 'Start Official Test' : 'Try Practice Again'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderLearnometer() {
+            const panel = document.getElementById('learnometerPanel');
+            if (!panel) return;
+
+            if (learnometerState.step === 'login') {
+                panel.innerHTML = renderLearnometerLogin();
+            } else if (learnometerState.step === 'select') {
+                panel.innerHTML = renderLearnometerSelect();
+            } else if (learnometerState.testDone || learnometerState.step === 'results') {
+                panel.innerHTML = renderLearnometerResults();
+            } else {
+                panel.innerHTML = renderLearnometerTest();
+            }
+
+            bindLearnometerEvents();
+            lucide.createIcons();
+        }
+
+        function bindLearnometerEvents() {
+            const panel = document.getElementById('learnometerPanel');
+            if (!panel) return;
+
+            const studentInput = panel.querySelector('#learnometerStudentId');
+            const teacherInput = panel.querySelector('#learnometerTeacherCode');
+            studentInput?.addEventListener('input', (event) => {
+                learnometerState.studentId = event.target.value;
+                learnometerState.loginError = '';
+            });
+            teacherInput?.addEventListener('input', (event) => {
+                learnometerState.teacherCode = event.target.value;
+                learnometerState.loginError = '';
+            });
+
+            panel.querySelector('#learnometerLoginForm')?.addEventListener('submit', (event) => {
+                event.preventDefault();
+                learnometerState.studentId = document.getElementById('learnometerStudentId')?.value || '';
+                learnometerState.teacherCode = document.getElementById('learnometerTeacherCode')?.value || '';
+                if (learnometerState.studentId.trim() && learnometerState.teacherCode.trim()) {
+                    learnometerState.step = 'select';
+                    learnometerState.loginError = '';
+                } else {
+                    learnometerState.loginError = 'Please enter both your Student ID and Teacher Code.';
+                }
+                renderLearnometer();
+            });
+
+            panel.querySelectorAll('.learnometer-start-test').forEach((button) => {
+                button.addEventListener('click', () => startLearnometerTest(button.dataset.testType));
+            });
+            panel.querySelector('#learnometerSignOut')?.addEventListener('click', resetLearnometer);
+            panel.querySelector('#learnometerExitTest')?.addEventListener('click', () => {
+                stopLearnometerTimer();
+                learnometerState.step = 'select';
+                learnometerState.testDone = false;
+                renderLearnometer();
+            });
+            panel.querySelectorAll('.learnometer-option').forEach((button) => {
+                button.addEventListener('click', () => {
+                    learnometerState.selected = Number(button.dataset.optionIndex);
+                    renderLearnometer();
+                    if (learnometerState.step === 'test' && !learnometerState.testDone) startLearnometerTimer();
+                });
+            });
+            panel.querySelector('#learnometerNext')?.addEventListener('click', () => {
+                if (learnometerState.selected !== null) completeLearnometerQuestion();
+            });
+            panel.querySelector('#learnometerBackToTest')?.addEventListener('click', () => {
+                learnometerState.step = 'select';
+                learnometerState.testDone = false;
+                renderLearnometer();
+            });
+            panel.querySelector('#learnometerRetry')?.addEventListener('click', () => {
+                startLearnometerTest(learnometerState.testType === 'practice' ? 'test' : 'practice');
+            });
+        }
+
+        const subjectLibrary = {
+            earlyChildhood: {
+                name: 'Early Childhood',
+                subtitle: 'Foundation Plan',
+                progress: 40,
+                icon: 'early'
+            },
+            english: {
+                name: 'English',
+                subtitle: 'Curriculum Plan',
+                progress: 65,
+                icon: 'book'
+            },
+            computerScience: {
+                name: 'Computer Science',
+                subtitle: 'Curriculum Plan',
+                progress: 48,
+                icon: 'monitor'
+            },
+            mathematics: {
+                name: 'Mathematics',
+                subtitle: 'Curriculum Plan',
+                progress: 30,
+                icon: 'math'
+            },
+            science: {
+                name: 'Science',
+                subtitle: 'Curriculum Plan',
+                progress: 45,
+                icon: 'flask'
+            },
+            evs: {
+                name: 'EVS',
+                subtitle: 'Curriculum Plan',
+                progress: 10,
+                icon: 'globe'
+            },
+            social: {
+                name: 'Social',
+                subtitle: 'Curriculum Plan',
+                progress: 36,
+                icon: 'landmark'
+            },
+            // hindi: {
+            //     name: 'Hindi',
+            //     subtitle: 'Curriculum Plan',
+            //     progress: 58,
+            //     icon: 'hindi'
+            // }
+        };
+
+        const primarySubjects = [
+            subjectLibrary.computerScience,
+            subjectLibrary.evs,
+            subjectLibrary.english,
+            subjectLibrary.science,
+            subjectLibrary.social,
+            subjectLibrary.mathematics,
+            // subjectLibrary.hindi
+        ];
+
+        function renderIcon(iconName) {
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    ${iconPaths[iconName]}
+                </svg>
+            `;
+        }
+
+        function renderWatermarkIcon(iconName) {
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    ${iconPaths[iconName]}
+                </svg>
+            `;
+        }
+
+        const blockTitleLibrary = {
+            'Computer Science': ['Digital Basics', 'Parts of a Computer', 'Using the Keyboard', 'Mouse Skills', 'File and Folder Basics', 'Drawing with Shapes', 'Internet Safety', 'Sequencing Steps', 'Pattern Logic', 'Simple Algorithms', 'Creative Coding', 'Debugging Basics', 'Data Around Us', 'Presentation Skills', 'Digital Citizenship'],
+            EVS: ['My Surroundings', 'My Family', 'Food We Eat', 'Water Around Us', 'Plants Near Us', 'Animals Around Us', 'Our Body', 'Good Habits', 'Weather Around Us', 'Homes and Shelter', 'People Who Help Us', 'Festivals and Places', 'Travel and Transport', 'Keeping Clean', 'Caring for Nature'],
+            English: ['The Alphabet Song', 'Letter Sounds', 'Sight Words', 'Reading Fluency', 'Rhyming Words', 'Nouns Around Us', 'Action Words', 'Describing Words', 'Sentence Builders', 'Listening for Details', 'Story Characters', 'Story Setting', 'Picture Reading', 'Writing Workshop', 'Speaking with Confidence'],
+            Science: ['Light and Shadows', 'Changes in the Sky', 'Materials Around Us', 'Solids and Liquids', 'Plants Grow', 'Animal Needs', 'Human Body', 'Healthy Habits', 'Forces and Motion', 'Sound Around Us', 'Water Cycle Basics', 'Weather Watch', 'Magnets', 'Simple Machines', 'Observing Like Scientists'],
+            Social: ['My Community', 'My School', 'Rules and Responsibilities', 'Maps and Places', 'Directions Around Us', 'Our Neighborhood', 'Helpers at Work', 'Culture and Heritage', 'Festivals We Celebrate', 'Food and Clothing', 'Transport and Travel', 'Public Places', 'Our Country', 'Good Citizenship', 'Saving Resources'],
+            Mathematics: ['Numbers and Patterns', 'Counting Forward', 'Comparing Numbers', 'Place Value', 'Addition Stories', 'Subtraction Stories', 'Shapes Around Us', 'Geometry in Life', 'Measurement', 'Time of Day', 'Money Basics', 'Data and Pictures', 'Patterns in Nature', 'Fractions as Parts', 'Problem Solving'],
+            Hindi: ['Swar Pehchan', 'Vyanjan Pehchan', 'Matra Abhyas', 'Pathan Kaushal', 'Shabd Nirman', 'Vakya Rachna', 'Vyakaran', 'Kahani Pathan', 'Kavita Pathan', 'Shravan Kaushal', 'Baatcheet', 'Chitra Varnan', 'Rachnatmak Lekhan', 'Muhavare', 'Punravartan'],
+            'Early Childhood': ['Stories and Sounds', 'Colors Around Me', 'Numbers and Shapes', 'Fine Motor Fun', 'Big and Small', 'My Body', 'My Family', 'Animals and Sounds', 'Fruits and Vegetables', 'Weather Play', 'Good Habits', 'Sharing and Caring', 'Music and Movement', 'World Around Me', 'Creative Play']
+        };
+
+        const lessonTypes = [
+            {
+                title: 'Warm Up',
+                duration: '20 min',
+                stage: 'warm',
+                icon: 'sun',
+                description: (topic) => `Activate prior ideas and invite quick observations about ${topic.toLowerCase()}.`
+            },
+            {
+                title: 'Explore',
+                duration: '35 min',
+                stage: 'explore',
+                icon: 'search',
+                description: (topic) => `Students investigate examples and notice patterns before formal naming.`
+            },
+            {
+                title: 'Teacher Model',
+                duration: '30 min',
+                stage: 'practice',
+                icon: 'presentation',
+                description: (topic) => `Model the thinking moves students need for ${topic.toLowerCase()}.`
+            },
+            {
+                title: 'Guided Practice',
+                duration: '40 min',
+                stage: 'practice',
+                icon: 'pencil-ruler',
+                description: () => 'Practice together with prompts, checks, and visible teacher support.'
+            },
+            {
+                title: 'Activity Lab',
+                duration: '35 min',
+                stage: 'practice',
+                icon: 'flask-conical',
+                description: () => 'Hands-on task that turns the idea into observable classroom evidence.'
+            },
+            {
+                title: 'Check Understanding',
+                duration: '25 min',
+                stage: 'explore',
+                icon: 'list-checks',
+                description: () => 'Quick check for misconceptions before students move to independent work.'
+            },
+            {
+                title: 'Apply',
+                duration: '30 min',
+                stage: 'apply',
+                icon: 'arrow-up-right',
+                description: () => 'Use the idea in a fresh situation with a clear success target.'
+            },
+            {
+                title: 'Reflect',
+                duration: '20 min',
+                stage: 'reflect',
+                icon: 'sparkles',
+                description: () => 'Close the learning loop with evidence, explanation, and next steps.'
+            }
+        ];
+
+        function getStatus(progress) {
+            if (progress >= 90) return 'Completed';
+            if (progress > 0) return 'In Progress';
+            return 'Not Started';
+        }
+
+        function getStatusClass(status) {
+            if (status === 'Completed') return 'bg-[#4CAF50]/10 text-[#2E7D32] border-[#4CAF50]/20';
+            if (status === 'In Progress') return 'bg-[#f59138]/10 text-[#b75d13] border-[#f59138]/20';
+            return 'bg-[#F5F5F4] text-[#78716C] border-[#E7E5E4]';
+        }
+
+        function getSequentialLessonProgress(blockProgress, lessonIndex, lessonCount) {
+            const safeProgress = Math.max(0, Math.min(100, Number(blockProgress) || 0));
+            const lessonStep = 100 / lessonCount;
+            const completedLessons = Math.min(lessonCount, Math.floor(safeProgress / lessonStep));
+
+            if (lessonIndex < completedLessons) {
+                return { progress: 100, status: 'Completed' };
+            }
+
+            if (safeProgress > 0 && safeProgress < 100 && lessonIndex === completedLessons) {
+                const progressIntoLesson = Math.round(((safeProgress - (completedLessons * lessonStep)) / lessonStep) * 100);
+                return { progress: Math.max(1, Math.min(99, progressIntoLesson)), status: 'In Progress' };
+            }
+
+            return { progress: 0, status: 'Not Started' };
+        }
+
+        function getDistributedBlockProgress(subjectProgress, blockIndex, blockCount) {
+            const safeProgress = Math.max(0, Math.min(100, Number(subjectProgress) || 0));
+            if (safeProgress <= 0) return 0;
+            if (safeProgress >= 100) return 100;
+
+            const blockStart = (blockIndex / blockCount) * 100;
+            const blockEnd = ((blockIndex + 1) / blockCount) * 100;
+
+            if (safeProgress >= blockEnd) return 100;
+            if (safeProgress <= blockStart) return 0;
+
+            return Math.round(((safeProgress - blockStart) / (blockEnd - blockStart)) * 100);
+        }
+
+        function getSubjectBlocks(subject, gradeIndex, subjectIndex) {
+            const titles = blockTitleLibrary[subject.name] || Array.from({ length: 15 }, (_, index) => `${subject.name} Block ${index + 1}`);
+            return titles.slice(0, 15).map((title, blockIndex) => {
+                const progress = getDistributedBlockProgress(subject.progress, blockIndex, titles.length);
+                const lessons = lessonTypes.map((lesson, lessonIndex) => {
+                    const lessonState = getSequentialLessonProgress(progress, lessonIndex, lessonTypes.length);
+                    return {
+                        id: `lesson-${lessonIndex + 1}`,
+                        title: lesson.title,
+                        description: lesson.description(title),
+                        duration: lesson.duration,
+                        stage: lesson.stage,
+                        icon: lesson.icon,
+                        progress: lessonState.progress,
+                        status: lessonState.status
+                    };
+                });
+                return {
+                    id: `block-${blockIndex + 1}`,
+                    title,
+                    progress,
+                    status: getStatus(progress),
+                    lessons
+                };
+            });
+        }
+
+        function getSubjectSummary(subject) {
+            const blocks = subject.blocks || [];
+            const lessons = blocks.flatMap((block) => block.lessons.map((lesson) => ({
+                ...lesson,
+                blockId: block.id,
+                blockTitle: block.title
+            })));
+            const inProgressLesson = lessons.find((lesson) => lesson.status === 'In Progress');
+            const nextLesson = lessons.find((lesson) => lesson.status === 'Not Started');
+            const completedLesson = [...lessons].reverse().find((lesson) => lesson.status === 'Completed');
+            const completedLessons = lessons.filter((lesson) => lesson.status === 'Completed').length;
+            const highlightedLesson = inProgressLesson || nextLesson || completedLesson || lessons[0];
+            const lessonLinkLabel = inProgressLesson ? 'In Progress' : nextLesson ? 'Start Next' : completedLesson ? 'Completed' : 'View Lesson';
+            const lessonLinkToneClass = inProgressLesson
+                ? 'bg-[#f59138]/10 text-[#A41034]'
+                : nextLesson
+                    ? 'bg-[#A41034]/5 text-[#A41034]'
+                    : completedLesson
+                        ? 'bg-emerald-50 text-emerald-700'
+                        : 'bg-[#F5F5F4] text-[#78716C]';
+
+            return {
+                totalBlocks: blocks.length,
+                totalLessons: lessons.length,
+                completedLessons,
+                lessonLinkLabel,
+                lessonLinkToneClass,
+                lessonLinkAria: lessonLinkLabel.toLowerCase(),
+                lastOpened: highlightedLesson ? highlightedLesson.blockTitle : 'No lesson available',
+                lastBlockId: highlightedLesson ? highlightedLesson.blockId : blocks[0]?.id,
+                status: getStatus(subject.progress)
+            };
+        }
+
+        function getDemoSubjectProgress(gradeIndex, subjectIndex, baseProgress) {
+            const preschoolProgress = [0, 18, 100];
+            const primaryProgressByGrade = [
+                [0, 24, 100, 48, 0, 72],
+                [100, 0, 36, 58, 18, 100],
+                [25, 100, 0, 64, 42, 88],
+                [40, 0, 76, 100, 55, 22],
+                [100, 68, 0, 84, 35, 100],
+                [92, 100, 38, 0, 100, 61],
+                [0, 44, 100, 72, 18, 100],
+                [100, 56, 0, 96, 77, 100]
+            ];
+
+            if (gradeIndex < preschoolProgress.length) return preschoolProgress[gradeIndex];
+
+            const gradeProgress = primaryProgressByGrade[gradeIndex - preschoolProgress.length];
+            return gradeProgress ? gradeProgress[subjectIndex % gradeProgress.length] : baseProgress;
+        }
+
+        function buildGrade(id, title, sourceSubjects, gradeIndex) {
+            return {
+                id,
+                title,
+                subjects: sourceSubjects.map((subject, subjectIndex) => {
+                    const progress = getDemoSubjectProgress(gradeIndex, subjectIndex, subject.progress);
+                    const subjectWithProgress = { ...subject, progress };
+                    return {
+                        ...subjectWithProgress,
+                        id: subject.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+                        grade: title,
+                        blocks: getSubjectBlocks(subjectWithProgress, gradeIndex, subjectIndex)
+                    };
+                })
+            };
+        }
+
+        const curriculumByGrade = [
+            buildGrade('nursery', 'Nursery', [subjectLibrary.earlyChildhood], 0),
+            buildGrade('lkg', 'Lower Kindergarten (LKG)', [subjectLibrary.earlyChildhood], 1),
+            buildGrade('ukg', 'Upper Kindergarten (UKG)', [subjectLibrary.earlyChildhood], 2),
+            ...Array.from({ length: 8 }, (_, index) => buildGrade(`grade-${index + 1}`, `Grade ${index + 1}`, primarySubjects, index + 3))
+        ];
+        curriculumByGrade.forEach((grade) => expandedGradeIds.add(grade.id));
+
+        function findGrade(gradeId) {
+            return curriculumByGrade.find((grade) => grade.id === gradeId);
+        }
+
+        function findSubject(gradeId, subjectId) {
+            const grade = findGrade(gradeId);
+            return grade ? grade.subjects.find((subject) => subject.id === subjectId) : null;
+        }
+
+        function findBlock(gradeId, subjectId, blockId) {
+            const subject = findSubject(gradeId, subjectId);
+            return subject ? subject.blocks.find((block) => block.id === blockId) : null;
+        }
+
+        function renderProgress(value, color = 'var(--wine-red)', trackClass = 'bg-white') {
+            const safeValue = Math.max(0, Math.min(100, Number(value) || 0));
+            return `
+                <div class="h-1.5 w-full ${trackClass} rounded-full overflow-hidden" role="progressbar" aria-valuenow="${safeValue}" aria-valuemin="0" aria-valuemax="100" aria-label="${safeValue}% complete">
+                    <div class="h-full rounded-full" style="width: ${safeValue}%; background: ${color};"></div>
+                </div>
+            `;
+        }
+
+        function getStageStyle(stage) {
+            const styles = {
+                warm: {
+                    badge: 'bg-amber-50 text-amber-700 border-amber-100',
+                    icon: 'bg-amber-100 text-amber-700',
+                    ring: 'group-hover:border-amber-200'
+                },
+                explore: {
+                    badge: 'bg-sky-50 text-sky-700 border-sky-100',
+                    icon: 'bg-sky-100 text-sky-700',
+                    ring: 'group-hover:border-sky-200'
+                },
+                practice: {
+                    badge: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+                    icon: 'bg-emerald-100 text-emerald-700',
+                    ring: 'group-hover:border-emerald-200'
+                },
+                apply: {
+                    badge: 'bg-violet-50 text-violet-700 border-violet-100',
+                    icon: 'bg-violet-100 text-violet-700',
+                    ring: 'group-hover:border-violet-200'
+                },
+                reflect: {
+                    badge: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-100',
+                    icon: 'bg-fuchsia-100 text-fuchsia-700',
+                    ring: 'group-hover:border-fuchsia-200'
+                }
+            };
+            return styles[stage] || styles.practice;
+        }
+
+        function renderSubjectCard(subject, grade) {
+            const summary = getSubjectSummary(subject);
+            return `
+                <article class="subject-card group bg-white rounded-[1.5rem] border border-[#E7E5E4] p-5 min-h-[205px] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#A41034]/20 hover:shadow-xl hover:shadow-black/5 cursor-pointer focus-ring focus:outline-none" role="button" tabindex="0" aria-label="Open ${grade.title} ${subject.name} blocks" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
+                    <div class="mb-2 flex items-center justify-between gap-3">
+                        <span class="truncate text-xs font-semibold text-[#78716C]">${grade.title}</span>
+                    </div>
+
+                    <h4 class="mb-1 truncate text-[1.35rem] font-bold text-[#1C1917]">${subject.name}</h4>
+                    <p class="mb-3 text-sm font-medium text-[#78716C]">${summary.totalBlocks} Blocks • ${summary.totalLessons} Lessons</p>
+
+                    <div class="mb-3.5 flex items-center gap-3">
+                        <div class="flex-1">
+                            ${renderProgress(subject.progress, 'var(--wine-red)', 'bg-[#F5F5F4]')}
+                        </div>
+                        <span class="shrink-0 text-sm font-semibold text-[#A41034]">${summary.completedLessons} / ${summary.totalLessons}</span>
+                    </div>
+
+                    <span class="group/lesson mb-4 flex max-w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all hover:border-[#A41034]/20 hover:bg-white hover:shadow-sm hover:shadow-[#A41034]/5 focus-ring focus:outline-none" role="link" tabindex="0" aria-label="Open ${summary.lessonLinkAria} lesson in ${summary.lastOpened}" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${summary.lastBlockId}">
+                     
+                        <span class="min-w-0 flex-1 leading-tight">
+                            <span class="block text-[10px] font-bold  tracking-wide text-[#A08E8A]">${summary.lessonLinkLabel}</span>
+                            <span class="block truncate text-sm font-semibold text-[#1C1917] group-hover/lesson:text-[#A41034]">${summary.lastOpened}</span>
+                        </span>
+                        <span class="shrink-0 text-lg font-bold leading-none text-[#A41034] transition-transform duration-300 group-hover/lesson:translate-x-0.5" aria-hidden="true">→</span>
+                    </span>
+
+                    <div class="flex w-full items-center justify-center rounded-xl border border-[#A41034]/10 bg-[#A41034]/5 px-4 py-2.5 text-[11px] font-bold  tracking-wide text-[#A41034] transition-all duration-300 hover:border-[#A41034]/20 hover:bg-[#f59138]/10 hover:shadow-sm hover:shadow-[#A41034]/5">
+                        <span>View Blocks</span>
+                    </div>
+                </article>
+            `;
+        }
+
+        function getGradeSummary(grade) {
+            const subjects = grade.subjects || [];
+            const progress = subjects.length
+                ? Math.round(subjects.reduce((sum, subject) => sum + subject.progress, 0) / subjects.length)
+                : 0;
+
+            return {
+                subjectsCount: subjects.length,
+                progress
+            };
+        }
+
+        function getGradeBadgeLabel(grade) {
+            if (grade.id === 'nursery') return 'NUR';
+            if (grade.id === 'lkg') return 'LKG';
+            if (grade.id === 'ukg') return 'UKG';
+
+            const gradeNumber = grade.id.match(/^grade-(\d+)$/)?.[1];
+            return gradeNumber ? `G${gradeNumber}` : grade.title;
+        }
+
+        function renderGradeSection(grade) {
+            const isExpanded = expandedGradeIds.has(grade.id);
+            const isCurrent = grade.id === currentGradeId;
+            const summary = getGradeSummary(grade);
+            return `
+                <section id="grade-section-${grade.id}" class="scroll-mt-28 space-y-6 rounded-[2rem] p-5 md:p-6 mb-8" data-grade-section="${grade.id}" style="background: rgba(123, 3, 35, 0.025);">
+                    <button type="button" class="focus-ring flex w-full cursor-pointer items-center justify-between text-left focus:outline-none ${isExpanded ? 'border-b border-[#E7E5E4] pb-4' : ''}" data-view="toggle-grade" data-grade-id="${grade.id}" aria-expanded="${isExpanded}">
+                        <div class="flex items-center gap-3">
+                            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-sm font-bold text-white shadow-lg shadow-[#A41034]/20">${getGradeBadgeLabel(grade)}</span>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-sm font-bold tracking-wide text-[#A41034] uppercase">${grade.title}</h2>
+                                    ${isCurrent ? '<span class="rounded-full bg-[#f59138]/15 px-2.5 py-1 text-[9px] font-semibold  tracking-wide text-[#A41034]">Current</span>' : ''}
+                                </div>
+                                <p class="mt-1 text-sm font-medium normal-case tracking-normal text-[#78716C]">${summary.subjectsCount} subjects • ${summary.progress}% progress</p>
+                            </div>
+                        </div>
+                        <svg class="h-5 w-5 shrink-0 text-[#A41034] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    ${isExpanded ? `
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            ${grade.subjects.map((subject) => renderSubjectCard(subject, grade)).join('')}
+                        </div>
+                    ` : ''}
+                </section>
+            `;
+        }
+
+        function renderBlocksPage(gradeId, subjectId) {
+            const grade = findGrade(gradeId);
+            const subject = findSubject(gradeId, subjectId);
+            if (!grade || !subject) return renderHome();
+            const collapsedCount = subject.blocks.filter((block) => collapsedBlockIds.has(`${grade.id}:${subject.id}:${block.id}`)).length;
+            const allBlocksCollapsed = collapsedCount === subject.blocks.length;
+
+            return `
+                <section class="space-y-8">
+                    <header class="sticky top-24 z-30 -mx-6 border-b border-[#E7E5E4] bg-[#FBF9F7]/95 px-6 py-4 backdrop-blur-xl">
+                        <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
+                            <div class="flex min-w-0 items-center gap-4">
+                                <div class="min-w-0">
+                                    <h1 class="truncate text-2xl font-bold text-[#1C1917]">${grade.title} ${subject.name}</h1>
+                                    <p class="mt-1 text-sm font-medium text-[#78716C]">${subject.blocks.length} blocks • ${subject.blocks.reduce((sum, block) => sum + block.lessons.length, 0)} lessons</p>
+                                </div>
+                            </div>
+                            <div class="flex shrink-0 items-center gap-4">
+                                <button type="button" class="focus-ring cursor-pointer rounded-full border border-[#A41034]/10 bg-white/70 px-4 py-2 text-[11px] font-bold  tracking-wide text-[#A41034] transition-all hover:bg-[#A41034]/5 focus:outline-none" data-view="toggle-all-blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
+                                    ${allBlocksCollapsed ? 'Expand all' : 'Collapse all'}
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+                    ${subject.blocks.map((block, index) => renderBlockSection(block, index, grade, subject)).join('')}
+                </section>
+            `;
+        }
+
+        function getLessonDisplayStatus(lesson) {
+            return lesson.status;
+        }
+
+        function getLessonStatusClass(status) {
+            if (status === 'Completed') return 'bg-[#A41034]/5 text-[#A41034]';
+            if (status === 'In Progress') return 'bg-[#f59138]/15 text-[#A41034]';
+            return 'bg-[#F5F5F4] text-[#78716C]';
+        }
+
+        function renderStatusMark(status) {
+            if (status === 'Completed') {
+                return '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+            }
+            return '';
+        }
+
+        function renderBlockSection(block, blockIndex, grade, subject) {
+            const blockKey = `${grade.id}:${subject.id}:${block.id}`;
+            const isExpanded = !collapsedBlockIds.has(blockKey);
+            const progressState = block.progress >= 100 ? 'Complete' : block.progress > 0 ? 'In progress' : 'Not started';
+            const completedLessons = block.lessons.filter((lesson) => lesson.status === 'Completed').length;
+            return `
+                <section id="block-section-${blockKey}" class="scroll-mt-56 rounded-[2rem] p-5 md:p-6" data-block-section="${blockKey}" style="scroll-margin-top: 13rem; background: rgba(123, 3, 35, 0.025);">
+                    <button type="button" class="focus-ring relative mb-0 flex w-full cursor-pointer flex-col gap-3 pr-12 text-left focus:outline-none sm:flex-row sm:items-center sm:justify-between sm:pr-14" data-view="toggle-block" data-block-key="${blockKey}" aria-expanded="${isExpanded}">
+                        <div class="flex min-w-0 items-center gap-4">
+                            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-sm font-bold text-white shadow-lg shadow-[#A41034]/20">B${blockIndex + 1}</span>
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-semibold  tracking-wide text-[#A41034]">Block ${blockIndex + 1}</p>
+                                <h2 class="truncate text-xl font-bold text-[#1C1917]">${block.title}</h2>
+                               
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-72">
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <span class="text-[11px] font-bold  tracking-wide text-[#A08E8A]">${progressState}</span>
+                                <span class="shrink-0 rounded-full bg-[#A41034]/10 px-2.5 py-1 text-xs font-black text-[#A41034]">${completedLessons}/${block.lessons.length}</span>
+                            </div>
+                            ${renderProgress(block.progress)}
+                        </div>
+                        <span class="absolute right-0 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-[#A41034]/10 bg-white text-[#A41034] shadow-md shadow-[#A41034]/10 transition-all duration-300 hover:border-[#A41034]/25 hover:bg-[#A41034]/5" aria-hidden="true">
+                            <svg class="h-5 w-5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </span>
+                    </button>
+                    ${isExpanded ? `
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 mt-5">
+                            ${block.lessons.map((lesson, lessonIndex) => renderLessonCard(lesson, lessonIndex, block, grade, subject)).join('')}
+                        </div>
+                    ` : ''}
+                </section>
+            `;
+        }
+
+        function renderLessonCard(lesson, lessonIndex, block, grade, subject) {
+            const displayStatus = getLessonDisplayStatus(lesson);
+            return `
+                <article class="focus-ring group grid min-h-[148px] cursor-pointer grid-cols-[88px_1fr] gap-4 rounded-[1.25rem] border border-transparent bg-white p-3 shadow-sm shadow-black/[0.025] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#A41034]/25 hover:shadow-xl hover:shadow-black/5" role="button" tabindex="0" aria-label="Open ${lesson.title}" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}">
+                    <img src="assets/light-shadow.jpeg" alt="${lesson.title}" class="h-full min-h-[124px] w-[88px] rounded-2xl object-cover">
+                    <div class="flex min-w-0 flex-col">
+                        <div class="mb-2 flex items-start justify-between gap-3">
+                            <h3 class="line-clamp-2 text-base font-semibold leading-6 text-[#1C1917]">${lesson.title}</h3>
+                        </div>
+                        <p class="line-clamp-2 text-sm font-medium leading-5 text-[#6D5D5A]">${lesson.description}</p>
+                        <div class="mt-auto flex items-center justify-between gap-3 pt-4">
+                            <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-semibold  tracking-wide ${getLessonStatusClass(displayStatus)}">
+                                ${renderStatusMark(displayStatus)}
+                                ${displayStatus}
+                            </span>
+                            <span class="text-xs font-bold text-[#A08E8A]">${lesson.duration}</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderLessonsPage(gradeId, subjectId, blockId) {
+            const grade = findGrade(gradeId);
+            const subject = findSubject(gradeId, subjectId);
+            const block = findBlock(gradeId, subjectId, blockId);
+            if (!grade || !subject || !block) return renderHome();
+
+            return `
+                <section class="space-y-8">
+                    <button type="button" class="focus-ring inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-[#E7E5E4] bg-white px-5 py-3 text-[11px] font-bold  tracking-wide text-[#A41034] transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/5 focus:outline-none" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                        <span>Back to Blocks</span>
+                    </button>
+                    <header class="rounded-[2.5rem] border border-[#E7E5E4] bg-white p-8 md:p-10">
+                        <span class="text-[10px] font-semibold text-[#78716C] tracking-wide ">${grade.title} / ${subject.name}</span>
+                        <h1 class="mt-2 text-4xl font-bold text-[#1C1917]">${block.title}</h1>
+                        <div class="mt-5 flex flex-wrap items-center gap-3">
+                            <span class="rounded-full border px-3 py-1 text-[10px] font-semibold  tracking-wide ${getStatusClass(block.status)}">${block.status}</span>
+                            <span class="text-sm font-bold text-[#A41034]">${block.progress}% Progress</span>
+                            <span class="text-sm font-semibold text-[#78716C]">${block.lessons.length} Lessons</span>
+                        </div>
+                    </header>
+                    <div class="space-y-4">
+                        ${block.lessons.map((lesson, index) => renderLessonRow(lesson, index)).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderLessonRow(lesson, index) {
+            const actionLabel = lesson.status === 'Completed' ? 'Review' : lesson.status === 'In Progress' ? 'Continue' : 'Start';
+            return `
+                <article class="grid gap-5 rounded-[2rem] border border-[#E7E5E4] bg-white p-5 transition-all hover:shadow-xl hover:shadow-black/5 md:grid-cols-[auto_1fr_auto] md:items-center md:p-6">
+                    <div class="grid h-12 w-12 place-items-center rounded-2xl bg-[#A41034]/5 text-sm font-bold text-[#A41034]">${index + 1}</div>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <h2 class="text-xl font-semibold text-[#1C1917]">${lesson.title}</h2>
+                            <span class="rounded-full border px-3 py-1 text-[10px] font-semibold  tracking-wide ${getStatusClass(lesson.status)}">${lesson.status}</span>
+                        </div>
+                        <div class="mt-3 grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+                            ${renderProgress(lesson.progress)}
+                            <span class="text-sm font-bold text-[#78716C]">${lesson.duration}</span>
+                        </div>
+                    </div>
+                    <button type="button" class="focus-ring cursor-pointer rounded-2xl bg-[#A41034] px-6 py-4 text-[11px] font-bold  tracking-wide text-white transition-all hover:bg-[#5a0219] focus:outline-none">${actionLabel}</button>
+                </article>
+            `;
+        }
+
+
+        function renderHome() {
+            const allExpanded = expandedGradeIds.size === curriculumByGrade.length;
+            return `
+                <div class="flex items-center justify-between gap-4">
+                     <p class="truncate text-2xl font-bold text-[#1C1917]">Grade-wise Subjects</p>
+                    <button type="button" class="focus-ring cursor-pointer rounded-full border border-[#A41034]/10 bg-white/70 px-4 py-2 text-[11px] font-bold  tracking-wide text-[#A41034] transition-all hover:bg-[#A41034]/5 focus:outline-none" data-view="toggle-all">
+                        ${allExpanded ? 'Collapse all' : 'Expand all'}
+                    </button>
+                </div>
+                <div class="mt-6" style="margin-top: 2rem;">
+                    ${curriculumByGrade.map(renderGradeSection).join('')}
+                </div>
+            `;
+        }
+
+        function isDesktopToolbar() {
+            return window.matchMedia('(min-width: 1024px)').matches;
+        }
+
+        function updateToolbarVisibility() {
+            const toolbar = document.getElementById('gradeToolbar');
+            const toggle = document.getElementById('toolbarToggle');
+            const hasToolbar = currentToolbarView === 'home' || currentToolbarView === 'blocks';
+
+            if (!toolbar || !toggle) return;
+
+            if (!hasToolbar || (activeAppTab !== 'Teacher Lesson Plan' && activeAppTab !== 'Parent Lesson Plan')) {
+                toolbar.classList.add('hidden');
+                toggle.classList.add('hidden');
+                toggle.classList.remove('grid');
+                toggle.setAttribute('aria-expanded', 'false');
+                return;
+            }
+
+            toggle.classList.toggle('hidden', isDesktopToolbar());
+            toggle.classList.toggle('grid', !isDesktopToolbar());
+            toolbar.classList.toggle('hidden', !isDesktopToolbar() && !toolbarOpen);
+            toggle.setAttribute('aria-expanded', String(toolbarOpen));
+        }
+
+        function renderGradeToolbar(view, params = new URLSearchParams()) {
+            const toolbar = document.getElementById('gradeToolbar');
+            if (!toolbar) return;
+            currentToolbarView = view;
+
+            if (view !== 'home' && view !== 'blocks') {
+                toolbar.innerHTML = '';
+                toolbarOpen = false;
+                updateToolbarVisibility();
+                return;
+            }
+
+            if (view === 'blocks') {
+                const grade = findGrade(params.get('grade'));
+                const subject = findSubject(params.get('grade'), params.get('subject'));
+
+                if (!grade || !subject) {
+                    toolbar.innerHTML = '';
+                    toolbarOpen = false;
+                    updateToolbarVisibility();
+                    return;
+                }
+
+                if (!activeBlockKey || !subject.blocks.some((block) => `${grade.id}:${subject.id}:${block.id}` === activeBlockKey)) {
+                    activeBlockKey = `${grade.id}:${subject.id}:${subject.blocks[0]?.id || ''}`;
+                }
+
+                toolbar.innerHTML = `
+                    <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#A41034]/10 bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Jump to block">
+                        ${subject.blocks.map((block, index) => {
+                            const blockKey = `${grade.id}:${subject.id}:${block.id}`;
+                            return `
+                                <button type="button" class="group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold text-[#A41034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A41034]/5 hover:text-[#5a0219] focus:outline-none lg:h-7 lg:min-w-7 lg:px-1.5 lg:text-[10px] ${blockKey === activeBlockKey ? 'bg-[#f59138]/15 ring-1 ring-[#f59138]/30' : ''}" data-view="jump-block" data-block-key="${blockKey}" aria-label="Jump to Block ${index + 1}">
+                                    <span>B${index + 1}</span>
+                                    <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#A41034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#A41034] opacity-0 shadow-lg shadow-[#A41034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">Block ${index + 1}</span>
+                                </button>
+                            `;
+                        }).join('')}
+                    </nav>
+                `;
+                updateToolbarVisibility();
+                return;
+            }
+
+            toolbar.innerHTML = `
+                <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#A41034]/10 bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Jump to grade">
+                    ${curriculumByGrade.map((grade) => `
+                        <button type="button" class="group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold text-[#A41034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A41034]/5 hover:text-[#5a0219] focus:outline-none lg:h-7 lg:min-w-7 lg:px-1.5 lg:text-[10px] ${grade.id === activeGradeId ? 'bg-[#f59138]/15 ring-1 ring-[#f59138]/30' : ''}" data-view="jump-grade" data-grade-id="${grade.id}" aria-label="Jump to ${grade.title}">
+                            <span>${getGradeBadgeLabel(grade)}</span>
+                            <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#A41034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#A41034] opacity-0 shadow-lg shadow-[#A41034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">${grade.title}</span>
+                        </button>
+                    `).join('')}
+                </nav>
+            `;
+            updateToolbarVisibility();
+        }
+
+        function renderRoute() {
+            const outlet = document.getElementById('curriculum-sections');
+            const heroSection = document.querySelector('.today-fade-in');
+            const hash = window.location.hash.replace(/^#/, '');
+            const params = new URLSearchParams(hash);
+            const view = params.get('view') || 'home';
+
+            if (view === 'blocks') {
+                heroSection.classList.add('hidden');
+                outlet.innerHTML = renderBlocksPage(params.get('grade'), params.get('subject'));
+                renderGradeToolbar(view, params);
+            } else if (view === 'lessons') {
+                heroSection.classList.add('hidden');
+                outlet.innerHTML = renderLessonsPage(params.get('grade'), params.get('subject'), params.get('block'));
+                renderGradeToolbar(view, params);
+            } else {
+                heroSection.classList.remove('hidden');
+                outlet.innerHTML = renderHome();
+                renderGradeToolbar(view, params);
+            }
+        }
+
+        document.addEventListener('click', (event) => {
+            const target = event.target.closest('[data-view]');
+            if (!target) return;
+
+            if (target.dataset.view === 'jump-grade') {
+                const gradeId = target.dataset.gradeId;
+                activeGradeId = gradeId;
+                toolbarOpen = false;
+                if (!expandedGradeIds.has(gradeId)) {
+                    expandedGradeIds.add(gradeId);
+                }
+                renderRoute();
+
+                requestAnimationFrame(() => {
+                    document.getElementById(`grade-section-${gradeId}`)?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+                return;
+            }
+
+            if (target.dataset.view === 'jump-block') {
+                const blockKey = target.dataset.blockKey;
+                activeBlockKey = blockKey;
+                toolbarOpen = false;
+                if (collapsedBlockIds.has(blockKey)) {
+                    collapsedBlockIds.delete(blockKey);
+                    renderRoute();
+                } else {
+                    renderGradeToolbar('blocks', new URLSearchParams(window.location.hash.replace(/^#/, '')));
+                }
+
+                requestAnimationFrame(() => {
+                    document.getElementById(`block-section-${blockKey}`)?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+                return;
+            }
+
+            if (target.dataset.view === 'toggle-all') {
+                if (expandedGradeIds.size === curriculumByGrade.length) {
+                    expandedGradeIds.clear();
+                    expandedGradeIds.add(currentGradeId);
+                } else {
+                    curriculumByGrade.forEach((grade) => expandedGradeIds.add(grade.id));
+                }
+                renderRoute();
+                return;
+            }
+
+            if (target.dataset.view === 'toggle-grade') {
+                const gradeId = target.dataset.gradeId;
+                activeGradeId = gradeId;
+                if (expandedGradeIds.has(gradeId)) {
+                    expandedGradeIds.delete(gradeId);
+                } else {
+                    expandedGradeIds.add(gradeId);
+                }
+                renderRoute();
+                return;
+            }
+
+            if (target.dataset.view === 'toggle-block') {
+                const blockKey = target.dataset.blockKey;
+                if (collapsedBlockIds.has(blockKey)) {
+                    collapsedBlockIds.delete(blockKey);
+                } else {
+                    collapsedBlockIds.add(blockKey);
+                }
+                renderRoute();
+                return;
+            }
+
+            if (target.dataset.view === 'toggle-all-blocks') {
+                const grade = findGrade(target.dataset.gradeId);
+                const subject = findSubject(target.dataset.gradeId, target.dataset.subjectId);
+                if (!grade || !subject) return;
+
+                const keys = subject.blocks.map((block) => `${grade.id}:${subject.id}:${block.id}`);
+                const allCollapsed = keys.every((key) => collapsedBlockIds.has(key));
+                if (allCollapsed) {
+                    keys.forEach((key) => collapsedBlockIds.delete(key));
+                } else {
+                    keys.forEach((key) => collapsedBlockIds.add(key));
+                }
+                renderRoute();
+                return;
+            }
+
+            if (target.dataset.view === 'home') {
+                window.location.hash = '';
+                return;
+            }
+
+            if (target.dataset.view === 'blocks') {
+                window.location.hash = `view=blocks&grade=${target.dataset.gradeId}&subject=${target.dataset.subjectId}`;
+                return;
+            }
+
+            if (target.dataset.view === 'lessons') {
+                window.location.hash = `view=lessons&grade=${target.dataset.gradeId}&subject=${target.dataset.subjectId}&block=${target.dataset.blockId}`;
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const target = event.target.closest('[data-view]');
+            if (!target) return;
+            event.preventDefault();
+            target.click();
+        });
+
+        let scrollSyncFrame = null;
+        function getActiveSection(sections, anchorY) {
+            return sections.reduce((current, section) => {
+                const top = section.getBoundingClientRect().top;
+                if (top <= anchorY) return section;
+                return current;
+            }, sections[0]);
+        }
+
+        function syncActiveToolbarFromScroll() {
+            const hash = window.location.hash.replace(/^#/, '');
+            const params = new URLSearchParams(hash);
+            const view = params.get('view') || 'home';
+
+            if (view === 'blocks') {
+                const sections = Array.from(document.querySelectorAll('[data-block-section]'));
+                if (!sections.length) return;
+
+                const activeSection = getActiveSection(sections, 190);
+                const nextBlockKey = activeSection.dataset.blockSection;
+
+                if (nextBlockKey && nextBlockKey !== activeBlockKey) {
+                    activeBlockKey = nextBlockKey;
+                    renderGradeToolbar('blocks', params);
+                }
+                return;
+            }
+
+            if (view === 'home') {
+                const sections = Array.from(document.querySelectorAll('[data-grade-section]'));
+                if (!sections.length) return;
+
+                const activeSection = getActiveSection(sections, 170);
+                const nextGradeId = activeSection.dataset.gradeSection;
+
+                if (nextGradeId && nextGradeId !== activeGradeId) {
+                    activeGradeId = nextGradeId;
+                    renderGradeToolbar('home', params);
+                }
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (scrollSyncFrame) return;
+            scrollSyncFrame = requestAnimationFrame(() => {
+                scrollSyncFrame = null;
+                syncActiveToolbarFromScroll();
+            });
+        }, { passive: true });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuToggle?.addEventListener('click', () => {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', String(!isExpanded));
+            mobileMenu?.classList.toggle('hidden', isExpanded);
+        });
+
+        const navButtons = Array.from(document.querySelectorAll('.nav-button[data-nav-title]'));
+        const tabPanels = Array.from(document.querySelectorAll('.tab-panel[data-tab-panel]'));
+
+        function showAppTab(title) {
+            activeAppTab = title;
+            const visiblePanel = title === 'Parent Lesson Plan' ? 'Teacher Lesson Plan' : title;
+            tabPanels.forEach((panel) => {
+                panel.classList.toggle('hidden', panel.dataset.tabPanel !== visiblePanel);
+            });
+
+            if (visiblePanel !== 'Learnometer') {
+                stopLearnometerTimer();
+            }
+
+            if (visiblePanel === 'Teacher Lesson Plan') {
+                renderCommunicationFilterToolbar();
+                if (window.location.hash) {
+                    window.location.hash = '';
+                }
+                renderRoute();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                if (visiblePanel === 'Communication') {
+                    renderCommunicationFilterToolbar();
+                    renderCommunicationFeed();
+                    lucide.createIcons();
+                } else {
+                    renderCommunicationFilterToolbar();
+                }
+                if (visiblePanel === 'Learnometer') {
+                    renderLearnometer();
+                    if (learnometerState.step === 'test' && !learnometerState.testDone) startLearnometerTimer();
+                }
+                toolbarOpen = false;
+                updateToolbarVisibility();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function setActiveNavTitle(title) {
+            navButtons.forEach((button) => {
+                const isActive = button.dataset.navTitle === title;
+                button.classList.toggle('active', isActive);
+                button.classList.toggle('text-[#6D5D5A]', !isActive);
+                if (isActive) {
+                    button.setAttribute('aria-current', 'page');
+                } else {
+                    button.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        navButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const title = button.dataset.navTitle;
+                setActiveNavTitle(title);
+                showAppTab(title);
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    menuToggle?.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        const profileToggle = document.getElementById('profileToggle');
+        const profileMenu = document.getElementById('profileMenu');
+
+        function setProfileMenuOpen(isOpen) {
+            profileToggle?.setAttribute('aria-expanded', String(isOpen));
+            profileMenu?.classList.toggle('hidden', !isOpen);
+        }
+
+        profileToggle?.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isExpanded = profileToggle.getAttribute('aria-expanded') === 'true';
+            setProfileMenuOpen(!isExpanded);
+        });
+
+        profileMenu?.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        document.addEventListener('click', () => {
+            setProfileMenuOpen(false);
+        });
+
+        const toolbarToggle = document.getElementById('toolbarToggle');
+        toolbarToggle?.addEventListener('click', () => {
+            toolbarOpen = !toolbarOpen;
+            updateToolbarVisibility();
+        });
+
+        window.addEventListener('resize', updateToolbarVisibility);
+        window.addEventListener('hashchange', renderRoute);
+        renderRoute();
+        renderCommunicationFeed();
+        renderCommunicationFilterToolbar();
+        renderLearnometer();
+        showAppTab(activeAppTab);
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XSEED Academic Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+    integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+    integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+    integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+    crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FBF9F7;
+      color: #1C1917;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .orb {
+      position: fixed;
+      filter: blur(120px);
+      z-index: -1;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .pill-nav-shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .hero-gradient-overlay {
+      background: linear-gradient(75deg, rgb(28 25 23 / 80%) 0%, rgb(28 25 23 / 55%) 45%, rgba(28, 25, 23, 0) 100%);
+    }
+
+    .card-shadow {
+      box-shadow: none;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fade-in 0.5s ease-out forwards;
+    }
+
+    @keyframes slide-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-up {
+      animation: slide-up 0.4s ease-out forwards;
+    }
+
+    .tab-content {
+      animation: fade-in 0.35s ease-out;
+    }
+
+    textarea:focus,
+    input:focus,
+    select:focus {
+      outline: none;
+    }
+
+    article p,
+    article span,
+    article h4 {
+      letter-spacing: 0;
+    }
+
+    .compose-enter {
+      animation: slide-up 0.35s ease-out;
+    }
+
+    .gym * {
+      letter-spacing: 0 !important;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #A41034;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px #A41034;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type=range]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #A41034;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px #A41034;
+    }
+  </style>
+</head>
+
+<body class="antialiased selection:bg-[#A41034]/10">
+  <div class="orb top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#f59138]"></div>
+  <div class="orb bottom-[-5%] left-[-5%] w-[300px] h-[300px] bg-[#A41034]"></div>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+
+
+    const { useState, useRef } = React;
+
+    // ── Data ────────────────────────────────────────────────────────────────────
+
+    const iconPaths = {
+      book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+      math: '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="8" x2="12" y2="16"/>',
+      globe: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+      early: '<path d="M12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'
+    };
+
+    const subjectLibrary = {
+      earlyChildhood: { name: 'Early Childhood', subtitle: 'Foundation Plan', progress: 40, icon: 'early', iconClass: 'bg-[#fff7ed] text-[#f59138]' },
+      english: { name: 'English', subtitle: 'Curriculum Plan', progress: 65, icon: 'book', iconClass: 'bg-[#f0f7ff] text-[#4A90E2]' },
+      mathematics: { name: 'Mathematics', subtitle: 'Curriculum Plan', progress: 30, icon: 'math', iconClass: 'bg-[#fff0f5] text-[#E91E63]' },
+      evs: { name: 'EVS', subtitle: 'Curriculum Plan', progress: 10, icon: 'globe', iconClass: 'bg-[#f2faf3] text-[#4CAF50]' }
+    };
+
+    const primarySubjects = [subjectLibrary.english, subjectLibrary.mathematics, subjectLibrary.evs];
+
+    const curriculumByGrade = [
+      { title: 'Nursery', subjects: [subjectLibrary.earlyChildhood] },
+      { title: 'Lower Kindergarten (LKG)', subjects: [subjectLibrary.earlyChildhood] },
+      { title: 'Upper Kindergarten (UKG)', subjects: [subjectLibrary.earlyChildhood] },
+      ...Array.from({ length: 8 }, (_, i) => ({ title: `Grade ${i + 1}`, subjects: primarySubjects }))];
+
+
+    const EMOJI_LIST = ['👍', '❤️', '🎉', '😊', '🙏'];
+    const AUDIENCES = ['All Grades', 'Nursery', 'LKG', 'UKG', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8'];
+
+    const ALL_STUDENTS = [
+      { id: 1, name: 'Aarav Kumar', grade: 'Grade 4' },
+      { id: 2, name: 'Priya Sharma', grade: 'Grade 4' },
+      { id: 3, name: 'Rohan Menon', grade: 'Grade 4' },
+      { id: 4, name: 'Ananya Iyer', grade: 'Grade 3' },
+      { id: 5, name: 'Karthik Rajan', grade: 'Grade 3' },
+      { id: 6, name: 'Divya Pillai', grade: 'Grade 5' },
+      { id: 7, name: 'Siddharth Nair', grade: 'Grade 5' },
+      { id: 8, name: 'Meera Krishnan', grade: 'Grade 2' },
+      { id: 9, name: 'Arjun Patel', grade: 'Grade 2' },
+      { id: 10, name: 'Lakshmi Varma', grade: 'Grade 6' },
+      { id: 11, name: 'Vivek Subramaniam', grade: 'Grade 6' },
+      { id: 12, name: 'Ishaan Chowdhury', grade: 'Grade 1' },
+      { id: 13, name: 'Sneha Reddy', grade: 'Grade 1' },
+      { id: 14, name: 'Aditya Bose', grade: 'Grade 7' },
+      { id: 15, name: 'Kavya Nambiar', grade: 'Grade 7' },
+      { id: 16, name: 'Rahul Desai', grade: 'Grade 8' },
+      { id: 17, name: 'Pooja Venkatesh', grade: 'Grade 8' },
+      { id: 18, name: 'Nikhil Shetty', grade: 'Grade 3' },
+      { id: 19, name: 'Tanvi Joshi', grade: 'Grade 5' },
+      { id: 20, name: 'Aryan Ghosh', grade: 'Grade 4' }];
+
+
+    const initialAnnouncements = [
+      {
+        id: 1,
+        author: 'XSEED Admin',
+        role: 'School Administrator',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin',
+        timestamp: '2 hours ago',
+        audience: 'All Grades',
+        text: 'Dear Parents,\n\nWe are excited to announce our upcoming Annual Science Exhibition on May 15th. Students from Grade 3 to Grade 8 will be presenting their projects. All parents are warmly invited to attend between 10:00 AM – 1:00 PM.',
+        media: [{ type: 'image', url: 'https://picsum.photos/seed/scienceexpo/900/420', alt: 'Science Exhibition' }, { type: 'image', url: 'https://picsum.photos/seed/scienceexpo2/900/600', alt: 'Science Exhibition 2' }],
+        reactions: { '👍': 24, '❤️': 18, '🎉': 31, '😊': 12, '🙏': 8 },
+        myReactions: new Set()
+      },
+      {
+        id: 2,
+        author: 'Grade 4 Team',
+        role: 'Class Teachers',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Grade4',
+        timestamp: '1 day ago',
+        audience: 'Grade 4',
+        text: 'Dear Parents,\n\nThe Mathematics Unit Assessment for Block 03 is scheduled for Friday, May 2nd. Please ensure your child has revised chapters on fractions and decimals. The assessment schedule and syllabus are attached below.',
+        media: { type: 'pdf', name: 'Assessment_Schedule_Grade4.pdf', size: '240 KB' },
+        reactions: { '👍': 45, '❤️': 12, '🎉': 5, '😊': 20, '🙏': 33 },
+        myReactions: new Set()
+      },
+      {
+        id: 3,
+        author: "Principal's Office",
+        role: 'Administration',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Principal',
+        timestamp: '3 days ago',
+        audience: 'All Grades',
+        text: 'Dear Parents,\n\nSchool will remain closed on Thursday, May 1st on account of International Labour Day. Regular classes will resume on Friday, May 2nd. Wishing everyone a restful long weekend!',
+        media: null,
+        reactions: { '👍': 89, '❤️': 34, '🎉': 22, '😊': 56, '🙏': 12 },
+        myReactions: new Set()
+      },
+      {
+        id: 4,
+        author: 'Sports Department',
+        role: 'Physical Education',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sports',
+        timestamp: '1 week ago',
+        audience: 'Grade 5 – Grade 8',
+        text: 'We are incredibly proud to share that our school football team has won the Inter-School Championship 2026! Watch the highlights from the final match below. A huge congratulations to all the players and coaches! 🏆',
+        media: { type: 'video', thumbnail: 'https://picsum.photos/seed/football/900/450', alt: 'Football Championship Highlights' },
+        reactions: { '👍': 112, '❤️': 98, '🎉': 145, '😊': 67, '🙏': 23 },
+        myReactions: new Set()
+      },
+      {
+        id: 5,
+        author: 'Grade 2 Team',
+        role: 'Class Teachers',
+        timestamp: '2 days ago',
+        audience: 'Grade 2',
+        text: "Dear Parents,\n\nHere's a snapshot from today's hands-on activity where students created their own mini ecosystems in a jar. The excitement and curiosity in the classroom was wonderful to see!",
+        media: { type: 'image', url: 'https://picsum.photos/seed/classroom/400/700', alt: 'Classroom Activity' },
+        reactions: { '👍': 67, '❤️': 91, '🎉': 44, '😊': 38, '🙏': 15 },
+        myReactions: new Set()
+      }];
+
+
+    // ── Shared ──────────────────────────────────────────────────────────────────
+
+    function Icon({ name, size = 20 }) {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          dangerouslySetInnerHTML={{ __html: iconPaths[name] }} />);
+
+    }
+
+    function AudienceBadge({ label }) {
+      return (
+        <span className="px-3 py-1 rounded-full bg-[#fff7ed] border border-amber-100 text-[10px] font-black text-amber-600 tracking-[0.2em]" style={{ letterSpacing: "0px" }}>
+          {label}
+        </span>);
+
+    }
+
+    // ── Teacher Lesson Plan ──────────────────────────────────────────────────────
+
+    function HeroCard() {
+      return (
+        <section className="mb-16 fade-in">
+          <header className="mb-8">
+          </header>
+          <section className="relative rounded-[3rem] overflow-hidden card-shadow group h-[420px]">
+            <img src="https://picsum.photos/seed/lightshadow/1400/600"
+              className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105"
+              alt="Light and Shadows" />
+            <div className="absolute inset-0 hero-gradient-overlay"></div>
+            <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="max-w-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="px-4 py-1.5 bg-[#f59138] text-white rounded-full text-[10px] font-black tracking-[0.15em] shadow-xl shadow-[#f59138]/30">
+                      SCIENCE · GRADE 4 · Block 01
+                    </span>
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black text-white mb-4 leading-none tracking-tight">
+                    Light and<br />Shadows
+                  </h2>
+                  <p className="text-base md:text-lg font-medium text-white/80 max-w-xl">
+                    Explore the fascinating world of optics and understand how shadows shift throughout the day.
+                  </p>
+                </div>
+                <div className="flex flex-col items-end gap-5">
+                  <div className="flex items-center gap-4 bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
+                    <div className="h-1.5 w-24 bg-white/20 rounded-full overflow-hidden">
+                      <div className="h-full bg-[#f59138] rounded-full" style={{ width: '45%', boxShadow: '0 0 10px #f59138' }}></div>
+                    </div>
+                    <span className="text-[10px] font-black text-white tracking-widest">45% Progress</span>
+                  </div>
+                  <button className="bg-white text-[#1C1917] px-10 py-5 rounded-2xl font-black flex items-center gap-3 transition-all shadow-2xl hover:bg-[#f59138] hover:text-white hover:-translate-y-1 active:scale-95">
+                    Continue Lesson
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>);
+
+    }
+
+    function SubjectCard({ subject }) {
+      return (
+        <div className="group relative bg-white rounded-[2.5rem] border border-[#E7E5E4] hover:border-[#A41034]/20 p-8 flex flex-col justify-between min-h-[260px] transition-all duration-500">
+          <div className="flex justify-between items-start gap-5">
+            <div className="flex flex-col">
+              <h4 className="font-black text-2xl tracking-tight text-[#1C1917] mb-1">{subject.name}</h4>
+              <span className="text-[10px] font-black text-[#A8A29E] tracking-widest">{subject.subtitle}</span>
+            </div>
+            <div className={`shrink-0 p-3 rounded-2xl ${subject.iconClass}`}>
+              <Icon name={subject.icon} />
+            </div>
+          </div>
+          <div className="pt-8">
+            <div className="mb-6">
+              <div className="flex justify-between items-end mb-2.5">
+                <span className="text-[10px] font-black text-[#1C1917] tracking-wider">Progress</span>
+                <span className="text-[11px] font-black text-[#A41034]">{subject.progress}%</span>
+              </div>
+              <div className="h-2 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
+                <div className="h-full bg-[#A41034] rounded-full transition-all" style={{ width: `${subject.progress}%` }}></div>
+              </div>
+            </div>
+            <button className="cursor-pointer w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-[11px] tracking-[0.15em] bg-[#A41034] text-white transition-all hover:bg-[#7a0c26] active:scale-95">
+              <span>View Blocks</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></svg>
+            </button>
+          </div>
+        </div>);
+
+    }
+
+    function GradeSection({ grade }) {
+      return (
+        <section className="space-y-8">
+          <div className="flex items-center justify-between border-b border-[#E7E5E4] pb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+              <h2 className="text-sm font-black tracking-[0.2em] text-[#78716C]">{grade.title} Subjects</h2>
+            </div>
+            <button className="text-[10px] font-black text-[#A41034] tracking-widest hover:underline decoration-2 underline-offset-4">View All</button>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {grade.subjects.map((s, i) => <SubjectCard key={i} subject={s} />)}
+          </div>
+        </section>);
+
+    }
+
+    function TeacherLessonPlan() {
+      return (
+        <main className="max-w-[1280px] mx-auto px-6 py-12 tab-content">
+          <HeroCard />
+          <section className="space-y-16">
+            {curriculumByGrade.map((g, i) => <GradeSection key={i} grade={g} />)}
+          </section>
+        </main>);
+
+    }
+
+    // ── Communication ────────────────────────────────────────────────────────────
+
+    function ImageLightbox({ src, alt, onClose }) {
+      React.useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = ''; };
+      }, []);
+      const content =
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.82)', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
+          <button onClick={onClose} style={{ position: 'absolute', top: '20px', right: '20px', width: '44px', height: '44px', borderRadius: '50%', background: '#fff', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+          </button>
+          <img src={src} alt={alt} onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: '92vw', maxHeight: '92vh', borderRadius: '12px', display: 'block', objectFit: 'contain' }} />
+        </div>;
+
+      return ReactDOM.createPortal(content, document.body);
+    }
+
+    function MediaPreview({ media }) {
+      const [lightbox, setLightbox] = useState(null);
+      if (!media) return null;
+
+      // Array of images — horizontal scroll gallery
+      if (Array.isArray(media)) {
+        return (
+          <>
+            <div className="mt-5" style={{ overflowX: 'auto', display: 'flex', gap: '10px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {media.map((img, i) =>
+                <div key={i} onClick={() => setLightbox(img.url)}
+                  className="rounded-2xl overflow-hidden cursor-zoom-in shrink-0"
+                  style={{ width: 'calc(72% - 5px)', height: '200px' }}>
+                  <img src={img.url} alt={img.alt} className="w-full h-full object-cover" />
+                </div>
+              )}
+            </div>
+            {lightbox && <ImageLightbox src={lightbox} alt="" onClose={() => setLightbox(null)} />}
+          </>);
+
+      }
+      if (media.type === 'image') {
+        return (
+          <>
+            <div className="mt-5 cursor-zoom-in rounded-2xl overflow-hidden" onClick={() => setLightbox(media.url)}>
+              <img src={media.url} alt={media.alt} className="w-full object-cover" style={{ height: '200px' }} />
+            </div>
+            {lightbox && <ImageLightbox src={lightbox} alt={media.alt} onClose={() => setLightbox(null)} />}
+          </>);
+
+      }
+      if (media.type === 'video') {
+        return (
+          <div className="mt-5">
+            <div className="relative group cursor-pointer rounded-2xl overflow-hidden">
+              <img src={media.thumbnail} alt={media.alt} className="w-full object-cover" style={{ height: '200px' }} />
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#A41034"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                </div>
+              </div>
+            </div>
+          </div>);
+
+      }
+      if (media.type === 'pdf') {
+        return (
+          <div className="mt-5 flex items-center gap-4 px-5 py-4 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] cursor-pointer hover:border-[#A41034]/20 transition-all group"
+            onClick={() => window.open('about:blank', '_blank')}>
+            <div className="w-10 h-10 rounded-xl bg-[#A41034] flex items-center justify-center shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+            </div>
+            <div className="min-w-0">
+              <p className="font-black text-[13px] text-[#1C1917] truncate">{media.name}</p>
+              {media.size && <p className="text-[10px] font-bold text-[#A8A29E] mt-0.5">{media.size} · Click to open</p>}
+            </div>
+            <div className="ml-auto shrink-0 text-[#A41034] opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            </div>
+          </div>);
+
+      }
+      return null;
+    }
+
+    function ReactionBar({ reactions, myReactions, onReact }) {
+      const total = Object.values(reactions).reduce((a, b) => a + b, 0);
+      return (
+        <div className="mt-6 pt-5 border-t border-[#F5F5F4] flex items-center gap-2 flex-wrap">
+          {EMOJI_LIST.map((emoji) => {
+            const count = reactions[emoji] || 0;
+            const active = myReactions.has(emoji);
+            return (
+              <button
+                key={emoji}
+                onClick={() => onReact(emoji)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-bold border transition-all active:scale-95 ${active ?
+                    'bg-[#A41034]/8 border-[#A41034]/25 text-[#A41034]' :
+                    'bg-[#F5F5F4] border-[#E7E5E4] text-[#78716C] hover:border-[#A41034]/20 hover:bg-[#A41034]/5'}`
+                }>
+
+                <span>{emoji}</span>
+                {count > 0 && <span>{active ? count + 1 : count}</span>}
+              </button>);
+
+          })}
+          <span className="ml-auto text-[10px] font-black text-[#A8A29E] tracking-wider">{total.toLocaleString()} reactions</span>
+        </div>);
+
+    }
+
+    function Initials({ name, className = '' }) {
+      const letters = name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+      return (
+        <div className={`rounded-2xl flex items-center justify-center font-black text-white shrink-0 ${className}`}
+          style={{ background: '#A41034', fontSize: '13px', letterSpacing: '0.05em' }}>
+          {letters}
+        </div>);
+
+    }
+
+    function AnnouncementCard({ post, onReact }) {
+      const [expanded, setExpanded] = useState(false);
+      const lines = post.text.split('\n').filter(Boolean);
+      const preview = lines[0];
+      const hasMore = lines.length > 1;
+
+      return (
+        <article className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-8 transition-all hover:border-[#A41034]/10 slide-up">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-4 mb-5">
+            <div className="flex items-center gap-3">
+              <Initials name={post.author} className="w-11 h-11" />
+              <div>
+                <p className="font-black text-[14px] text-[#1C1917] leading-none mb-0.5">{post.author}</p>
+                <p className="text-[10px] font-bold text-[#A8A29E] tracking-wider">{post.role}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 shrink-0">
+              <AudienceBadge label={post.audience} />
+              <span className="text-[10px] font-bold text-[#A8A29E]">{post.timestamp}</span>
+            </div>
+          </div>
+
+          {/* Text */}
+          <div className="text-[14px] leading-relaxed text-[#44403C]">
+            {expanded ?
+              lines.map((l, i) => <p key={i} className={i > 0 ? 'mt-2' : ''}>{l}</p>) :
+              <p>{preview}</p>
+            }
+            {hasMore &&
+              <button onClick={() => setExpanded(!expanded)}
+                className="mt-2 text-[#A41034] font-black text-[12px] tracking-wider hover:underline underline-offset-2">
+                {expanded ? 'Show less' : 'Read more'}
+              </button>
+            }
+          </div>
+
+          {/* Media */}
+          <MediaPreview media={post.media} />
+
+          {/* Reactions */}
+          <ReactionBar reactions={post.reactions} myReactions={post.myReactions} onReact={onReact} />
+        </article>);
+
+    }
+
+    // ── Group Modal ──────────────────────────────────────────────────────────────
+
+    function GroupModal({ onClose, onCreateGroup }) {
+      const [groupName, setGroupName] = useState('');
+      const [selected, setSelected] = useState(new Set());
+      const [search, setSearch] = useState('');
+
+      const grades = [...new Set(ALL_STUDENTS.map((s) => s.grade))].sort();
+      const filtered = ALL_STUDENTS.filter((s) =>
+        s.name.toLowerCase().includes(search.toLowerCase()) ||
+        s.grade.toLowerCase().includes(search.toLowerCase())
+      );
+
+      function toggle(id) {
+        setSelected((prev) => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+      }
+      function toggleGrade(grade) {
+        const gradeIds = ALL_STUDENTS.filter((s) => s.grade === grade).map((s) => s.id);
+        const allSelected = gradeIds.every((id) => selected.has(id));
+        setSelected((prev) => {
+          const n = new Set(prev);
+          gradeIds.forEach((id) => allSelected ? n.delete(id) : n.add(id));
+          return n;
+        });
+      }
+      function handleCreate() {
+        if (!groupName.trim() || selected.size === 0) return;
+        const members = ALL_STUDENTS.filter((s) => selected.has(s.id));
+        onCreateGroup({ name: groupName.trim(), members });
+        onClose();
+      }
+
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(28,25,23,0.5)', backdropFilter: 'blur(4px)' }}>
+          <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] w-full max-w-lg mx-4 compose-enter overflow-hidden" style={{ maxHeight: '85vh', display: 'flex', flexDirection: 'column' }}>
+            {/* Header */}
+            <div className="flex items-center justify-between px-8 pt-8 pb-5 border-b border-[#F5F5F4] shrink-0">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+                <h3 className="font-black text-sm tracking-[0.15em] text-[#1C1917]">New Group</h3>
+              </div>
+              <button onClick={onClose} className="w-8 h-8 rounded-xl bg-[#F5F5F4] flex items-center justify-center hover:bg-[#E7E5E4] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78716C" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              </button>
+            </div>
+
+            <div className="px-8 py-5 shrink-0">
+              {/* Group name */}
+              <input
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
+                placeholder="Group name…"
+                className="w-full px-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[13px] font-bold text-[#1C1917] placeholder-[#A8A29E] mb-4" />
+
+              {/* Search */}
+              <div className="relative">
+                <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A8A29E]" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search students…"
+                  className="w-full pl-10 pr-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[12px] font-bold text-[#1C1917] placeholder-[#A8A29E]" />
+
+              </div>
+            </div>
+
+            {/* Student list */}
+            <div className="overflow-y-auto px-8 pb-5 flex-1">
+              {grades.map((grade) => {
+                const gradeStudents = filtered.filter((s) => s.grade === grade);
+                if (!gradeStudents.length) return null;
+                const allGradeSelected = ALL_STUDENTS.filter((s) => s.grade === grade).every((s) => selected.has(s.id));
+                return (
+                  <div key={grade} className="mb-4">
+                    <button onClick={() => toggleGrade(grade)}
+                      className="flex items-center gap-2 w-full mb-2 group">
+                      <div className={`w-4 h-4 rounded-md border-2 flex items-center justify-center transition-all ${allGradeSelected ? 'bg-[#A41034] border-[#A41034]' : 'border-[#D6D3D1]'}`}>
+                        {allGradeSelected && <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                      </div>
+                      <span className="text-[10px] font-black text-[#A8A29E] tracking-widest">{grade}</span>
+                    </button>
+                    <div className="space-y-1 pl-1">
+                      {gradeStudents.map((s) =>
+                        <button key={s.id} onClick={() => toggle(s.id)}
+                          className={`flex items-center gap-3 w-full px-4 py-3 rounded-2xl border transition-all text-left ${selected.has(s.id) ?
+                              'bg-[#A41034]/5 border-[#A41034]/20' :
+                              'bg-[#F5F5F4] border-transparent hover:border-[#E7E5E4]'}`
+                          }>
+                          <div className={`w-4 h-4 rounded-md border-2 shrink-0 flex items-center justify-center transition-all ${selected.has(s.id) ? 'bg-[#A41034] border-[#A41034]' : 'border-[#D6D3D1]'}`}>
+                            {selected.has(s.id) && <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                          </div>
+                          <div className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-white text-[11px] shrink-0" style={{ background: '#A41034' }}>
+                            {s.name.split(' ').map((w) => w[0]).join('').toUpperCase()}
+                          </div>
+                          <div>
+                            <p className="font-bold text-[13px] text-[#1C1917] leading-none">{s.name}</p>
+                            <p className="text-[10px] font-bold text-[#A8A29E] mt-0.5">{s.grade}</p>
+                          </div>
+                        </button>
+                      )}
+                    </div>
+                  </div>);
+
+              })}
+            </div>
+
+            {/* Footer */}
+            <div className="px-8 py-5 border-t border-[#F5F5F4] shrink-0 flex items-center justify-between">
+              <span className="text-[11px] font-black text-[#A8A29E] tracking-wider">{selected.size} selected</span>
+              <div className="flex items-center gap-3">
+                <button onClick={onClose} className="px-5 py-2.5 rounded-2xl font-black text-[11px] tracking-wider text-[#78716C] hover:bg-[#F5F5F4] transition-colors">Cancel</button>
+                <button onClick={handleCreate}
+                  disabled={!groupName.trim() || selected.size === 0}
+                  className={`px-6 py-2.5 rounded-2xl font-black text-[11px] tracking-wider text-white transition-all active:scale-95 ${groupName.trim() && selected.size > 0 ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'bg-[#A8A29E] cursor-not-allowed'}`
+                  }>
+                  Create Group
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>);
+
+    }
+
+    // ── Dropzone ─────────────────────────────────────────────────────────────────
+
+    function Dropzone({ file, onFile }) {
+      const inputRef = useRef();
+      const [dragging, setDragging] = useState(false);
+
+      function handleDrop(e) {
+        e.preventDefault(); setDragging(false);
+        const f = e.dataTransfer.files[0];
+        if (f) onFile(f);
+      }
+      function handleChange(e) { if (e.target.files[0]) onFile(e.target.files[0]); }
+
+      const typeIcon = file ?
+        file.type.startsWith('image/') ? '🖼️' :
+          file.type.startsWith('video/') ? '🎬' : '📄' :
+        null;
+
+      return (
+        <div
+          onClick={() => inputRef.current.click()}
+          onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={handleDrop}
+          className={`w-full rounded-2xl border-2 border-dashed cursor-pointer transition-all flex flex-col items-center justify-center gap-2 py-6 ${dragging ? 'border-[#A41034] bg-[#A41034]/5' : file ? 'border-[#A41034]/30 bg-[#A41034]/3' : 'border-[#D6D3D1] bg-[#F5F5F4] hover:border-[#A41034]/30 hover:bg-[#A41034]/3'}`
+          }>
+          <input ref={inputRef} type="file" accept="image/*,video/*,.pdf" className="hidden" onChange={handleChange} />
+          {file ?
+            <>
+              <span className="text-2xl">{typeIcon}</span>
+              <p className="text-[13px] font-black text-[#1C1917]">{file.name}</p>
+              <p className="text-[10px] font-bold text-[#A8A29E]">{(file.size / 1024).toFixed(0)} KB · Click to replace</p>
+            </> :
+
+            <>
+              <div className="w-10 h-10 rounded-2xl bg-white border border-[#E7E5E4] flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" strokeWidth="2" strokeLinecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+              </div>
+              <p className="text-[12px] font-black text-[#78716C]">Drag & drop or <span className="text-[#A41034]">browse</span></p>
+              <p className="text-[10px] font-bold text-[#A8A29E]">Images, Videos, PDFs</p>
+            </>
+          }
+        </div>);
+
+    }
+
+    // ── Compose Panel ─────────────────────────────────────────────────────────────
+
+    function ComposePanel({ onPublish, onClose, groups, onOpenGroupModal }) {
+      const [text, setText] = useState('');
+      const [group, setGroup] = useState('All Grades');
+      const [file, setFile] = useState(null);
+
+      const allOptions = ['All Grades', ...AUDIENCES.slice(1), ...groups.map((g) => g.name)];
+
+      function handlePublish() {
+        if (!text.trim()) return;
+        const media = file ?
+          file.type.startsWith('image/') ? { type: 'image', url: URL.createObjectURL(file), alt: file.name } :
+            file.type.startsWith('video/') ? { type: 'video', thumbnail: 'https://picsum.photos/seed/uservid/900/450', alt: file.name } :
+              { type: 'pdf', name: file.name, size: `${(file.size / 1024).toFixed(0)} KB` } :
+          null;
+        onPublish({ text, audience: group, media });
+        setText(''); setGroup('All Grades'); setFile(null);
+      }
+
+      return (
+        <div className="bg-white rounded-[2.5rem] border border-[#A41034]/20 p-8 compose-enter">
+          {/* Top */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+              <h3 className="font-black text-sm tracking-[0.15em] text-[#1C1917]">New Announcement</h3>
+            </div>
+            <button onClick={onClose} className="w-8 h-8 rounded-xl bg-[#F5F5F4] flex items-center justify-center hover:bg-[#E7E5E4] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78716C" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+            </button>
+          </div>
+
+          {/* Group */}
+          <div className="mb-5">
+            <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Group</label>
+            <div className="flex items-center gap-2">
+              <select value={group} onChange={(e) => setGroup(e.target.value)}
+                className="flex-1 px-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[13px] font-bold text-[#1C1917] cursor-pointer hover:border-[#A41034]/20 transition-colors appearance-none">
+                <optgroup label="Default">
+                  {AUDIENCES.map((a) => <option key={a}>{a}</option>)}
+                </optgroup>
+                {groups.length > 0 &&
+                  <optgroup label="My Groups">
+                    {groups.map((g) => <option key={g.name}>{g.name}</option>)}
+                  </optgroup>
+                }
+              </select>
+              <button onClick={onOpenGroupModal}
+                className="w-11 h-11 rounded-2xl bg-[#A41034] text-white flex items-center justify-center hover:bg-[#7a0c26] transition-colors shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Text */}
+          <div className="mb-5">
+            <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Message</label>
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Write your announcement here…"
+              rows={4}
+              className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] text-[#1C1917] placeholder-[#A8A29E] resize-none focus:border-[#A41034]/30 transition-colors font-medium" />
+
+          </div>
+
+          {/* Dropzone */}
+          <div className="mb-6">
+            <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Attachment</label>
+            <Dropzone file={file} onFile={setFile} />
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center justify-end gap-3">
+            <button onClick={onClose} className="px-6 py-3 rounded-2xl font-black text-[11px] tracking-wider text-[#78716C] hover:bg-[#F5F5F4] transition-colors">Discard</button>
+            <button onClick={handlePublish}
+              disabled={!text.trim()}
+              className={`px-8 py-3 rounded-2xl font-black text-[11px] tracking-wider text-white transition-all active:scale-95 ${text.trim() ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'bg-[#A8A29E] cursor-not-allowed'}`
+              }>
+              Publish Announcement
+            </button>
+          </div>
+        </div>);
+
+    }
+
+    function ManageGroupsModal({ groups, onDelete, onClose, onNewGroup }) {
+      const [expanded, setExpanded] = useState(null);
+      const [confirmDelete, setConfirmDelete] = useState(null);
+
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(28,25,23,0.5)', backdropFilter: 'blur(4px)' }}>
+          <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] w-full max-w-lg mx-4 compose-enter overflow-hidden" style={{ maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
+            {/* Header */}
+            <div className="flex items-center justify-between px-8 pt-8 pb-5 border-b border-[#F5F5F4] shrink-0">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+                <h3 className="font-black text-sm tracking-[0.15em] text-[#1C1917]">Manage Groups</h3>
+              </div>
+              <div className="flex items-center gap-2">
+                <button onClick={onNewGroup}
+                  className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#A41034] text-white font-black text-[10px] tracking-wider hover:bg-[#7a0c26] transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                  New Group
+                </button>
+                <button onClick={onClose} className="w-8 h-8 rounded-xl bg-[#F5F5F4] flex items-center justify-center hover:bg-[#E7E5E4] transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78716C" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="overflow-y-auto flex-1 px-8 py-6">
+              {groups.length === 0 ?
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="w-14 h-14 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                  </div>
+                  <p className="font-black text-[14px] text-[#1C1917] mb-1">No groups yet</p>
+                  <p className="text-[12px] text-[#A8A29E] font-medium">Create a group from the New Announcement form.</p>
+                </div> :
+
+                <div className="space-y-3">
+                  {groups.map((group) =>
+                    <div key={group.name} className="rounded-2xl border border-[#E7E5E4] overflow-hidden">
+                      {/* Group row */}
+                      <div className="flex items-center justify-between px-5 py-4">
+                        <button onClick={() => setExpanded(expanded === group.name ? null : group.name)}
+                          className="flex items-center gap-3 flex-1 text-left">
+                          <div className="w-9 h-9 rounded-xl bg-[#A41034] flex items-center justify-center shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                          </div>
+                          <div>
+                            <p className="font-black text-[13px] text-[#1C1917]">{group.name}</p>
+                            <p className="text-[10px] font-bold text-[#A8A29E] tracking-wider">{group.members.length} members</p>
+                          </div>
+                          <svg className={`ml-2 transition-transform ${expanded === group.name ? 'rotate-180' : ''}`} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" strokeWidth="3" strokeLinecap="round"><polyline points="6 9 12 15 18 9" /></svg>
+                        </button>
+                        {confirmDelete === group.name ?
+                          <div className="flex items-center gap-2 ml-3">
+                            <span className="text-[10px] font-black text-[#78716C] tracking-wider">Delete?</span>
+                            <button onClick={() => { onDelete(group.name); setConfirmDelete(null); }}
+                              className="px-3 py-1.5 rounded-xl bg-red-500 text-white text-[10px] font-black tracking-wider hover:bg-red-600 transition-colors">Yes</button>
+                            <button onClick={() => setConfirmDelete(null)}
+                              className="px-3 py-1.5 rounded-xl bg-[#F5F5F4] text-[#78716C] text-[10px] font-black tracking-wider hover:bg-[#E7E5E4] transition-colors">No</button>
+                          </div> :
+
+                          <button onClick={() => setConfirmDelete(group.name)}
+                            className="ml-3 w-8 h-8 rounded-xl flex items-center justify-center text-[#A8A29E] hover:bg-red-50 hover:text-red-500 transition-all shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" /></svg>
+                          </button>
+                        }
+                      </div>
+                      {/* Expanded members */}
+                      {expanded === group.name &&
+                        <div className="border-t border-[#F5F5F4] px-5 py-3 bg-[#FAFAF9]">
+                          <div className="space-y-2">
+                            {group.members.map((m) =>
+                              <div key={m.id} className="flex items-center gap-3">
+                                <div className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-white text-[10px] shrink-0" style={{ background: '#A41034' }}>
+                                  {m.name.split(' ').map((w) => w[0]).join('').toUpperCase()}
+                                </div>
+                                <span className="text-[12px] font-bold text-[#1C1917]">{m.name}</span>
+                                <span className="ml-auto text-[10px] font-bold text-[#A8A29E]">{m.grade}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  )}
+                </div>
+              }
+            </div>
+
+            {/* Footer */}
+            <div className="px-8 py-5 border-t border-[#F5F5F4] shrink-0 flex justify-end">
+              <button onClick={onClose}
+                className="px-6 py-2.5 rounded-2xl font-black text-[11px] tracking-wider bg-[#F5F5F4] text-[#78716C] hover:bg-[#E7E5E4] transition-colors">
+                Done
+              </button>
+            </div>
+          </div>
+        </div>);
+
+    }
+
+    function Communication() {
+      const [announcements, setAnnouncements] = useState(
+        initialAnnouncements.map((a) => ({ ...a, myReactions: new Set() }))
+      );
+      const [composing, setComposing] = useState(false);
+      const [filter, setFilter] = useState('All Grades');
+      const [groups, setGroups] = useState([]);
+      const [showGroupModal, setShowGroupModal] = useState(false);
+      const [showManageGroups, setShowManageGroups] = useState(false);
+
+      function handleReact(postId, emoji) {
+        setAnnouncements((prev) => prev.map((p) => {
+          if (p.id !== postId) return p;
+          const myR = new Set(p.myReactions);
+          if (myR.has(emoji)) { myR.delete(emoji); } else { myR.add(emoji); }
+          return { ...p, myReactions: myR };
+        }));
+      }
+
+      function handlePublish({ text, audience, media }) {
+        const newPost = {
+          id: Date.now(),
+          author: 'Venkateswaran',
+          role: 'Lead Admin',
+          timestamp: 'Just now',
+          audience,
+          text,
+          media,
+          reactions: { '👍': 0, '❤️': 0, '🎉': 0, '😊': 0, '🙏': 0 },
+          myReactions: new Set()
+        };
+        setAnnouncements((prev) => [newPost, ...prev]);
+        setComposing(false);
+      }
+
+      function handleCreateGroup(group) {
+        setGroups((prev) => [...prev, group]);
+      }
+
+      const filtered = filter === 'All Grades' ? announcements :
+        announcements.filter((a) => a.audience === filter || a.audience === 'All Grades');
+
+      return (
+        <>
+          <main className="max-w-[1280px] mx-auto px-6 py-6 tab-content">
+            {/* Page header */}
+            <div className="flex items-center justify-between mb-6 fade-in">
+              <h1 className="text-4xl font-black tracking-tight text-[#1C1917] leading-none">Communication</h1>
+              {!composing &&
+                <div className="flex items-center gap-3">
+                  <button onClick={() => setShowManageGroups(true)}
+                    className="flex items-center gap-3 px-7 py-4 bg-white border border-[#E7E5E4] text-[#1C1917] rounded-2xl font-black text-[11px] tracking-wider hover:border-[#A41034]/20 transition-all active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                    Manage Groups
+                  </button>
+                  <button onClick={() => setComposing(true)}
+                    className="flex items-center gap-3 px-7 py-4 bg-[#A41034] text-white rounded-2xl font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                    New Announcement
+                  </button>
+                </div>
+              }
+            </div>
+
+            {/* Compose */}
+            {composing &&
+              <div className="mb-8">
+                <ComposePanel onPublish={handlePublish} onClose={() => setComposing(false)} groups={groups} onOpenGroupModal={() => setShowGroupModal(true)} />
+              </div>
+            }
+
+            {/* Floating grade filter */}
+            <div className="fixed bottom-6 right-6 z-40" style={{ filter: 'drop-shadow(0 4px 16px rgba(28,25,23,0.12))' }}>
+              <div className="flex items-center gap-2 bg-white border border-[#E7E5E4] rounded-2xl px-4 py-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" strokeWidth="2.5" strokeLinecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
+                <select value={filter} onChange={(e) => setFilter(e.target.value)}
+                  className="bg-transparent text-[12px] font-bold text-[#1C1917] cursor-pointer appearance-none pr-6 border-none"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2378716C' stroke-width='3' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0px center', outline: 'none' }}>
+                  {['All Grades', 'Nursery', 'LKG', 'UKG', ...Array.from({ length: 8 }, (_, i) => `Grade ${i + 1}`)].map((g) => <option key={g}>{g}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="space-y-6" style={{ maxWidth: '70%', margin: '0 auto' }}>
+              {filtered.map((post) =>
+                <AnnouncementCard key={post.id} post={post} onReact={(emoji) => handleReact(post.id, emoji)} />
+              )}
+            </div>
+          </main>
+          {showGroupModal &&
+            <GroupModal
+              onClose={() => setShowGroupModal(false)}
+              onCreateGroup={(g) => { handleCreateGroup(g); setShowGroupModal(false); }} />
+
+          }
+          {showManageGroups &&
+            <ManageGroupsModal
+              groups={groups}
+              onDelete={(name) => setGroups((prev) => prev.filter((g) => g.name !== name))}
+              onClose={() => setShowManageGroups(false)}
+              onNewGroup={() => { setShowManageGroups(false); setShowGroupModal(true); }} />
+
+          }
+        </>);
+
+    }
+
+    // ── Practice Gym ─────────────────────────────────────────────────────────────
+
+    const GYM_GRADES = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8'];
+
+    const GYM_CURRICULUM = {
+      'Grade 1': {
+        English: ['Block 01: Families and Friends', 'Block 02: Animals Around Us', 'Block 03: My School Day', 'Block 04: Seasons and Weather'],
+        Mathematics: ['Block 01: Numbers 1–20', 'Block 02: Addition Basics', 'Block 03: Subtraction Basics', 'Block 04: Shapes and Patterns'],
+        EVS: ['Block 01: My Body', 'Block 02: Plants Around Us', 'Block 03: Water and Air', 'Block 04: Food We Eat'],
+      },
+      'Grade 2': {
+        English: ['Block 01: People Who Help Us', 'Block 02: Stories and Poems', 'Block 03: Transport', 'Block 04: Our Environment'],
+        Mathematics: ['Block 01: Numbers up to 100', 'Block 02: Addition with Carry', 'Block 03: Subtraction with Borrow', 'Block 04: Multiplication Tables'],
+        EVS: ['Block 01: Living and Non-Living', 'Block 02: Animal Habitats', 'Block 03: States of Matter', 'Block 04: Simple Machines'],
+      },
+      'Grade 3': {
+        English: ['Block 01: Nature and Science', 'Block 02: Community Helpers', 'Block 03: Festivals of India', 'Block 04: Adventure Stories'],
+        Mathematics: ['Block 01: Large Numbers', 'Block 02: Multiplication', 'Block 03: Division', 'Block 04: Fractions Intro'],
+        EVS: ['Block 01: Plants and Growth', 'Block 02: Food Chains', 'Block 03: Rocks and Soil', 'Block 04: Sun, Moon and Stars'],
+      },
+      'Grade 4': {
+        English: ['Block 01: Exploring Nature', 'Block 02: Folk Tales', 'Block 03: Communication', 'Block 04: Our Earth'],
+        Mathematics: ['Block 01: Place Value', 'Block 02: Fractions', 'Block 03: Decimals Intro', 'Block 04: Geometry'],
+        Science: ['Block 01: Light and Shadows', 'Block 02: Force and Motion', 'Block 03: Electricity Basics', 'Block 04: The Solar System'],
+      },
+      'Grade 5': {
+        English: ['Block 01: Mysteries and Puzzles', 'Block 02: World Cultures', 'Block 03: Space Exploration', 'Block 04: Environment'],
+        Mathematics: ['Block 01: Decimals', 'Block 02: Percentages', 'Block 03: Ratios', 'Block 04: Area and Perimeter'],
+        Science: ['Block 01: Microorganisms', 'Block 02: Human Body Systems', 'Block 03: Ecosystems', 'Block 04: Materials and Properties'],
+      },
+      'Grade 6': {
+        English: ['Block 01: Literature Classics', 'Block 02: Media and Communication', 'Block 03: Science Writing', 'Block 04: Persuasive Essays'],
+        Mathematics: ['Block 01: Integers', 'Block 02: Algebra Intro', 'Block 03: Data Handling', 'Block 04: Mensuration'],
+        Science: ['Block 01: Cell Biology', 'Block 02: Heat and Temperature', 'Block 03: Motion and Speed', 'Block 04: Chemical Reactions'],
+      },
+      'Grade 7': {
+        English: ['Block 01: Poetry Analysis', 'Block 02: Drama and Theatre', 'Block 03: Research Skills', 'Block 04: Debate Writing'],
+        Mathematics: ['Block 01: Linear Equations', 'Block 02: Geometry Theorems', 'Block 03: Statistics', 'Block 04: Profit and Loss'],
+        Science: ['Block 01: Reproduction in Plants', 'Block 02: Acids and Bases', 'Block 03: Light Optics', 'Block 04: Electromagnetic Spectrum'],
+      },
+      'Grade 8': {
+        English: ['Block 01: Novels and Narratives', 'Block 02: Critical Analysis', 'Block 03: Journalism', 'Block 04: Creative Writing'],
+        Mathematics: ['Block 01: Quadratic Equations', 'Block 02: Trigonometry', 'Block 03: Probability', 'Block 04: Coordinate Geometry'],
+        Science: ['Block 01: Atomic Structure', 'Block 02: Heredity and Evolution', 'Block 03: Gravitation', 'Block 04: Sound Waves'],
+      },
+    };
+
+    const DIFFICULTY_LEVELS = ['Easy', 'Medium', 'Hard'];
+    const TIME_OPTIONS = [15, 20, 30, 45, 60];
+
+    function generateQuestions(grade, subject, block, difficulty) {
+      const topic = block.includes(': ') ? block.split(': ')[1] : block;
+      const sub = subject || 'Science';
+      const gr = grade || 'Grade 4';
+
+      const easy = [
+        {
+          type: 'mcq',
+          text: `What is the main theme of "${topic}"?`,
+          options: [topic, 'Photosynthesis', 'Gravity', 'Magnetism'], answer: 0
+        },
+        {
+          type: 'truefalse',
+          text: `True or False: XSEED focuses on helping students learn through experience and activity, rather than memorisation alone.`,
+          answer: 0
+        },
+        {
+          type: 'fill',
+          text: `In the XSEED method, students learn best through ___ experiences rather than passive listening.`,
+          answer: 'hands-on', hint: 'Hint: two words, e.g. "hands-on"'
+        },
+        {
+          type: 'mcq',
+          text: `"${topic}" is studied as part of which subject in ${gr}?`,
+          options: [sub, 'History', 'Art', 'Music'], answer: 0
+        },
+        {
+          type: 'truefalse',
+          text: `True or False: Regular practice and review helps students retain what they have learned in "${topic}".`,
+          answer: 0
+        },
+        {
+          type: 'multi',
+          text: `Which of the following describe the XSEED learning approach? Select all that apply.`,
+          options: ['Activity-based', 'Rote memorisation only', 'Real-world connections', 'Student-led exploration'],
+          answers: [0, 2, 3]
+        },
+      ];
+
+      const medium = [
+        {
+          type: 'mcq',
+          text: `Which concept is most central to understanding "${topic}"?`,
+          options: ['Observation and inquiry', 'Rote memorisation alone', 'Copying notes', 'None of the above'], answer: 0
+        },
+        {
+          type: 'fill',
+          text: `A classroom where students ask questions, investigate, and draw conclusions is practising ___ learning.`,
+          answer: 'inquiry', hint: 'One word'
+        },
+        {
+          type: 'multi',
+          text: `Which of the following are characteristics of effective teaching in "${topic}"? Select all that apply.`,
+          options: ['Activity-based tasks', 'Rote memorisation only', 'Real-world connections', 'Student-led exploration', 'Passive listening'],
+          answers: [0, 2, 3]
+        },
+        {
+          type: 'match',
+          text: `Match each teaching strategy with its correct description.`,
+          lefts: ['Formative assessment', 'Differentiation', 'Inquiry learning', 'Collaborative work'],
+          displayRights: ['Students investigate questions themselves', 'Checking understanding during learning', 'Adapting tasks to student needs', 'Students learn together in groups'],
+          answer: { 0: 1, 1: 2, 2: 0, 3: 3 }
+        },
+        {
+          type: 'truefalse',
+          text: `True or False: In "${topic}", all students should receive exactly the same task regardless of their individual learning needs.`,
+          answer: 1
+        },
+        {
+          type: 'arrange',
+          text: `Arrange the steps of a well-structured lesson in the correct order.`,
+          items: ['Assess understanding', 'Connect to prior knowledge', 'Apply and practise', 'Introduce new concept'],
+          answer: [1, 3, 2, 0]
+        },
+      ];
+
+      const hard = [
+        {
+          type: 'mcq',
+          text: `Analysing the core learning objective of "${topic}" — which best describes it?`,
+          options: ['Building conceptual depth through guided inquiry', 'Completing the syllabus as fast as possible', 'Memorising facts for recall in exams', 'Avoiding difficult prerequisite concepts'], answer: 0
+        },
+        {
+          type: 'fill',
+          text: `A teacher who adjusts task complexity based on each student's readiness level is practising ___.`,
+          answer: 'differentiation', hint: 'One word'
+        },
+        {
+          type: 'multi',
+          text: `Which of the following are effective strategies for teaching "${topic}"? Select all that apply.`,
+          options: ['Using real-world examples', 'Lecture-only delivery', 'Peer discussion and explanation', 'Formative checks during the lesson', 'Ignoring student misconceptions'],
+          answers: [0, 2, 3]
+        },
+        {
+          type: 'match',
+          text: `Match each level of Bloom's Taxonomy with its correct description.`,
+          lefts: ['Remember', 'Understand', 'Apply', 'Analyse'],
+          displayRights: ['Break information into parts to examine', 'Recall facts and basic concepts', 'Use knowledge in new situations', 'Explain ideas or concepts'],
+          answer: { 0: 1, 1: 3, 2: 2, 3: 0 }
+        },
+        {
+          type: 'arrange',
+          text: `Arrange the steps of scientific inquiry in the correct order.`,
+          items: ['Analyse results and draw conclusions', 'Identify the question or problem', 'Conduct the experiment', 'Form a hypothesis'],
+          answer: [1, 3, 2, 0]
+        },
+        {
+          type: 'truefalse',
+          text: `True or False: Higher-order thinking in "${topic}" can be fully assessed using multiple-choice questions alone, with no performance task.`,
+          answer: 1
+        },
+        {
+          type: 'multi',
+          text: `Which of the following best demonstrate mastery of "${topic}"? Select all that apply.`,
+          options: ['A student-created explanation of the concept', 'High score in a rote recall test', 'Applying the concept to a new situation', 'Connecting the topic to another subject', 'Memorising the textbook definition'],
+          answers: [0, 2, 3]
+        },
+        {
+          type: 'arrange',
+          text: `Arrange these phases of an XSEED lesson in the correct sequence.`,
+          items: ['Apply and practise', 'Connect to prior knowledge', 'Reflect and summarise', 'Explore the new concept'],
+          answer: [1, 3, 0, 2]
+        },
+      ];
+
+      return { Easy: easy, Medium: medium, Hard: hard }[difficulty] || medium;
+    }
+
+    function initSelected(q) {
+      if (!q) return null;
+      if (q.type === 'multi') return new Set();
+      if (q.type === 'match') return {};
+      if (q.type === 'arrange') return [];
+      if (q.type === 'fill') return '';
+      return null;
+    }
+
+    function isAnswered(q, sel) {
+      if (!q) return false;
+      if (q.type === 'fill') return typeof sel === 'string' && sel.trim().length > 0;
+      if (q.type === 'multi') return sel instanceof Set && sel.size > 0;
+      if (q.type === 'match') return typeof sel === 'object' && sel !== null && Object.keys(sel).length === q.lefts.length;
+      if (q.type === 'arrange') return Array.isArray(sel) && sel.length === q.items.length;
+      return sel !== null && sel !== undefined;
+    }
+
+    function scoreOne(q, sel) {
+      if (!q || !isAnswered(q, sel)) return false;
+      if (q.type === 'mcq' || q.type === 'truefalse') return sel === q.answer;
+      if (q.type === 'fill') return sel.trim().toLowerCase() === q.answer.toLowerCase();
+      if (q.type === 'multi') {
+        const a = [...sel].sort((x, y) => x - y), b = [...q.answers].sort((x, y) => x - y);
+        return JSON.stringify(a) === JSON.stringify(b);
+      }
+      if (q.type === 'match') return Object.keys(q.answer).every(k => sel[Number(k)] === q.answer[Number(k)]);
+      if (q.type === 'arrange') return JSON.stringify(sel) === JSON.stringify(q.answer);
+      return false;
+    }
+
+    function PracticeGym() {
+      const [mode, setMode] = useState('teacher');
+      const [grade, setGrade] = useState('');
+      const [subject, setSubject] = useState('');
+      const [block, setBlock] = useState('');
+      const [difficulty, setDifficulty] = useState('');
+      const [timeLimit, setTimeLimit] = useState(30);
+      const [testStarted, setTestStarted] = useState(false);
+      const [questions, setQuestions] = useState([]);
+      const [currentQ, setCurrentQ] = useState(0);
+      const [selected, setSelected] = useState(null);
+      const [answers, setAnswers] = useState([]);
+      const [timeLeft, setTimeLeft] = useState(0);
+      const [testDone, setTestDone] = useState(false);
+      const [pdfGenerated, setPdfGenerated] = useState(false);
+      const [matchPending, setMatchPending] = useState(null);
+      const timerRef = useRef(null);
+
+      const subjects = grade ? Object.keys(GYM_CURRICULUM[grade] || {}) : [];
+      const blocks = grade && subject ? (GYM_CURRICULUM[grade][subject] || []) : [];
+      const allSelected = grade && subject && block && difficulty;
+
+      React.useEffect(() => {
+        if (testStarted && !testDone) {
+          timerRef.current = setInterval(() => {
+            setTimeLeft(prev => {
+              if (prev <= 1) { clearInterval(timerRef.current); setTestDone(true); return 0; }
+              return prev - 1;
+            });
+          }, 1000);
+        }
+        return () => clearInterval(timerRef.current);
+      }, [testStarted, testDone]);
+
+      function startTest() {
+        const qs = generateQuestions(grade, subject, block, difficulty);
+        setQuestions(qs); setCurrentQ(0); setSelected(initSelected(qs[0]));
+        setAnswers([]); setTimeLeft(timeLimit * 60); setMatchPending(null);
+        setTestStarted(true); setTestDone(false);
+      }
+
+      function handleNext() {
+        const newAnswers = [...answers, selected];
+        if (currentQ + 1 >= questions.length) {
+          setAnswers(newAnswers); setTestDone(true); clearInterval(timerRef.current);
+        } else {
+          const nextQ = questions[currentQ + 1];
+          setAnswers(newAnswers); setCurrentQ(currentQ + 1);
+          setSelected(initSelected(nextQ)); setMatchPending(null);
+        }
+      }
+
+      function handleReset() {
+        setTestStarted(false); setTestDone(false); setQuestions([]);
+        setCurrentQ(0); setSelected(null); setAnswers([]); setPdfGenerated(false); setMatchPending(null);
+      }
+
+      function formatTime(secs) {
+        const m = Math.floor(secs / 60).toString().padStart(2, '0');
+        const s = (secs % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+      }
+
+      // ── Test screen ──────────────────────────────────────────────────────────────
+      if (testStarted && !testDone) {
+        const q = questions[currentQ];
+        const progress = (currentQ / questions.length) * 100;
+        const warn = timeLeft < 60;
+        return (
+          <main className="gym max-w-[1280px] mx-auto px-6 py-6 tab-content">
+            <div className="flex items-center justify-between mb-8 fade-in">
+              <div>
+                <p className="text-[10px] font-black text-[#A8A29E] tracking-widest mb-1">{grade} · {subject} · {block.split(': ')[0]}</p>
+                <h1 className="text-3xl font-black tracking-tight text-[#1C1917] leading-none">Practice Test</h1>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className={`flex items-center gap-2 px-5 py-3 rounded-2xl border font-black text-[13px] transition-colors ${warn ? 'bg-red-50 border-red-200 text-red-500' : 'bg-[#F5F5F4] border-[#E7E5E4] text-[#1C1917]'}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                  {formatTime(timeLeft)}
+                </div>
+                <button onClick={handleReset} className="px-5 py-3 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] text-[11px] font-black text-[#78716C] tracking-wider hover:bg-[#E7E5E4] transition-colors">Exit Test</button>
+              </div>
+            </div>
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-[10px] font-black text-[#A8A29E] tracking-widest">Question {currentQ + 1} of {questions.length}</span>
+                <span className="text-[10px] font-black text-[#A41034] tracking-widest">{difficulty.toUpperCase()}</span>
+              </div>
+              <div className="h-1.5 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
+                <div className="h-full bg-[#A41034] rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
+              </div>
+            </div>
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-10 mb-6 fade-in">
+                {/* Question header */}
+                <div className="flex items-start gap-4 mb-8">
+                  <div className="w-10 h-10 rounded-2xl bg-[#A41034] text-white flex items-center justify-center font-black text-[13px] shrink-0">{currentQ + 1}</div>
+                  <div className="flex-1">
+                    <p className="text-[16px] font-bold text-[#1C1917] leading-relaxed">{q.text}</p>
+                    {q.type === 'multi' && <p className="text-[11px] font-bold text-[#A8A29E] mt-1">Select all that apply</p>}
+                    {q.type === 'arrange' && <p className="text-[11px] font-bold text-[#A8A29E] mt-1">Click items in the correct order</p>}
+                    {q.type === 'match' && <p className="text-[11px] font-bold text-[#A8A29E] mt-1">Click a left item, then its matching right item</p>}
+                  </div>
+                </div>
+
+                {/* MCQ */}
+                {q.type === 'mcq' && (
+                  <div className="space-y-3">
+                    {q.options.map((opt, i) => (
+                      <button key={i} onClick={() => setSelected(i)}
+                        className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${selected === i ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                        <span className="inline-flex items-center gap-3">
+                          <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[10px] font-black shrink-0 transition-all ${selected === i ? 'bg-[#A41034] border-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}`}>{String.fromCharCode(65 + i)}</span>
+                          {opt}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* True / False */}
+                {q.type === 'truefalse' && (
+                  <div className="grid grid-cols-2 gap-4">
+                    {['True', 'False'].map((label, i) => (
+                      <button key={i} onClick={() => setSelected(i)}
+                        className={`py-7 rounded-2xl border-2 font-black text-[15px] transition-all active:scale-95 ${selected === i ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Fill in the blank */}
+                {q.type === 'fill' && (
+                  <div>
+                    <input type="text" value={selected || ''} onChange={e => setSelected(e.target.value)}
+                      placeholder="Type your answer…"
+                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-medium text-[#1C1917] placeholder-[#A8A29E] focus:border-[#A41034]/30 transition-colors" />
+                    {q.hint && <p className="mt-2 text-[11px] font-bold text-[#A8A29E]">{q.hint}</p>}
+                  </div>
+                )}
+
+                {/* Multi-select */}
+                {q.type === 'multi' && (
+                  <div className="space-y-3">
+                    {q.options.map((opt, i) => {
+                      const checked = selected instanceof Set && selected.has(i);
+                      return (
+                        <button key={i} onClick={() => {
+                          const next = new Set(selected instanceof Set ? selected : []);
+                          checked ? next.delete(i) : next.add(i);
+                          setSelected(next);
+                        }}
+                          className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${checked ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                          <span className="inline-flex items-center gap-3">
+                            <span className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${checked ? 'bg-[#A41034] border-[#A41034]' : 'border-[#D6D3D1]'}`}>
+                              {checked && <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
+                            </span>
+                            {opt}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Match the following */}
+                {q.type === 'match' && (
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      {q.lefts.map((item, li) => {
+                        const isPaired = typeof selected === 'object' && selected !== null && selected[li] !== undefined;
+                        const isActive = matchPending === li;
+                        return (
+                          <button key={li} onClick={() => setMatchPending(isActive ? null : li)}
+                            className={`w-full text-left px-4 py-3.5 rounded-2xl border-2 font-bold text-[13px] transition-all ${isActive ? 'bg-[#A41034] border-[#A41034] text-white' : isPaired ? 'bg-[#A41034]/8 border-[#A41034]/30 text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4]'}`}>
+                            <span className="flex items-center gap-2">
+                              <span className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 ${isActive ? 'bg-white text-[#A41034]' : isPaired ? 'bg-[#A41034] text-white' : 'bg-white border border-[#E7E5E4] text-[#A8A29E]'}`}>{String.fromCharCode(65 + li)}</span>
+                              {item}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <div className="space-y-2">
+                      {q.displayRights.map((item, ri) => {
+                        const pairedWith = typeof selected === 'object' && selected !== null
+                          ? Object.keys(selected).find(k => selected[Number(k)] === ri)
+                          : null;
+                        const isPaired = pairedWith !== undefined && pairedWith !== null;
+                        return (
+                          <button key={ri} onClick={() => {
+                            if (matchPending === null) return;
+                            const next = typeof selected === 'object' && selected !== null ? { ...selected } : {};
+                            // remove any existing pair for this right item
+                            Object.keys(next).forEach(k => { if (next[Number(k)] === ri) delete next[Number(k)]; });
+                            next[matchPending] = ri;
+                            setSelected(next);
+                            setMatchPending(null);
+                          }}
+                            className={`w-full text-left px-4 py-3.5 rounded-2xl border-2 font-bold text-[13px] transition-all ${isPaired ? 'bg-[#A41034]/8 border-[#A41034]/30 text-[#A41034]' : matchPending !== null ? 'bg-[#F5F5F4] border-[#E7E5E4] text-[#44403C] hover:border-[#A41034]/30 hover:bg-[#A41034]/5' : 'bg-[#F5F5F4] border-transparent text-[#44403C]'}`}>
+                            <span className="flex items-center gap-2">
+                              <span className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 ${isPaired ? 'bg-[#A41034] text-white' : 'bg-white border border-[#E7E5E4] text-[#A8A29E]'}`}>
+                                {isPaired ? String.fromCharCode(65 + Number(pairedWith)) : ri + 1}
+                              </span>
+                              {item}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Arrange */}
+                {q.type === 'arrange' && (() => {
+                  const arranged = Array.isArray(selected) ? selected : [];
+                  const remaining = q.items.map((_, i) => i).filter(i => !arranged.includes(i));
+                  return (
+                    <div className="space-y-4">
+                      {/* Ordered slots */}
+                      {arranged.length > 0 && (
+                        <div className="space-y-2">
+                          {arranged.map((itemIdx, pos) => (
+                            <div key={pos} className="flex items-center gap-3">
+                              <span className="w-7 h-7 rounded-xl bg-[#A41034] text-white flex items-center justify-center font-black text-[11px] shrink-0">{pos + 1}</span>
+                              <div className="flex-1 flex items-center justify-between px-5 py-3.5 rounded-2xl bg-[#A41034]/8 border-2 border-[#A41034]/20 font-bold text-[13px] text-[#A41034]">
+                                {q.items[itemIdx]}
+                                <button onClick={() => setSelected(arranged.filter((_, i) => i !== pos))}
+                                  className="ml-3 w-6 h-6 rounded-lg bg-[#A41034]/15 flex items-center justify-center hover:bg-[#A41034]/30 transition-colors shrink-0">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {/* Remaining items */}
+                      {remaining.length > 0 && (
+                        <div className="space-y-2">
+                          {arranged.length > 0 && <p className="text-[10px] font-black text-[#A8A29E]">Remaining — click to place next:</p>}
+                          {remaining.map(itemIdx => (
+                            <button key={itemIdx} onClick={() => setSelected([...arranged, itemIdx])}
+                              className="w-full text-left px-5 py-3.5 rounded-2xl border-2 border-transparent bg-[#F5F5F4] font-bold text-[13px] text-[#44403C] hover:border-[#E7E5E4] hover:bg-white transition-all active:scale-[0.99]">
+                              {q.items[itemIdx]}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div className="flex justify-end">
+                <button onClick={handleNext} disabled={!isAnswered(q, selected)}
+                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[11px] transition-all active:scale-95 ${isAnswered(q, selected) ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#E7E5E4] text-[#A8A29E] cursor-not-allowed'}`}>
+                  {currentQ + 1 === questions.length ? 'Submit Test' : 'Next Question'}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
+                </button>
+              </div>
+            </div>
+          </main>
+        );
+      }
+
+      // ── Results screen ───────────────────────────────────────────────────────────
+      if (testDone) {
+        const score = answers.filter((a, i) => scoreOne(questions[i], a)).length;
+        const pct = questions.length ? Math.round((score / questions.length) * 100) : 0;
+        const passed = pct >= 60;
+        const circumference = 2 * Math.PI * 52;
+        return (
+          <main className="gym max-w-[1280px] mx-auto px-6 py-12 tab-content">
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-12 text-center fade-in">
+                <div className="relative w-36 h-36 mx-auto mb-8">
+                  <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="#F5F5F4" strokeWidth="10" />
+                    <circle cx="60" cy="60" r="52" fill="none"
+                      stroke={passed ? '#A41034' : '#f59138'} strokeWidth="10"
+                      strokeDasharray={circumference}
+                      strokeDashoffset={circumference * (1 - pct / 100)}
+                      strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1.2s ease' }} />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-3xl font-black text-[#1C1917]">{pct}%</span>
+                    <span className="text-[9px] font-black text-[#A8A29E] tracking-widest">Score</span>
+                  </div>
+                </div>
+                <h2 className="text-3xl font-black tracking-tight text-[#1C1917] mb-2">
+                  {pct === 100 ? 'Perfect Score!' : passed ? 'Well Done!' : 'Keep Practising!'}
+                </h2>
+                <p className="text-[14px] text-[#78716C] font-medium mb-1">{score} of {questions.length} questions correct</p>
+                <p className="text-[10px] font-black text-[#A8A29E] tracking-widest mb-10">{grade} · {subject} · {block.split(': ')[0]} · {difficulty}</p>
+                <div className="grid grid-cols-3 gap-4 mb-10">
+                  {[{ label: 'Correct', value: score, color: '#4CAF50' },
+                  { label: 'Incorrect', value: questions.length - score, color: '#f59138' },
+                  { label: 'Total', value: questions.length, color: '#A8A29E' }].map(stat => (
+                    <div key={stat.label} className="bg-[#F5F5F4] rounded-2xl py-5">
+                      <p className="text-2xl font-black" style={{ color: stat.color }}>{stat.value}</p>
+                      <p className="text-[10px] font-black text-[#A8A29E] tracking-widest mt-1">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-center gap-3">
+                  <button onClick={handleReset} className="px-8 py-4 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] font-black text-[11px] tracking-wider text-[#78716C] hover:bg-[#E7E5E4] transition-colors">
+                    Back to Gym
+                  </button>
+                  <button onClick={startTest} className="px-8 py-4 rounded-2xl bg-[#A41034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                    Try Again
+                  </button>
+                </div>
+              </div>
+            </div>
+          </main>
+        );
+      }
+
+      // ── Selection screen ─────────────────────────────────────────────────────────
+      const selectCls = 'w-full px-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[13px] font-bold text-[#1C1917] cursor-pointer appearance-none hover:border-[#A41034]/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed';
+
+      return (
+        <main className="gym max-w-[1280px] mx-auto px-6 py-6 tab-content">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8 fade-in">
+            <h1 className="text-4xl font-black tracking-tight text-[#1C1917] leading-none">Practice Gym</h1>
+            <div className="flex items-center gap-1 bg-[#F5F5F4] p-1 rounded-2xl border border-[#E7E5E4]">
+              {[['teacher', 'Teacher'], ['parent', 'Parent']].map(([key, label]) => (
+                <button key={key} onClick={() => { setMode(key); handleReset(); }}
+                  className={`px-5 py-2.5 rounded-xl font-bold text-[10px] tracking-wider transition-all ${mode === key ? 'bg-white text-[#A41034] shadow-sm' : 'text-[#78716C] hover:text-[#1C1917]'}`}>
+                  {label.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-8 fade-in">
+            {/* Row 1: Grade · Subject · Block */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+              <div>
+                <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Grade</label>
+                <select value={grade} onChange={e => { setGrade(e.target.value); setSubject(''); setBlock(''); }} className={selectCls}>
+                  <option value="">Select grade…</option>
+                  {GYM_GRADES.map(g => <option key={g}>{g}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Subject</label>
+                <select value={subject} onChange={e => { setSubject(e.target.value); setBlock(''); }} className={selectCls}>
+                  <option value="">Select subject…</option>
+                  {subjects.map(s => <option key={s}>{s}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Block</label>
+                <select value={block} onChange={e => setBlock(e.target.value)} className={selectCls}>
+                  <option value="">Select block…</option>
+                  {blocks.map(b => <option key={b}>{b}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {/* Row 2: Difficulty · Time · CTA */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-end">
+              <div>
+                <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Difficulty</label>
+                <select value={difficulty} onChange={e => setDifficulty(e.target.value)} className={selectCls}>
+                  <option value="">Select difficulty…</option>
+                  {DIFFICULTY_LEVELS.map(d => <option key={d}>{d}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">
+                  Time Limit <span className="ml-1 font-black text-[#A41034]">{timeLimit} min</span>
+                </label>
+                <div>
+                  <div className="relative pt-1 pb-4">
+                    <input type="range"
+                      min={0} max={TIME_OPTIONS.length - 1} step={1}
+                      value={TIME_OPTIONS.indexOf(timeLimit) === -1 ? 2 : TIME_OPTIONS.indexOf(timeLimit)}
+                      onChange={e => setTimeLimit(TIME_OPTIONS[Number(e.target.value)])}
+                      className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                      style={{ accentColor: '#A41034', background: `linear-gradient(to right, #A41034 ${(TIME_OPTIONS.indexOf(timeLimit) / (TIME_OPTIONS.length - 1)) * 100}%, #E7E5E4 ${(TIME_OPTIONS.indexOf(timeLimit) / (TIME_OPTIONS.length - 1)) * 100}%)` }} />
+                    <div className="flex justify-between mt-2">
+                      {TIME_OPTIONS.map(t => (
+                        <button key={t} onClick={() => setTimeLimit(t)}
+                          className={`text-[9px] font-black transition-colors ${timeLimit === t ? 'text-[#A41034]' : 'text-[#A8A29E] hover:text-[#78716C]'}`}>
+                          {t}m
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                {mode === 'teacher' ? (
+                  pdfGenerated ? (
+                    <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-[#f2faf3] border border-[#4CAF50]/20">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-black text-[12px] text-[#1C1917]">PDF Ready!</p>
+                        <button onClick={() => setPdfGenerated(false)} className="text-[10px] font-bold text-[#A8A29E] hover:text-[#A41034] transition-colors">Generate another</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button disabled={!allSelected} onClick={() => setPdfGenerated(true)}
+                      className={`w-full py-3 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2 ${allSelected ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'
+                        }`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                      Download PDF
+                    </button>
+                  )
+                ) : (
+                  <button disabled={!allSelected} onClick={startTest}
+                    className={`w-full py-3 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2 ${allSelected ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'
+                      }`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                    Start Test
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </main>
+      );
+    }
+
+    // ── Placeholder Tabs ─────────────────────────────────────────────────────────
+
+    function PlaceholderTab({ title }) {
+      return (
+        <main className="max-w-[1280px] mx-auto px-6 py-12 tab-content">
+          <div className="flex flex-col items-center justify-center h-[50vh] text-center">
+            <div className="w-16 h-16 rounded-[1.5rem] bg-[#F5F5F4] border border-[#E7E5E4] flex items-center justify-center mb-6">
+              <div className="w-6 h-6 rounded-full bg-[#E7E5E4]"></div>
+            </div>
+            <h2 className="text-3xl font-black tracking-tight text-[#1C1917] mb-2">{title}</h2>
+            <p className="text-[14px] text-[#A8A29E] font-medium">This screen is coming soon.</p>
+          </div>
+        </main>);
+
+    }
+
+    // ── Learnometer ──────────────────────────────────────────────────────────────
+
+    const LEARNOMETER_TEST = {
+      name: 'Mathematics Unit Assessment',
+      subject: 'Mathematics',
+      grade: 'Grade 4',
+      block: 'Block 03 — Fractions',
+      duration: 30,
+    };
+
+    const LEARNOMETER_QUESTIONS = [
+      { text: 'If 3 out of 8 equal parts of a shape are shaded, what fraction is shaded?', options: ['3/8', '5/8', '8/3', '1/3'], answer: 0 },
+      { text: 'Which fraction is equivalent to 1/2?', options: ['2/4', '1/4', '3/4', '2/3'], answer: 0 },
+      { text: 'What is 1/4 + 1/4?', options: ['2/4', '2/8', '1/8', '4/1'], answer: 0 },
+      { text: 'Which of these fractions is the largest?', options: ['3/4', '1/2', '1/4', '2/5'], answer: 0 },
+      { text: 'A pizza is cut into 6 equal slices. You eat 2. What fraction of the pizza remains?', options: ['4/6', '2/6', '6/4', '2/3'], answer: 0 },
+      { text: 'What is 3/4 of 8?', options: ['6', '4', '3', '2'], answer: 0 },
+      { text: 'Which of these is a proper fraction?', options: ['3/5', '5/3', '5/5', '6/3'], answer: 0 },
+      { text: 'Simplify 4/8 to its lowest form.', options: ['1/2', '2/4', '4/8', '1/4'], answer: 0 },
+      { text: 'What fraction of one hour is 15 minutes?', options: ['1/4', '1/2', '1/3', '3/4'], answer: 0 },
+      { text: 'You have 2/5 of a ribbon. You add 1/5 more. What is the total?', options: ['3/5', '3/10', '2/10', '1/5'], answer: 0 },
+    ];
+
+    function Learnometer() {
+      const [step, setStep] = useState('login'); // login | select | test | results
+      const [studentId, setStudentId] = useState('');
+      const [teacherCode, setTeacherCode] = useState('');
+      const [loginError, setLoginError] = useState('');
+      const [testType, setTestType] = useState(null); // 'practice' | 'test'
+      const [currentQ, setCurrentQ] = useState(0);
+      const [selected, setSelected] = useState(null);
+      const [answers, setAnswers] = useState([]);
+      const [timeLeft, setTimeLeft] = useState(0);
+      const [testDone, setTestDone] = useState(false);
+      const timerRef = useRef(null);
+
+      React.useEffect(() => {
+        if (step === 'test' && !testDone) {
+          timerRef.current = setInterval(() => {
+            setTimeLeft(prev => {
+              if (prev <= 1) { clearInterval(timerRef.current); setTestDone(true); return 0; }
+              return prev - 1;
+            });
+          }, 1000);
+        }
+        return () => clearInterval(timerRef.current);
+      }, [step, testDone]);
+
+      function handleLogin(e) {
+        e.preventDefault();
+        if (studentId.trim() && teacherCode.trim()) {
+          setStep('select'); setLoginError('');
+        } else {
+          setLoginError('Please enter both your Student ID and Teacher Code.');
+        }
+      }
+
+      function startTest(type) {
+        setTestType(type);
+        setCurrentQ(0); setSelected(null); setAnswers([]);
+        setTimeLeft(LEARNOMETER_TEST.duration * 60);
+        setTestDone(false); setStep('test');
+      }
+
+      function handleNext() {
+        const newAnswers = [...answers, selected];
+        if (currentQ + 1 >= LEARNOMETER_QUESTIONS.length) {
+          setAnswers(newAnswers); setTestDone(true); clearInterval(timerRef.current);
+        } else {
+          setAnswers(newAnswers); setCurrentQ(currentQ + 1); setSelected(null);
+        }
+      }
+
+      function formatTime(secs) {
+        const m = Math.floor(secs / 60).toString().padStart(2, '0');
+        const s = (secs % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+      }
+
+      // ── Login ────────────────────────────────────────────────────────────────────
+      if (step === 'login') {
+        const ready = studentId.trim() && teacherCode.trim();
+        return (
+          <main className="max-w-[1280px] mx-auto px-6 tab-content" style={{ minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="w-full max-w-md">
+              {/* Logo mark */}
+              <div className="flex flex-col items-center mb-10 fade-in">
+                <div className="w-14 h-14 bg-[#A41034] rounded-[1.25rem] flex items-center justify-center shadow-lg shadow-[#A41034]/20 mb-4 transform -rotate-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                </div>
+                <h1 className="text-3xl font-black tracking-tight text-[#1C1917]">Learnometer</h1>
+                <p className="text-[13px] text-[#A8A29E] font-medium mt-1">Sign in to access your test</p>
+              </div>
+
+              {/* Card */}
+              <form onSubmit={handleLogin} className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-8 slide-up">
+                <div className="space-y-5 mb-6">
+                  <div>
+                    <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">XSEED Student ID</label>
+                    <input
+                      type="text" value={studentId} onChange={e => { setStudentId(e.target.value); setLoginError(''); }}
+                      placeholder="e.g. XS-2026-04821"
+                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-bold text-[#1C1917] placeholder-[#D6D3D1] focus:border-[#A41034]/30 transition-colors" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Teacher Code</label>
+                    <input
+                      type="text" value={teacherCode} onChange={e => { setTeacherCode(e.target.value); setLoginError(''); }}
+                      placeholder="e.g. TCH-8842"
+                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-bold text-[#1C1917] placeholder-[#D6D3D1] focus:border-[#A41034]/30 transition-colors" />
+                  </div>
+                </div>
+
+                {loginError && (
+                  <p className="text-[12px] font-bold text-red-500 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                    {loginError}
+                  </p>
+                )}
+
+                <button type="submit"
+                  className={`w-full py-4 rounded-2xl font-black text-[12px] tracking-wider transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'}`}>
+                  Sign In
+                </button>
+              </form>
+            </div>
+          </main>
+        );
+      }
+
+      // ── Test selection ────────────────────────────────────────────────────────────
+      if (step === 'select') {
+        return (
+          <main className="max-w-[1280px] mx-auto px-6 tab-content" style={{ minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="w-full max-w-lg">
+              <div className="fade-in mb-8 text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#fff7ed] border border-amber-100 mb-4">
+                  <div className="w-5 h-5 rounded-lg bg-[#A41034] flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                  </div>
+                  <span className="text-[11px] font-black text-amber-600">Student ID: {studentId}</span>
+                </div>
+                <h1 className="text-3xl font-black tracking-tight text-[#1C1917]">Your Test is Ready</h1>
+                <p className="text-[13px] text-[#A8A29E] font-medium mt-1">Review the details below before you begin</p>
+              </div>
+
+              <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] overflow-hidden slide-up">
+                {/* Test header stripe */}
+                <div className="px-8 py-6" style={{ background: '#A41034' }}>
+                  <p className="text-[10px] font-black tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>ASSIGNED TEST</p>
+                  <h2 className="text-xl font-black text-white leading-snug">{LEARNOMETER_TEST.name}</h2>
+                  <p className="text-[12px] font-bold mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>{LEARNOMETER_TEST.grade} · {LEARNOMETER_TEST.subject}</p>
+                </div>
+
+                {/* Details */}
+                <div className="px-8 py-6 border-b border-[#F5F5F4]">
+                  <div className="grid grid-cols-3 gap-4">
+                    {[
+                      { icon: '📦', label: 'Block', value: LEARNOMETER_TEST.block },
+                      { icon: '❓', label: 'Questions', value: `${LEARNOMETER_QUESTIONS.length} questions` },
+                      { icon: '⏱️', label: 'Duration', value: `${LEARNOMETER_TEST.duration} minutes` },
+                    ].map(item => (
+                      <div key={item.label} className="text-center">
+                        <span className="text-2xl block mb-1">{item.icon}</span>
+                        <p className="text-[10px] font-black text-[#A8A29E] tracking-wider mb-0.5">{item.label}</p>
+                        <p className="text-[12px] font-black text-[#1C1917]">{item.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="px-8 py-6 flex flex-col gap-3">
+                  <button onClick={() => startTest('test')}
+                    className="w-full py-4 rounded-2xl bg-[#A41034] text-white font-black text-[12px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                    Start Test
+                  </button>
+                  <button onClick={() => startTest('practice')}
+                    className="w-full py-4 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] text-[#1C1917] font-black text-[12px] tracking-wider hover:bg-[#EEECEA] transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                    Start Practice Test
+                  </button>
+                  <button onClick={() => { setStep('login'); setStudentId(''); setTeacherCode(''); }}
+                    className="text-center text-[11px] font-bold text-[#A8A29E] hover:text-[#78716C] transition-colors mt-1">
+                    Sign out
+                  </button>
+                </div>
+              </div>
+            </div>
+          </main>
+        );
+      }
+
+      // ── MCQ Test ─────────────────────────────────────────────────────────────────
+      if (step === 'test' && !testDone) {
+        const q = LEARNOMETER_QUESTIONS[currentQ];
+        const progress = (currentQ / LEARNOMETER_QUESTIONS.length) * 100;
+        const warn = timeLeft < 60;
+        return (
+          <main className="max-w-[1280px] mx-auto px-6 py-6 tab-content">
+            <div className="flex items-center justify-between mb-8 fade-in">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest ${testType === 'practice' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-[#A41034]/8 text-[#A41034] border border-[#A41034]/15'}`}>
+                    {testType === 'practice' ? 'PRACTICE TEST' : 'OFFICIAL TEST'}
+                  </span>
+                </div>
+                <h1 className="text-2xl font-black tracking-tight text-[#1C1917] leading-none">{LEARNOMETER_TEST.name}</h1>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className={`flex items-center gap-2 px-5 py-3 rounded-2xl border font-black text-[13px] transition-colors ${warn ? 'bg-red-50 border-red-200 text-red-500' : 'bg-[#F5F5F4] border-[#E7E5E4] text-[#1C1917]'}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                  {formatTime(timeLeft)}
+                </div>
+                <button onClick={() => setStep('select')} className="px-5 py-3 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] text-[11px] font-black text-[#78716C] tracking-wider hover:bg-[#E7E5E4] transition-colors">Exit</button>
+              </div>
+            </div>
+
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-[10px] font-black text-[#A8A29E] tracking-widest">Question {currentQ + 1} of {LEARNOMETER_QUESTIONS.length}</span>
+                <span className="text-[10px] font-black text-[#A41034] tracking-widest">{LEARNOMETER_TEST.grade} · {LEARNOMETER_TEST.subject}</span>
+              </div>
+              <div className="h-1.5 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
+                <div className="h-full bg-[#A41034] rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
+              </div>
+            </div>
+
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-10 mb-6 fade-in">
+                <div className="flex items-start gap-4 mb-8">
+                  <div className="w-10 h-10 rounded-2xl bg-[#A41034] text-white flex items-center justify-center font-black text-[13px] shrink-0">{currentQ + 1}</div>
+                  <p className="text-[16px] font-bold text-[#1C1917] leading-relaxed pt-1">{q.text}</p>
+                </div>
+                <div className="space-y-3">
+                  {q.options.map((opt, i) => (
+                    <button key={i} onClick={() => setSelected(i)}
+                      className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${selected === i ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                      <span className="inline-flex items-center gap-3">
+                        <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[10px] font-black shrink-0 transition-all ${selected === i ? 'bg-[#A41034] border-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}`}>{String.fromCharCode(65 + i)}</span>
+                        {opt}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button onClick={handleNext} disabled={selected === null}
+                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 ${selected !== null ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#E7E5E4] text-[#A8A29E] cursor-not-allowed'}`}>
+                  {currentQ + 1 === LEARNOMETER_QUESTIONS.length ? 'Submit Test' : 'Next Question'}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
+                </button>
+              </div>
+            </div>
+          </main>
+        );
+      }
+
+      // ── Results ───────────────────────────────────────────────────────────────────
+      if (testDone || step === 'test') {
+        const score = answers.filter((a, i) => a === LEARNOMETER_QUESTIONS[i]?.answer).length;
+        const pct = LEARNOMETER_QUESTIONS.length ? Math.round((score / LEARNOMETER_QUESTIONS.length) * 100) : 0;
+        const passed = pct >= 60;
+        const circumference = 2 * Math.PI * 52;
+        return (
+          <main className="max-w-[1280px] mx-auto px-6 py-12 tab-content">
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-12 text-center fade-in">
+                <div className="flex justify-center mb-2">
+                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest ${testType === 'practice' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-[#A41034]/8 text-[#A41034] border border-[#A41034]/15'}`}>
+                    {testType === 'practice' ? 'PRACTICE TEST RESULTS' : 'TEST RESULTS'}
+                  </span>
+                </div>
+                <div className="relative w-36 h-36 mx-auto my-8">
+                  <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="#F5F5F4" strokeWidth="10" />
+                    <circle cx="60" cy="60" r="52" fill="none"
+                      stroke={passed ? '#A41034' : '#f59138'} strokeWidth="10"
+                      strokeDasharray={circumference}
+                      strokeDashoffset={circumference * (1 - pct / 100)}
+                      strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1.2s ease' }} />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-3xl font-black text-[#1C1917]">{pct}%</span>
+                    <span className="text-[9px] font-black text-[#A8A29E] tracking-widest">Score</span>
+                  </div>
+                </div>
+                <h2 className="text-3xl font-black tracking-tight text-[#1C1917] mb-1">
+                  {pct === 100 ? 'Perfect Score!' : passed ? 'Well Done!' : 'Keep Practising!'}
+                </h2>
+                <p className="text-[13px] text-[#78716C] font-medium mb-1">{score} of {LEARNOMETER_QUESTIONS.length} correct</p>
+                <p className="text-[10px] font-black text-[#A8A29E] tracking-widest mb-10">
+                  {LEARNOMETER_TEST.grade} · {LEARNOMETER_TEST.subject} · {LEARNOMETER_TEST.block}
+                </p>
+                <div className="grid grid-cols-3 gap-4 mb-10">
+                  {[{ label: 'Correct', value: score, color: '#4CAF50' },
+                  { label: 'Incorrect', value: LEARNOMETER_QUESTIONS.length - score, color: '#f59138' },
+                  { label: 'Total', value: LEARNOMETER_QUESTIONS.length, color: '#A8A29E' }].map(s => (
+                    <div key={s.label} className="bg-[#F5F5F4] rounded-2xl py-5">
+                      <p className="text-2xl font-black" style={{ color: s.color }}>{s.value}</p>
+                      <p className="text-[10px] font-black text-[#A8A29E] tracking-widest mt-1">{s.label}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-center gap-3">
+                  <button onClick={() => setStep('select')} className="px-8 py-4 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] font-black text-[11px] tracking-wider text-[#78716C] hover:bg-[#E7E5E4] transition-colors">
+                    Back to Test
+                  </button>
+                  {testType === 'practice' && (
+                    <button onClick={() => startTest('test')} className="px-8 py-4 rounded-2xl bg-[#A41034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                      Start Official Test
+                    </button>
+                  )}
+                  {testType === 'test' && (
+                    <button onClick={() => startTest('practice')} className="px-8 py-4 rounded-2xl bg-[#A41034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                      Try Practice Again
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </main>
+        );
+      }
+
+      return null;
+    }
+
+    // ── Header ───────────────────────────────────────────────────────────────────
+
+    const NAV_TABS = [
+      { id: 'teacher-lesson-plan', label: 'Teacher Lesson Plan' },
+      { id: 'parent-lesson-plan', label: 'Parent Lesson Plan' },
+      { id: 'communication', label: 'Communication' },
+      { id: 'learnometer', label: 'Learnometer' },
+      { id: 'practice-gym', label: 'Practice Gym' }];
+
+
+    function Header({ activeTab, setActiveTab }) {
+      return (
+        <header className="sticky top-0 z-50 w-full glass border-b border-[#E7E5E4]">
+          <div className="max-w-[1440px] mx-auto h-20 px-6 flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center gap-4 shrink-0">
+              <div className="w-11 h-11 bg-[#A41034] rounded-2xl flex items-center justify-center shadow-lg shadow-[#A41034]/20 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-black text-xl tracking-tight leading-none text-[#A41034]">XSEED</span>
+                <span className="text-[10px] font-bold tracking-[0.2em] text-[#A8A29E] uppercase mt-0.5">Academic Lead</span>
+              </div>
+            </div>
+
+            {/* Nav */}
+            <nav className="hidden md:flex items-center bg-[#F5F5F4] p-1 rounded-2xl border border-[#E7E5E4] pill-nav-shadow">
+              {NAV_TABS.map((tab) =>
+                <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                  className={`px-4 py-2.5 rounded-xl font-bold text-[9px] tracking-wider whitespace-nowrap transition-all ${activeTab === tab.id ?
+                      'bg-white text-[#A41034] shadow-sm' :
+                      'text-[#78716C] hover:text-[#1C1917]'}`
+                  }>
+                  {tab.label.toUpperCase()}
+                </button>
+              )}
+            </nav>
+
+            {/* Profile */}
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="text-right hidden sm:block">
+                <p className="text-[11px] font-black text-[#1C1917] leading-none mb-0.5">Venkateswaran</p>
+                <p className="text-[9px] font-bold text-[#A8A29E] tracking-wider uppercase">Lead Admin</p>
+              </div>
+              <Initials name="Venkateswaran" className="w-10 h-10" />
+            </div>
+          </div>
+        </header>);
+
+    }
+
+    // ── App ──────────────────────────────────────────────────────────────────────
+
+    function App() {
+      const [activeTab, setActiveTab] = useState('teacher-lesson-plan');
+      return (
+        <div>
+          <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+          {activeTab === 'teacher-lesson-plan' && <TeacherLessonPlan />}
+          {activeTab === 'parent-lesson-plan' && <PlaceholderTab title="Parent Lesson Plan" />}
+          {activeTab === 'communication' && <Communication />}
+          {activeTab === 'learnometer' && <Learnometer />}
+          {activeTab === 'practice-gym' && <PracticeGym />}
+        </div>);
+
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+
+</html>
