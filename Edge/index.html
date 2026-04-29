@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XSEED Academic Dashboard</title>
+    <title>SuperTeacherEDGE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -255,65 +255,6 @@
     </header>
 
     <main class="tab-panel max-w-[1280px] mx-auto px-6 py-8" data-tab-panel="Teacher Lesson Plan">
-        
-        <!-- Updated Continue Lesson Section -->
-        <section class="mb-10 today-fade-in">
-
-            <section class="relative rounded-[3rem] overflow-hidden card-shadow group h-[420px]">
-                <!-- Background Image Covering Entire Card with Top Alignment -->
-                <img
-                    src="assets/light-shadow.jpeg"
-                    class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
-                    alt="Light and Shadows"
-                />
-                
-                <!-- Dark Gradient Overlay for Readability -->
-                <div class="absolute inset-0 hero-gradient-overlay"></div>
-
-                <!-- Content Layer -->
-                <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
-                    
-                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                        <div class="max-w-2xl">
-                            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-bold  tracking-wide shadow-xl mb-6">
-                                <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
-                                Science. Grade 4 - Block 01
-                            </span>
-                            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
-                                Light and <br/>Shadows
-                            </h1>
-                            <div class="max-w-2xl space-y-2 text-white/85">
-                                <p class="text-base md:text-lg font-semibold">
-                                    Changes in the Sky Across the Day
-                                </p>
-                                <p class="max-w-xl text-sm md:text-base font-medium leading-6 text-white/75">
-                                    Explain why the Sun appears to move in the sky and how it affects the length and rhythm of a day.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Action Row -->
-                        <div class="flex flex-col items-end gap-5">
-                            <div class="flex items-center gap-4 bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
-                                <div class="h-1.5 w-24 bg-white/20 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress 45% complete">
-                                    <div class="h-full bg-[#f59138] rounded-full shadow-[0_0_10px_#f59138]" style="width: 45%"></div>
-                                </div>
-                                <span class="text-[10px] font-bold text-white tracking-wide ">45% Progress</span>
-                            </div>
-
-                            <button
-                                type="button"
-                                class="focus-ring bg-white text-[#1C1917] px-10 py-5 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-2xl hover:bg-[#f59138] hover:text-white hover:-translate-y-1 active:scale-95"
-                            >
-                                Continue Lesson
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </section>
-
         <!-- JSON-driven Curriculum Sections -->
         <section id="curriculum-sections" class="space-y-16"></section>
     </main>
@@ -322,12 +263,11 @@
         <section class="mx-auto mb-6 flex max-w-[70%] flex-col gap-4 max-lg:max-w-4xl max-sm:max-w-none md:flex-row md:items-center md:justify-between">
             <h1 class="communication-title truncate text-[#1C1917]">Communication</h1>
             <div class="flex flex-wrap items-center gap-3">
-                <button type="button" class="communication-action focus-ring flex items-center gap-2.5 rounded-2xl border border-[#E7E5E4] bg-white px-5 py-3  text-[#1C1917] transition-all hover:border-[#A41034]/20 active:scale-95">
+                <button type="button" id="manageGroupsButton" class="communication-action focus-ring flex items-center gap-2.5 rounded-2xl border border-[#E7E5E4] bg-white px-5 py-3  text-[#1C1917] transition-all hover:border-[#A41034]/20 active:scale-95">
                     <i data-lucide="users" class="h-4 w-4"></i>
                     Manage Groups
                 </button>
-                <button type="button" class="communication-action focus-ring flex items-center gap-2.5 rounded-2xl bg-[#A41034] px-5 py-3  text-white transition-all hover:bg-[#7a0c26] active:scale-95">
-                    <i data-lucide="plus" class="h-4 w-4"></i>
+                <button type="button" id="newAnnouncementButton" class="communication-action focus-ring flex items-center gap-2.5 rounded-2xl bg-[#A41034] px-5 py-3  text-white transition-all hover:bg-[#7a0c26] active:scale-95">
                     New Announcement
                 </button>
             </div>
@@ -336,79 +276,13 @@
         <aside id="communicationFilterToolbar" class="fixed bottom-20 left-4 right-4 z-40 hidden lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2" aria-label="Filter announcements by grade"></aside>
 
         <section id="communicationFeed" class="mx-auto grid max-w-[70%] gap-6 max-lg:max-w-4xl max-sm:max-w-none"></section>
+        <div id="communicationModalRoot"></div>
     </main>
 
     <main class="tab-panel hidden max-w-[1280px] mx-auto px-6" data-tab-panel="Learnometer" id="learnometerPanel"></main>
 
-    <main class="tab-panel hidden gym max-w-[1280px] mx-auto px-6 py-6" data-tab-panel="Practice Gym">
-        <section class="mx-auto mb-5 flex max-w-[70%] flex-col gap-4 max-lg:max-w-4xl max-sm:max-w-none md:flex-row md:items-end md:justify-between">
-            <div>
-                <h1 class="truncate font-['Poppins'] text-[26px] font-semibold leading-8 text-[#1C1917] tracking-[-0.3px]">Practice Gym</h1>
-            </div>
-            <div class="inline-flex w-fit items-center gap-1 rounded-xl border border-[#E5E5E5] bg-[#F6F6F6] p-1">
-                <button type="button" class="h-9 rounded-lg bg-white px-5 text-[13px] font-semibold text-[#A41034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]">Teacher</button>
-                <button type="button" class="h-9 rounded-lg px-5 text-[13px] font-semibold text-[#78716C] transition hover:text-[#1C1917]">Parent</button>
-            </div>
-        </section>
-
-        <section class="mx-auto max-w-[70%] rounded-2xl border border-[#E7E5E4] bg-white p-7 shadow-[0_18px_45px_rgba(28,25,23,0.07)] max-lg:max-w-4xl max-sm:max-w-none">
-            <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-                <label class="block">
-                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Grade</span>
-                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
-                        <i data-lucide="graduation-cap" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
-                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
-                            <option>Grade 4</option><option>Grade 1</option><option>Grade 2</option><option>Grade 3</option><option>Grade 5</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option>
-                        </select>
-                    </span>
-                </label>
-                <label class="block">
-                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Subject</span>
-                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
-                        <i data-lucide="book-open" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
-                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
-                            <option>Science</option><option>English</option><option>Mathematics</option>
-                        </select>
-                    </span>
-                </label>
-                <label class="block">
-                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Block</span>
-                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
-                        <i data-lucide="layers" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
-                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
-                            <option>Block 01: Light and Shadows</option><option>Block 02: Force and Motion</option><option>Block 03: Electricity Basics</option><option>Block 04: The Solar System</option>
-                        </select>
-                    </span>
-                </label>
-            </div>
-
-            <div class="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-                <label class="block">
-                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Difficulty</span>
-                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
-                        <i data-lucide="gauge" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
-                        <select class="w-full cursor-pointer bg-transparent text-sm font-medium text-[#1C1917] outline-none">
-                            <option>Medium</option><option>Easy</option><option>Hard</option>
-                        </select>
-                    </span>
-                </label>
-                <div>
-                    <div class="mb-2 flex items-center justify-between">
-                        <span class="text-xs font-medium leading-5 text-[#8B8B8B]">Time Limit</span>
-                        <span class="text-sm font-semibold text-[#A41034]">Time Limit: 30 min</span>
-                    </div>
-                    <input type="range" min="0" max="4" value="2" class="h-2 w-full cursor-pointer accent-[#A41034]">
-                    <div class="mt-2 flex justify-between text-[11px] font-medium text-[#8B8B8B]"><span>15m</span><span>20m</span><span class="font-semibold text-[#A41034]">30m</span><span>45m</span><span>60m</span></div>
-                </div>
-            </div>
-
-            <div class="mt-5 flex justify-end">
-                <button type="button" class="focus-ring flex h-11 min-w-[220px] items-center justify-center gap-2 rounded-[10px] bg-[#A41034] px-5 text-[13px] font-semibold text-white tracking-[0.3px] transition-all hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)] active:scale-95">
-                    <i data-lucide="download" class="h-4 w-4"></i>
-                    Generate & Download PDF
-                </button>
-            </div>
-        </section>
+    <main class="tab-panel hidden gym max-w-[1280px] mx-auto px-6 py-6" data-tab-panel="Practice Gym" id="practiceGymPanel">
+        <div id="practiceGymRoot"></div>
     </main>
 
     <aside id="gradeToolbar" class="fixed bottom-20 left-4 right-4 z-40 hidden lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2" aria-label="Quick navigation"></aside>
@@ -425,6 +299,7 @@
         let activeAppTab = 'Teacher Lesson Plan';
         const expandedGradeIds = new Set([currentGradeId]);
         const collapsedBlockIds = new Set();
+        let scrollToTopOnRender = false;
 
         const iconPaths = {
             book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
@@ -499,7 +374,40 @@
             }
         ].map((announcement) => ({ ...announcement, myReactions: new Set() }));
         const communicationGradeFilters = ['All Grades', 'Nursery', 'LKG', 'UKG', ...Array.from({ length: 8 }, (_, index) => `Grade ${index + 1}`)];
+        const ALL_STUDENTS = [
+            { id: 1, name: 'Aarav Kumar', grade: 'Grade 4' },
+            { id: 2, name: 'Priya Sharma', grade: 'Grade 4' },
+            { id: 3, name: 'Rohan Menon', grade: 'Grade 4' },
+            { id: 4, name: 'Ananya Iyer', grade: 'Grade 3' },
+            { id: 5, name: 'Karthik Rajan', grade: 'Grade 3' },
+            { id: 6, name: 'Divya Pillai', grade: 'Grade 5' },
+            { id: 7, name: 'Siddharth Nair', grade: 'Grade 5' },
+            { id: 8, name: 'Meera Krishnan', grade: 'Grade 2' },
+            { id: 9, name: 'Arjun Patel', grade: 'Grade 2' },
+            { id: 10, name: 'Lakshmi Varma', grade: 'Grade 6' },
+            { id: 11, name: 'Vivek Subramaniam', grade: 'Grade 6' },
+            { id: 12, name: 'Ishaan Chowdhury', grade: 'Grade 1' },
+            { id: 13, name: 'Sneha Reddy', grade: 'Grade 1' },
+            { id: 14, name: 'Aditya Bose', grade: 'Grade 7' },
+            { id: 15, name: 'Kavya Nambiar', grade: 'Grade 7' },
+            { id: 16, name: 'Rahul Desai', grade: 'Grade 8' },
+            { id: 17, name: 'Pooja Venkatesh', grade: 'Grade 8' },
+            { id: 18, name: 'Nikhil Shetty', grade: 'Grade 3' },
+            { id: 19, name: 'Tanvi Joshi', grade: 'Grade 5' },
+            { id: 20, name: 'Aryan Ghosh', grade: 'Grade 4' }
+        ];
+        const communicationGroups = [];
         let communicationFilter = 'All Grades';
+        let communicationComposing = false;
+        let communicationModal = null;
+        let communicationReturnModal = null;
+        let announcementDraftAudience = 'All Grades';
+        let announcementDraftText = '';
+        let groupDraftName = '';
+        let groupDraftSearch = '';
+        let groupDraftSelected = new Set();
+        let manageExpandedGroup = null;
+        let manageConfirmDelete = null;
 
         function escapeHtml(value = '') {
             return String(value)
@@ -532,13 +440,39 @@
                 .join('');
         }
 
+        function openImageLightbox(src = '', alt = '') {
+            closeImageLightbox();
+            const lightbox = document.createElement('div');
+            lightbox.id = 'communicationImageLightbox';
+            lightbox.className = 'fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4';
+            lightbox.innerHTML = `
+                <button type="button" class="focus-ring absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full bg-white text-[#1C1917] shadow-2xl" aria-label="Close image preview" data-close-image-lightbox>
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+                <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" class="block max-h-[92vh] max-w-[92vw] rounded-xl object-contain" data-image-lightbox-content>
+            `;
+            lightbox.addEventListener('click', closeImageLightbox);
+            lightbox.querySelector('[data-image-lightbox-content]')?.addEventListener('click', (event) => event.stopPropagation());
+            lightbox.querySelector('[data-close-image-lightbox]')?.addEventListener('click', closeImageLightbox);
+            document.body.appendChild(lightbox);
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeImageLightbox() {
+            document.getElementById('communicationImageLightbox')?.remove();
+            document.body.style.overflow = '';
+        }
+
         function renderAnnouncementMedia(media) {
             if (!media) return '';
             if (Array.isArray(media)) {
                 return `
-                    <div class="mt-5 grid gap-3 ${media.length > 1 ? 'sm:grid-cols-2' : ''}">
+                    <div class="mt-5 flex gap-2.5 overflow-x-auto" style="scrollbar-width: none; -ms-overflow-style: none;">
                         ${media.map((item) => `
-                            <img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.alt || '')}" class="h-64 w-full rounded-3xl object-cover">
+                            <button type="button" class="focus-ring h-[200px] shrink-0 cursor-zoom-in overflow-hidden rounded-2xl focus:outline-none" style="width: calc(72% - 5px); min-width: calc(72% - 5px);" data-image-preview-src="${escapeHtml(item.url)}" data-image-preview-alt="${escapeHtml(item.alt || '')}" aria-label="Preview ${escapeHtml(item.alt || 'announcement image')}">
+                                <img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.alt || '')}" class="h-full w-full object-cover">
+                            </button>
                         `).join('')}
                     </div>
                 `;
@@ -546,9 +480,9 @@
 
             if (media.type === 'image') {
                 return `
-                    <div class="mt-5 overflow-hidden rounded-3xl bg-[#F5F5F4]">
-                        <img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.alt || '')}" class="max-h-[520px] w-full object-cover">
-                    </div>
+                    <button type="button" class="focus-ring mt-5 block h-[200px] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-[#F5F5F4] focus:outline-none" data-image-preview-src="${escapeHtml(media.url)}" data-image-preview-alt="${escapeHtml(media.alt || '')}" aria-label="Preview ${escapeHtml(media.alt || 'announcement image')}">
+                        <img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.alt || '')}" class="h-full w-full object-cover">
+                    </button>
                 `;
             }
 
@@ -617,6 +551,442 @@
             `;
         }
 
+        function updateCommunicationActions() {
+            const actionButtons = document.getElementById('newAnnouncementButton')?.parentElement;
+            actionButtons?.classList.toggle('hidden', false);
+        }
+
+        function renderCommunicationComposer() {
+            const compose = document.getElementById('communicationModalRoot');
+            if (!compose) return;
+
+            updateCommunicationActions();
+            if (communicationModal !== 'compose-announcement') {
+                if (!communicationModal) compose.innerHTML = '';
+                return;
+            }
+
+            compose.innerHTML = `
+                <div class="fixed inset-0 z-[120] flex items-center justify-center bg-[#1C1917]/50 px-4 backdrop-blur-sm">
+                    <div class="flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white shadow-[0_24px_80px_rgba(28,25,23,0.18)]">
+                        <div class="flex shrink-0 items-center justify-between border-b border-[#F5F5F4] px-8 pb-5 pt-8">
+                            <div class="flex items-center gap-2">
+                                <h3 class="communication-card-title text-[#1C1917]">New Announcement</h3>
+                            </div>
+                            <button type="button" id="closeComposeButton" class="focus-ring grid h-8 w-8 place-items-center rounded-xl bg-[#F5F5F4] text-[#78716C] transition-colors hover:bg-[#E7E5E4]" aria-label="Close announcement form">
+                                <i data-lucide="x" class="h-4 w-4"></i>
+                            </button>
+                        </div>
+                        <form id="announcementForm" class="flex min-h-0 flex-1 flex-col">
+                            <div class="flex-1 overflow-y-auto px-8 py-6">
+                                <div class="mb-5">
+                                    <label class="mb-2 block text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">Group</label>
+                                    <div class="flex items-center gap-2">
+                                        <select id="announcementAudience" class="h-12 flex-1 cursor-pointer rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-4 text-[13px] font-bold text-[#1C1917] outline-none transition-colors hover:border-[#A41034]/20">
+                                            <optgroup label="Default">
+                                                ${communicationGradeFilters.map((audience) => `<option ${audience === announcementDraftAudience ? 'selected' : ''}>${escapeHtml(audience)}</option>`).join('')}
+                                            </optgroup>
+                                            ${communicationGroups.length ? `
+                                                <optgroup label="My Groups">
+                                                    ${communicationGroups.map((group) => `<option ${group.name === announcementDraftAudience ? 'selected' : ''}>${escapeHtml(group.name)}</option>`).join('')}
+                                                </optgroup>
+                                            ` : ''}
+                                        </select>
+                                        <button type="button" id="openGroupCreateButton" class="focus-ring grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-white transition-colors hover:bg-[#7a0c26]" aria-label="Create group">
+                                            <i data-lucide="plus" class="h-4 w-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="mb-2 block text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">Message</label>
+                                    <textarea id="announcementText" rows="5" placeholder="Write your announcement here..." class="w-full resize-none rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-5 py-4 text-[14px] font-medium text-[#1C1917] outline-none transition-colors placeholder:text-[#A8A29E] focus:border-[#A41034]/30">${escapeHtml(announcementDraftText)}</textarea>
+                                </div>
+                                <div>
+                                    <label class="mb-2 block text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">Attachment</label>
+                                    <label id="announcementDropzone" class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-[#D6D3D1] bg-[#F5F5F4] py-6 text-center transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/[0.03]">
+                                        <input id="announcementFile" type="file" accept="image/*,video/*,.pdf" class="hidden">
+                                        <span class="grid h-10 w-10 place-items-center rounded-2xl border border-[#E7E5E4] bg-white text-[#A8A29E]">
+                                            <i data-lucide="upload" class="h-4 w-4"></i>
+                                        </span>
+                                        <span id="announcementFileLabel" class="text-[12px] font-bold text-[#78716C]">Drag & drop or <span class="text-[#A41034]">browse</span></span>
+                                        <span class="text-[10px] font-bold text-[#A8A29E]">Images, Videos, PDFs</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex shrink-0 items-center justify-end gap-3 border-t border-[#F5F5F4] px-8 py-5">
+                                <button type="button" id="discardAnnouncementButton" class="focus-ring rounded-2xl px-6 py-3 text-[11px] font-bold text-[#78716C] transition-colors hover:bg-[#F5F5F4]">Discard</button>
+                                <button type="submit" id="publishAnnouncementButton" disabled class="focus-ring rounded-2xl bg-[#A8A29E] px-8 py-3 text-[11px] font-bold text-white transition-all active:scale-95">Publish Announcement</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            const textInput = compose.querySelector('#announcementText');
+            const audienceSelect = compose.querySelector('#announcementAudience');
+            const publishButton = compose.querySelector('#publishAnnouncementButton');
+            const fileInput = compose.querySelector('#announcementFile');
+            const fileLabel = compose.querySelector('#announcementFileLabel');
+            const dropzone = compose.querySelector('#announcementDropzone');
+            const updatePublishButton = () => {
+                const ready = textInput.value.trim().length > 0;
+                publishButton.disabled = !ready;
+                publishButton.className = `focus-ring rounded-2xl px-8 py-3 text-[11px] font-bold text-white transition-all active:scale-95 ${ready ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#A8A29E]'}`;
+            };
+            const updateFileLabel = () => {
+                const file = fileInput.files?.[0];
+                if (file) fileLabel.textContent = `${file.name} (${Math.round(file.size / 1024)} KB)`;
+            };
+
+            textInput.addEventListener('input', () => {
+                announcementDraftText = textInput.value;
+                updatePublishButton();
+            });
+            audienceSelect.addEventListener('change', () => {
+                announcementDraftAudience = audienceSelect.value;
+            });
+            fileInput.addEventListener('change', updateFileLabel);
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('border-[#A41034]', 'bg-[#A41034]/5');
+            });
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('border-[#A41034]', 'bg-[#A41034]/5');
+            });
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('border-[#A41034]', 'bg-[#A41034]/5');
+                if (!event.dataTransfer.files?.length) return;
+                try {
+                    fileInput.files = event.dataTransfer.files;
+                    updateFileLabel();
+                } catch (error) {
+                    fileLabel.textContent = event.dataTransfer.files[0].name;
+                }
+            });
+            compose.querySelector('#closeComposeButton')?.addEventListener('click', closeCommunicationComposer);
+            compose.querySelector('#discardAnnouncementButton')?.addEventListener('click', closeCommunicationComposer);
+            compose.querySelector('#openGroupCreateButton')?.addEventListener('click', () => openGroupModal('compose-announcement'));
+            compose.querySelector('#announcementForm')?.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const text = textInput.value.trim();
+                if (!text) return;
+
+                const file = fileInput.files?.[0];
+                let media = null;
+                if (file?.type.startsWith('image/')) {
+                    media = { type: 'image', url: URL.createObjectURL(file), alt: file.name };
+                } else if (file?.type.startsWith('video/')) {
+                    media = { type: 'video', thumbnail: 'https://picsum.photos/seed/uservid/900/450', alt: file.name };
+                } else if (file) {
+                    media = { type: 'pdf', name: file.name, size: `${Math.round(file.size / 1024)} KB` };
+                }
+
+                initialAnnouncements.unshift({
+                    id: Date.now(),
+                    author: 'Ravi Sharma',
+                    role: 'Admin',
+                    timestamp: 'Just now',
+                    audience: audienceSelect?.value || 'All Grades',
+                    text,
+                    media,
+                    reactions: { '👍': 0, '❤️': 0, '🎉': 0, '😊': 0, '🙏': 0 },
+                    myReactions: new Set()
+                });
+                announcementDraftAudience = 'All Grades';
+                announcementDraftText = '';
+                closeCommunicationComposer();
+                renderCommunicationFeed();
+                lucide.createIcons();
+            });
+
+            lucide.createIcons();
+            updatePublishButton();
+        }
+
+        function closeCommunicationComposer() {
+            communicationComposing = false;
+            communicationModal = null;
+            announcementDraftAudience = 'All Grades';
+            announcementDraftText = '';
+            renderCommunicationComposer();
+        }
+
+        function studentInitials(student) {
+            return initialsFromName(student.name);
+        }
+
+        function renderGroupModal(focusId = '') {
+            const root = document.getElementById('communicationModalRoot');
+            if (!root) return;
+
+            if (communicationModal !== 'create-group') {
+                root.innerHTML = '';
+                return;
+            }
+
+            const grades = [...new Set(ALL_STUDENTS.map((student) => student.grade))].sort();
+            const query = groupDraftSearch.trim().toLowerCase();
+            const filtered = ALL_STUDENTS.filter((student) => !query || student.name.toLowerCase().includes(query) || student.grade.toLowerCase().includes(query));
+
+            root.innerHTML = `
+                <div class="fixed inset-0 z-[120] flex items-center justify-center bg-[#1C1917]/50 px-4 backdrop-blur-sm">
+                    <div class="flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white shadow-[0_24px_80px_rgba(28,25,23,0.18)]">
+                        <div class="flex shrink-0 items-center justify-between border-b border-[#F5F5F4] px-8 pb-5 pt-8">
+                            <div class="flex items-center gap-2">
+                                <div class="h-6 w-1.5 rounded-full bg-[#A41034]"></div>
+                                <h3 class="communication-card-title text-[#1C1917]">New Group</h3>
+                            </div>
+                            <button type="button" class="close-modal focus-ring grid h-8 w-8 place-items-center rounded-xl bg-[#F5F5F4] text-[#78716C] transition-colors hover:bg-[#E7E5E4]" aria-label="Close group form">
+                                <i data-lucide="x" class="h-4 w-4"></i>
+                            </button>
+                        </div>
+                        <div class="shrink-0 px-8 py-5">
+                            <input id="groupNameInput" value="${escapeHtml(groupDraftName)}" placeholder="Group name..." class="mb-4 w-full rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-4 py-3 text-[13px] font-bold text-[#1C1917] outline-none placeholder:text-[#A8A29E]">
+                            <div class="relative">
+                                <i data-lucide="search" class="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A8A29E]"></i>
+                                <input id="groupSearchInput" value="${escapeHtml(groupDraftSearch)}" placeholder="Search students..." class="w-full rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] py-3 pl-10 pr-4 text-[12px] font-bold text-[#1C1917] outline-none placeholder:text-[#A8A29E]">
+                            </div>
+                        </div>
+                        <div class="flex-1 overflow-y-auto px-8 pb-5">
+                            ${grades.map((grade) => {
+                                const gradeStudents = filtered.filter((student) => student.grade === grade);
+                                if (!gradeStudents.length) return '';
+                                const gradeIds = ALL_STUDENTS.filter((student) => student.grade === grade).map((student) => student.id);
+                                const allSelected = gradeIds.every((id) => groupDraftSelected.has(id));
+                                return `
+                                    <div class="mb-4">
+                                        <button type="button" class="toggle-grade mb-2 flex w-full items-center gap-2" data-grade="${escapeHtml(grade)}">
+                                            <span class="grid h-4 w-4 place-items-center rounded-md border-2 ${allSelected ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1]'}">${allSelected ? '<i data-lucide="check" class="h-2.5 w-2.5"></i>' : ''}</span>
+                                            <span class="text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">${escapeHtml(grade)}</span>
+                                        </button>
+                                        <div class="space-y-1 pl-1">
+                                            ${gradeStudents.map((student) => {
+                                                const selected = groupDraftSelected.has(student.id);
+                                                return `
+                                                    <button type="button" class="toggle-student flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all ${selected ? 'border-[#A41034]/20 bg-[#A41034]/5' : 'border-transparent bg-[#F5F5F4] hover:border-[#E7E5E4]'}" data-student-id="${student.id}">
+                                                        <span class="grid h-4 w-4 shrink-0 place-items-center rounded-md border-2 ${selected ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1]'}">${selected ? '<i data-lucide="check" class="h-2.5 w-2.5"></i>' : ''}</span>
+                                                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[#A41034] text-[11px] font-bold text-white">${escapeHtml(studentInitials(student))}</span>
+                                                        <span>
+                                                            <span class="block text-[13px] font-bold leading-none text-[#1C1917]">${escapeHtml(student.name)}</span>
+                                                            <span class="mt-0.5 block text-[10px] font-bold text-[#A8A29E]">${escapeHtml(student.grade)}</span>
+                                                        </span>
+                                                    </button>
+                                                `;
+                                            }).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="flex shrink-0 items-center justify-between border-t border-[#F5F5F4] px-8 py-5">
+                            <span class="text-[11px] font-bold text-[#A8A29E]">${groupDraftSelected.size} selected</span>
+                            <div class="flex items-center gap-3">
+                                <button type="button" class="close-modal focus-ring rounded-2xl px-5 py-2.5 text-[11px] font-bold text-[#78716C] transition-colors hover:bg-[#F5F5F4]">Cancel</button>
+                                <button type="button" id="createGroupButton" ${groupDraftName.trim() && groupDraftSelected.size ? '' : 'disabled'} class="focus-ring rounded-2xl px-6 py-2.5 text-[11px] font-bold text-white transition-all active:scale-95 ${groupDraftName.trim() && groupDraftSelected.size ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#A8A29E]'}">Create Group</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            bindGroupModalEvents(root);
+            lucide.createIcons();
+            if (focusId) {
+                const focusedInput = root.querySelector(`#${focusId}`);
+                focusedInput?.focus();
+                if (typeof focusedInput?.setSelectionRange === 'function') {
+                    const end = focusedInput.value.length;
+                    focusedInput.setSelectionRange(end, end);
+                }
+            }
+        }
+
+        function bindGroupModalEvents(root) {
+            root.querySelectorAll('.close-modal').forEach((button) => button.addEventListener('click', closeCommunicationModal));
+            root.querySelector('#groupNameInput')?.addEventListener('input', (event) => {
+                groupDraftName = event.target.value;
+                renderGroupModal('groupNameInput');
+            });
+            root.querySelector('#groupSearchInput')?.addEventListener('input', (event) => {
+                groupDraftSearch = event.target.value;
+                renderGroupModal('groupSearchInput');
+            });
+            root.querySelectorAll('.toggle-student').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const id = Number(button.dataset.studentId);
+                    if (groupDraftSelected.has(id)) groupDraftSelected.delete(id);
+                    else groupDraftSelected.add(id);
+                    renderGroupModal();
+                });
+            });
+            root.querySelectorAll('.toggle-grade').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const gradeIds = ALL_STUDENTS.filter((student) => student.grade === button.dataset.grade).map((student) => student.id);
+                    const allSelected = gradeIds.every((id) => groupDraftSelected.has(id));
+                    gradeIds.forEach((id) => allSelected ? groupDraftSelected.delete(id) : groupDraftSelected.add(id));
+                    renderGroupModal();
+                });
+            });
+            root.querySelector('#createGroupButton')?.addEventListener('click', () => {
+                if (!groupDraftName.trim() || !groupDraftSelected.size) return;
+                communicationGroups.push({
+                    name: groupDraftName.trim(),
+                    members: ALL_STUDENTS.filter((student) => groupDraftSelected.has(student.id))
+                });
+                if (communicationReturnModal === 'compose-announcement') {
+                    communicationReturnModal = null;
+                    communicationModal = 'compose-announcement';
+                    renderCommunicationComposer();
+                } else {
+                    closeCommunicationModal();
+                    renderCommunicationComposer();
+                }
+            });
+        }
+
+        function openGroupModal(returnModal = null) {
+            groupDraftName = '';
+            groupDraftSearch = '';
+            groupDraftSelected = new Set();
+            communicationReturnModal = returnModal;
+            communicationModal = 'create-group';
+            renderGroupModal();
+        }
+
+        function closeCommunicationModal() {
+            if (communicationModal === 'create-group' && communicationReturnModal === 'compose-announcement') {
+                communicationReturnModal = null;
+                communicationModal = 'compose-announcement';
+                renderCommunicationComposer();
+                return;
+            }
+            communicationModal = null;
+            communicationReturnModal = null;
+            manageExpandedGroup = null;
+            manageConfirmDelete = null;
+            renderGroupModal();
+            renderManageGroupsModal();
+        }
+
+        function renderManageGroupsModal() {
+            const root = document.getElementById('communicationModalRoot');
+            if (!root) return;
+
+            if (communicationModal !== 'manage-groups') {
+                if (communicationModal !== 'create-group') root.innerHTML = '';
+                return;
+            }
+
+            root.innerHTML = `
+                <div class="fixed inset-0 z-[120] flex items-center justify-center bg-[#1C1917]/50 px-4 backdrop-blur-sm">
+                    <div class="flex max-h-[80vh] w-full max-w-lg flex-col overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white shadow-[0_24px_80px_rgba(28,25,23,0.18)]">
+                        <div class="flex shrink-0 items-center justify-between border-b border-[#F5F5F4] px-8 pb-5 pt-8">
+                            <div class="flex items-center gap-2">
+                                <h3 class="communication-card-title text-[#1C1917]">Manage Groups</h3>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button type="button" id="manageNewGroupButton" class="focus-ring flex items-center gap-2 rounded-2xl bg-[#A41034] px-4 py-2 text-[10px] font-bold text-white transition-colors hover:bg-[#7a0c26]">
+                                    <i data-lucide="plus" class="h-3 w-3"></i>
+                                    New Group
+                                </button>
+                                <button type="button" class="close-modal focus-ring grid h-8 w-8 place-items-center rounded-xl bg-[#F5F5F4] text-[#78716C] transition-colors hover:bg-[#E7E5E4]" aria-label="Close manage groups">
+                                    <i data-lucide="x" class="h-4 w-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-1 overflow-y-auto px-8 py-6">
+                            ${communicationGroups.length ? `
+                                <div class="space-y-3">
+                                    ${communicationGroups.map((group) => `
+                                        <div class="overflow-hidden rounded-2xl border border-[#E7E5E4]">
+                                            <div class="flex items-center justify-between px-5 py-4">
+                                                <button type="button" class="expand-group flex flex-1 items-center gap-3 text-left" data-group="${escapeHtml(group.name)}">
+                                                    <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#A41034] text-white"><i data-lucide="users" class="h-4 w-4"></i></span>
+                                                    <span>
+                                                        <span class="block text-[13px] font-bold text-[#1C1917]">${escapeHtml(group.name)}</span>
+                                                        <span class="block text-[10px] font-bold text-[#A8A29E]">${group.members.length} members</span>
+                                                    </span>
+                                                    <i data-lucide="chevron-down" class="ml-2 h-4 w-4 text-[#A8A29E] transition-transform ${manageExpandedGroup === group.name ? 'rotate-180' : ''}"></i>
+                                                </button>
+                                                ${manageConfirmDelete === group.name ? `
+                                                    <div class="ml-3 flex items-center gap-2">
+                                                        <span class="text-[10px] font-bold text-[#78716C]">Delete?</span>
+                                                        <button type="button" class="confirm-delete rounded-xl bg-red-500 px-3 py-1.5 text-[10px] font-bold text-white hover:bg-red-600" data-group="${escapeHtml(group.name)}">Yes</button>
+                                                        <button type="button" class="cancel-delete rounded-xl bg-[#F5F5F4] px-3 py-1.5 text-[10px] font-bold text-[#78716C] hover:bg-[#E7E5E4]">No</button>
+                                                    </div>
+                                                ` : `
+                                                    <button type="button" class="delete-group ml-3 grid h-8 w-8 shrink-0 place-items-center rounded-xl text-[#A8A29E] transition-all hover:bg-red-50 hover:text-red-500" data-group="${escapeHtml(group.name)}" aria-label="Delete ${escapeHtml(group.name)}">
+                                                        <i data-lucide="trash-2" class="h-4 w-4"></i>
+                                                    </button>
+                                                `}
+                                            </div>
+                                            ${manageExpandedGroup === group.name ? `
+                                                <div class="border-t border-[#F5F5F4] bg-[#FAFAF9] px-5 py-3">
+                                                    <div class="space-y-2">
+                                                        ${group.members.map((student) => `
+                                                            <div class="flex items-center gap-3">
+                                                                <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[#A41034] text-[10px] font-bold text-white">${escapeHtml(studentInitials(student))}</span>
+                                                                <span class="text-[12px] font-bold text-[#1C1917]">${escapeHtml(student.name)}</span>
+                                                                <span class="ml-auto text-[10px] font-bold text-[#A8A29E]">${escapeHtml(student.grade)}</span>
+                                                            </div>
+                                                        `).join('')}
+                                                    </div>
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : `
+                                <div class="flex flex-col items-center justify-center py-16 text-center">
+                                    <div class="mb-4 grid h-14 w-14 place-items-center rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[#A8A29E]">
+                                        <i data-lucide="users" class="h-6 w-6"></i>
+                                    </div>
+                                    <p class="mb-1 text-[14px] font-bold text-[#1C1917]">No groups yet</p>
+                                    <p class="text-[12px] font-medium text-[#A8A29E]">Create a group from the New Announcement form.</p>
+                                </div>
+                            `}
+                        </div>
+                        <div class="flex shrink-0 justify-end border-t border-[#F5F5F4] px-8 py-5">
+                            <button type="button" class="close-modal focus-ring rounded-2xl bg-[#F5F5F4] px-6 py-2.5 text-[11px] font-bold text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Done</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            root.querySelectorAll('.close-modal').forEach((button) => button.addEventListener('click', closeCommunicationModal));
+            root.querySelector('#manageNewGroupButton')?.addEventListener('click', () => openGroupModal());
+            root.querySelectorAll('.expand-group').forEach((button) => {
+                button.addEventListener('click', () => {
+                    manageExpandedGroup = manageExpandedGroup === button.dataset.group ? null : button.dataset.group;
+                    renderManageGroupsModal();
+                });
+            });
+            root.querySelectorAll('.delete-group').forEach((button) => {
+                button.addEventListener('click', () => {
+                    manageConfirmDelete = button.dataset.group;
+                    renderManageGroupsModal();
+                });
+            });
+            root.querySelectorAll('.cancel-delete').forEach((button) => {
+                button.addEventListener('click', () => {
+                    manageConfirmDelete = null;
+                    renderManageGroupsModal();
+                });
+            });
+            root.querySelectorAll('.confirm-delete').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const index = communicationGroups.findIndex((group) => group.name === button.dataset.group);
+                    if (index >= 0) communicationGroups.splice(index, 1);
+                    manageExpandedGroup = null;
+                    manageConfirmDelete = null;
+                    renderManageGroupsModal();
+                    renderCommunicationComposer();
+                });
+            });
+            lucide.createIcons();
+        }
+
         function renderCommunicationFeed() {
             const feed = document.getElementById('communicationFeed');
             const filter = communicationFilter;
@@ -638,6 +1008,11 @@
                     }
                     renderCommunicationFeed();
                     lucide.createIcons();
+                });
+            });
+            feed.querySelectorAll('[data-image-preview-src]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    openImageLightbox(button.dataset.imagePreviewSrc, button.dataset.imagePreviewAlt || '');
                 });
             });
         }
@@ -823,13 +1198,22 @@
                                     ${escapeHtml(learnometerState.loginError)}
                                 </p>
                             ` : ''}
-                            <button type="submit" class="focus-ring h-[52px] w-full rounded-xl text-[14px] font-semibold transition-all active:scale-[0.98] ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_14px_28px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F2EFEC] text-[#9A928D]'}">
+                            <button type="submit" id="learnometerSignInButton" ${ready ? '' : 'disabled'} class="focus-ring h-[52px] w-full rounded-xl text-[14px] font-semibold transition-all active:scale-[0.98] ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_14px_28px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F2EFEC] text-[#9A928D]'}">
                                 Sign in
                             </button>
                         </form>
                     </div>
                 </section>
             `;
+        }
+
+        function updateLearnometerLoginButton() {
+            const button = document.getElementById('learnometerSignInButton');
+            if (!button) return;
+
+            const ready = Boolean(learnometerState.studentId.trim() && learnometerState.teacherCode.trim());
+            button.disabled = !ready;
+            button.className = `focus-ring h-[52px] w-full rounded-xl text-[14px] font-semibold transition-all active:scale-[0.98] ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_14px_28px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F2EFEC] text-[#9A928D]'}`;
         }
 
         function renderLearnometerSelect() {
@@ -1020,10 +1404,12 @@
             studentInput?.addEventListener('input', (event) => {
                 learnometerState.studentId = event.target.value;
                 learnometerState.loginError = '';
+                updateLearnometerLoginButton();
             });
             teacherInput?.addEventListener('input', (event) => {
                 learnometerState.teacherCode = event.target.value;
                 learnometerState.loginError = '';
+                updateLearnometerLoginButton();
             });
 
             panel.querySelector('#learnometerLoginForm')?.addEventListener('submit', (event) => {
@@ -1066,6 +1452,430 @@
             });
             panel.querySelector('#learnometerRetry')?.addEventListener('click', () => {
                 startLearnometerTest(learnometerState.testType === 'practice' ? 'test' : 'practice');
+            });
+        }
+
+        const GYM_GRADES = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8'];
+        const GYM_CURRICULUM = {
+            'Grade 1': {
+                English: ['Block 01: Families and Friends', 'Block 02: Animals Around Us', 'Block 03: My School Day', 'Block 04: Seasons and Weather'],
+                Mathematics: ['Block 01: Numbers 1-20', 'Block 02: Addition Basics', 'Block 03: Subtraction Basics', 'Block 04: Shapes and Patterns'],
+                EVS: ['Block 01: My Body', 'Block 02: Plants Around Us', 'Block 03: Water and Air', 'Block 04: Food We Eat']
+            },
+            'Grade 2': {
+                English: ['Block 01: People Who Help Us', 'Block 02: Stories and Poems', 'Block 03: Transport', 'Block 04: Our Environment'],
+                Mathematics: ['Block 01: Numbers up to 100', 'Block 02: Addition with Carry', 'Block 03: Subtraction with Borrow', 'Block 04: Multiplication Tables'],
+                EVS: ['Block 01: Living and Non-Living', 'Block 02: Animal Habitats', 'Block 03: States of Matter', 'Block 04: Simple Machines']
+            },
+            'Grade 3': {
+                English: ['Block 01: Nature and Science', 'Block 02: Community Helpers', 'Block 03: Festivals of India', 'Block 04: Adventure Stories'],
+                Mathematics: ['Block 01: Large Numbers', 'Block 02: Multiplication', 'Block 03: Division', 'Block 04: Fractions Intro'],
+                EVS: ['Block 01: Plants and Growth', 'Block 02: Food Chains', 'Block 03: Rocks and Soil', 'Block 04: Sun, Moon and Stars']
+            },
+            'Grade 4': {
+                English: ['Block 01: Exploring Nature', 'Block 02: Folk Tales', 'Block 03: Communication', 'Block 04: Our Earth'],
+                Mathematics: ['Block 01: Place Value', 'Block 02: Fractions', 'Block 03: Decimals Intro', 'Block 04: Geometry'],
+                Science: ['Block 01: Light and Shadows', 'Block 02: Force and Motion', 'Block 03: Electricity Basics', 'Block 04: The Solar System']
+            },
+            'Grade 5': {
+                English: ['Block 01: Mysteries and Puzzles', 'Block 02: World Cultures', 'Block 03: Space Exploration', 'Block 04: Environment'],
+                Mathematics: ['Block 01: Decimals', 'Block 02: Percentages', 'Block 03: Ratios', 'Block 04: Area and Perimeter'],
+                Science: ['Block 01: Microorganisms', 'Block 02: Human Body Systems', 'Block 03: Ecosystems', 'Block 04: Materials and Properties']
+            },
+            'Grade 6': {
+                English: ['Block 01: Literature Classics', 'Block 02: Media and Communication', 'Block 03: Science Writing', 'Block 04: Persuasive Essays'],
+                Mathematics: ['Block 01: Integers', 'Block 02: Algebra Intro', 'Block 03: Data Handling', 'Block 04: Mensuration'],
+                Science: ['Block 01: Cell Biology', 'Block 02: Heat and Temperature', 'Block 03: Motion and Speed', 'Block 04: Chemical Reactions']
+            },
+            'Grade 7': {
+                English: ['Block 01: Poetry Analysis', 'Block 02: Drama and Theatre', 'Block 03: Research Skills', 'Block 04: Debate Writing'],
+                Mathematics: ['Block 01: Linear Equations', 'Block 02: Geometry Theorems', 'Block 03: Statistics', 'Block 04: Profit and Loss'],
+                Science: ['Block 01: Reproduction in Plants', 'Block 02: Acids and Bases', 'Block 03: Light Optics', 'Block 04: Electromagnetic Spectrum']
+            },
+            'Grade 8': {
+                English: ['Block 01: Novels and Narratives', 'Block 02: Critical Analysis', 'Block 03: Journalism', 'Block 04: Creative Writing'],
+                Mathematics: ['Block 01: Quadratic Equations', 'Block 02: Trigonometry', 'Block 03: Probability', 'Block 04: Coordinate Geometry'],
+                Science: ['Block 01: Atomic Structure', 'Block 02: Heredity and Evolution', 'Block 03: Gravitation', 'Block 04: Sound Waves']
+            }
+        };
+        const GYM_DIFFICULTY_LEVELS = ['Easy', 'Medium', 'Hard'];
+        const GYM_TIME_OPTIONS = [15, 20, 30, 45, 60];
+        let practiceGymTimer = null;
+        const practiceGymState = {
+            mode: 'teacher',
+            grade: '',
+            subject: '',
+            block: '',
+            difficulty: '',
+            timeLimit: 30,
+            testStarted: false,
+            testDone: false,
+            questions: [],
+            currentQ: 0,
+            selected: null,
+            answers: [],
+            timeLeft: 0,
+            pdfGenerated: false
+        };
+
+        function generatePracticeGymQuestions(grade, subject, block, difficulty) {
+            const topic = block.includes(': ') ? block.split(': ')[1] : block;
+            const sub = subject || 'Science';
+            const gr = grade || 'Grade 4';
+            const base = [
+                {
+                    text: `What is the main theme of "${topic}"?`,
+                    options: [topic, 'Photosynthesis', 'Gravity', 'Magnetism'],
+                    answer: 0
+                },
+                {
+                    text: `"${topic}" is studied as part of which subject in ${gr}?`,
+                    options: [sub, 'History', 'Art', 'Music'],
+                    answer: 0
+                },
+                {
+                    text: `Which habit helps students retain what they learn in "${topic}"?`,
+                    options: ['Regular practice and review', 'Skipping revision', 'Only copying notes', 'Avoiding questions'],
+                    answer: 0
+                },
+                {
+                    text: `Which approach best supports learning "${topic}"?`,
+                    options: ['Observation and inquiry', 'Memorising without context', 'Guessing answers', 'Ignoring examples'],
+                    answer: 0
+                },
+                {
+                    text: `What should a student do when a concept in "${topic}" is unclear?`,
+                    options: ['Ask, discuss, and practise', 'Stop trying', 'Copy the answer only', 'Avoid the activity'],
+                    answer: 0
+                }
+            ];
+            if (difficulty === 'Hard') {
+                base.push({
+                    text: `Which best demonstrates mastery of "${topic}"?`,
+                    options: ['Applying the idea to a new situation', 'Reading the title only', 'Memorising one phrase', 'Avoiding practice'],
+                    answer: 0
+                });
+            }
+            return base;
+        }
+
+        function stopPracticeGymTimer() {
+            if (practiceGymTimer) {
+                clearInterval(practiceGymTimer);
+                practiceGymTimer = null;
+            }
+        }
+
+        function startPracticeGymTimer() {
+            stopPracticeGymTimer();
+            practiceGymTimer = setInterval(() => {
+                if (!practiceGymState.testStarted || practiceGymState.testDone) {
+                    stopPracticeGymTimer();
+                    return;
+                }
+                practiceGymState.timeLeft = Math.max(0, practiceGymState.timeLeft - 1);
+                if (practiceGymState.timeLeft === 0) {
+                    practiceGymState.testDone = true;
+                    stopPracticeGymTimer();
+                }
+                renderPracticeGym();
+            }, 1000);
+        }
+
+        function resetPracticeGymTest() {
+            stopPracticeGymTimer();
+            practiceGymState.testStarted = false;
+            practiceGymState.testDone = false;
+            practiceGymState.questions = [];
+            practiceGymState.currentQ = 0;
+            practiceGymState.selected = null;
+            practiceGymState.answers = [];
+            practiceGymState.timeLeft = 0;
+        }
+
+        function startPracticeGymTest() {
+            practiceGymState.questions = generatePracticeGymQuestions(
+                practiceGymState.grade,
+                practiceGymState.subject,
+                practiceGymState.block,
+                practiceGymState.difficulty
+            );
+            practiceGymState.currentQ = 0;
+            practiceGymState.selected = null;
+            practiceGymState.answers = [];
+            practiceGymState.timeLeft = practiceGymState.timeLimit * 60;
+            practiceGymState.testStarted = true;
+            practiceGymState.testDone = false;
+            renderPracticeGym();
+            startPracticeGymTimer();
+        }
+
+        function formatGymTime(seconds) {
+            const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${minutes}:${secs}`;
+        }
+
+        function isPracticeGymReady() {
+            return Boolean(practiceGymState.grade && practiceGymState.subject && practiceGymState.block && practiceGymState.difficulty);
+        }
+
+        function getGymFieldIcon(name) {
+            return {
+                grade: 'graduation-cap',
+                subject: 'book-open',
+                block: 'layers',
+                difficulty: 'gauge'
+            }[name] || 'circle';
+        }
+
+        function renderGymSelect(name, label, options, value, disabled = false) {
+            return `
+                <label class="block">
+                    <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">${label}</span>
+                    <span class="flex h-11 items-center gap-3 rounded-[10px] border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)] ${disabled ? 'opacity-50' : ''}">
+                        <i data-lucide="${getGymFieldIcon(name)}" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                        <select data-gym-field="${name}" ${disabled ? 'disabled' : ''} class="w-full cursor-pointer bg-transparent text-sm font-medium leading-6 text-[#1C1917] outline-none disabled:cursor-not-allowed">
+                            <option value="">Select ${label.toLowerCase()}...</option>
+                            ${options.map((option) => `<option value="${escapeHtml(option)}" ${option === value ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}
+                        </select>
+                    </span>
+                </label>
+            `;
+        }
+
+        function renderPracticeGymSelection() {
+            const subjects = practiceGymState.grade ? Object.keys(GYM_CURRICULUM[practiceGymState.grade] || {}) : [];
+            const blocks = practiceGymState.grade && practiceGymState.subject ? GYM_CURRICULUM[practiceGymState.grade][practiceGymState.subject] || [] : [];
+            const ready = isPracticeGymReady();
+            const timeIndex = GYM_TIME_OPTIONS.indexOf(practiceGymState.timeLimit);
+            return `
+                <section class="mx-auto mb-5 flex max-w-[70%] flex-col gap-4 max-lg:max-w-4xl max-sm:max-w-none md:flex-row md:items-end md:justify-between">
+                    <div>
+                        <h1 class="truncate font-['Poppins'] text-[26px] font-semibold leading-8 text-[#1C1917] tracking-[-0.3px]">Practice Gym</h1>
+                        <p class="mt-1 text-sm font-medium leading-6 text-[#8B8B8B]">Generate customized worksheets in seconds</p>
+                    </div>
+                    <div class="inline-flex w-fit items-center gap-1 rounded-xl border border-[#E5E5E5] bg-[#F6F6F6] p-1">
+                        <button type="button" data-gym-mode="teacher" class="h-9 rounded-lg px-5 text-[13px] font-semibold transition-all ${practiceGymState.mode === 'teacher' ? 'bg-white text-[#A41034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]' : 'text-[#78716C] hover:text-[#1C1917]'}">Teacher</button>
+                        <button type="button" data-gym-mode="parent" class="h-9 rounded-lg px-5 text-[13px] font-semibold transition-all ${practiceGymState.mode === 'parent' ? 'bg-white text-[#A41034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]' : 'text-[#78716C] hover:text-[#1C1917]'}">Parent</button>
+                    </div>
+                </section>
+
+                <section class="mx-auto max-w-[70%] rounded-2xl border border-[#E7E5E4] bg-white p-7 shadow-[0_18px_45px_rgba(28,25,23,0.07)] max-lg:max-w-4xl max-sm:max-w-none">
+                    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+                        ${renderGymSelect('grade', 'Grade', GYM_GRADES, practiceGymState.grade)}
+                        ${renderGymSelect('subject', 'Subject', subjects, practiceGymState.subject, !practiceGymState.grade)}
+                        ${renderGymSelect('block', 'Block', blocks, practiceGymState.block, !practiceGymState.subject)}
+                    </div>
+                    <div class="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+                        ${renderGymSelect('difficulty', 'Difficulty', GYM_DIFFICULTY_LEVELS, practiceGymState.difficulty)}
+                        <div>
+                            <div class="mb-2 flex items-center justify-between gap-3">
+                                <span class="text-xs font-medium leading-5 text-[#8B8B8B]">Time Limit</span>
+                            </div>
+                            <input type="range" min="0" max="${GYM_TIME_OPTIONS.length - 1}" step="1" value="${timeIndex < 0 ? 2 : timeIndex}" data-gym-time class="h-2 w-full cursor-pointer accent-[#A41034]">
+                            <div class="mt-2 flex justify-between text-[11px] font-medium leading-5 text-[#8B8B8B]">
+                                ${GYM_TIME_OPTIONS.map((time) => `<button type="button" data-gym-time-option="${time}" class="transition-colors ${practiceGymState.timeLimit === time ? 'font-semibold text-[#A41034]' : 'hover:text-[#1C1917]'}">${time}m</button>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 flex justify-end">
+                        ${practiceGymState.mode === 'teacher' ? (
+                                practiceGymState.pdfGenerated ? `
+                                    <div class="flex min-h-11 min-w-[220px] items-center gap-3 rounded-[10px] border border-[#4CAF50]/20 bg-[#f2faf3] px-5 py-2.5">
+                                        <i data-lucide="check" class="h-4 w-4 text-[#4CAF50]"></i>
+                                        <div class="min-w-0 flex-1">
+                                            <p class="text-[13px] font-semibold leading-5 text-[#1C1917]">PDF Ready</p>
+                                            <button type="button" data-gym-generate-another class="text-xs font-medium leading-4 text-[#8B8B8B] transition-colors hover:text-[#A41034]">Generate another</button>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <button type="button" data-gym-download-pdf ${ready ? '' : 'disabled'} class="focus-ring flex h-11 min-w-[220px] items-center justify-center gap-2 rounded-[10px] px-5 text-[13px] font-semibold tracking-[0.3px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                                        <i data-lucide="download" class="h-4 w-4"></i>
+                                        Generate & Download PDF
+                                    </button>
+                                `
+                            ) : `
+                                <button type="button" data-gym-start-test ${ready ? '' : 'disabled'} class="focus-ring flex h-11 min-w-[220px] items-center justify-center gap-2 rounded-[10px] px-5 text-[13px] font-semibold tracking-[0.3px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                                    <i data-lucide="play" class="h-4 w-4 fill-current"></i>
+                                    Start Test
+                                </button>
+                            `}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderPracticeGymTest() {
+            const question = practiceGymState.questions[practiceGymState.currentQ];
+            const progress = (practiceGymState.currentQ / practiceGymState.questions.length) * 100;
+            const answered = practiceGymState.selected !== null && practiceGymState.selected !== undefined;
+            return `
+                <section class="mb-8 flex items-center justify-between">
+                    <div>
+                        <p class="mb-1 text-[10px] font-black tracking-widest text-[#A8A29E]">${practiceGymState.grade} · ${practiceGymState.subject} · ${practiceGymState.block.split(': ')[0]}</p>
+                        <h1 class="text-3xl font-black leading-none tracking-tight text-[#1C1917]">Practice Test</h1>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="rounded-2xl border ${practiceGymState.timeLeft < 60 ? 'border-red-200 bg-red-50 text-red-500' : 'border-[#E7E5E4] bg-[#F5F5F4] text-[#1C1917]'} px-5 py-3 text-[13px] font-black">${formatGymTime(practiceGymState.timeLeft)}</div>
+                        <button type="button" data-gym-reset class="rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-5 py-3 text-[11px] font-black tracking-wider text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Exit Test</button>
+                    </div>
+                </section>
+                <section class="mx-auto max-w-2xl">
+                    <div class="mb-8">
+                        <div class="mb-2 flex items-center justify-between">
+                            <span class="text-[10px] font-black tracking-widest text-[#A8A29E]">Question ${practiceGymState.currentQ + 1} of ${practiceGymState.questions.length}</span>
+                            <span class="text-[10px] font-black tracking-widest text-[#A41034]">${practiceGymState.difficulty.toUpperCase()}</span>
+                        </div>
+                        <div class="h-1.5 w-full overflow-hidden rounded-full bg-[#F5F5F4]">
+                            <div class="h-full rounded-full bg-[#A41034] transition-all duration-500" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                    <div class="mb-6 rounded-[2.5rem] border border-[#E7E5E4] bg-white p-10">
+                        <div class="mb-8 flex items-start gap-4">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#A41034] text-[13px] font-black text-white">${practiceGymState.currentQ + 1}</div>
+                            <p class="flex-1 text-[16px] font-bold leading-relaxed text-[#1C1917]">${escapeHtml(question.text)}</p>
+                        </div>
+                        <div class="space-y-3">
+                            ${question.options.map((option, index) => `
+                                <button type="button" data-gym-answer="${index}" class="w-full rounded-2xl border-2 px-6 py-4 text-left text-[13px] font-bold transition-all active:scale-[0.99] ${practiceGymState.selected === index ? 'border-[#A41034] bg-[#A41034]/[0.08] text-[#A41034]' : 'border-transparent bg-[#F5F5F4] text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}">
+                                    <span class="inline-flex items-center gap-3">
+                                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 text-[10px] font-black ${practiceGymState.selected === index ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}">${String.fromCharCode(65 + index)}</span>
+                                        ${escapeHtml(option)}
+                                    </span>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" data-gym-next ${answered ? '' : 'disabled'} class="flex items-center gap-3 rounded-2xl px-8 py-4 text-[11px] font-black transition-all active:scale-95 ${answered ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#E7E5E4] text-[#A8A29E]'}">
+                            ${practiceGymState.currentQ + 1 === practiceGymState.questions.length ? 'Submit Test' : 'Next Question'}
+                            <i data-lucide="chevron-right" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderPracticeGymResults() {
+            const score = practiceGymState.answers.filter((answer, index) => answer === practiceGymState.questions[index]?.answer).length;
+            const total = practiceGymState.questions.length;
+            const percentage = total ? Math.round((score / total) * 100) : 0;
+            const passed = percentage >= 60;
+            return `
+                <section class="mx-auto max-w-2xl py-6">
+                    <div class="rounded-[2.5rem] border border-[#E7E5E4] bg-white p-12 text-center">
+                        <div class="relative mx-auto mb-8 flex h-36 w-36 items-center justify-center rounded-full border-[10px] ${passed ? 'border-[#A41034]' : 'border-[#f59138]'}">
+                            <div>
+                                <p class="text-3xl font-black text-[#1C1917]">${percentage}%</p>
+                                <p class="text-[9px] font-black tracking-widest text-[#A8A29E]">Score</p>
+                            </div>
+                        </div>
+                        <h2 class="mb-2 text-3xl font-black tracking-tight text-[#1C1917]">${percentage === 100 ? 'Perfect Score!' : passed ? 'Well Done!' : 'Keep Practising!'}</h2>
+                        <p class="mb-1 text-[14px] font-medium text-[#78716C]">${score} of ${total} questions correct</p>
+                        <p class="mb-10 text-[10px] font-black tracking-widest text-[#A8A29E]">${practiceGymState.grade} · ${practiceGymState.subject} · ${practiceGymState.block.split(': ')[0]} · ${practiceGymState.difficulty}</p>
+                        <div class="mb-10 grid grid-cols-3 gap-4">
+                            <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#4CAF50]">${score}</p><p class="mt-1 text-[10px] font-black tracking-widest text-[#A8A29E]">Correct</p></div>
+                            <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#f59138]">${total - score}</p><p class="mt-1 text-[10px] font-black tracking-widest text-[#A8A29E]">Incorrect</p></div>
+                            <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#A8A29E]">${total}</p><p class="mt-1 text-[10px] font-black tracking-widest text-[#A8A29E]">Total</p></div>
+                        </div>
+                        <div class="flex items-center justify-center gap-3">
+                            <button type="button" data-gym-reset class="rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-8 py-4 text-[11px] font-black tracking-wider text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Back to Gym</button>
+                            <button type="button" data-gym-start-test class="rounded-2xl bg-[#A41034] px-8 py-4 text-[11px] font-black tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95">Try Again</button>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderPracticeGym() {
+            const root = document.getElementById('practiceGymRoot');
+            if (!root) return;
+            if (practiceGymState.testStarted && !practiceGymState.testDone) {
+                root.innerHTML = renderPracticeGymTest();
+            } else if (practiceGymState.testDone) {
+                root.innerHTML = renderPracticeGymResults();
+            } else {
+                root.innerHTML = renderPracticeGymSelection();
+            }
+            bindPracticeGymEvents();
+            lucide.createIcons();
+        }
+
+        function bindPracticeGymEvents() {
+            const root = document.getElementById('practiceGymRoot');
+            if (!root) return;
+            root.querySelectorAll('[data-gym-mode]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    practiceGymState.mode = button.dataset.gymMode;
+                    practiceGymState.pdfGenerated = false;
+                    resetPracticeGymTest();
+                    renderPracticeGym();
+                });
+            });
+            root.querySelectorAll('[data-gym-field]').forEach((select) => {
+                select.addEventListener('change', () => {
+                    const field = select.dataset.gymField;
+                    practiceGymState[field] = select.value;
+                    practiceGymState.pdfGenerated = false;
+                    if (field === 'grade') {
+                        practiceGymState.subject = '';
+                        practiceGymState.block = '';
+                    }
+                    if (field === 'subject') {
+                        practiceGymState.block = '';
+                    }
+                    renderPracticeGym();
+                });
+            });
+            root.querySelector('[data-gym-time]')?.addEventListener('input', (event) => {
+                practiceGymState.timeLimit = GYM_TIME_OPTIONS[Number(event.target.value)] || 30;
+                renderPracticeGym();
+            });
+            root.querySelectorAll('[data-gym-time-option]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    practiceGymState.timeLimit = Number(button.dataset.gymTimeOption);
+                    renderPracticeGym();
+                });
+            });
+            root.querySelector('[data-gym-download-pdf]')?.addEventListener('click', () => {
+                practiceGymState.pdfGenerated = true;
+                renderPracticeGym();
+            });
+            root.querySelector('[data-gym-generate-another]')?.addEventListener('click', () => {
+                practiceGymState.pdfGenerated = false;
+                renderPracticeGym();
+            });
+            root.querySelectorAll('[data-gym-start-test]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (isPracticeGymReady()) startPracticeGymTest();
+                });
+            });
+            root.querySelectorAll('[data-gym-answer]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    practiceGymState.selected = Number(button.dataset.gymAnswer);
+                    renderPracticeGym();
+                    if (practiceGymState.testStarted && !practiceGymState.testDone) startPracticeGymTimer();
+                });
+            });
+            root.querySelector('[data-gym-next]')?.addEventListener('click', () => {
+                if (practiceGymState.selected === null || practiceGymState.selected === undefined) return;
+                practiceGymState.answers.push(practiceGymState.selected);
+                if (practiceGymState.currentQ + 1 >= practiceGymState.questions.length) {
+                    practiceGymState.testDone = true;
+                    stopPracticeGymTimer();
+                } else {
+                    practiceGymState.currentQ += 1;
+                    practiceGymState.selected = null;
+                }
+                renderPracticeGym();
+                if (practiceGymState.testStarted && !practiceGymState.testDone) startPracticeGymTimer();
+            });
+            root.querySelectorAll('[data-gym-reset]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    resetPracticeGymTest();
+                    renderPracticeGym();
+                });
             });
         }
 
@@ -1112,22 +1922,21 @@
                 progress: 36,
                 icon: 'landmark'
             },
-            // hindi: {
-            //     name: 'Hindi',
-            //     subtitle: 'Curriculum Plan',
-            //     progress: 58,
-            //     icon: 'hindi'
-            // }
+            hindi: {
+                name: 'Hindi',
+                subtitle: 'Curriculum Plan',
+                progress: 58,
+                icon: 'hindi'
+            }
         };
 
         const primarySubjects = [
-            subjectLibrary.computerScience,
-            subjectLibrary.evs,
             subjectLibrary.english,
-            subjectLibrary.science,
-            subjectLibrary.social,
             subjectLibrary.mathematics,
-            // subjectLibrary.hindi
+            subjectLibrary.science,
+            subjectLibrary.hindi,
+            subjectLibrary.evs,
+            subjectLibrary.computerScience,
         ];
 
         function renderIcon(iconName) {
@@ -1357,15 +2166,21 @@
         }
 
         const curriculumByGrade = [
-            buildGrade('nursery', 'Nursery', [subjectLibrary.earlyChildhood], 0),
-            buildGrade('lkg', 'Lower Kindergarten (LKG)', [subjectLibrary.earlyChildhood], 1),
-            buildGrade('ukg', 'Upper Kindergarten (UKG)', [subjectLibrary.earlyChildhood], 2),
             ...Array.from({ length: 8 }, (_, index) => buildGrade(`grade-${index + 1}`, `Grade ${index + 1}`, primarySubjects, index + 3))
         ];
         curriculumByGrade.forEach((grade) => expandedGradeIds.add(grade.id));
 
         function findGrade(gradeId) {
             return curriculumByGrade.find((grade) => grade.id === gradeId);
+        }
+
+        function getLessonPlanGrades() {
+            if (activeAppTab === 'Parent Lesson Plan') {
+                const gradeOne = findGrade('grade-1');
+                return gradeOne ? [gradeOne] : [];
+            }
+
+            return curriculumByGrade;
         }
 
         function findSubject(gradeId, subjectId) {
@@ -1436,7 +2251,7 @@
                         <span class="shrink-0 text-sm font-semibold text-[#A41034]">${summary.completedLessons} / ${summary.totalLessons}</span>
                     </div>
 
-                    <span class="group/lesson mb-4 flex max-w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all hover:border-[#A41034]/20 hover:bg-white hover:shadow-sm hover:shadow-[#A41034]/5 focus-ring focus:outline-none" role="link" tabindex="0" aria-label="Open ${summary.lessonLinkAria} lesson in ${summary.lastOpened}" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${summary.lastBlockId}">
+                    <span class="group/lesson mb-4 flex max-w-full cursor-default items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all">
                      
                         <span class="min-w-0 flex-1 leading-tight">
                             <span class="block text-[10px] font-bold  tracking-wide text-[#A08E8A]">${summary.lessonLinkLabel}</span>
@@ -1474,12 +2289,14 @@
         }
 
         function renderGradeSection(grade) {
-            const isExpanded = expandedGradeIds.has(grade.id);
+            const isParentTab = activeAppTab === 'Parent Lesson Plan';
+            const isExpanded = isParentTab ? true : expandedGradeIds.has(grade.id);
             const isCurrent = grade.id === currentGradeId;
             const summary = getGradeSummary(grade);
-            return `
-                <section id="grade-section-${grade.id}" class="scroll-mt-28 space-y-6 rounded-[2rem] p-5 md:p-6 mb-8" data-grade-section="${grade.id}" style="background: rgba(123, 3, 35, 0.025);">
-                    <button type="button" class="focus-ring flex w-full cursor-pointer items-center justify-between text-left focus:outline-none ${isExpanded ? 'border-b border-[#E7E5E4] pb-4' : ''}" data-view="toggle-grade" data-grade-id="${grade.id}" aria-expanded="${isExpanded}">
+            const gradeToggleIcon = !isParentTab
+                ? `<svg class="h-5 w-5 shrink-0 text-[#A41034] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`
+                : '';
+            const headerInner = `
                         <div class="flex items-center gap-3">
                             <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-sm font-bold text-white shadow-lg shadow-[#A41034]/20">${getGradeBadgeLabel(grade)}</span>
                             <div class="min-w-0">
@@ -1490,8 +2307,13 @@
                                 <p class="mt-1 text-sm font-medium normal-case tracking-normal text-[#78716C]">${summary.subjectsCount} subjects • ${summary.progress}% progress</p>
                             </div>
                         </div>
-                        <svg class="h-5 w-5 shrink-0 text-[#A41034] transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </button>
+                        ${gradeToggleIcon}`;
+            const header = isParentTab
+                ? `<div class="flex w-full items-center justify-between border-b border-[#E7E5E4] pb-4">${headerInner}</div>`
+                : `<button type="button" class="focus-ring flex w-full cursor-pointer items-center justify-between text-left focus:outline-none ${isExpanded ? 'border-b border-[#E7E5E4] pb-4' : ''}" data-view="toggle-grade" data-grade-id="${grade.id}" aria-expanded="${isExpanded}">${headerInner}</button>`;
+            return `
+                <section id="grade-section-${grade.id}" class="scroll-mt-28 space-y-6 rounded-[2rem] p-5 md:p-6 mb-8" data-grade-section="${grade.id}" style="background: rgba(123, 3, 35, 0.025);">
+                    ${header}
                     ${isExpanded ? `
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             ${grade.subjects.map((subject) => renderSubjectCard(subject, grade)).join('')}
@@ -1518,11 +2340,11 @@
                                     <p class="mt-1 text-sm font-medium text-[#78716C]">${subject.blocks.length} blocks • ${subject.blocks.reduce((sum, block) => sum + block.lessons.length, 0)} lessons</p>
                                 </div>
                             </div>
-                            <div class="flex shrink-0 items-center gap-4">
+                            ${activeAppTab !== 'Parent Lesson Plan' ? `<div class="flex shrink-0 items-center gap-4">
                                 <button type="button" class="focus-ring cursor-pointer rounded-full border border-[#A41034]/10 bg-white/70 px-4 py-2 text-[11px] font-bold  tracking-wide text-[#A41034] transition-all hover:bg-[#A41034]/5 focus:outline-none" data-view="toggle-all-blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
                                     ${allBlocksCollapsed ? 'Expand all' : 'Collapse all'}
                                 </button>
-                            </div>
+                            </div>` : ''}
                         </div>
                     </header>
                     ${subject.blocks.map((block, index) => renderBlockSection(block, index, grade, subject)).join('')}
@@ -1549,18 +2371,17 @@
 
         function renderBlockSection(block, blockIndex, grade, subject) {
             const blockKey = `${grade.id}:${subject.id}:${block.id}`;
-            const isExpanded = !collapsedBlockIds.has(blockKey);
+            const isParentTab = activeAppTab === 'Parent Lesson Plan';
+            const isExpanded = isParentTab ? true : !collapsedBlockIds.has(blockKey);
             const progressState = block.progress >= 100 ? 'Complete' : block.progress > 0 ? 'In progress' : 'Not started';
             const completedLessons = block.lessons.filter((lesson) => lesson.status === 'Completed').length;
-            return `
-                <section id="block-section-${blockKey}" class="scroll-mt-56 rounded-[2rem] p-5 md:p-6" data-block-section="${blockKey}" style="scroll-margin-top: 13rem; background: rgba(123, 3, 35, 0.025);">
-                    <button type="button" class="focus-ring relative mb-0 flex w-full cursor-pointer flex-col gap-3 pr-12 text-left focus:outline-none sm:flex-row sm:items-center sm:justify-between sm:pr-14" data-view="toggle-block" data-block-key="${blockKey}" aria-expanded="${isExpanded}">
+            const blockHeaderInner = `
                         <div class="flex min-w-0 items-center gap-4">
                             <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-sm font-bold text-white shadow-lg shadow-[#A41034]/20">B${blockIndex + 1}</span>
                             <div class="min-w-0">
                                 <p class="text-[11px] font-semibold  tracking-wide text-[#A41034]">Block ${blockIndex + 1}</p>
                                 <h2 class="truncate text-xl font-bold text-[#1C1917]">${block.title}</h2>
-                               
+
                             </div>
                         </div>
                         <div class="w-full sm:w-72">
@@ -1570,15 +2391,18 @@
                             </div>
                             ${renderProgress(block.progress)}
                         </div>
-                        <span class="absolute right-0 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-[#A41034]/10 bg-white text-[#A41034] shadow-md shadow-[#A41034]/10 transition-all duration-300 hover:border-[#A41034]/25 hover:bg-[#A41034]/5" aria-hidden="true">
+                        ${isParentTab ? '' : `<span class="absolute right-0 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-[#A41034]/10 bg-white text-[#A41034] shadow-md shadow-[#A41034]/10 transition-all duration-300 hover:border-[#A41034]/25 hover:bg-[#A41034]/5" aria-hidden="true">
                             <svg class="h-5 w-5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    ${isExpanded ? `
-                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 mt-5">
-                            ${block.lessons.map((lesson, lessonIndex) => renderLessonCard(lesson, lessonIndex, block, grade, subject)).join('')}
-                        </div>
-                    ` : ''}
+                        </span>`}`;
+            const blockHeader = isParentTab
+                ? `<div class="relative mb-0 flex w-full flex-col gap-3 pr-2 sm:flex-row sm:items-center sm:justify-between">${blockHeaderInner}</div>`
+                : `<button type="button" class="focus-ring relative mb-0 flex w-full cursor-pointer flex-col gap-3 pr-12 text-left focus:outline-none sm:flex-row sm:items-center sm:justify-between sm:pr-14" data-view="toggle-block" data-block-key="${blockKey}" aria-expanded="${isExpanded}">${blockHeaderInner}</button>`;
+            return `
+                <section id="block-section-${blockKey}" class="scroll-mt-56 rounded-[2rem] p-5 md:p-6" data-block-section="${blockKey}" style="scroll-margin-top: 13rem; background: rgba(123, 3, 35, 0.025);">
+                    ${blockHeader}
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 mt-5">
+                        ${block.lessons.map((lesson, lessonIndex) => renderLessonCard(lesson, lessonIndex, block, grade, subject)).join('')}
+                    </div>
                 </section>
             `;
         }
@@ -1586,7 +2410,7 @@
         function renderLessonCard(lesson, lessonIndex, block, grade, subject) {
             const displayStatus = getLessonDisplayStatus(lesson);
             return `
-                <article class="focus-ring group grid min-h-[148px] cursor-pointer grid-cols-[88px_1fr] gap-4 rounded-[1.25rem] border border-transparent bg-white p-3 shadow-sm shadow-black/[0.025] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#A41034]/25 hover:shadow-xl hover:shadow-black/5" role="button" tabindex="0" aria-label="Open ${lesson.title}" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}">
+                <article class="group grid min-h-[148px] grid-cols-[88px_1fr] gap-4 rounded-[1.25rem] border border-transparent bg-white p-3 shadow-sm shadow-black/[0.025]">
                     <img src="assets/light-shadow.jpeg" alt="${lesson.title}" class="h-full min-h-[124px] w-[88px] rounded-2xl object-cover">
                     <div class="flex min-w-0 flex-col">
                         <div class="mb-2 flex items-start justify-between gap-3">
@@ -1653,18 +2477,82 @@
             `;
         }
 
+        function renderParentContinueLessonSection() {
+            return `
+                <!-- Updated Continue Lesson Section -->
+                <section class="mb-10 today-fade-in">
+                    <section class="relative rounded-[3rem] overflow-hidden card-shadow group h-[420px]">
+                        <!-- Background Image Covering Entire Card with Top Alignment -->
+                        <img
+                            src="assets/light-shadow.jpeg"
+                            class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+                            alt="Light and Shadows"
+                        />
+
+                        <!-- Dark Gradient Overlay for Readability -->
+                        <div class="absolute inset-0 hero-gradient-overlay"></div>
+
+                        <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+                            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                                <div class="max-w-2xl">
+                                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-bold  tracking-wide shadow-xl mb-6">
+                                        <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                                        Science. Grade 4 - Block 01
+                                    </span>
+                                    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
+                                        Light and <br/>Shadows
+                                    </h1>
+                                    <div class="max-w-2xl space-y-2 text-white/85">
+                                        <p class="text-base md:text-lg font-semibold">
+                                            Changes in the Sky Across the Day
+                                        </p>
+                                        <p class="max-w-xl text-sm md:text-base font-medium leading-6 text-white/75">
+                                            Explain why the Sun appears to move in the sky and how it affects the length and rhythm of a day.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Action Row -->
+                                <div class="flex flex-col items-end gap-5">
+                                    <div class="flex items-center gap-4 bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
+                                        <div class="h-1.5 w-24 bg-white/20 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress 45% complete">
+                                            <div class="h-full bg-[#f59138] rounded-full shadow-[0_0_10px_#f59138]" style="width: 45%"></div>
+                                        </div>
+                                        <span class="text-[10px] font-bold text-white tracking-wide ">45% Progress</span>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        class="focus-ring bg-white text-[#1C1917] px-10 py-5 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-2xl hover:bg-[#f59138] hover:text-white hover:-translate-y-1 active:scale-95"
+                                    >
+                                        Continue Lesson
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            `;
+        }
+
 
         function renderHome() {
-            const allExpanded = expandedGradeIds.size === curriculumByGrade.length;
+            const visibleGrades = getLessonPlanGrades();
+            const allExpanded = visibleGrades.every((grade) => expandedGradeIds.has(grade.id));
+            const showHeading = activeAppTab !== 'Parent Lesson Plan';
             return `
-                <div class="flex items-center justify-between gap-4">
-                     <p class="truncate text-2xl font-bold text-[#1C1917]">Grade-wise Subjects</p>
-                    <button type="button" class="focus-ring cursor-pointer rounded-full border border-[#A41034]/10 bg-white/70 px-4 py-2 text-[11px] font-bold  tracking-wide text-[#A41034] transition-all hover:bg-[#A41034]/5 focus:outline-none" data-view="toggle-all">
-                        ${allExpanded ? 'Collapse all' : 'Expand all'}
-                    </button>
-                </div>
-                <div class="mt-6" style="margin-top: 2rem;">
-                    ${curriculumByGrade.map(renderGradeSection).join('')}
+                ${activeAppTab === 'Parent Lesson Plan' ? renderParentContinueLessonSection() : ''}
+                ${showHeading ? `
+                    <div class="flex items-center justify-between gap-4">
+                         <p class="truncate text-2xl font-bold text-[#1C1917]">Grade-wise Subjects</p>
+                        <button type="button" class="focus-ring cursor-pointer rounded-full border border-[#A41034]/10 bg-white/70 px-4 py-2 text-[11px] font-bold  tracking-wide text-[#A41034] transition-all hover:bg-[#A41034]/5 focus:outline-none" data-view="toggle-all">
+                            ${allExpanded ? 'Collapse all' : 'Expand all'}
+                        </button>
+                    </div>
+                ` : ''}
+                <div class="${showHeading ? 'mt-6' : ''}" ${showHeading ? 'style="margin-top: 2rem;"' : ''}>
+                    ${visibleGrades.map(renderGradeSection).join('')}
                 </div>
             `;
         }
@@ -1680,7 +2568,7 @@
 
             if (!toolbar || !toggle) return;
 
-            if (!hasToolbar || (activeAppTab !== 'Teacher Lesson Plan' && activeAppTab !== 'Parent Lesson Plan')) {
+            if (!hasToolbar || activeAppTab === 'Parent Lesson Plan' || (activeAppTab !== 'Teacher Lesson Plan' && activeAppTab !== 'Parent Lesson Plan')) {
                 toolbar.classList.add('hidden');
                 toggle.classList.add('hidden');
                 toggle.classList.remove('grid');
@@ -1698,6 +2586,13 @@
             const toolbar = document.getElementById('gradeToolbar');
             if (!toolbar) return;
             currentToolbarView = view;
+
+            if (activeAppTab === 'Parent Lesson Plan') {
+                toolbar.innerHTML = '';
+                toolbarOpen = false;
+                updateToolbarVisibility();
+                return;
+            }
 
             if (view !== 'home' && view !== 'blocks') {
                 toolbar.innerHTML = '';
@@ -1753,21 +2648,18 @@
 
         function renderRoute() {
             const outlet = document.getElementById('curriculum-sections');
-            const heroSection = document.querySelector('.today-fade-in');
             const hash = window.location.hash.replace(/^#/, '');
             const params = new URLSearchParams(hash);
             const view = params.get('view') || 'home';
 
             if (view === 'blocks') {
-                heroSection.classList.add('hidden');
                 outlet.innerHTML = renderBlocksPage(params.get('grade'), params.get('subject'));
                 renderGradeToolbar(view, params);
-            } else if (view === 'lessons') {
-                heroSection.classList.add('hidden');
-                outlet.innerHTML = renderLessonsPage(params.get('grade'), params.get('subject'), params.get('block'));
-                renderGradeToolbar(view, params);
+                if (scrollToTopOnRender) {
+                    scrollToTopOnRender = false;
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                }
             } else {
-                heroSection.classList.remove('hidden');
                 outlet.innerHTML = renderHome();
                 renderGradeToolbar(view, params);
             }
@@ -1816,17 +2708,20 @@
             }
 
             if (target.dataset.view === 'toggle-all') {
-                if (expandedGradeIds.size === curriculumByGrade.length) {
-                    expandedGradeIds.clear();
+                const visibleGrades = getLessonPlanGrades();
+                const allVisibleExpanded = visibleGrades.every((grade) => expandedGradeIds.has(grade.id));
+                if (allVisibleExpanded) {
+                    visibleGrades.forEach((grade) => expandedGradeIds.delete(grade.id));
                     expandedGradeIds.add(currentGradeId);
                 } else {
-                    curriculumByGrade.forEach((grade) => expandedGradeIds.add(grade.id));
+                    visibleGrades.forEach((grade) => expandedGradeIds.add(grade.id));
                 }
                 renderRoute();
                 return;
             }
 
             if (target.dataset.view === 'toggle-grade') {
+                if (activeAppTab === 'Parent Lesson Plan') return;
                 const gradeId = target.dataset.gradeId;
                 activeGradeId = gradeId;
                 if (expandedGradeIds.has(gradeId)) {
@@ -1839,6 +2734,7 @@
             }
 
             if (target.dataset.view === 'toggle-block') {
+                if (activeAppTab === 'Parent Lesson Plan') return;
                 const blockKey = target.dataset.blockKey;
                 if (collapsedBlockIds.has(blockKey)) {
                     collapsedBlockIds.delete(blockKey);
@@ -1850,6 +2746,7 @@
             }
 
             if (target.dataset.view === 'toggle-all-blocks') {
+                if (activeAppTab === 'Parent Lesson Plan') return;
                 const grade = findGrade(target.dataset.gradeId);
                 const subject = findSubject(target.dataset.gradeId, target.dataset.subjectId);
                 if (!grade || !subject) return;
@@ -1871,6 +2768,7 @@
             }
 
             if (target.dataset.view === 'blocks') {
+                scrollToTopOnRender = true;
                 window.location.hash = `view=blocks&grade=${target.dataset.gradeId}&subject=${target.dataset.subjectId}`;
                 return;
             }
@@ -1960,6 +2858,9 @@
             if (visiblePanel !== 'Learnometer') {
                 stopLearnometerTimer();
             }
+            if (visiblePanel !== 'Practice Gym') {
+                stopPracticeGymTimer();
+            }
 
             if (visiblePanel === 'Teacher Lesson Plan') {
                 renderCommunicationFilterToolbar();
@@ -1979,6 +2880,10 @@
                 if (visiblePanel === 'Learnometer') {
                     renderLearnometer();
                     if (learnometerState.step === 'test' && !learnometerState.testDone) startLearnometerTimer();
+                }
+                if (visiblePanel === 'Practice Gym') {
+                    renderPracticeGym();
+                    if (practiceGymState.testStarted && !practiceGymState.testDone) startPracticeGymTimer();
                 }
                 toolbarOpen = false;
                 updateToolbarVisibility();
@@ -2039,12 +2944,24 @@
             updateToolbarVisibility();
         });
 
+        document.getElementById('newAnnouncementButton')?.addEventListener('click', () => {
+            communicationComposing = true;
+            communicationModal = 'compose-announcement';
+            renderCommunicationComposer();
+        });
+        document.getElementById('manageGroupsButton')?.addEventListener('click', () => {
+            communicationModal = 'manage-groups';
+            renderManageGroupsModal();
+        });
+
         window.addEventListener('resize', updateToolbarVisibility);
         window.addEventListener('hashchange', renderRoute);
         renderRoute();
+        renderCommunicationComposer();
         renderCommunicationFeed();
         renderCommunicationFilterToolbar();
         renderLearnometer();
+        renderPracticeGym();
         showAppTab(activeAppTab);
         lucide.createIcons();
     </script>
