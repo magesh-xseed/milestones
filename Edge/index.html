@@ -655,7 +655,7 @@
 
     <!-- Header -->
     <header class="sticky top-0 z-50 w-full border-b border-wine-5 bg-white px-6 backdrop-blur-xl md:px-12">
-        <div class="max-w-[1400px] mx-auto h-24 flex items-center justify-between">
+        <div class="max-w-[1600px] mx-auto h-24 flex items-center justify-between">
             <!-- Logo & Branding -->
             <a href="#" class="focus-ring flex items-center" aria-label="SuperTeacher Edge home">
                 <img src="assets/st-edge-logo4.png" alt="SuperTeacher Edge" class="h-14 w-auto object-contain">
@@ -768,12 +768,12 @@
         </nav>
     </header>
 
-    <main class="tab-panel max-w-[1400px] mx-auto px-6 py-8 lg:py-10" data-tab-panel="Teacher Lesson Plan">
+    <main class="tab-panel max-w-[1280px] mx-auto px-6 py-8" data-tab-panel="Teacher Lesson Plan">
         <!-- JSON-driven Curriculum Sections -->
-        <section id="curriculum-sections"></section>
+        <section id="curriculum-sections" class="space-y-16"></section>
     </main>
 
-    <main class="tab-panel hidden max-w-[1400px] mx-auto px-4 py-4 sm:px-6" data-tab-panel="Communication">
+    <main class="tab-panel hidden max-w-[1280px] mx-auto px-4 py-4 sm:px-6" data-tab-panel="Communication">
         <aside id="communicationFilterToolbar"
             class="fixed bottom-20 left-4 right-4 z-40 hidden lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2"
             aria-label="Filter announcements by grade"></aside>
@@ -784,10 +784,10 @@
         <div id="communicationModalRoot"></div>
     </main>
 
-    <main class="tab-panel hidden max-w-[1400px] mx-auto px-6" data-tab-panel="Learnometer" id="learnometerPanel">
+    <main class="tab-panel hidden max-w-[1280px] mx-auto px-6" data-tab-panel="Learnometer" id="learnometerPanel">
     </main>
 
-    <main class="tab-panel hidden gym max-w-[1400px] mx-auto px-4 py-5 sm:px-6 lg:py-7" data-tab-panel="Practice Test"
+    <main class="tab-panel hidden gym max-w-[1280px] mx-auto px-4 py-5 sm:px-6 lg:py-7" data-tab-panel="Practice Test"
         id="practiceGymPanel">
         <div id="practiceGymRoot"></div>
     </main>
@@ -3410,6 +3410,295 @@
             return illustrations[type] || illustrations.english;
         }
 
+        const blockImageKeywords = {
+            // Computer Science
+            'Digital Basics': 'digital,technology,computer',
+            'Parts of a Computer': 'computer,hardware,keyboard',
+            'Using the Keyboard': 'keyboard,typing,hands',
+            'Mouse Skills': 'computer,mouse,desk',
+            'File and Folder Basics': 'folder,organize,documents',
+            'Drawing with Shapes': 'shapes,drawing,colorful',
+            'Internet Safety': 'internet,safety,shield',
+            'Sequencing Steps': 'steps,flowchart,order',
+            'Pattern Logic': 'pattern,puzzle,logic',
+            'Simple Algorithms': 'algorithm,code,programming',
+            'Creative Coding': 'coding,creative,screen',
+            'Debugging Basics': 'debug,magnify,code',
+            'Data Around Us': 'data,chart,information',
+            'Presentation Skills': 'presentation,speaking,screen',
+            'Digital Citizenship': 'digital,community,network',
+            // Environmental Science
+            'My Surroundings': 'nature,surroundings,park',
+            'My Family': 'family,home,together',
+            'Food We Eat': 'food,vegetables,healthy',
+            'Water Around Us': 'water,river,nature',
+            'Plants Near Us': 'plant,green,garden',
+            'Animals Around Us': 'animals,wildlife,nature',
+            'Our Body': 'body,health,children',
+            'Good Habits': 'healthy,morning,routine',
+            'Weather Around Us': 'weather,clouds,sky',
+            'Homes and Shelter': 'home,house,shelter',
+            'People Who Help Us': 'community,helpers,doctor',
+            'Festivals and Places': 'festival,celebration,culture',
+            'Travel and Transport': 'transport,travel,vehicle',
+            'Keeping Clean': 'clean,hygiene,soap',
+            'Caring for Nature': 'nature,environment,conservation',
+            // English
+            'The Alphabet Song': 'alphabet,letters,children',
+            'Letter Sounds': 'letters,phonics,reading',
+            'Sight Words': 'reading,words,book',
+            'Reading Fluency': 'reading,book,library',
+            'Rhyming Words': 'poetry,rhyme,words',
+            'Nouns Around Us': 'objects,classroom,learning',
+            'Action Words': 'movement,action,active',
+            'Describing Words': 'colorful,describe,vivid',
+            'Sentence Builders': 'writing,sentence,notebook',
+            'Listening for Details': 'listening,attention,classroom',
+            'Story Characters': 'story,characters,books',
+            'Story Setting': 'landscape,setting,scene',
+            'Picture Reading': 'illustration,picture,reading',
+            'Writing Workshop': 'writing,pen,notebook',
+            'Speaking with Confidence': 'speaking,confidence,stage',
+            // Science
+            'Light and Shadows': 'light,shadow,sun',
+            'Changes in the Sky': 'sky,clouds,astronomy',
+            'Materials Around Us': 'materials,science,objects',
+            'Solids and Liquids': 'water,liquid,solid',
+            'Plants Grow': 'plant,growth,seeds',
+            'Animal Needs': 'animals,wildlife,nature',
+            'Human Body': 'body,anatomy,health',
+            'Healthy Habits': 'healthy,exercise,nutrition',
+            'Forces and Motion': 'motion,speed,movement',
+            'Sound Around Us': 'sound,music,wave',
+            'Water Cycle Basics': 'water,rain,cycle',
+            'Weather Watch': 'weather,storm,lightning',
+            'Magnets': 'magnet,metal,science',
+            'Simple Machines': 'machine,gear,mechanics',
+            'Observing Like Scientists': 'microscope,science,laboratory',
+            // Social Science
+            'My Community': 'community,neighborhood,people',
+            'My School': 'school,classroom,education',
+            'Rules and Responsibilities': 'rules,community,teamwork',
+            'Maps and Places': 'map,geography,world',
+            'Directions Around Us': 'compass,direction,navigate',
+            'Our Neighborhood': 'neighborhood,street,community',
+            'Helpers at Work': 'profession,doctor,worker',
+            'Culture and Heritage': 'culture,heritage,tradition',
+            'Festivals We Celebrate': 'festival,celebration,lights',
+            'Food and Clothing': 'food,clothing,culture',
+            'Transport and Travel': 'transport,vehicle,travel',
+            'Public Places': 'city,park,public',
+            'Our Country': 'country,flag,landscape',
+            'Good Citizenship': 'community,volunteer,citizen',
+            'Saving Resources': 'environment,conservation,green',
+            // Mathematics
+            'Numbers and Patterns': 'numbers,math,pattern',
+            'Counting Forward': 'counting,numbers,children',
+            'Comparing Numbers': 'comparison,numbers,math',
+            'Place Value': 'numbers,digit,math',
+            'Addition Stories': 'math,addition,classroom',
+            'Subtraction Stories': 'math,classroom,learning',
+            'Shapes Around Us': 'shapes,geometry,colorful',
+            'Geometry in Life': 'geometry,architecture,shapes',
+            'Measurement': 'measurement,ruler,science',
+            'Time of Day': 'clock,time,sunrise',
+            'Money Basics': 'coins,money,market',
+            'Data and Pictures': 'chart,graph,data',
+            'Patterns in Nature': 'pattern,nature,symmetry',
+            'Fractions as Parts': 'fractions,math,divide',
+            'Problem Solving': 'thinking,puzzle,solution',
+            // Hindi
+            'Swar Pehchan': 'language,letters,learning',
+            'Vyanjan Pehchan': 'alphabet,language,script',
+            'Matra Abhyas': 'writing,practice,notebook',
+            'Pathan Kaushal': 'reading,book,study',
+            'Shabd Nirman': 'words,language,build',
+            'Vakya Rachna': 'sentence,writing,compose',
+            'Vyakaran': 'grammar,language,study',
+            'Kahani Pathan': 'story,book,reading',
+            'Kavita Pathan': 'poetry,poem,literature',
+            'Shravan Kaushal': 'listening,classroom,learning',
+            'Baatcheet': 'conversation,friends,speaking',
+            'Chitra Varnan': 'picture,describe,illustration',
+            'Rachnatmak Lekhan': 'creative,writing,notebook',
+            'Muhavare': 'language,phrases,words',
+            'Punravartan': 'revision,study,books',
+            // Early Childhood
+            'Stories and Sounds': 'story,children,book',
+            'Colors Around Me': 'colors,rainbow,paint',
+            'Numbers and Shapes': 'numbers,shapes,toys',
+            'Fine Motor Fun': 'craft,hands,children',
+            'Big and Small': 'size,toys,comparison',
+            'My Body': 'children,body,healthy',
+            'Animals and Sounds': 'animals,sound,kids',
+            'Fruits and Vegetables': 'fruits,vegetables,colorful',
+            'Weather Play': 'rain,children,outdoor',
+            'Sharing and Caring': 'sharing,friends,children',
+            'Music and Movement': 'music,dance,children',
+            'World Around Me': 'world,explore,nature',
+            'Creative Play': 'play,art,creative'
+        };
+
+        function strToSeed(str) {
+            let h = 0;
+            for (let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+            return Math.abs(h) % 10000;
+        }
+
+        const blockImages = {
+            // Computer Science
+            'Digital Basics': 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
+            'Parts of a Computer': 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+            'Using the Keyboard': 'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d',
+            'Mouse Skills': 'https://images.unsplash.com/photo-1496171367470-9ed9a91ea931',
+            'File and Folder Basics': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40',
+            'Drawing with Shapes': 'https://images.unsplash.com/photo-1513364776144-60967b0f800f',
+            'Internet Safety': 'https://images.unsplash.com/photo-1563986768609-322da13575f3',
+            'Sequencing Steps': 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4',
+            'Pattern Logic': 'https://images.unsplash.com/photo-1509228468518-180dd4864904',
+            'Simple Algorithms': 'https://images.unsplash.com/photo-1516116216624-53e697fedbea',
+            'Creative Coding': 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935',
+            'Debugging Basics': 'https://images.unsplash.com/photo-1516321497487-e288fb19713f',
+            'Data Around Us': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
+            'Presentation Skills': 'https://images.unsplash.com/photo-1552664730-d307ca884978',
+            'Digital Citizenship': 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
+
+            // Environmental Science
+            'My Surroundings': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+            'My Family': 'https://images.unsplash.com/photo-1511895426328-dc8714191300',
+            'Food We Eat': 'https://images.unsplash.com/photo-1490645935967-10de6ba17061',
+            'Water Around Us': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
+            'Plants Near Us': 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735',
+            'Animals Around Us': 'https://images.unsplash.com/photo-1474511320723-9a56873867b5',
+            'Our Body': 'https://images.unsplash.com/photo-1512678080530-7760d81faba6',
+            'Good Habits': 'https://images.unsplash.com/photo-1498837167922-ddd27525d352',
+            'Weather Around Us': 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21',
+            'Homes and Shelter': 'https://images.unsplash.com/photo-1460317442991-0ec209397118',
+            'People Who Help Us': 'https://images.unsplash.com/photo-1584515933487-779824d29309',
+            'Festivals and Places': 'https://images.unsplash.com/photo-1513151233558-d860c5398176',
+            'Travel and Transport': 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee',
+            'Keeping Clean': 'https://images.unsplash.com/photo-1588776814546-ec7e4c6c5b1b',
+            'Caring for Nature': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
+
+            // English
+            'The Alphabet Song': 'https://images.unsplash.com/photo-1513258496099-48168024aec0',
+            'Letter Sounds': 'https://images.unsplash.com/photo-1516979187457-637abb4f9353',
+            'Sight Words': 'https://images.unsplash.com/photo-1512820790803-83ca734da794',
+            'Reading Fluency': 'https://images.unsplash.com/photo-1491841550275-ad7854e35ca6',
+            'Rhyming Words': 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
+            'Nouns Around Us': 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b',
+            'Action Words': 'https://images.unsplash.com/photo-1517649763962-0c623066013b',
+            'Describing Words': 'https://images.unsplash.com/photo-1500534623283-312aade485b7',
+            'Sentence Builders': 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
+            'Listening for Details': 'https://images.unsplash.com/photo-1516321497487-e288fb19713f',
+            'Story Characters': 'https://images.unsplash.com/photo-1516979187457-637abb4f9353',
+            'Story Setting': 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee',
+            'Picture Reading': 'https://images.unsplash.com/photo-1516542076529-1ea3854896e1',
+            'Writing Workshop': 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
+            'Speaking with Confidence': 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d',
+
+            // Science
+            'Light and Shadows': 'https://images.unsplash.com/photo-1502082553048-f009c37129b9',
+            'Changes in the Sky': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+            'Materials Around Us': 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+            'Solids and Liquids': 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc',
+            'Plants Grow': 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735',
+            'Animal Needs': 'https://images.unsplash.com/photo-1474511320723-9a56873867b5',
+            'Human Body': 'https://images.unsplash.com/photo-1512678080530-7760d81faba6',
+            'Healthy Habits': 'https://images.unsplash.com/photo-1498837167922-ddd27525d352',
+            'Forces and Motion': 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee',
+            'Sound Around Us': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f',
+            'Water Cycle Basics': 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21',
+            'Weather Watch': 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b',
+            'Magnets': 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+            'Simple Machines': 'https://images.unsplash.com/photo-1517048676732-d65bc937f952',
+            'Observing Like Scientists': 'https://images.unsplash.com/photo-1532187643603-ba119ca4109e',
+
+            // Social Science
+            'My Community': 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac',
+            'My School': 'https://images.unsplash.com/photo-1509062522246-3755977927d7',
+            'Rules and Responsibilities': 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
+            'Maps and Places': 'https://images.unsplash.com/photo-1524661135-423995f22d0b',
+            'Directions Around Us': 'https://images.unsplash.com/photo-1521295121783-8a321d551ad2',
+            'Our Neighborhood': 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000',
+            'Helpers at Work': 'https://images.unsplash.com/photo-1584515933487-779824d29309',
+            'Culture and Heritage': 'https://images.unsplash.com/photo-1513151233558-d860c5398176',
+            'Festivals We Celebrate': 'https://images.unsplash.com/photo-1513151233558-d860c5398176',
+            'Food and Clothing': 'https://images.unsplash.com/photo-1490645935967-10de6ba17061',
+            'Transport and Travel': 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee',
+            'Public Places': 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df',
+            'Our Country': 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee',
+            'Good Citizenship': 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
+            'Saving Resources': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
+
+            // Mathematics
+            'Numbers and Patterns': 'https://images.unsplash.com/photo-1509228468518-180dd4864904',
+            'Counting Forward': 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b',
+            'Comparing Numbers': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb',
+            'Place Value': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb',
+            'Addition Stories': 'https://images.unsplash.com/photo-1509228468518-180dd4864904',
+            'Subtraction Stories': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb',
+            'Shapes Around Us': 'https://images.unsplash.com/photo-1513364776144-60967b0f800f',
+            'Geometry in Life': 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2',
+            'Measurement': 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
+            'Time of Day': 'https://images.unsplash.com/photo-1501139083538-0139583c060f',
+            'Money Basics': 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e',
+            'Data and Pictures': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
+            'Patterns in Nature': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
+            'Fractions as Parts': 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb',
+            'Problem Solving': 'https://images.unsplash.com/photo-1509228468518-180dd4864904',
+
+            // Hindi
+            'Swar Pehchan': 'https://images.unsplash.com/photo-1513258496099-48168024aec0',
+            'Vyanjan Pehchan': 'https://images.unsplash.com/photo-1516979187457-637abb4f9353',
+            'Matra Abhyas': 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
+            'Pathan Kaushal': 'https://images.unsplash.com/photo-1491841550275-ad7854e35ca6',
+            'Shabd Nirman': 'https://images.unsplash.com/photo-1516979187457-637abb4f9353',
+            'Vakya Rachna': 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
+            'Vyakaran': 'https://images.unsplash.com/photo-1513258496099-48168024aec0',
+            'Kahani Pathan': 'https://images.unsplash.com/photo-1516979187457-637abb4f9353',
+            'Kavita Pathan': 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
+            'Shravan Kaushal': 'https://images.unsplash.com/photo-1516321497487-e288fb19713f',
+            'Baatcheet': 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d',
+            'Chitra Varnan': 'https://images.unsplash.com/photo-1516542076529-1ea3854896e1',
+            'Rachnatmak Lekhan': 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
+            'Muhavare': 'https://images.unsplash.com/photo-1516979187457-637abb4f9353',
+            'Punravartan': 'https://images.unsplash.com/photo-1491841550275-ad7854e35ca6',
+
+            // Early Childhood
+            'Stories and Sounds': 'https://images.unsplash.com/photo-1516979187457-637abb4f9353',
+            'Colors Around Me': 'https://images.unsplash.com/photo-1494256997604-768d1f608cac',
+            'Numbers and Shapes': 'https://images.unsplash.com/photo-1513364776144-60967b0f800f',
+            'Fine Motor Fun': 'https://images.unsplash.com/photo-1516321497487-e288fb19713f',
+            'Big and Small': 'https://images.unsplash.com/photo-1517841905240-472988babdf9',
+            'My Body': 'https://images.unsplash.com/photo-1512678080530-7760d81faba6',
+            'Animals and Sounds': 'https://images.unsplash.com/photo-1474511320723-9a56873867b5',
+            'Fruits and Vegetables': 'https://images.unsplash.com/photo-1490645935967-10de6ba17061',
+            'Weather Play': 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21',
+            'Sharing and Caring': 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac',
+            'Music and Movement': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f',
+            'World Around Me': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+            'Creative Play': 'https://images.unsplash.com/photo-1513364776144-60967b0f800f',
+            fallback: 'https://images.unsplash.com/photo-1509062522246-3755977927d7'
+        };
+
+        const lessonStageImageKeywords = {
+            warm: 'curiosity,wonder,sunrise',
+            explore: 'explore,discovery,investigate',
+            practice: 'practice,classroom,learning',
+            apply: 'apply,real-world,action',
+            reflect: 'reflection,thinking,journal'
+        };
+
+        function getContentImageUrl(blockTitle, lessonStage) {
+            const blockKw = blockImageKeywords[blockTitle];
+            const stageKw = lessonStage ? lessonStageImageKeywords[lessonStage] : null;
+            const keywords = stageKw
+                ? `${blockKw ? blockKw.split(',')[0] : 'education'},${stageKw}`
+                : (blockKw || 'education,classroom,learning');
+            return `https://loremflickr.com/400/300/${keywords}?lock=${strToSeed(keywords)}`;
+        }
+
         const blockTitleLibrary = {
             'Computer Science': ['Digital Basics', 'Parts of a Computer', 'Using the Keyboard', 'Mouse Skills', 'File and Folder Basics', 'Drawing with Shapes', 'Internet Safety', 'Sequencing Steps', 'Pattern Logic', 'Simple Algorithms', 'Creative Coding', 'Debugging Basics', 'Data Around Us', 'Presentation Skills', 'Digital Citizenship'],
             'Environmental Science': ['My Surroundings', 'My Family', 'Food We Eat', 'Water Around Us', 'Plants Near Us', 'Animals Around Us', 'Our Body', 'Good Habits', 'Weather Around Us', 'Homes and Shelter', 'People Who Help Us', 'Festivals and Places', 'Travel and Transport', 'Keeping Clean', 'Caring for Nature'],
@@ -3427,6 +3716,7 @@
                 duration: '20 min',
                 stage: 'warm',
                 icon: 'sun',
+                image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7',
                 description: (topic) => `Activate prior ideas and invite quick observations about ${topic.toLowerCase()}.`
             },
             {
@@ -3434,6 +3724,7 @@
                 duration: '35 min',
                 stage: 'explore',
                 icon: 'search',
+                image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
                 description: (topic) => `Students investigate examples and notice patterns before formal naming.`
             },
             {
@@ -3441,6 +3732,7 @@
                 duration: '30 min',
                 stage: 'practice',
                 icon: 'presentation',
+                image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f',
                 description: (topic) => `Model the thinking moves students need for ${topic.toLowerCase()}.`
             },
             {
@@ -3448,6 +3740,7 @@
                 duration: '40 min',
                 stage: 'practice',
                 icon: 'pencil-ruler',
+                image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a',
                 description: () => 'Practice together with prompts, checks, and visible teacher support.'
             },
             {
@@ -3455,6 +3748,7 @@
                 duration: '35 min',
                 stage: 'practice',
                 icon: 'flask-conical',
+                image: 'https://images.unsplash.com/photo-1532187643603-ba119ca4109e',
                 description: () => 'Hands-on task that turns the idea into observable classroom evidence.'
             },
             {
@@ -3462,6 +3756,7 @@
                 duration: '25 min',
                 stage: 'explore',
                 icon: 'list-checks',
+                image: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f',
                 description: () => 'Quick check for misconceptions before students move to independent work.'
             },
             {
@@ -3469,6 +3764,7 @@
                 duration: '30 min',
                 stage: 'apply',
                 icon: 'arrow-up-right',
+                image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b',
                 description: () => 'Use the idea in a fresh situation with a clear success target.'
             },
             {
@@ -3476,6 +3772,7 @@
                 duration: '20 min',
                 stage: 'reflect',
                 icon: 'sparkles',
+                image: 'https://images.unsplash.com/photo-1491841550275-ad7854e35ca6',
                 description: () => 'Close the learning loop with evidence, explanation, and next steps.'
             }
         ];
@@ -3536,6 +3833,7 @@
                         duration: lesson.duration,
                         stage: lesson.stage,
                         icon: lesson.icon,
+                        imageUrl: lesson.image || getContentImageUrl(title, lesson.stage),
                         progress: lessonState.progress,
                         status: lessonState.status
                     };
@@ -3543,6 +3841,7 @@
                 return {
                     id: `block-${blockIndex + 1}`,
                     title,
+                    imageUrl: blockImages[title] || blockImages['fallback'],
                     progress,
                     status: getStatus(progress),
                     lessons
@@ -3699,7 +3998,7 @@
         function renderHeroProgress(value) {
             const safeValue = Math.max(0, Math.min(100, Number(value) || 0));
             return `
-                <div class="h-3 w-full overflow-hidden rounded-full bg-[#F0E7E4] shadow-inner" role="progressbar" aria-valuenow="${safeValue}" aria-valuemin="0" aria-valuemax="100" aria-label="${safeValue}% complete">
+                <div class="h-1.5 w-full overflow-hidden rounded-full bg-[#F0E7E4] shadow-inner" role="progressbar" aria-valuenow="${safeValue}" aria-valuemin="0" aria-valuemax="100" aria-label="${safeValue}% complete">
                     <div class="h-full rounded-full shadow-[0_4px_14px_rgba(177,15,58,0.24)]" style="width: ${safeValue}%; background: linear-gradient(90deg, #8F0B2E 0%, #B10F3A 58%, #D65A70 100%);"></div>
                 </div>
             `;
@@ -3968,7 +4267,7 @@
             const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
 
             return `
-                <article class="subject-card focus-ring group relative flex flex-1 min-w-[180px] lg:min-w-[200px] min-h-[80px] max-h-[140px] lg:max-h-[150px] cursor-pointer flex-col overflow-hidden rounded-[10px] border border-[#E9DDD9] p-3 focus:outline-none"
+                <article class="subject-card focus-ring group relative flex flex-1 min-w-[150px] lg:min-w-[140px] min-h-[80px] max-h-[140px] lg:max-h-[150px] cursor-pointer flex-col overflow-hidden rounded-[10px] border border-[#E9DDD9] p-3 focus:outline-none"
                     style="--subject-accent: ${theme.accent};--subject-bg: url('${getSubjectBackground(subject.name)}');"
                     data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}"
                     role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks for ${escapeHtml(grade.title)}">
@@ -4052,8 +4351,9 @@
                 <div class="relative mb-8 scroll-mt-28" id="grade-section-${grade.id}" data-grade-section="${grade.id}">
                     <span class="pointer-events-none absolute -top-[11px] left-5 z-10 select-none rounded-full border border-[#EDE0DB] bg-white px-3 py-0.5 text-[11px] font-black uppercase tracking-widest text-[#a40c2e]">${escapeHtml(grade.title)}</span>
                     <section class="overflow-hidden rounded-[16px] border border-[#EDE0DB] bg-white/50 shadow-[0_6px_40px_rgba(28,25,23,0.05)] backdrop-blur-sm">
-                        <div class="subjects-row-wrapper px-6 py-5 lg:px-8 lg:py-6" data-grade-id="${grade.id}">
+                        <div class="subjects-row-wrapper px-6 py-6 lg:px-6 lg:py-6" data-grade-id="${grade.id}">
                             <div class="subjects-row flex flex-wrap gap-3">
+                                
                                 ${(grade.subjects || []).map(subject => renderSubjectCardv3(subject, grade)).join('')}
                             </div>
                         </div>
@@ -4062,6 +4362,7 @@
             `;
         }
 
+                            // <div class="subjects-row flex flex-wrap gap-3 after:flex-auto after:content-[''] after:min-w-[150px] lg:after:min-w-[140px]">
         // ${(grade.subjects || []).map(subject => renderSubjectCardv1(subject, grade)).join('')}
 
         function renderBlocksPage(gradeId, subjectId) {
@@ -4070,23 +4371,33 @@
             if (!grade || !subject) return renderHome();
             initializeCollapsedBlocksPage(grade, subject);
 
-            //  <header class="blocks-page-header -mx-6 px-6 py-5 backdrop-blur-xl md:-mx-12 md:px-12">
-            //             <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-            //                 <div class="flex min-w-0 items-center gap-4">
-            //                     <span class="grid h-12 w-12 shrink-0 place-items-center rounded-[14px] bg-[#BD1740] text-[15px] font-bold text-white">${getGradeBadgeLabel(grade)}</span>
-            //                     <div class="min-w-0">
-            //                         <p class="text-[11px] font-bold uppercase tracking-[0.16em] text-[#BD1740]">Block List</p>
-            //                         <h1 class="mt-1 truncate text-2xl font-bold text-[#1C1917] md:text-3xl">${grade.title} : ${subject.name}</h1>
-            //                         <p class="mt-1 text-sm font-medium text-[#78716C]">${subject.blocks.length} blocks • ${subject.blocks.reduce((sum, block) => sum + block.lessons.length, 0)} sessions</p>
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </header>
+            const theme = getSubjectTheme(subject.name);
+            const totalSessions = subject.blocks.reduce((sum, block) => sum + block.lessons.length, 0);
+            const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
+            const completedSessions = subject.blocks.reduce((sum, block) => sum + block.lessons.filter(l => l.status === 'Completed').length, 0);
 
             return `
+                <div class="relative mx-auto max-w-[1180px]">
+                    <div class="flex items-center justify-between gap-6 rounded-2xl bg-white/70 px-6 py-5 shadow-sm backdrop-blur-md ring-1 ring-white/60">
+                        <div class="flex min-w-0 items-center gap-4">
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold uppercase tracking-[0.16em]" style="color:${theme.accent};">Block List</p>
+                                <h1 class="mt-0.5 truncate text-xl font-bold text-[#1C1917] md:text-2xl">${escapeHtml(grade.title)} &middot; ${escapeHtml(subject.name)}</h1>
+                                <p class="mt-0.5 text-[13px] font-medium text-[#78716C]">${subject.blocks.length} blocks &bull; ${totalSessions} sessions</p>
+                            </div>
+                        </div>
+                        <div class="flex shrink-0 flex-col items-end gap-1.5">
+                            <span class="text-[11px] font-bold tabular-nums" style="color:${theme.accent};">${completedSessions} / ${totalSessions} done</span>
+                            <div class="h-2 w-40 overflow-hidden rounded-full" style="background:${theme.accentTrack};">
+                                <div class="h-full rounded-full transition-all duration-300" style="width:${progress}%;background:${theme.accent};"></div>
+                            </div>
+                            <span class="text-[10px] font-medium text-[#A8A29E]">${progress}% complete</span>
+                        </div>
+                    </div>
+                </div>
                 <section class="lesson-journey-shell -mx-6 -mt-4 px-6 pb-16 pt-0 md:-mx-12 md:px-12">
-                   
-                    <div class="mx-auto max-w-[1320px] space-y-8 pt-8">
+
+                    <div class="mx-auto max-w-[1180px] space-y-8 pt-8">
                         ${subject.blocks.map((block, index) => renderBlockSection(block, index, grade, subject)).join('')}
                     </div>
                 </section>
@@ -4149,11 +4460,12 @@
         const lessonFlowLabels = ['AIM', 'ACTION', 'ANALYSIS', 'APPLICATION', 'ASSESSMENT'];
 
         function getLessonDetailContent(lesson, lessonIndex, block, grade, subject) {
+            const lessonImage = lesson.imageUrl || lesson.image || getContentImageUrl(block.title, lesson.stage);
             const isLightAndShadows = subject.name === 'Science' && block.title === 'Light and Shadows';
             if (isLightAndShadows) {
                 return {
-                    heroImage: 'assets/light-shadow.jpeg',
-                    supportImage: 'assets/light-shadow-lesson.png',
+                    heroImage: lessonImage,
+                    supportImage: lessonImage,
                     aim: 'Explain why the Sun appears to move in the sky and how its position changes the length and direction of shadows during the day.',
                     bigQuestion: 'If the Sun is never in the same spot, what changes can students observe in the sky and on the ground?',
                     teacherPrompt: 'Start with a quick observation: ask students where they saw the Sun in the morning and where they expect it to be in the evening. Then guide them to connect Sun position, light direction, and shadow length using a simple Sun-Earth model.',
@@ -4188,7 +4500,7 @@
                         {
                             kicker: 'Teacher Setup',
                             title: 'Before Class',
-                            image: 'assets/light-shadow-lesson.png',
+                            image: lessonImage,
                             bullets: [
                                 'Keep one flashlight, one ball, and one sticker ready for each group.',
                                 'Draw East, Noon, and West positions on the board before the activity.',
@@ -4198,7 +4510,7 @@
                         {
                             kicker: 'Classroom Flow',
                             title: 'Teach the Idea Clearly',
-                            image: 'assets/light-shadow.jpeg',
+                            image: lessonImage,
                             bullets: [
                                 'Begin with students describing the sky at morning, noon, and evening.',
                                 'Demonstrate that the flashlight stays still while Earth rotates.',
@@ -4208,7 +4520,7 @@
                         {
                             kicker: 'Student Task',
                             title: 'Observe, Record, Explain',
-                            image: 'assets/light-shadow-lesson.png',
+                            image: lessonImage,
                             bullets: [
                                 'Students sketch the model and label Sun, Earth, observer, light, and darkness.',
                                 'They write one sentence explaining morning, noon, evening, and night.',
@@ -4227,8 +4539,8 @@
 
             const title = getLessonSessionTitle(lesson, lessonIndex);
             return {
-                heroImage: 'assets/light-shadow.jpeg',
-                supportImage: 'assets/light-shadow-lesson.png',
+                heroImage: lessonImage,
+                supportImage: lessonImage,
                 aim: lesson.description,
                 bigQuestion: `How can students use evidence to understand ${block.title.toLowerCase()}?`,
                 teacherPrompt: `Guide students through ${title.toLowerCase()} with a short observation, a concrete classroom action, a discussion of evidence, and one independent application task.`,
@@ -4247,19 +4559,19 @@
                     {
                         kicker: 'Teacher Setup',
                         title: 'Prepare the Lesson',
-                        image: 'assets/light-shadow-lesson.png',
+                        image: lessonImage,
                         bullets: ['Review the session aim.', 'Keep one visual example ready.', 'Plan one misconception question before class.']
                     },
                     {
                         kicker: 'Classroom Flow',
                         title: 'Teach With Evidence',
-                        image: 'assets/light-shadow.jpeg',
+                        image: lessonImage,
                         bullets: ['Open with observation.', 'Let students describe before naming.', 'Record class evidence in simple words.']
                     },
                     {
                         kicker: 'Student Task',
                         title: 'Practice and Explain',
-                        image: 'assets/light-shadow-lesson.png',
+                        image: lessonImage,
                         bullets: ['Students complete the practice prompt.', 'Pairs compare explanations.', 'Teacher checks for a clear reason, not only the answer.']
                     }
                 ],
@@ -4271,9 +4583,9 @@
             const imageUrl = block?.imageUrl || block?.bannerUrl || block?.banner || block?.thumbnailUrl || block?.thumbnail || subjectTheme.icon || 'assets/light-shadow-lesson.png';
             const altText = block?.title ? `${block.title} block image` : `Block ${blockIndex + 1} ${subjectName}`;
             return `
-                <span class="block-image-badge relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl border-2 border-white shadow-lg lg:h-[140px] lg:w-[140px]" style="--block-accent: ${subjectTheme.accent}; --block-accent-soft: ${subjectTheme.accentSoft};">
+                <span class="block-image-badge relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl border-2 border-white shadow-lg lg:h-[100px] lg:w-[100px]" style="--block-accent: ${subjectTheme.accent}; --block-accent-soft: ${subjectTheme.accentSoft};">
                     <span class="absolute inset-0 overflow-hidden rounded-[inherit]">
-                        <img src="assets/light-shadow.jpeg" alt="${escapeHtml(altText)}" loading="lazy" decoding="async" sizes="(max-width: 640px) 96px, 128px" class="absolute inset-0 h-full w-full object-cover">
+                        <img src="${imageUrl}" alt="${escapeHtml(altText)}" loading="lazy" decoding="async" sizes="(max-width: 640px) 96px, 128px" class="absolute inset-0 h-full w-full object-cover">
                     </span>
                 </span>
             `;
@@ -4296,7 +4608,7 @@
                                 <div class="flex flex-wrap items-center gap-2">
                                     <p class="rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#A41034] ring-1 ring-[#E9DDD9]/80">Block ${blockIndex + 1}</p>
                                 </div>
-                                <h2 class="mt-3 text-2xl font-bold leading-tight text-[#1C1917] md:text-[1.5rem]">${block.title}</h2>
+                                <h2 class="mt-3 text-1xl font-bold leading-tight text-[#1C1917] md:text-[1.3rem]">${block.title}</h2>
                                 <p class="mt-2 max-w-2xl text-sm font-medium leading-6 text-[#6F625F]">${isComplete ? `All ${block.lessons.length} sessions completed` : `${progressState} • ${completedLessons}/${block.lessons.length} sessions complete`}</p>
                             </div>
                         </div>
@@ -4312,7 +4624,7 @@
                         </div>`;
             const blockHeader = `<button type="button" class="block-header-sticky focus-ring relative flex w-full cursor-pointer flex-col gap-5 text-left focus:outline-none sm:flex-row sm:items-center sm:justify-between" data-view="toggle-block" data-block-key="${blockKey}" aria-expanded="${isExpanded}" aria-label="${isExpanded ? 'Collapse' : 'Expand'} ${escapeHtml(block.title)}">${blockHeaderInner}</button>`;
             return `
-                <section id="block-section-${blockKey}" class="block-card ${isExpanded ? '' : 'is-collapsed'} mx-auto w-full max-w-[1320px] scroll-mt-56 rounded-[30px] p-4 md:p-6" data-block-section="${blockKey}" style="scroll-margin-top: 13rem;">
+                <section id="block-section-${blockKey}" class="block-card ${isExpanded ? '' : 'is-collapsed'} mx-auto w-full max-w-[1180px] scroll-mt-56 rounded-[30px] p-4 md:p-6" data-block-section="${blockKey}" style="scroll-margin-top: 13rem;">
                     ${blockHeader}
                     ${isExpanded ? `
                         <div class="lesson-block relative mt-8 space-y-7 pl-14 md:space-y-8 md:pl-16" style="--timeline-progress: ${timelineProgress}%;">
@@ -4333,8 +4645,8 @@
                     <div class="timeline-node-wrap">
                         ${renderTimelineNode(displayStatus)}
                     </div>
-                    <div class="lesson-image-wrap relative h-[190px] overflow-hidden rounded-[22px] bg-[#fffaf3] md:h-[128px] md:w-[128px]">
-                        <img src="assets/light-shadow.jpeg" alt="${lessonSessionLabel}: ${lesson.title}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06] group-hover:brightness-105">
+                    <div class="lesson-image-wrap relative h-[100px] overflow-hidden rounded-[22px] bg-[#fffaf3] md:h-[100px] md:w-[100px]">
+                        <img src="${lesson.imageUrl || 'assets/light-shadow-lesson.png'}" alt="${lessonSessionLabel}: ${lesson.title}" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06] group-hover:brightness-105">
                     </div>
                     <div class="min-w-0 py-1 md:pr-2">
                         <div class="flex flex-wrap items-center gap-2">
@@ -4347,7 +4659,8 @@
                                 ${displayStatus}
                             </span>
                         </div>
-                        <h3 class="mt-3 text-[1.25rem] font-bold leading-7 text-[#1C1917] transition-colors duration-200 group-hover:text-[#B10F3A] md:text-[1.38rem]">${lesson.title}</h3>
+                        
+                        <h3 class="mt-3 text-1xl font-bold text-[#1C1917] md:text-[1.3rem] leading-7 text-[#1C1917] transition-colors duration-200 group-hover:text-[#B10F3A]">${lesson.title}</h3>
                         <p class="mt-2 line-clamp-2 max-w-2xl text-[14px] font-normal leading-6 text-[#756A66]">${lesson.description}</p>
                     </div>
                     <button type="button" class="focus-ring ml-auto grid h-12 w-12 cursor-pointer place-items-center rounded-full bg-[#FFFDFC] text-[#B10F3A] shadow-[0_10px_24px_rgba(28,25,23,0.07)] ring-1 ring-[#E9DDD9]/75 transition-all duration-200 hover:scale-110 hover:bg-[#B10F3A] hover:text-white hover:shadow-[0_14px_30px_rgba(177,15,58,0.18)] focus:outline-none md:ml-0" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${lesson.id}" aria-label="Open ${lessonSessionLabel}: ${escapeHtml(lesson.title)}">
@@ -4371,7 +4684,7 @@
 
             return `
                 <section class="lesson-detail-shell -mx-6 -mt-4 px-6 pb-16 pt-6 md:-mx-12 md:px-12">
-                    <div class="mx-auto max-w-[1320px]">
+                    <div class="mx-auto max-w-[1180px]">
                     <button type="button" class="focus-ring mb-6 inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E7D6CF] bg-white px-5 py-3 text-[11px] font-bold tracking-wide text-[#3A071A] transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/5 focus:outline-none" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                         <span>Back to Blocks</span>
@@ -4517,15 +4830,17 @@
         }
 
         function renderParentContinueLessonSection() {
+            const continueLessonType = lessonTypes[0];
+            const continueLessonImage = continueLessonType?.image || 'assets/light-shadow-lesson.png';
             return `
                 <!-- Updated Continue Lesson Section -->
-                <section class="${activeAppTab === 'Parent Lesson Plan' ? 'mb-4' : 'mb-10'} today-fade-in">
+                <section class="mb-10 today-fade-in">
                     <section class="relative rounded-[3rem] overflow-hidden card-shadow group h-[420px]">
                         <!-- Background Image Covering Entire Card with Top Alignment -->
                         <img
                             src="assets/light-shadow.jpeg"
                             class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-1000 group-hover:scale-105"
-                            alt="Light and Shadows"
+                            alt="${escapeHtml(continueLessonType?.title || 'Lesson')} image"
                         />
 
                         <!-- Dark Gradient Overlay for Readability -->
@@ -4534,18 +4849,18 @@
                         <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
                             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
                                 <div class="max-w-2xl">
-                                    <span class="inline-flex items-center gap-2 px-3 py-1 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-semibold uppercase tracking-[0.12em] shadow-lg mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play-circle" aria-hidden="true" class="lucide lucide-play-circle w-3 h-3"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"></path><circle cx="12" cy="12" r="10"></circle></svg>
-                                Science · Grade 4 · Block 01
+                                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-black uppercase tracking-[0.15em] shadow-xl mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play-circle" aria-hidden="true" class="lucide lucide-play-circle w-3.5 h-3.5"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                Science. Grade 4 - Block 01
                             </span>
-                                    <h1 class="text-[28px] md:text-[32px] font-semibold text-white mb-3 leading-tight tracking-[-0.02em]">
-                                        Light and Shadows
+                                    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
+                                        Light and <br/>Shadows
                                     </h1>
-                                    <div class="max-w-2xl space-y-1.5 text-white/85">
-                                        <p class="text-[14px] font-medium text-white/90">
+                                    <div class="max-w-2xl space-y-2 text-white/85">
+                                        <p class="text-base md:text-lg font-semibold">
                                             Changes in the Sky Across the Day
                                         </p>
-                                        <p class="max-w-xl text-[13px] font-normal leading-[1.6] text-white/65">
+                                        <p class="max-w-xl text-sm md:text-base font-medium leading-6 text-white/75">
                                             Explain why the Sun appears to move in the sky and how it affects the length and rhythm of a day.
                                         </p>
                                     </div>
@@ -4553,11 +4868,11 @@
 
                                 <!-- Action Row -->
                                 <div class="flex flex-col items-end gap-5">
-                                    <div class="flex items-center gap-3 bg-black/30 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
-                                        <div class="h-1 w-20 bg-white/20 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress 45% complete">
-                                            <div class="h-full bg-[#f59138] rounded-full" style="width: 45%"></div>
+                                    <div class="flex items-center gap-4 bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
+                                        <div class="h-1.5 w-24 bg-white/20 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress 45% complete">
+                                            <div class="h-full bg-[#f59138] rounded-full shadow-[0_0_10px_#f59138]" style="width: 45%"></div>
                                         </div>
-                                        <span class="text-[11px] font-medium text-white/80">45% done</span>
+                                        <span class="text-[10px] font-bold text-white tracking-wide ">45% Progress</span>
                                     </div>
 
                                     <a
@@ -4567,10 +4882,10 @@
                                         data-subject-id="science"
                                         data-block-id="block-1"
                                         data-lesson-id="lesson-1"
-                                        class="focus-ring bg-white text-[#1C1917] px-6 py-3 rounded-xl text-[14px] font-semibold flex items-center gap-2 transition-all shadow-lg hover:bg-[#f59138] hover:text-white hover:-translate-y-0.5 active:scale-[0.98]"
+                                        class="focus-ring bg-white text-[#1C1917] px-10 py-5 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-2xl hover:bg-[#f59138] hover:text-white hover:-translate-y-1 active:scale-95"
                                     >
                                         Continue Lesson
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                                     </a>
                                 </div>
                             </div>
@@ -4967,7 +5282,7 @@
             return `
                 ${renderParentContinueLessonSection()}
 
-                <div class="mx-auto max-w-[1380px] mt-0" ${showHeading ? 'style="margin-top: 1rem;"' : ''}>
+                <div class="mx-auto max-w-[1320px] mt-0" ${showHeading ? 'style="margin-top: 1rem;"' : ''}>
                     ${visibleGrades.map(renderGradeSection).join('')}
                 </div>
 
