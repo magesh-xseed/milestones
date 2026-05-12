@@ -2008,13 +2008,54 @@
             lucide.createIcons();
         }
 
-        const LEARNOMETER_TEST = {
-            name: 'Mathematics Unit Assessment',
-            subject: 'Mathematics',
-            grade: 'Grade 4',
-            block: 'Block 03 - Fractions',
-            duration: 30
-        };
+        const LEARNOMETER_TESTS = [
+            {
+                id: 'grade4-learnometer',
+                name: 'Grade 4 Learnometer Test',
+                subject: 'Mathematics',
+                grade: 'Grade 4',
+                block: 'Annual Assessment',
+                duration: 30,
+                endDate: 'Ends on 30 June 2026',
+                instructions: [
+                    'Read each question fully before choosing an answer.',
+                    'You can answer the questions in any order.',
+                    'Use the question navigation to move directly to any question.',
+                    'The timer will keep running until the test is submitted or time ends.',
+                    'Make sure you review unanswered questions before submitting.',
+                    'Choose the best answer for every question.',
+                    'Some questions may include images.',
+                    'Some answer options may also include images.',
+                    'Click any image to view it in fullscreen.',
+                    'Use the Previous and Next buttons to move through the test.',
+                    'Do not refresh or close the page during the test.',
+                    'Click Submit Test only when you are ready to finish.'
+                ]
+            },
+            {
+                id: 'grade4-pilot',
+                name: 'Grade 4 Pilot Test',
+                subject: 'Mathematics',
+                grade: 'Grade 4',
+                block: 'Pilot Assessment',
+                duration: 25,
+                endDate: 'Ends on 12 July 2026',
+                instructions: [
+                    'Read all instructions before you begin the pilot test.',
+                    'This test helps students get familiar with the assessment pattern.',
+                    'You can move between questions freely.',
+                    'The timer will be visible throughout the test.',
+                    'Answer every question to get the best practice experience.',
+                    'Review your answers before submitting.',
+                    'Questions may contain diagrams or pictures.',
+                    'Answer options may also include visual choices.',
+                    'Click on any image to open it in fullscreen.',
+                    'Use the top navigation to jump to any question quickly.',
+                    'Use Practice Test first if needed before the official test.',
+                    'Submit only after checking all your answers.'
+                ]
+            }
+        ];
 
         const LEARNOMETER_QUESTIONS = [
             { text: 'If 3 out of 8 equal parts of a shape are shaded, what fraction is shaded?', options: ['3/8', '5/8', '8/3', '1/3'], answer: 0 },
@@ -2034,10 +2075,12 @@
             studentId: '',
             teacherCode: '',
             loginError: '',
+            selectedTestId: LEARNOMETER_TESTS[0].id,
             testType: null,
             currentQ: 0,
             selected: null,
             answers: [],
+            skipped: [],
             timeLeft: 0,
             testDone: false,
             timer: null
@@ -2045,6 +2088,34 @@
 
         function learnometerLogo(size = 26) {
             return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" stroke-width="1.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>`;
+        }
+
+        function getSelectedLearnometerTest() {
+            return LEARNOMETER_TESTS.find((test) => test.id === learnometerState.selectedTestId) || LEARNOMETER_TESTS[0];
+        }
+
+        function renderLearnometerStudentCard() {
+            return `
+                <div class="mx-auto mb-6 flex max-w-xl items-center gap-4 rounded-[1.75rem] border border-[#ECE6E1] bg-white px-5 py-4 shadow-[0_14px_32px_rgba(28,25,23,0.05)]">
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#A41034]/[0.08] text-[#A41034]">
+                        <i data-lucide="user-round" class="h-7 w-7"></i>
+                    </div>
+                    <div class="grid min-w-0 flex-1 gap-3 sm:grid-cols-3 sm:gap-4">
+                        <div class="min-w-0">
+                            <p class="text-[10px] font-black uppercase tracking-[0.14em] text-[#A8A29E]">Student Name</p>
+                            <p class="truncate text-[14px] font-bold text-[#1C1917]">Riya Sharma</p>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-[10px] font-black uppercase tracking-[0.14em] text-[#A8A29E]">Student ID</p>
+                            <p class="truncate text-[14px] font-bold text-[#1C1917]">${escapeHtml(learnometerState.studentId || 'XS-2026-04821')}</p>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-[10px] font-black uppercase tracking-[0.14em] text-[#A8A29E]">Grade</p>
+                            <p class="truncate text-[14px] font-bold text-[#1C1917]">Grade 4</p>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         function formatLearnometerTime(secs) {
@@ -2083,11 +2154,13 @@
         }
 
         function startLearnometerTest(type) {
+            const selectedTest = getSelectedLearnometerTest();
             learnometerState.testType = type;
             learnometerState.currentQ = 0;
             learnometerState.selected = null;
             learnometerState.answers = [];
-            learnometerState.timeLeft = LEARNOMETER_TEST.duration * 60;
+            learnometerState.skipped = Array.from({ length: LEARNOMETER_QUESTIONS.length }, () => false);
+            learnometerState.timeLeft = selectedTest.duration * 60;
             learnometerState.testDone = false;
             learnometerState.step = 'test';
             renderLearnometer();
@@ -2096,6 +2169,7 @@
 
         function completeLearnometerQuestion() {
             learnometerState.answers[learnometerState.currentQ] = learnometerState.selected;
+            learnometerState.skipped[learnometerState.currentQ] = false;
 
             if (learnometerState.currentQ + 1 >= LEARNOMETER_QUESTIONS.length) {
                 learnometerState.testDone = true;
@@ -2115,13 +2189,33 @@
             learnometerState.studentId = '';
             learnometerState.teacherCode = '';
             learnometerState.loginError = '';
+            learnometerState.selectedTestId = LEARNOMETER_TESTS[0].id;
             learnometerState.testType = null;
             learnometerState.currentQ = 0;
             learnometerState.selected = null;
             learnometerState.answers = [];
+            learnometerState.skipped = [];
             learnometerState.timeLeft = 0;
             learnometerState.testDone = false;
             renderLearnometer();
+        }
+
+        function updateLearnometerQuestionState(nextIndex) {
+            const currentIndex = learnometerState.currentQ;
+            if (nextIndex === currentIndex) return;
+
+            if (learnometerState.answers[currentIndex] === null || learnometerState.answers[currentIndex] === undefined) {
+                learnometerState.skipped[currentIndex] = true;
+            }
+        }
+
+        function goToLearnometerQuestion(nextIndex) {
+            if (nextIndex < 0 || nextIndex >= LEARNOMETER_QUESTIONS.length) return;
+            updateLearnometerQuestionState(nextIndex);
+            learnometerState.currentQ = nextIndex;
+            learnometerState.selected = learnometerState.answers[nextIndex] ?? null;
+            renderLearnometer();
+            if (learnometerState.step === 'test' && !learnometerState.testDone) startLearnometerTimer();
         }
 
         function renderLearnometerLogin() {
@@ -2177,41 +2271,70 @@
         function renderLearnometerSelect() {
             return `
                 <section class="flex min-h-[calc(100vh-80px)] items-center justify-center tab-content">
-                    <div class="w-full max-w-lg">
+                    <div class="w-full max-w-3xl">
+                        ${renderLearnometerStudentCard()}
                         <div class="fade-in mb-8 text-center">
-                            <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-100 bg-[#fff7ed] px-4 py-2">
-                                <div class="flex h-5 w-5 items-center justify-center rounded-lg bg-[#A41034]">${learnometerLogo(11)}</div>
-                                <span class="text-[11px] font-black text-amber-600">Student ID: ${escapeHtml(learnometerState.studentId)}</span>
-                            </div>
-                            <h1 class="text-3xl font-black tracking-tight text-[#1C1917]">Your Test is Ready</h1>
-                            <p class="mt-1 text-[13px] font-medium text-[#A8A29E]">Review the details below before you begin</p>
+                            <h1 class="text-3xl font-black tracking-tight text-[#1C1917]">Choose Your Test</h1>
+                            <p class="mt-1 text-[13px] font-medium text-[#A8A29E]">Available grade-level Learnometer tests for this student</p>
                         </div>
 
-                        <div class="slide-up overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white">
-                            <div class="bg-[#A41034] px-8 py-6">
-                                <p class="mb-1 text-[10px] font-black  tracking-widest text-white/50">Assigned Test</p>
-                                <h2 class="text-xl font-black leading-snug text-white">${escapeHtml(LEARNOMETER_TEST.name)}</h2>
-                                <p class="mt-1 text-[12px] font-bold text-white/60">${escapeHtml(LEARNOMETER_TEST.grade)} · ${escapeHtml(LEARNOMETER_TEST.subject)}</p>
+                        <div class="slide-up overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white p-4 sm:p-5">
+                            <div class="space-y-3">
+                                ${LEARNOMETER_TESTS.map((test) => `
+                                    <button type="button" class="learnometer-test-row focus-ring flex w-full items-center gap-4 rounded-[1.75rem] border border-[#ECE8E4] bg-[#FCFBFA] px-5 py-5 text-left transition-all hover:border-[#D9D2CD] hover:bg-white" data-test-id="${escapeHtml(test.id)}">
+                                        <div class="flex min-w-0 flex-1 items-center gap-4">
+                                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#A41034]/[0.08] text-[#A41034]">
+                                                <i data-lucide="clipboard-list" class="h-5 w-5"></i>
+                                            </div>
+                                            <div class="min-w-0">
+                                                <p class="truncate text-[16px] font-bold text-[#1C1917]">${escapeHtml(test.name)}</p>
+                                                <p class="mt-1 text-[12px] font-medium text-[#8B817B]">${escapeHtml(test.endDate)}</p>
+                                            </div>
+                                        </div>
+                                        <i data-lucide="chevron-right" class="h-5 w-5 shrink-0 text-[#A8A29E]"></i>
+                                    </button>
+                                `).join('')}
                             </div>
-                            <div class="border-b border-[#F5F5F4] px-8 py-6">
-                                <div class="grid grid-cols-3 gap-4">
-                                    <div class="text-center"><i data-lucide="package" class="mx-auto mb-1 h-6 w-6 text-[#A41034]"></i><p class="mb-0.5 text-[10px] font-black  tracking-wider text-[#A8A29E]">Block</p><p class="text-[12px] font-black text-[#1C1917]">${escapeHtml(LEARNOMETER_TEST.block)}</p></div>
-                                    <div class="text-center"><i data-lucide="circle-help" class="mx-auto mb-1 h-6 w-6 text-[#A41034]"></i><p class="mb-0.5 text-[10px] font-black  tracking-wider text-[#A8A29E]">Questions</p><p class="text-[12px] font-black text-[#1C1917]">${LEARNOMETER_QUESTIONS.length} questions</p></div>
-                                    <div class="text-center"><i data-lucide="timer" class="mx-auto mb-1 h-6 w-6 text-[#A41034]"></i><p class="mb-0.5 text-[10px] font-black  tracking-wider text-[#A8A29E]">Duration</p><p class="text-[12px] font-black text-[#1C1917]">${LEARNOMETER_TEST.duration} minutes</p></div>
-                                </div>
+                            <button type="button" id="learnometerSignOut" class="mt-5 w-full text-center text-[11px] font-bold text-[#A8A29E] transition-colors hover:text-[#78716C]">
+                                Sign out
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderLearnometerSelectDetails() {
+            const selectedTest = getSelectedLearnometerTest();
+            return `
+                <section class="flex min-h-[calc(100vh-80px)] items-center justify-center py-8 tab-content">
+                    <div class="w-full max-w-4xl">
+                        <div class="fade-in mb-8 text-center">
+                            <h1 class="text-3xl font-black tracking-tight text-[#1C1917]">${escapeHtml(selectedTest.name)}</h1>
+                            <p class="mt-2 text-[13px] font-medium text-[#8B817B]">${escapeHtml(selectedTest.grade)} · ${escapeHtml(selectedTest.subject)} · ${LEARNOMETER_QUESTIONS.length} questions · ${selectedTest.duration} minutes · ${escapeHtml(selectedTest.endDate)}</p>
+                        </div>
+
+                        <div class="slide-up rounded-[2.5rem] border border-[#E7E5E4] bg-white px-8 py-8">
+                            <h2 class="mb-5 text-[20px] font-black text-[#1C1917]">Instructions</h2>
+                            <div class="space-y-2">
+                                ${selectedTest.instructions.map((instruction, index) => `
+                                    <div class="flex items-start gap-3">
+                                        <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F5E9E4] text-[10px] font-bold text-[#8A5A4A]">${index + 1}</div>
+                                        <p class="pt-0.5 text-[13px] font-medium leading-6 text-[#574B45]">${escapeHtml(instruction)}</p>
+                                    </div>
+                                `).join('')}
                             </div>
-                            <div class="flex flex-col gap-3 px-8 py-6">
-                                <button type="button" class="learnometer-start-test focus-ring flex w-full items-center justify-center gap-2 rounded-2xl bg-[#A41034] py-4 text-[12px] font-black  tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95" data-test-type="test">
+                            <div class="mt-8 border-t border-[#F5F5F4] pt-6">
+                                <div class="flex flex-col gap-3 sm:flex-row">
+                                    <button type="button" class="learnometer-start-test focus-ring flex flex-1 items-center justify-center gap-2 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] py-4 text-[12px] font-black tracking-wider text-[#1C1917] transition-all hover:bg-[#EEECEA] active:scale-95" data-test-type="practice">
+                                        <i data-lucide="pencil" class="h-4 w-4"></i>
+                                        Practice Test
+                                    </button>
+                                    <button type="button" class="learnometer-start-test focus-ring flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[#A41034] py-4 text-[12px] font-black tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95" data-test-type="test">
                                     <i data-lucide="play" class="h-4 w-4 fill-current"></i>
                                     Start Test
-                                </button>
-                                <button type="button" class="learnometer-start-test focus-ring flex w-full items-center justify-center gap-2 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] py-4 text-[12px] font-black  tracking-wider text-[#1C1917] transition-all hover:bg-[#EEECEA] active:scale-95" data-test-type="practice">
-                                    <i data-lucide="pencil" class="h-4 w-4"></i>
-                                    Start Practice Test
-                                </button>
-                                <button type="button" id="learnometerSignOut" class="mt-1 text-center text-[11px] font-bold text-[#A8A29E] transition-colors hover:text-[#78716C]">
-                                    Sign out
-                                </button>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2220,6 +2343,7 @@
         }
 
         function renderLearnometerTest() {
+            const selectedTest = getSelectedLearnometerTest();
             const question = LEARNOMETER_QUESTIONS[learnometerState.currentQ];
             const progress = (learnometerState.currentQ / LEARNOMETER_QUESTIONS.length) * 100;
             const warn = learnometerState.timeLeft < 60;
@@ -2242,12 +2366,7 @@
                 <section class="tab-content py-6">
                     <div class="fade-in mb-8 flex items-center justify-between">
                         <div>
-                            <div class="mb-1 flex items-center gap-2">
-                                <span class="rounded-full px-3 py-1 text-[9px] font-black  tracking-widest ${badgeClass}">
-                                    ${learnometerState.testType === 'practice' ? 'Practice Test' : 'Official Test'}
-                                </span>
-                            </div>
-                            <h1 class="text-2xl font-black leading-none tracking-tight text-[#1C1917]">${escapeHtml(LEARNOMETER_TEST.name)}</h1>
+                            <h1 class="text-2xl font-black leading-none tracking-tight text-[#1C1917]">${escapeHtml(selectedTest.name)}</h1>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="flex items-center gap-2 rounded-2xl border px-5 py-3 text-[13px] font-black transition-colors ${warn ? 'border-red-200 bg-red-50 text-red-500' : 'border-[#E7E5E4] bg-[#F5F5F4] text-[#1C1917]'}">
@@ -2259,12 +2378,34 @@
                     </div>
 
                     <div class="mb-8">
-                        <div class="mb-2 flex items-center justify-between">
-                            <span class="text-[10px] font-black  tracking-widest text-[#A8A29E]">Question ${learnometerState.currentQ + 1} of ${LEARNOMETER_QUESTIONS.length}</span>
-                            <span class="text-[10px] font-black  tracking-widest text-[#A41034]">${escapeHtml(LEARNOMETER_TEST.grade)} · ${escapeHtml(LEARNOMETER_TEST.subject)}</span>
-                        </div>
-                        <div class="h-1.5 w-full overflow-hidden rounded-full bg-[#F5F5F4]">
-                            <div class="h-full rounded-full bg-[#A41034] transition-all duration-500" style="width: ${progress}%"></div>
+                        <div class="mt-5 overflow-x-auto pb-2">
+                            <div class="flex min-w-[820px] items-center">
+                                ${LEARNOMETER_QUESTIONS.map((_, index) => {
+                const isCurrent = index === learnometerState.currentQ;
+                const isAnswered = learnometerState.answers[index] !== null && learnometerState.answers[index] !== undefined;
+                const isSkipped = Boolean(learnometerState.skipped[index]) && !isAnswered;
+                const circleClass = isCurrent
+                    ? 'border-[#A41034] bg-[#A41034] text-white'
+                    : isAnswered
+                        ? 'border-[#2E8B57] bg-[#2E8B57] text-white'
+                        : isSkipped
+                            ? 'border-[#E0A72F] bg-[#F4C542] text-[#5B4303]'
+                            : 'border-[#D8D1CB] bg-white text-[#8B817B]';
+                const lineClass = isAnswered
+                    ? 'bg-[#2E8B57]'
+                    : isSkipped
+                        ? 'bg-[#F4C542]'
+                        : 'bg-[#E7E1DC]';
+                return `
+                                    <div class="flex flex-1 items-center">
+                                        <button type="button" class="learnometer-question-nav focus-ring relative z-[1] flex h-11 w-11 items-center justify-center rounded-full border-2 text-[12px] font-black transition-all ${circleClass}" data-question-index="${index}">
+                                            ${index + 1}
+                                        </button>
+                                        ${index < LEARNOMETER_QUESTIONS.length - 1 ? `<span class="mx-1.5 h-[3px] flex-1 rounded-full ${lineClass}"></span>` : ''}
+                                    </div>
+                                `;
+            }).join('')}
+                            </div>
                         </div>
                     </div>
 
@@ -2288,6 +2429,7 @@
         }
 
         function renderLearnometerResults() {
+            const selectedTest = getSelectedLearnometerTest();
             const score = learnometerState.answers.filter((answer, index) => answer === LEARNOMETER_QUESTIONS[index]?.answer).length;
             const pct = LEARNOMETER_QUESTIONS.length ? Math.round((score / LEARNOMETER_QUESTIONS.length) * 100) : 0;
             const passed = pct >= 60;
@@ -2317,7 +2459,7 @@
                             </div>
                             <h2 class="mb-1 text-3xl font-black tracking-tight text-[#1C1917]">${pct === 100 ? 'Perfect Score!' : passed ? 'Well Done!' : 'Keep Practising!'}</h2>
                             <p class="mb-1 text-[13px] font-medium text-[#78716C]">${score} of ${LEARNOMETER_QUESTIONS.length} correct</p>
-                            <p class="mb-10 text-[10px] font-black  tracking-widest text-[#A8A29E]">${escapeHtml(LEARNOMETER_TEST.grade)} · ${escapeHtml(LEARNOMETER_TEST.subject)} · ${escapeHtml(LEARNOMETER_TEST.block)}</p>
+                            <p class="mb-10 text-[10px] font-black  tracking-widest text-[#A8A29E]">${escapeHtml(selectedTest.grade)} · ${escapeHtml(selectedTest.subject)} · ${escapeHtml(selectedTest.block)}</p>
                             <div class="mb-10 grid grid-cols-3 gap-4">
                                 <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#4CAF50]">${score}</p><p class="mt-1 text-[10px] font-black  tracking-widest text-[#A8A29E]">Correct</p></div>
                                 <div class="rounded-2xl bg-[#F5F5F4] py-5"><p class="text-2xl font-black text-[#f59138]">${LEARNOMETER_QUESTIONS.length - score}</p><p class="mt-1 text-[10px] font-black  tracking-widest text-[#A8A29E]">Incorrect</p></div>
@@ -2343,6 +2485,8 @@
                 panel.innerHTML = renderLearnometerLogin();
             } else if (learnometerState.step === 'select') {
                 panel.innerHTML = renderLearnometerSelect();
+            } else if (learnometerState.step === 'details') {
+                panel.innerHTML = renderLearnometerSelectDetails();
             } else if (learnometerState.testDone || learnometerState.step === 'results') {
                 panel.innerHTML = renderLearnometerResults();
             } else {
@@ -2383,28 +2527,49 @@
                 renderLearnometer();
             });
 
+            panel.querySelectorAll('.learnometer-test-row').forEach((button) => {
+                button.addEventListener('click', () => {
+                    learnometerState.selectedTestId = button.dataset.testId || LEARNOMETER_TESTS[0].id;
+                    learnometerState.step = 'details';
+                    renderLearnometer();
+                });
+            });
+
             panel.querySelectorAll('.learnometer-start-test').forEach((button) => {
                 button.addEventListener('click', () => startLearnometerTest(button.dataset.testType));
             });
             panel.querySelector('#learnometerSignOut')?.addEventListener('click', resetLearnometer);
             panel.querySelector('#learnometerExitTest')?.addEventListener('click', () => {
                 stopLearnometerTimer();
-                learnometerState.step = 'select';
+                learnometerState.step = 'details';
                 learnometerState.testDone = false;
                 renderLearnometer();
             });
             panel.querySelectorAll('.learnometer-option').forEach((button) => {
                 button.addEventListener('click', () => {
                     learnometerState.selected = Number(button.dataset.optionIndex);
+                    learnometerState.skipped[learnometerState.currentQ] = false;
                     renderLearnometer();
                     if (learnometerState.step === 'test' && !learnometerState.testDone) startLearnometerTimer();
                 });
             });
+            panel.querySelectorAll('.learnometer-question-nav').forEach((button) => {
+                button.addEventListener('click', () => {
+                    goToLearnometerQuestion(Number(button.dataset.questionIndex));
+                });
+            });
             panel.querySelector('#learnometerNext')?.addEventListener('click', () => {
-                if (learnometerState.selected !== null) completeLearnometerQuestion();
+                if (learnometerState.selected !== null) {
+                    completeLearnometerQuestion();
+                    return;
+                }
+                goToLearnometerQuestion(learnometerState.currentQ + 1);
+            });
+            panel.querySelector('#learnometerPrevious')?.addEventListener('click', () => {
+                goToLearnometerQuestion(learnometerState.currentQ - 1);
             });
             panel.querySelector('#learnometerBackToTest')?.addEventListener('click', () => {
-                learnometerState.step = 'select';
+                learnometerState.step = 'details';
                 learnometerState.testDone = false;
                 renderLearnometer();
             });
