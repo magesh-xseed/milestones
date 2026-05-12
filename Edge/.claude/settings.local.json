@@ -10,7 +10,9 @@
       "Bash(screencapture -x /tmp/site_view.png)",
       "Bash(osascript)",
       "Bash(screencapture -x /tmp/chrome3.png)",
-      "Bash(screencapture -x /tmp/chrome4.png)"
+      "Bash(screencapture -x /tmp/chrome4.png)",
+      "Read(//Users/mahesh.r/Downloads/**)",
+      "Bash(ls *.docx)"
     ]
   }
 }

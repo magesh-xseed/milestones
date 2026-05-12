@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-container": "#6a3600",
+          "surface-container-high": "#fae3e3",
+          "inverse-surface": "#3b2d2d",
+          "on-surface-variant": "#584142",
+          "on-secondary": "#ffffff",
+          "surface": "#fff8f7",
+          "on-tertiary": "#ffffff",
+          "outline-variant": "#dfbfc0",
+          "outline": "#8b7172",
+          "surface-tint": "#ac2f43",
+          "on-surface": "#251819",
+          "on-tertiary-fixed-variant": "#134e51",
+          "on-tertiary-fixed": "#002021",
+          "on-error": "#ffffff",
+          "primary-fixed-dim": "#ffb2b7",
+          "surface-container-low": "#fff0f0",
+          "on-primary-fixed": "#40000d",
+          "secondary-fixed": "#ffdcc4",
+          "on-primary-fixed-variant": "#8c142d",
+          "inverse-primary": "#ffb2b7",
+          "error-container": "#ffdad6",
+          "surface-container-lowest": "#ffffff",
+          "surface-variant": "#f4dddd",
+          "inverse-on-surface": "#ffecec",
+          "on-primary-container": "#ff7d8a",
+          "surface-container-highest": "#f4dddd",
+          "secondary-fixed-dim": "#ffb77f",
+          "on-primary": "#ffffff",
+          "background": "#fff8f7",
+          "primary-fixed": "#ffdadb",
+          "on-tertiary-container": "#7aafb2",
+          "on-secondary-fixed": "#2f1500",
+          "surface-container": "#ffe9e9",
+          "secondary": "#914c00",
+          "on-background": "#251819",
+          "tertiary-fixed": "#b6ecef",
+          "on-secondary-fixed-variant": "#6f3900",
+          "tertiary-fixed-dim": "#9ad0d3",
+          "surface-bright": "#fff8f7",
+          "tertiary-container": "#004346",
+          "primary-container": "#7b0323",
+          "secondary-container": "#fd983f",
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "2xl": "28px",
+          "full": "9999px"
+        },
+        "fontFamily": {
+          "label-caps": ["Inter"],
+          "body-md": ["Inter"],
+          "body-lg": ["Inter"],
+          "h3": ["Inter"],
+          "h1": ["Inter"],
+          "h2": ["Inter"]
+        },
+        "fontSize": {
+          "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+          "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+          "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+          "h3": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+          "h1": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "h2": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body { background-color: #FBF9F7; color: #251819; -webkit-font-smoothing: antialiased; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .phase-divider { display: flex; align-items: center; gap: 16px; }
+  .phase-divider::before, .phase-divider::after { content: ''; flex: 1; height: 1px; background: #e7e5e4; }
+</style>
+</head>
+<body class="font-['Inter'] text-[16px] leading-relaxed">
+
+<!-- HERO BANNER -->
+<div class="max-w-[1280px] mx-auto px-6 pt-6">
+  <div class="relative rounded-2xl overflow-hidden" style="height:340px;">
+    <img src="https://images.pexels.com/photos/6129836/pexels-photo-6129836.jpeg"
+         alt="Sky at sunrise"
+         class="absolute inset-0 w-full h-full object-cover object-center"/>
+    <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.65) 100%);"></div>
+    <div class="relative z-10 p-6 flex flex-col h-full justify-between">
+      <!-- Top row -->
+      <div class="flex justify-between items-start">
+        <button class="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full">
+          <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+          Back to Block II
+        </button>
+        <div class="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded-full">
+          <span class="material-symbols-outlined text-[16px]">schedule</span>
+          35 mins
+        </div>
+      </div>
+      <!-- Bottom content -->
+      <div>
+        <div class="inline-flex items-center px-3 py-1 rounded-full text-white text-xs font-bold tracking-wide mb-3" style="background:#c0392b;">
+          Grade 4 &bull; Science &bull; Block II
+        </div>
+        <h1 class="text-white font-bold text-[28px] leading-tight mb-2">Changes in the Sky Across the Day</h1>
+        <p class="text-white/80 text-sm mb-5">Discover why the Sun appears to move and how it shapes our day.</p>
+        <div class="flex gap-3 flex-wrap">
+          <button class="flex items-center gap-2 text-white text-sm font-semibold px-5 py-2.5 rounded-full" style="background:#e8622a;">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">play_arrow</span>
+            Start Lesson
+          </button>
+          <button class="flex items-center gap-2 bg-white/15 border border-white/40 backdrop-blur-sm text-white text-sm font-semibold px-5 py-2.5 rounded-full">
+            <span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="max-w-[1280px] mx-auto px-6 py-10 space-y-14">
+
+  <!-- Progress chips -->
+  <div class="flex flex-wrap gap-2">
+    <div class="px-4 py-1 rounded-full bg-primary-container text-white text-[10px] font-bold tracking-widest uppercase">Aim</div>
+    <div class="px-4 py-1 rounded-full bg-stone-100 text-stone-400 text-[10px] font-bold tracking-widest uppercase">Action</div>
+    <div class="px-4 py-1 rounded-full bg-stone-100 text-stone-400 text-[10px] font-bold tracking-widest uppercase">Analysis</div>
+    <div class="px-4 py-1 rounded-full bg-stone-100 text-stone-400 text-[10px] font-bold tracking-widest uppercase">Application</div>
+    <div class="px-4 py-1 rounded-full bg-stone-100 text-stone-400 text-[10px] font-bold tracking-widest uppercase">Assessment</div>
+  </div>
+
+  <!-- ==================== LESSON 1 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Lesson 1 · 35 minutes</div>
+        <h2 class="text-[22px] font-bold text-primary-container">Changes in the Sky Across the Day</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <!-- Aim -->
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <div class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-primary-container text-xs font-bold uppercase tracking-wider mb-4">Aim</div>
+      <p class="text-stone-800 font-semibold text-[17px] leading-snug">Explain why the Sun appears to move in the sky and how it affects a day.</p>
+      <p class="text-stone-500 text-sm mt-3">We already know the sun rises in the East and sets in the west. Today, we will learn why the sun appears to move in the sky and how this affects the activities we do in a day.</p>
+    </div>
+
+    <!-- New Words + Resources -->
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">New Words</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3">
+            <span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">appears</span>
+            <span class="text-stone-600 text-sm">looks like; seems to be</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">rotate</span>
+            <span class="text-stone-600 text-sm">to turn or move around a centre point</span>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">Resources</h3>
+        <ul class="space-y-2 text-sm text-stone-600">
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>Flashlight (Sun)</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>Ball (Earth) with circle sticker — 1 set per group of 5</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>My Own Worksheet 1, Notebook, Mastery Book</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Parent Tips -->
+    <div class="bg-[#FFF8F0] p-6 rounded-2xl border border-secondary-container/20 space-y-3">
+      <div class="flex gap-3 items-start">
+        <span class="material-symbols-outlined text-secondary-container shrink-0">family_restroom</span>
+        <div>
+          <p class="font-bold text-secondary text-sm uppercase tracking-wider mb-2">Parent Tips</p>
+          <p class="text-sm text-stone-700 mb-2"><strong>Tip 1:</strong> Explain that the Sun appears to move because the Earth spins from west to east. It's like when you are moving on a train, and the trees seem to move in the opposite direction.</p>
+          <p class="text-sm text-stone-700"><strong>Tip 2:</strong> As the child turns the ball, help them notice that the Sun seems to "appear" on one side and "disappear" on the other—even though the Sun never moved. This makes the idea practical: the Earth's spin makes the Sun look like it rises and sets.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION -->
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ACTION <span class="text-stone-400 font-normal text-sm">· Group Work · 15 minutes</span></h3></div>
+      <div class="relative pl-10 space-y-4 before:content-[''] before:absolute before:left-[15px] before:top-0 before:bottom-0 before:w-[2px] before:bg-stone-200">
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Put a sticker on the ball to show your place on Earth.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Keep the flashlight still.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Rotate the ball slowly from west to east.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Observe how light falls on the sticker.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-stone-300 border-4 border-white shadow-sm"></div>
+          <div class="bg-surface-container-high/40 border border-primary-container/20 rounded-xl p-4">
+            <p class="text-sm font-semibold text-primary-container">Think:</p>
+            <p class="text-stone-700 text-sm">As you move the ball slowly, what happens to the sticker as it moves between light and darkness? How does this affect the time of day?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYSIS -->
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ANALYSIS <span class="text-stone-400 font-normal text-sm">· 10 minutes</span></h3></div>
+      <div class="space-y-4">
+        <div class="border-l-4 border-primary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1">Activity Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">What did you notice when the Earth (ball) turned around the Sun (flashlight)?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: When the Earth turned around, the Sun appeared to move even though it was still.</p>
+        </div>
+        <div class="border-l-4 border-secondary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Generalized Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">Why does the Sun appear to move in the sky, and how does that change the day?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: The Sun appears to move because the Earth rotates from west to east. This spinning makes the Sun seem to rise in the east, stay high above our head at noon, and set in the west.</p>
+        </div>
+        <div class="border-l-4 border-stone-300 bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Higher Order Thinking</p>
+          <p class="text-stone-800 font-medium mb-2">If the Sun is low in the east, what time is it? If it is high in front of you, what time is it? If it is low in the west, what time is it?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: Low in the east → morning. High in front → noon. Low in the west → evening.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPLICATION -->
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">APPLICATION</h3></div>
+      <div class="bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-stone-50">
+          <p class="font-bold text-primary-container">Complete My Own Worksheet 1</p>
+        </div>
+        <div class="p-5 space-y-3">
+          <label class="flex items-center gap-4 cursor-pointer group">
+            <input class="w-5 h-5 rounded border-stone-300 text-primary-container" type="checkbox"/>
+            <span class="text-stone-700">My Own Worksheet 1 — class activity</span>
+          </label>
+        </div>
+      </div>
+      <!-- Differentiation -->
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm">
+          <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Needs Help</p>
+          <p class="text-stone-600 text-sm">Ask: where is the Sun in the morning (east) and evening (west) if it is in the south at noon? Encourage the child to point or act it out.</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-primary-container/20 shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-2">Challenge</p>
+          <p class="text-stone-600 text-sm">The Sun is seen high in the sky but slightly towards the west. What time of day could it be? Explain how you know.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOMEWORK -->
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">HOMEWORK</h3></div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-3">
+        <p class="text-stone-800 font-semibold">Answer Quick Quiz 1–4 in the Mastery Book.</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q3:</strong> Encourage your child to act it out — stand in one place as the Sun and slowly spin like the Earth.</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q4:</strong> Prompt your child to look for more than one clue. Ask: Where do you usually see the Sun in the morning? Is the sky always bright only in the morning?</p>
+      </div>
+    </div>
+
+    <!-- ASSESSMENT -->
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ASSESSMENT</h3></div>
+      <div class="space-y-3">
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5">
+          <div class="w-10 h-10 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center font-bold text-stone-400 shrink-0 text-sm">A</div>
+          <div><p class="font-bold text-primary-container mb-1">Approaching</p><p class="text-stone-600 text-sm">Notice that the Sun appears to move in the sky.</p></div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden">
+          <div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>
+          <div class="w-10 h-10 rounded-full bg-secondary-container/10 border border-secondary-container/20 flex items-center justify-center font-bold text-secondary-container shrink-0 text-sm">M</div>
+          <div><p class="font-bold text-primary-container mb-1">Meeting</p><p class="text-stone-600 text-sm">Explain why the Sun appears to move in the sky and how it affects a day.</p></div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden">
+          <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
+          <div class="w-10 h-10 rounded-full bg-primary-container/10 border border-primary-container/20 flex items-center justify-center font-bold text-primary-container shrink-0 text-sm">E</div>
+          <div><p class="font-bold text-primary-container mb-1">Exceeding</p><p class="text-stone-600 text-sm">Predict different times of the day based on the position of the sun in the sky.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LESSON 2 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Lesson 2 · 35 minutes</div>
+        <h2 class="text-[22px] font-bold text-primary-container">How Shadows Change During the Day</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <div class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-primary-container text-xs font-bold uppercase tracking-wider mb-4">Aim</div>
+      <p class="text-stone-800 font-semibold text-[17px] leading-snug">Explain how the position of the Sun in the sky affects shadows.</p>
+      <p class="text-stone-500 text-sm mt-3">We already know the sun appears to move in the sky. Today, we will learn how the position of the sun affects shadow formation.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">New Words</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">shadow</span><span class="text-stone-600 text-sm">a dark shape made when an object blocks light</span></div>
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">angles</span><span class="text-stone-600 text-sm">the space between two lines that meet at a point, measured in degrees</span></div>
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">axis</span><span class="text-stone-600 text-sm">an invisible line on which something turns or rotates</span></div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">Resources</h3>
+        <ul class="space-y-2 text-sm text-stone-600">
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>Flashlight</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>An object to cast shadows</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>Labelled cardinal directions (1 set per group)</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>My Own Worksheet 2, Notebook, Mastery Book</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-[#FFF8F0] p-6 rounded-2xl border border-secondary-container/20 space-y-2">
+      <div class="flex gap-3 items-start">
+        <span class="material-symbols-outlined text-secondary-container shrink-0">family_restroom</span>
+        <div>
+          <p class="font-bold text-secondary text-sm uppercase tracking-wider mb-2">Parent Tips</p>
+          <p class="text-sm text-stone-700 mb-2"><strong>Tip 1:</strong> Let your child use a torch and any object while they read the text to cast shadows. Gently guide them to notice: The shadow is always on the opposite side of the light source.</p>
+          <p class="text-sm text-stone-700"><strong>Tip 2:</strong> Help your child relate the Sun's position in the sky to the shadow size. Ask them: What might change in the shadow formation if the Sun rises in the west instead of the East?</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ACTION <span class="text-stone-400 font-normal text-sm">· Group Work</span></h3></div>
+      <div class="relative pl-10 space-y-4 before:content-[''] before:absolute before:left-[15px] before:top-0 before:bottom-0 before:w-[2px] before:bg-stone-200">
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Place the object on a table. Use the flashlight as the Sun and hold it in the direction of East.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Switch on the light so it falls on the object and casts its shadow.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Slowly move the flashlight so it is directly above the object.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Lastly, position the flashlight in the West direction.</p></div>
+        <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Observe and note the size and direction of the shadow for every position in your notebook.</p></div>
+      </div>
+      <!-- Observation Table -->
+      <div class="mt-6 bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-stone-50">
+            <tr>
+              <th class="text-left p-4 font-semibold text-stone-600">Sun's Position</th>
+              <th class="text-left p-4 font-semibold text-stone-600">Size of Shadow</th>
+              <th class="text-left p-4 font-semibold text-stone-600">Position of Shadow</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-100">
+            <tr><td class="p-4 text-stone-700">East</td><td class="p-4 text-stone-400 italic">observation here</td><td class="p-4 text-stone-400 italic">observation here</td></tr>
+            <tr><td class="p-4 text-stone-700">Directly above</td><td class="p-4 text-stone-400 italic">observation here</td><td class="p-4 text-stone-400 italic">observation here</td></tr>
+            <tr><td class="p-4 text-stone-700">West</td><td class="p-4 text-stone-400 italic">observation here</td><td class="p-4 text-stone-400 italic">observation here</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ANALYSIS</h3></div>
+      <div class="space-y-4">
+        <div class="border-l-4 border-primary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1">Activity Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">What did you notice about the shadows when the flashlight changed its position, and how are shadows formed?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: When we moved the flashlight, the shadow's size and position changed. Shadows are formed when an object blocks light.</p>
+        </div>
+        <div class="border-l-4 border-secondary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Generalized Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">How does the Sun's position in the sky affect the shadows that are formed?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: As the Sun's position changes in the sky, the angle at which sunlight falls on objects also changes. Based on this, the shadows also change in size and position.</p>
+        </div>
+        <div class="border-l-4 border-stone-300 bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Higher Order Thinking</p>
+          <p class="text-stone-800 font-medium mb-2">What time of the day will it be if your shadow is long and pointing to the East?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: If your shadow is longer and pointing to the East, it is evening — shadows are cast in the direction opposite to the source of light.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">APPLICATION</h3></div>
+      <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm">
+        <p class="font-semibold text-stone-800">Complete My Own Worksheet 2</p>
+      </div>
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm">
+          <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Needs Help</p>
+          <p class="text-stone-600 text-sm">Give a hint: The Sun is on the opposite side of the shadow. Ask: Which way is the shadow pointing? So where should the Sun be?</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-primary-container/20 shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-2">Challenge</p>
+          <p class="text-stone-600 text-sm">Shadow A is very long and points west. Shadow B is very short. Shadow C is long and points east. Predict the time of day for A, B, and C.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">HOMEWORK</h3></div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-3">
+        <p class="text-stone-800 font-semibold">Answer Quick Quiz 1–4 in the Mastery Book.</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q1:</strong> Ask your child to try a quick experiment with a torch and an object at home. Ask: Can a shadow form without light?</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q2:</strong> Ask your child to explain how they know if the statement is true. What did they observe that helped them decide?</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ASSESSMENT</h3></div>
+      <div class="space-y-3">
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5"><div class="w-10 h-10 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center font-bold text-stone-400 shrink-0 text-sm">A</div><div><p class="font-bold text-primary-container mb-1">Approaching</p><p class="text-stone-600 text-sm">Observe how shadows form.</p></div></div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div><div class="w-10 h-10 rounded-full bg-secondary-container/10 border border-secondary-container/20 flex items-center justify-center font-bold text-secondary-container shrink-0 text-sm">M</div><div><p class="font-bold text-primary-container mb-1">Meeting</p><p class="text-stone-600 text-sm">Explain how the position of the Sun in the sky affects shadows.</p></div></div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div><div class="w-10 h-10 rounded-full bg-primary-container/10 border border-primary-container/20 flex items-center justify-center font-bold text-primary-container shrink-0 text-sm">E</div><div><p class="font-bold text-primary-container mb-1">Exceeding</p><p class="text-stone-600 text-sm">Predict different times of the day based on the features of shadows and vice versa.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LESSON 3 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Lesson 3 · 35 minutes</div>
+        <h2 class="text-[22px] font-bold text-primary-container">Light and Shadow Relationship</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <div class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-primary-container text-xs font-bold uppercase tracking-wider mb-4">Aim</div>
+      <p class="text-stone-800 font-semibold text-[17px] leading-snug">Explain how shadows are formed and how their size and length change depending on the distance and angle of light.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">New Words</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">surface</span><span class="text-stone-600 text-sm">the top or outside part of an object</span></div>
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">distance</span><span class="text-stone-600 text-sm">how far one place or object is from another</span></div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">Resources</h3>
+        <ul class="space-y-2 text-sm text-stone-600">
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>A torch</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>An object (pencil)</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>A screen (plain wall or white sheet) — 1 set per group</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>My Own Worksheet 3, Notebook, Mastery Book</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ACTION <span class="text-stone-400 font-normal text-sm">· Group Work · 15 minutes</span></h3></div>
+      <div class="space-y-6">
+        <div>
+          <p class="font-semibold text-stone-700 mb-3">Light travels in straight lines</p>
+          <div class="relative pl-10 space-y-4 before:content-[''] before:absolute before:left-[15px] before:top-0 before:bottom-0 before:w-[2px] before:bg-stone-200">
+            <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-primary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Shine a torch on a pencil. Place the pencil horizontally, then vertically. Notice how the light travels and the shape of the shadow.</p></div>
+          </div>
+        </div>
+        <div>
+          <p class="font-semibold text-stone-700 mb-3">Distance affects shadow size</p>
+          <div class="relative pl-10 space-y-4 before:content-[''] before:absolute before:left-[15px] before:top-0 before:bottom-0 before:w-[2px] before:bg-stone-200">
+            <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-secondary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Bring the torch closer to the object — notice the shadow size.</p></div>
+            <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-secondary-container border-4 border-white shadow-sm"></div><p class="text-stone-700">Take the torch away from the object — notice the shadow size.</p></div>
+          </div>
+        </div>
+        <div>
+          <p class="font-semibold text-stone-700 mb-3">Angle affects shadow size</p>
+          <div class="relative pl-10 space-y-4 before:content-[''] before:absolute before:left-[15px] before:top-0 before:bottom-0 before:w-[2px] before:bg-stone-200">
+            <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-stone-300 border-4 border-white shadow-sm"></div><p class="text-stone-700">Keep the torch at a low angle — observe shadow length.</p></div>
+            <div class="relative"><div class="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-stone-300 border-4 border-white shadow-sm"></div><p class="text-stone-700">Keep the torch at a high angle — observe shadow length.</p></div>
+          </div>
+        </div>
+      </div>
+      <!-- Observation Table -->
+      <div class="mt-6 bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-stone-50">
+            <tr>
+              <th class="text-left p-4 font-semibold text-stone-600">Torch Distance</th>
+              <th class="text-left p-4 font-semibold text-stone-600">Shadow Size</th>
+              <th class="text-left p-4 font-semibold text-stone-600">Torch Position</th>
+              <th class="text-left p-4 font-semibold text-stone-600">Shadow Length</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-100">
+            <tr><td class="p-4 text-stone-700">Torch closer</td><td class="p-4 text-stone-400 italic">Smaller / Bigger</td><td class="p-4 text-stone-700">Low angle</td><td class="p-4 text-stone-400 italic">Shorter / Longer</td></tr>
+            <tr><td class="p-4 text-stone-700">Torch farther</td><td class="p-4 text-stone-400 italic">Smaller / Bigger</td><td class="p-4 text-stone-700">High angle</td><td class="p-4 text-stone-400 italic">Shorter / Longer</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ANALYSIS</h3></div>
+      <div class="space-y-4">
+        <div class="border-l-4 border-primary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1">Activity Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">How are shadows formed, and what are the conditions necessary to form shadows?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: A shadow forms when an object blocks light from reaching a surface. For a shadow to form, an object must be placed between a light source and a screen.</p>
+        </div>
+        <div class="border-l-4 border-secondary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Generalized Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">Which shadow was longest? Which was shortest? Why do distance and angle affect shadow length?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: Shadows get bigger when the light is closer (~30°), smaller when farther (~90°). Changing angles makes shadows longer or shorter.</p>
+        </div>
+        <div class="border-l-4 border-stone-300 bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Higher Order Thinking</p>
+          <p class="text-stone-800 font-medium mb-2">Predict how shadows will change if we move the flashlight closer or farther from the object at a 10° angle.</p>
+          <p class="text-sm text-stone-500 italic">Explanation: If the flashlight is closer, the shadow will become bigger and longer. If farther, smaller and shorter — even at a 10° angle.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">APPLICATION &amp; HOMEWORK</h3></div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-3">
+        <p class="font-semibold text-stone-800">Complete My Own Worksheet 3</p>
+        <p class="text-stone-500 text-sm font-medium">Homework: Answer Quick Quiz 1–4 in the Mastery Book.</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q3:</strong> Help your child connect to real life by observing shadows outdoors at morning, noon, and evening.</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q4:</strong> Encourage tracing the path of light with their finger from each torch to the screen.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ASSESSMENT</h3></div>
+      <div class="space-y-3">
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5"><div class="w-10 h-10 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center font-bold text-stone-400 shrink-0 text-sm">A</div><div><p class="font-bold text-primary-container mb-1">Approaching</p><p class="text-stone-600 text-sm">Notice that shadows form when an object blocks light.</p></div></div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div><div class="w-10 h-10 rounded-full bg-secondary-container/10 border border-secondary-container/20 flex items-center justify-center font-bold text-secondary-container shrink-0 text-sm">M</div><div><p class="font-bold text-primary-container mb-1">Meeting</p><p class="text-stone-600 text-sm">Explain how the distance and angle of light affect shadow size and length.</p></div></div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div><div class="w-10 h-10 rounded-full bg-primary-container/10 border border-primary-container/20 flex items-center justify-center font-bold text-primary-container shrink-0 text-sm">E</div><div><p class="font-bold text-primary-container mb-1">Exceeding</p><p class="text-stone-600 text-sm">Predict shadow changes for different light distances and angles, and record observations accurately.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LESSON 4 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Lesson 4 · 35 minutes</div>
+        <h2 class="text-[22px] font-bold text-primary-container">How Materials Affect Shadows</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <div class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-primary-container text-xs font-bold uppercase tracking-wider mb-4">Aim</div>
+      <p class="text-stone-800 font-semibold text-[17px] leading-snug">Explain how different materials affect shadow clarity.</p>
+      <p class="text-stone-500 text-sm mt-3">We already know shadows can change size and shape. Today, we will learn how different materials affect shadow formation.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">New Words</h3>
+        <div class="space-y-3">
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-primary-container text-white text-xs font-bold shrink-0">opaque</span><span class="text-stone-600 text-sm">does not let light pass through</span></div>
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-secondary-container text-white text-xs font-bold shrink-0">transparent</span><span class="text-stone-600 text-sm">lets light pass through completely</span></div>
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-stone-400 text-white text-xs font-bold shrink-0">translucent</span><span class="text-stone-600 text-sm">lets some light pass through</span></div>
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-stone-200 text-stone-600 text-xs font-bold shrink-0">sharp</span><span class="text-stone-600 text-sm">clear shadow with well-defined edges</span></div>
+          <div class="flex gap-3"><span class="px-3 py-1 rounded-full bg-stone-200 text-stone-600 text-xs font-bold shrink-0">blurry</span><span class="text-stone-600 text-sm">unclear, fuzzy, not well-defined</span></div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">Resources</h3>
+        <ul class="space-y-2 text-sm text-stone-600">
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>Torch &amp; black chart paper (screen)</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>Clear glass jar, butter paper, aluminium sheet</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>Notebook, cling film, eyeglasses</li>
+          <li class="flex gap-2"><span class="text-secondary-container font-bold">•</span>My Own Worksheet 4, Notebook, Mastery Book</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ACTION</h3></div>
+      <p class="text-stone-700 mb-4">Use a flashlight and black chart paper to cast shadows of the given objects. Record observations in the table.</p>
+      <div class="bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-stone-50">
+            <tr>
+              <th class="text-left p-4 font-semibold text-stone-600">Object</th>
+              <th class="text-left p-4 font-semibold text-stone-600">Light passes fully</th>
+              <th class="text-left p-4 font-semibold text-stone-600">Light passes faintly</th>
+              <th class="text-left p-4 font-semibold text-stone-600">No light passes</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-100">
+            <tr><td class="p-4 text-stone-700">Clear glass jar</td><td class="p-4"></td><td class="p-4"></td><td class="p-4"></td></tr>
+            <tr><td class="p-4 text-stone-700">Butter paper</td><td class="p-4"></td><td class="p-4"></td><td class="p-4"></td></tr>
+            <tr><td class="p-4 text-stone-700">Aluminium sheet</td><td class="p-4"></td><td class="p-4"></td><td class="p-4"></td></tr>
+            <tr><td class="p-4 text-stone-700">Notebook</td><td class="p-4"></td><td class="p-4"></td><td class="p-4"></td></tr>
+            <tr><td class="p-4 text-stone-700">Cling film</td><td class="p-4"></td><td class="p-4"></td><td class="p-4"></td></tr>
+            <tr><td class="p-4 text-stone-700">Eyeglasses</td><td class="p-4"></td><td class="p-4"></td><td class="p-4"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ANALYSIS</h3></div>
+      <div class="space-y-4">
+        <div class="border-l-4 border-primary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1">Activity Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">How are shadows cast by transparent, translucent, and opaque objects different from each other?</p>
+          <p class="text-sm text-stone-500 italic">Opaque → solid, dark shadow. Translucent → soft, less solid shadow. Transparent → faint or no clear shadow.</p>
+        </div>
+        <div class="border-l-4 border-secondary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Generalized Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">What did the light spot on the wall tell you about the material?</p>
+          <p class="text-sm text-stone-500 italic">Bright spot → transparent. Faint spot → translucent. No spot → opaque. Shadow clarity connects directly to light strength.</p>
+        </div>
+        <div class="border-l-4 border-stone-300 bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">Higher Order Thinking</p>
+          <p class="text-stone-800 font-medium mb-2">Predict what shadow will cast when light is passed through a tinted plastic raincoat.</p>
+          <p class="text-sm text-stone-500 italic">The shadow will be faint and slightly colored. The tinted plastic is partially transparent — some light passes, the tint adds colour.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">APPLICATION &amp; HOMEWORK</h3></div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-3">
+        <p class="font-semibold text-stone-800">Complete My Own Worksheet 4</p>
+        <p class="text-stone-500 text-sm font-medium">Homework: Answer Quick Quiz 1–4 in the Mastery Book.</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q3:</strong> Show a book and a plastic bottle. Ask which one blocks more light.</p>
+        <p class="text-sm text-stone-500"><strong>Parent Tip Q4:</strong> Help your child recall the 3 things needed for a shadow: light source, object, and surface.</p>
+      </div>
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm">
+          <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Needs Help</p>
+          <p class="text-stone-600 text-sm">Ask: Which one is clear? Which shadow looks darkest? Which looks faint?</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-primary-container/20 shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-2">Challenge</p>
+          <p class="text-stone-600 text-sm">Predict shadows for: a thin white curtain, a colored plastic folder, and a metal plate. Explain using material type.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ASSESSMENT</h3></div>
+      <div class="space-y-3">
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5"><div class="w-10 h-10 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center font-bold text-stone-400 shrink-0 text-sm">A</div><div><p class="font-bold text-primary-container mb-1">Approaching</p><p class="text-stone-600 text-sm">Notice that some materials make dark shadows and others do not.</p></div></div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div><div class="w-10 h-10 rounded-full bg-secondary-container/10 border border-secondary-container/20 flex items-center justify-center font-bold text-secondary-container shrink-0 text-sm">M</div><div><p class="font-bold text-primary-container mb-1">Meeting</p><p class="text-stone-600 text-sm">Explain how opaque, translucent, and transparent materials affect shadow clarity.</p></div></div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-100 shadow-sm flex items-start gap-5 relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div><div class="w-10 h-10 rounded-full bg-primary-container/10 border border-primary-container/20 flex items-center justify-center font-bold text-primary-container shrink-0 text-sm">E</div><div><p class="font-bold text-primary-container mb-1">Exceeding</p><p class="text-stone-600 text-sm">Predict the shadow appearance for new materials and describe why based on light passing through.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LESSON 5 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Lesson 5 · 35 minutes</div>
+        <h2 class="text-[22px] font-bold text-primary-container">Advanced Topic: Changes in the Sky Across the Day</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <div class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-primary-container text-xs font-bold uppercase tracking-wider mb-4">Aim</div>
+      <p class="text-stone-800 font-semibold text-[17px] leading-snug">Explain why the Sun appears to move in the sky and how it affects a day.</p>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ACTION</h3></div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-4">
+        <div class="flex items-start gap-4">
+          <span class="material-symbols-outlined text-primary-container">play_circle</span>
+          <div>
+            <p class="font-semibold text-stone-800">Let's watch a video.</p>
+            <p class="text-stone-500 text-sm mt-1">Resources: Concept video</p>
+          </div>
+        </div>
+        <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+          <p class="text-sm font-semibold text-stone-700 mb-2">Review and Reflect:</p>
+          <ul class="text-sm text-stone-600 space-y-1">
+            <li class="flex gap-2"><span class="text-primary-container font-bold">•</span>What new idea did you notice that was missed earlier?</li>
+            <li class="flex gap-2"><span class="text-primary-container font-bold">•</span>What part of the concept became clearer after watching?</li>
+          </ul>
+        </div>
+        <p class="text-stone-700 text-sm">Now summarize how the sun appears to move in the sky and the changes caused because of it, using the graphic organizer. Write your responses in your notebook.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ANALYSIS</h3></div>
+      <div class="space-y-4">
+        <div class="border-l-4 border-primary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-primary-container uppercase tracking-widest mb-1">Activity Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">What do you notice about the Sun's position in the sky during the day?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: Low in the east in the morning. Higher in the sky later. Low in the west in the evening.</p>
+        </div>
+        <div class="border-l-4 border-secondary-container bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Generalized Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">How does the Sun appear to move because of Earth's rotation, and how does it affect time of day?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: As the Earth rotates from west to east, the Sun appears to rise in the east and move to the west — morning → noon → evening.</p>
+        </div>
+        <div class="border-l-4 border-stone-300 bg-white p-5 rounded-r-2xl shadow-sm">
+          <p class="text-xs font-bold text-stone-500 uppercase tracking-widest mb-1">HOTS Discussion</p>
+          <p class="text-stone-800 font-medium mb-2">Japan is in the East; the USA is in the West. How differently will these countries experience different times of the day?</p>
+          <p class="text-sm text-stone-500 italic">Explanation: Japan has morning first. While it is morning in the USA, Japan would already have noon.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">APPLICATION</h3></div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+        <p class="font-semibold text-stone-800 mb-4">Complete the puzzle by rearranging the letters to get the right answer.</p>
+        <div class="space-y-3">
+          <div class="flex gap-4 items-center"><span class="text-primary-container font-bold w-4">A.</span><p class="text-stone-700 text-sm flex-1">I don't move, but I appear to change position in the sky.</p><span class="font-mono bg-stone-100 px-3 py-1 rounded text-stone-500 text-sm">N S U →</span></div>
+          <div class="flex gap-4 items-center"><span class="text-primary-container font-bold w-4">B.</span><p class="text-stone-700 text-sm flex-1">I spin around myself from west to east.</p><span class="font-mono bg-stone-100 px-3 py-1 rounded text-stone-500 text-sm">T R E A H →</span></div>
+          <div class="flex gap-4 items-center"><span class="text-primary-container font-bold w-4">C.</span><p class="text-stone-700 text-sm flex-1">The Sun is in this direction in the morning.</p><span class="font-mono bg-stone-100 px-3 py-1 rounded text-stone-500 text-sm">T E S A →</span></div>
+          <div class="flex gap-4 items-center"><span class="text-primary-container font-bold w-4">D.</span><p class="text-stone-700 text-sm flex-1">The time of day when the Sun is low in the west.</p><span class="font-mono bg-stone-100 px-3 py-1 rounded text-stone-500 text-sm">N E I N V E G →</span></div>
+          <div class="flex gap-4 items-center"><span class="text-primary-container font-bold w-4">E.</span><p class="text-stone-700 text-sm flex-1">This movement of Earth makes the Sun appear to move.</p><span class="font-mono bg-stone-100 px-3 py-1 rounded text-stone-500 text-sm">T R A O T N I O →</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LP 6 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">LP 6 · Sessions 1 &amp; 2</div>
+        <h2 class="text-[22px] font-bold text-primary-container">More Practice</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <p class="text-stone-800 font-semibold">Today, we will review our homework and practice some more. Everyone, take out your NOTEBOOKS!</p>
+    </div>
+
+    <!-- New Words recap -->
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">New Words Review</h3>
+      <div class="flex flex-wrap gap-3">
+        <span class="px-4 py-2 bg-secondary-container text-white rounded-full text-sm font-medium">appears</span>
+        <span class="px-4 py-2 bg-secondary-container text-white rounded-full text-sm font-medium">rotate</span>
+        <span class="px-4 py-2 bg-white border border-stone-200 text-stone-600 rounded-full text-sm font-medium">shadow</span>
+        <span class="px-4 py-2 bg-white border border-stone-200 text-stone-600 rounded-full text-sm font-medium">angles</span>
+        <span class="px-4 py-2 bg-white border border-stone-200 text-stone-600 rounded-full text-sm font-medium">axis</span>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-4">
+      <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest">Classwork</h3>
+      <p class="text-stone-700">Answer the Extra Notebook Work Questions on your own. Raise your hand if you need help.</p>
+      <p class="text-stone-700 font-semibold">Do questions 1 to 4.</p>
+      <div class="bg-stone-50 p-4 rounded-xl space-y-2 text-sm text-stone-600">
+        <p><strong>Q1 Tip:</strong> Remind — Sun appears to move from East → West.</p>
+        <p><strong>Q2 Tip:</strong> Prompt — Morning = long shadow, Noon = short, Evening = long.</p>
+        <p><strong>Q3 Tip:</strong> Guide — Shadow direction is opposite to the Sun.</p>
+        <p><strong>Q4 Tip:</strong> Ask — Is the Sun high or low? High Sun = short shadow.</p>
+      </div>
+      <p class="text-stone-700 font-semibold">Homework: Do questions 5–7.</p>
+      <div class="bg-stone-50 p-4 rounded-xl space-y-2 text-sm text-stone-600">
+        <p><strong>Q5 Tip:</strong> Link — Long shadows = morning/evening, short = noon.</p>
+        <p><strong>Q6 Tip:</strong> Support — Draw light → object → shadow arrows step-by-step.</p>
+        <p><strong>Q7 Tip:</strong> Hint — Find where the Sun is → shadow will be on the opposite side.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LP 7 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">LP 7 · Sessions 3 &amp; 4</div>
+        <h2 class="text-[22px] font-bold text-primary-container">More Practice</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest mb-4">New Words Review</h3>
+      <div class="flex flex-wrap gap-3">
+        <span class="px-4 py-2 bg-secondary-container text-white rounded-full text-sm font-medium">surface</span>
+        <span class="px-4 py-2 bg-secondary-container text-white rounded-full text-sm font-medium">distance</span>
+        <span class="px-4 py-2 bg-primary-container text-white rounded-full text-sm font-medium">opaque</span>
+        <span class="px-4 py-2 bg-stone-400 text-white rounded-full text-sm font-medium">translucent</span>
+        <span class="px-4 py-2 bg-white border border-stone-200 text-stone-600 rounded-full text-sm font-medium">transparent</span>
+        <span class="px-4 py-2 bg-white border border-stone-200 text-stone-600 rounded-full text-sm font-medium">sharp</span>
+        <span class="px-4 py-2 bg-white border border-stone-200 text-stone-600 rounded-full text-sm font-medium">blurry</span>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-4">
+      <h3 class="font-bold text-primary-container text-sm uppercase tracking-widest">Classwork</h3>
+      <p class="text-stone-700 font-semibold">Do questions 8 to 11 and Q15.</p>
+      <div class="bg-stone-50 p-4 rounded-xl space-y-2 text-sm text-stone-600">
+        <p><strong>Q8 Tip:</strong> Same object, different light angles → shadow shape changes.</p>
+        <p><strong>Q9 Tip:</strong> Sun higher = shorter shadow; Sun lower = longer shadow.</p>
+        <p><strong>Q10 Tip:</strong> Shadow forms opposite the light source.</p>
+        <p><strong>Q11 Tip:</strong> Which material blocks the most light? → darkest shadow.</p>
+        <p><strong>Q15 Tip:</strong> Light + object + screen needed; distance and material change shadow size and clarity.</p>
+      </div>
+      <p class="text-stone-700 font-semibold">Homework: Do questions 12–14.</p>
+      <div class="bg-stone-50 p-4 rounded-xl space-y-2 text-sm text-stone-600">
+        <p><strong>Q12 Tip:</strong> Opaque object (metal) → darkest shadow.</p>
+        <p><strong>Q13 Tip:</strong> Shadows do not have colour → always dark/grey.</p>
+        <p><strong>Q14 Tip:</strong> Darker liquid blocks more light → darker shadow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LESSON 8 ==================== -->
+  <section class="space-y-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-1 bg-stone-200"></div>
+      <div class="text-center">
+        <div class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-1">Lesson 8</div>
+        <h2 class="text-[22px] font-bold text-primary-container">Application — Show Your Edge</h2>
+      </div>
+      <div class="h-px flex-1 bg-stone-200"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+      <div class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-primary-container text-xs font-bold uppercase tracking-wider mb-4">Aim</div>
+      <p class="text-stone-800 font-semibold text-[17px] leading-snug">Reflect on and consolidate learning from the week, and apply it creatively in a "Show Your Edge" task.</p>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">ANALYSIS</h3></div>
+      <div class="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm space-y-4">
+        <p class="font-semibold text-stone-800">Think back on what you learned this week.</p>
+        <div class="space-y-3">
+          <div class="flex gap-4 items-start">
+            <span class="w-6 h-6 rounded-full bg-primary-container/10 text-primary-container font-bold text-xs flex items-center justify-center shrink-0">A</span>
+            <p class="text-stone-700 text-sm">What new ideas did you learn?</p>
+          </div>
+          <div class="flex gap-4 items-start">
+            <span class="w-6 h-6 rounded-full bg-primary-container/10 text-primary-container font-bold text-xs flex items-center justify-center shrink-0">B</span>
+            <p class="text-stone-700 text-sm">What was easy or challenging?</p>
+          </div>
+          <div class="flex gap-4 items-start">
+            <span class="w-6 h-6 rounded-full bg-primary-container/10 text-primary-container font-bold text-xs flex items-center justify-center shrink-0">C</span>
+            <p class="text-stone-700 text-sm">Where did you use this in real life?</p>
+          </div>
+        </div>
+        <p class="text-stone-500 text-sm">Fill in the My Learning Chart using what you remember from the Block. Share with a partner, review and add what you may have missed.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-divider mb-6"><h3 class="font-bold text-[18px] text-primary-container">APPLICATION</h3></div>
+      <div class="bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-stone-50">
+          <h4 class="font-bold text-primary-container">Show Your Edge — Checklist</h4>
+        </div>
+        <div class="p-5 space-y-3">
+          <label class="flex items-center gap-4 cursor-pointer group">
+            <input class="w-5 h-5 rounded border-stone-300 text-primary-container" type="checkbox"/>
+            <span class="text-stone-700 group-hover:text-primary-container transition-colors text-sm">Apply learning creatively following the task instructions.</span>
+          </label>
+          <label class="flex items-center gap-4 cursor-pointer group">
+            <input class="w-5 h-5 rounded border-stone-300 text-primary-container" type="checkbox"/>
+            <span class="text-stone-700 group-hover:text-primary-container transition-colors text-sm">Practice how you would like to present it.</span>
+          </label>
+          <label class="flex items-center gap-4 cursor-pointer group">
+            <input class="w-5 h-5 rounded border-stone-300 text-primary-container" type="checkbox"/>
+            <span class="text-stone-700 group-hover:text-primary-container transition-colors text-sm">Check presentation includes all criteria in the checklist.</span>
+          </label>
+          <label class="flex items-center gap-4 cursor-pointer group">
+            <input class="w-5 h-5 rounded border-stone-300 text-primary-container" type="checkbox"/>
+            <span class="text-stone-700 group-hover:text-primary-container transition-colors text-sm">Present your work. Rate yourself on the checklist.</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="pt-6 pb-24 space-y-6">
+    <div class="bg-primary-container p-10 rounded-2xl text-white text-center space-y-4 shadow-xl">
+      <h3 class="font-bold text-[20px]">How was this lesson plan?</h3>
+      <p class="opacity-80 max-w-md mx-auto text-sm">Your feedback helps us refine these learning journeys for educators.</p>
+      <div class="flex justify-center gap-4 pt-4">
+        <button class="px-6 py-2 bg-white text-primary-container rounded-full font-bold hover:scale-105 transition-transform active:scale-95 text-sm">Send Feedback</button>
+        <button class="px-6 py-2 bg-white/10 text-white border border-white/20 rounded-full font-bold hover:bg-white/20 transition-all active:scale-95 text-sm">Download PDF</button>
+      </div>
+    </div>
+    <div class="text-center text-stone-400 text-xs tracking-widest uppercase">
+      Reference ID: SE26SC411 &bull; Light and Shadows &bull; Grade 4 Science
+    </div>
+  </footer>
+
+</main>
+</body></html>

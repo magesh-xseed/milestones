@@ -5259,6 +5259,32 @@
             `;
         }
 
+        function renderParentLessonSectionHeader(icon, title, tag, accent = '#A41034') {
+            return `
+                <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-[14px] bg-white text-[${accent}] shadow-[0_10px_24px_rgba(28,25,23,0.06)] ring-1 ring-[#E8DED8]">
+                            <i data-lucide="${icon}" class="h-5 w-5" style="color:${accent}"></i>
+                        </span>
+                        <div>
+                            <p class="text-[12px] font-semibold uppercase text-[#81736E]">${tag}</p>
+                            <h2 class="text-[24px] font-bold leading-tight text-[#191512] md:text-[30px]">${title}</h2>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderParentLessonChip(text, tone = 'red') {
+            const styles = {
+                red: 'border-[#E8D7CD] bg-[#FFF8F5] text-[#8C1635]',
+                amber: 'border-[#F1DEB9] bg-[#FFF7E7] text-[#8A5208]',
+                green: 'border-[#DCEBD9] bg-[#F3FAF0] text-[#2D6C36]',
+                blue: 'border-[#D9E4F6] bg-[#F3F7FF] text-[#265B9B]'
+            };
+            return `<span class="inline-flex items-center rounded-full border px-3 py-1.5 text-[13px] font-semibold ${styles[tone] || styles.red}">${text}</span>`;
+        }
+
         function renderLessonsPage(gradeId, subjectId, blockId, lessonId = '') {
             const grade = findGrade(gradeId);
             const subject = findSubject(gradeId, subjectId);
