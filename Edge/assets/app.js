@@ -183,6 +183,8 @@
         let programmaticBlockScrollTimer = null;
         let parentTipDismissed = false;
         let parentLearningView = 'weekly';
+        const completedLessonKeys = new Set();
+        let lessonNotesState = {};
         const expandedGradeIds = new Set([currentGradeId]);
         const collapsedBlockIds = new Set();
         const initializedCollapsedBlockRoutes = new Set();
@@ -4778,6 +4780,24 @@
             return `Session ${lessonIndex + 1}`;
         }
 
+        function getLessonCompletionKey(gradeId, subjectId, blockId, lessonId) {
+            return [gradeId, subjectId, blockId, lessonId].join(':');
+        }
+
+        function getLessonNoteStorageKey(gradeId, subjectId, blockId, lessonId, sectionId) {
+            return `edge-note:${gradeId}:${subjectId}:${blockId}:${lessonId}:${sectionId}`;
+        }
+
+        function extractLessonMinutes(detail) {
+            return {
+                aim: '5 min',
+                action: `${detail.flow?.[1]?.title?.match(/(\d+)\s*minutes?/i)?.[1] || '15'} min`,
+                analysis: `${detail.flow?.[2]?.title?.match(/(\d+)\s*minutes?/i)?.[1] || '10'} min`,
+                application: '5 min',
+                assessment: '5 min'
+            };
+        }
+
         function renderLessonTags(lesson) {
             const stageTagMap = {
                 warm: ['Observation', 'Activity'],
@@ -4799,9 +4819,36 @@
                 return {
                     heroImage: lessonImage,
                     supportImage: lessonImage,
+                    actionImage: lessonImage,
+                    analysisImage: lessonImage,
+                    applicationImage: lessonImage,
+                    sessionTitle: lesson.title,
                     aim: 'Explain why the Sun appears to move in the sky and how its position changes the length and direction of shadows during the day.',
                     bigQuestion: 'If the Sun is never in the same spot, what changes can students observe in the sky and on the ground?',
+                    hotQuestion: 'How would you explain the pattern of shadows to someone who missed the lesson?',
+                    hotAnswer: 'A strong answer names the Sun position, light direction, and how the change in angle affects the shadow length.',
                     teacherPrompt: 'Start with a quick observation: ask students where they saw the Sun in the morning and where they expect it to be in the evening. Then guide them to connect Sun position, light direction, and shadow length using a simple Sun-Earth model.',
+                    vocab: [
+                        { word: 'Shadow', definition: 'A dark shape formed when light is blocked by an object.' },
+                        { word: 'Direction', definition: 'The way something points or moves.' },
+                        { word: 'Rotate', definition: 'To turn around a fixed point.' }
+                    ],
+                    resources: ['Notebook or worksheet', 'Pencil', 'Flashlight or model', 'Worksheets and mastery book'],
+                    keyPoints: [
+                        'Shadows change when the direction of light changes.',
+                        'The Sun appears highest around noon, so shadows are shortest then.',
+                        'Earth rotates, which makes the Sun seem to move across the sky.'
+                    ],
+                    diffHelp: [
+                        'Use sentence starters for observations.',
+                        'Point to the morning, noon, and evening examples while students answer.',
+                        'Work through one example together before independent work.'
+                    ],
+                    diffChallenge: [
+                        'Ask students to justify their answer with one observation.',
+                        'Invite them to predict what a sunset shadow would look like.',
+                        'Have them explain the model without saying the Sun is moving.'
+                    ],
                     flow: [
                         {
                             label: 'AIM',
@@ -4874,9 +4921,36 @@
             return {
                 heroImage: lessonImage,
                 supportImage: lessonImage,
+                actionImage: lessonImage,
+                analysisImage: lessonImage,
+                applicationImage: lessonImage,
+                sessionTitle: lesson.title,
                 aim: lesson.description,
                 bigQuestion: `How can students use evidence to understand ${block.title.toLowerCase()}?`,
+                hotQuestion: `How would you explain ${block.title.toLowerCase()} to someone who missed the lesson?`,
+                hotAnswer: 'A strong answer names the main idea, gives one clear example, and explains why that example matters.',
                 teacherPrompt: `Guide students through ${title.toLowerCase()} with a short observation, a concrete classroom action, a discussion of evidence, and one independent application task.`,
+                vocab: [
+                    { word: 'Observe', definition: 'To look carefully and notice what is happening.' },
+                    { word: 'Evidence', definition: 'Information that supports an idea or answer.' },
+                    { word: 'Explain', definition: 'To tell how or why something happens.' }
+                ],
+                resources: ['This lesson plan', 'Observation prompt', 'Notebook', 'Teacher toolkit'],
+                keyPoints: [
+                    `Students identify the main idea from ${title.toLowerCase()}.`,
+                    'They use one observation as evidence for their explanation.',
+                    'They apply the same idea in a fresh example independently.'
+                ],
+                diffHelp: [
+                    'Read the task aloud and underline the key word together.',
+                    'Model one example before students begin alone.',
+                    'Let partners compare their first answer before sharing.'
+                ],
+                diffChallenge: [
+                    'Ask students to justify their answer with stronger evidence.',
+                    'Invite students to create a new example using the same idea.',
+                    'Have students explain why a common wrong answer is incorrect.'
+                ],
                 flow: lessonFlowLabels.map((label, index) => ({
                     label,
                     title: ['Introduce', 'Do', 'Discuss', 'Apply', 'Check'][index],
@@ -5010,133 +5084,165 @@
             if (!grade || !subject || !block) return renderHome();
             const lessonIndex = Math.max(0, block.lessons.findIndex((item) => item.id === lessonId));
             const lesson = block.lessons[lessonIndex] || block.lessons[0];
-            const lessonTitle = getLessonSessionTitle(lesson, lessonIndex);
             const detail = getLessonDetailContent(lesson, lessonIndex, block, grade, subject);
-            const subjectTheme = getSubjectTheme(subject.name);
             const nextLesson = block.lessons[lessonIndex + 1];
+            const lessonCompletionKey = getLessonCompletionKey(grade.id, subject.id, block.id, lesson.id);
+            const isLessonComplete = completedLessonKeys.has(lessonCompletionKey);
+            const sectionMinutes = extractLessonMinutes(detail);
+            const noteIds = ['aim', 'action', 'analysis', 'application', 'assessment'];
+            noteIds.forEach((sectionId) => {
+                if (lessonNotesState[sectionId]) return;
+                try {
+                    const raw = window.localStorage.getItem(getLessonNoteStorageKey(grade.id, subject.id, block.id, lesson.id, sectionId));
+                    lessonNotesState[sectionId] = raw ? JSON.parse(raw) : { text: '', savedAt: '' };
+                } catch {
+                    lessonNotesState[sectionId] = { text: '', savedAt: '' };
+                }
+            });
 
             return `
-                <section class="lesson-detail-shell -mx-6 -mt-4 px-6 pb-16 pt-6 md:-mx-12 md:px-12">
-                    <div class="mx-auto max-w-[1180px]">
-                    <button type="button" class="focus-ring mb-6 inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E7D6CF] bg-white px-5 py-3 text-[11px] font-bold tracking-wide text-[#3A071A] transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/5 focus:outline-none" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                        <span>Back to Blocks</span>
-                    </button>
-
-                    <header class="relative overflow-hidden rounded-[22px] bg-[#330717] text-white shadow-[0_28px_70px_rgba(51,7,23,0.22)]">
-                        <div class="absolute inset-y-0 right-0 w-full md:w-[52%]">
-                            <img src="${detail.heroImage}" alt="${escapeHtml(block.title)} lesson image" class="h-full w-full object-cover object-center opacity-70 md:opacity-95">
-                            <div class="absolute inset-0 bg-gradient-to-r from-[#330717] via-[#330717]/72 to-[#330717]/12"></div>
-                        </div>
-                        <div class="relative grid min-h-[430px] lg:min-h-[520px] gap-8 p-6 md:grid-cols-[minmax(0,1fr)_340px] md:p-10 lg:p-12">
-                            <div class="flex max-w-2xl flex-col justify-end">
-                                <div class="mb-6 flex flex-wrap items-center gap-2">
-                                    <span class="rounded-full bg-[#F5A733] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.16em] text-[#330717]">${subject.name} • ${grade.title}</span>
-                                    <span class="rounded-full border border-white/18 bg-white/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white/88">Block ${Number(block.id.replace('block-', '')) || ''}</span>
-                                </div>
-                                <p class="text-[12px] font-bold uppercase tracking-[0.18em] text-[#F5A733]">${lessonTitle}</p>
-                                <h1 class="lesson-detail-title mt-3 max-w-[760px] text-[2.7rem] font-black leading-[0.98] text-white md:text-[4.6rem]">${block.title}</h1>
-                                <p class="mt-6 max-w-2xl text-[16px] font-medium leading-7 text-white/82">${detail.aim}</p>
-                                <div class="mt-8 grid max-w-xl gap-3 sm:grid-cols-3">
-                                    <div class="rounded-[14px] bg-white/10 p-4 ring-1 ring-white/14">
-                                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-white/55">Duration</p>
-                                        <p class="mt-1 text-lg font-black text-white">${lesson.duration}</p>
-                                    </div>
-                                    <div class="rounded-[14px] bg-white/10 p-4 ring-1 ring-white/14">
-                                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-white/55">Status</p>
-                                        <p class="mt-1 text-lg font-black text-white">${lesson.status}</p>
-                                    </div>
-                                    <div class="rounded-[14px] bg-white/10 p-4 ring-1 ring-white/14">
-                                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-white/55">Progress</p>
-                                        <p class="mt-1 text-lg font-black text-white">${lesson.progress}%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <aside class="self-end rounded-[18px] bg-white p-5 text-[#2A211E] shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
-                                <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[#A41034]">Big Question</p>
-                                <p class="mt-3 text-[20px] font-black leading-7 text-[#241F1D]">${detail.bigQuestion}</p>
-                                <div class="mt-5 overflow-hidden rounded-[14px] bg-[#FFF2D6]">
-                                    <img src="${detail.supportImage}" alt="Lesson support image" class="h-36 w-full object-cover">
-                                </div>
-                            </aside>
-                        </div>
-                    </header>
-
-                    <div class="mt-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-                        <section class="rounded-[20px] border border-[#E8D7CD] bg-white p-6 shadow-[0_18px_50px_rgba(51,7,23,0.055)] md:p-8">
-                            <div class="edge-gold-panel -mx-6 -mt-6 mb-7 rounded-t-[20px] px-6 py-4 md:-mx-8 md:-mt-8 md:px-8">
-                                <h2 class="text-[22px] font-black uppercase tracking-[0.04em] text-[#301010]">Teacher Summary</h2>
-                            </div>
-                            <div class="space-y-4">
-                                ${detail.flow.map((item, index) => `
-                                    <article class="grid gap-4 rounded-[16px] border border-[#EFE4DE] bg-[#FFFDF9] p-4 sm:grid-cols-[112px_minmax(0,1fr)]">
-                                        <div class="flex items-center gap-3">
-                                            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#330717] text-sm font-black text-[#F5A733]">${index + 1}</span>
-                                            <span class="text-[11px] font-black uppercase tracking-[0.12em] text-[#A41034]">${item.label}</span>
-                                        </div>
-                                        <div>
-                                            <h3 class="text-[16px] font-black text-[#201A18]">${item.title}</h3>
-                                            <p class="mt-1 text-[14px] font-medium leading-6 text-[#625753]">${item.text}</p>
-                                        </div>
-                                    </article>
-                                `).join('')}
-                            </div>
-                        </section>
-
-                        <aside class="rounded-[20px] bg-[#330717] p-6 text-white shadow-[0_22px_60px_rgba(51,7,23,0.18)] md:p-7">
-                            <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[#F5A733]">Detailed Prompt</p>
-                            <h2 class="mt-3 text-[26px] font-black leading-8">What to say and do</h2>
-                            <p class="mt-4 text-[15px] font-medium leading-7 text-white/78">${detail.teacherPrompt}</p>
-                            <div class="mt-6 rounded-[16px] bg-white/8 p-4 ring-1 ring-white/10">
-                                <p class="text-[11px] font-black uppercase tracking-[0.14em] text-white/54">Focus</p>
-                                <p class="mt-2 text-[15px] font-bold leading-6 text-white">${lesson.description}</p>
-                            </div>
-                        </aside>
-                    </div>
-
-                    <div class="mt-7 grid gap-5 lg:grid-cols-3">
-                        ${detail.sections.map((section) => `
-                            <article class="overflow-hidden rounded-[18px] border border-[#E8D7CD] bg-white shadow-[0_16px_42px_rgba(51,7,23,0.045)]">
-                                <img src="${section.image}" alt="${escapeHtml(section.title)}" class="h-44 w-full object-cover">
-                                <div class="p-5">
-                                    <p class="text-[10px] font-black uppercase tracking-[0.16em] text-[#A41034]">${section.kicker}</p>
-                                    <h3 class="mt-2 text-[20px] font-black text-[#201A18]">${section.title}</h3>
-                                    <ul class="mt-4 space-y-3">
-                                        ${section.bullets.map((bullet) => `
-                                            <li class="flex gap-3 text-[14px] font-medium leading-6 text-[#645955]">
-                                                <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#F5A733]"></span>
-                                                <span>${bullet}</span>
-                                            </li>
-                                        `).join('')}
-                                    </ul>
-                                </div>
-                            </article>
-                        `).join('')}
-                    </div>
-
-                    <section class="mt-7 rounded-[20px] border border-[#E8D7CD] bg-white p-6 md:p-8">
-                        <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <section class="lesson-detail-shell -mx-6 mt-0 px-0 pb-16 pt-4 md:-mx-12">
+                    <div class="lp-title-strip">
+                        <div class="lp-title-strip-inner">
                             <div>
-                                <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[#A41034]">Assessment Prompts</p>
-                                <h2 class="mt-2 text-[26px] font-black text-[#201A18]">Check understanding before moving on</h2>
+                                <div class="lp-eyebrow">${escapeHtml(subject.name)} · ${escapeHtml(grade.title)} · Block ${block.order || lessonIndex + 1} · Session ${lesson.order || lessonIndex + 1}</div>
+                                <div class="lp-title">${escapeHtml(detail.sessionTitle || block.title)}</div>
                             </div>
-                            ${nextLesson ? `
-                                <button type="button" class="focus-ring inline-flex w-fit cursor-pointer items-center gap-2 rounded-full bg-[#A41034] px-5 py-3 text-[12px] font-black text-white transition hover:bg-[#330717] focus:outline-none" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${nextLesson.id}">
-                                    Next Session
-                                    <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                            <div class="lp-chips">
+                                <span class="lp-chip">${escapeHtml(lesson.duration || '10 min')}</span>
+                                <button type="button" class="focus-ring lp-projector-trigger">
+                                    <i data-lucide="monitor-up" class="h-4 w-4"></i>
+                                    <span>Projector Mode</span>
                                 </button>
-                            ` : ''}
+                            </div>
                         </div>
-                        <div class="mt-6 grid gap-3 md:grid-cols-2">
-                            ${detail.checks.map((check, index) => `
-                                <div class="rounded-[15px] bg-[#FFF7EA] p-4 ring-1 ring-[#F3D29B]">
-                                    <p class="text-[11px] font-black uppercase tracking-[0.13em] text-[#B76708]">Q${index + 1}</p>
-                                    <p class="mt-2 text-[15px] font-bold leading-6 text-[#30231F]">${check}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </section>
                     </div>
+
+                    ${(detail.heroImage || detail.supportImage) ? `
+                        <figure class="lp-hero-figure">
+                            <img src="${detail.heroImage || detail.supportImage}" alt="${escapeHtml(detail.sessionTitle || block.title)} banner image" loading="lazy" decoding="async">
+                        </figure>
+                    ` : ''}
+
+                    <div class="mx-auto max-w-[1040px] px-6 pb-8 pt-6 md:px-8">
+                        <button type="button" class="focus-ring mb-5 inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E7D6CF] bg-white px-4 py-2.5 text-[11px] font-bold tracking-wide text-[#3A071A] transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/5 focus:outline-none" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                            <span>Back to Blocks</span>
+                        </button>
+
+                        <div class="lp-lesson-layout">
+                            <div class="lp-section-flow">
+                                <section class="lp-section-stack scroll-mt-40">
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Aim</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.aim}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.aim?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-body">
+                                        <div class="lp-aim-statement">${escapeHtml(detail.aim)}</div>
+                                        <div class="lp-aim-context">${escapeHtml(detail.flow?.[0]?.text || '')}</div>
+                                        <div class="lp-aim-support-grid">
+                                            <div>
+                                                <div class="lp-sub-lbl">New Words</div>
+                                                <div class="lp-vocab-shell">
+                                                    <div class="lp-vocab-list">
+                                                        ${(detail.vocab || []).map((item, index) => `<button type="button" class="lp-vocab-trigger ${index === 0 ? 'is-active' : ''}" data-vocab-trigger data-vocab-definition="${escapeHtml(item.definition)}">${escapeHtml(item.word)}</button>`).join('')}
+                                                    </div>
+                                                    <div class="lp-vocab-panel"><div class="lp-vocab-definition" data-vocab-definition-panel>${escapeHtml(detail.vocab?.[0]?.definition || '')}</div></div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="lp-sub-lbl">Resources</div>
+                                                <div class="lp-resource-list">
+                                                    ${(detail.resources || []).map((resource, index) => `<div class="lp-resource-row"><div class="lp-res-index">${index + 1}.</div>${escapeHtml(resource)}</div>`).join('')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="lp-section-stack scroll-mt-40">
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Action</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.action}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.action?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-body">
+                                        <div class="lp-sub-lbl lp-action-kicker">${escapeHtml(detail.flow?.[1]?.title || 'Activity')}</div>
+                                        <div class="lp-steps">
+                                            ${(detail.sections || []).map((section, index) => `
+                                                <div class="lp-step-row">
+                                                    <div class="lp-step-big-num" aria-hidden="true">0${index + 1}</div>
+                                                    <div>
+                                                        <div class="lp-step-label">${escapeHtml(section.kicker)}</div>
+                                                        <div class="lp-step-text">${escapeHtml(section.title)}</div>
+                                                        ${detail.actionImage && index === 1 ? `<figure class="lp-inline-figure" style="margin-top:14px;"><img src="${detail.actionImage}" alt="Action activity illustration" loading="lazy" decoding="async"></figure>` : ''}
+                                                        ${detail.teacherPrompt && index === 2 ? `<div class="lp-tip-box"><div><div class="lp-tip-lbl">Teacher Tip</div><div class="lp-tip-txt">${escapeHtml(detail.teacherPrompt)}</div></div></div>` : ''}
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="lp-section-stack scroll-mt-40">
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Analysis</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.analysis}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.analysis?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-body">
+                                        <div class="lp-analysis-layout">
+                                            <div class="lp-analysis-stack">
+                                                <div>
+                                                    <div class="lp-sub-lbl accent">Generalised Discussion</div>
+                                                    <div class="lp-analysis-question"><div class="lp-analysis-question-lbl">Question</div><div class="lp-analysis-question-text">${escapeHtml(detail.bigQuestion)}</div></div>
+                                                    <div class="lp-analysis-answer">${(detail.keyPoints || []).map((point) => `<p>${escapeHtml(point)}</p>`).join('')}</div>
+                                                </div>
+                                                <div>
+                                                    <div class="lp-sub-lbl accent">Higher Order Thinking</div>
+                                                    <div class="lp-analysis-question"><div class="lp-analysis-question-lbl">Question</div><div class="lp-analysis-question-text">${escapeHtml(detail.hotQuestion || detail.flow?.[2]?.title || '')}</div></div>
+                                                    <div class="lp-analysis-answer"><p>${escapeHtml(detail.hotAnswer || detail.flow?.[2]?.text || '')}</p></div>
+                                                </div>
+                                            </div>
+                                            ${detail.analysisImage ? `<figure class="lp-inline-figure" style="margin:0;"><img src="${detail.analysisImage}" alt="Analysis discussion illustration" loading="lazy" decoding="async"></figure>` : ''}
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="lp-section-stack scroll-mt-40">
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Application</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.application}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.application?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-body">
+                                        <div class="lp-sub-lbl accent">Independent Practice</div>
+                                        <p class="lp-practice-intro">${escapeHtml(detail.flow?.[3]?.text || lesson.description)}</p>
+                                        ${detail.applicationImage ? `<figure class="lp-inline-figure" style="margin-top:0;margin-bottom:18px;"><img src="${detail.applicationImage}" alt="Application practice illustration" loading="lazy" decoding="async"></figure>` : ''}
+                                        <div class="lp-divider"></div>
+                                        <div class="lp-sub-lbl">Differentiation</div>
+                                        <div class="lp-diff-cols">
+                                            <div><div class="lp-diff-col-lbl">Needs Help</div><div class="lp-diff-items">${(detail.diffHelp || []).map((tip) => `<div class="lp-diff-item"><div class="lp-diff-dot"></div><span>${escapeHtml(tip)}</span></div>`).join('')}</div></div>
+                                            <div><div class="lp-diff-col-lbl">Needs a Challenge</div><div class="lp-diff-items">${(detail.diffChallenge || []).map((tip) => `<div class="lp-diff-item"><div class="lp-diff-dot"></div><span>${escapeHtml(tip)}</span></div>`).join('')}</div></div>
+                                        </div>
+                                        <div class="lp-divider"></div>
+                                        <div class="lp-sub-lbl">Homework</div>
+                                        <p class="lp-practice-intro" style="margin-bottom:0;">Answer <strong>Quick Quiz 1-4</strong> in the Mastery Book.</p>
+                                    </div>
+                                </section>
+
+                                <section class="lp-section-stack scroll-mt-40">
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Assessment</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.assessment}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.assessment?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-body">
+                                        <div class="lp-sub-lbl accent">Learning Outcomes</div>
+                                        <div class="lp-outcomes-grid">
+                                            <div class="lp-outcome-card approaching"><div class="lp-outcome-level">Approaching</div><div class="lp-outcome-text">${escapeHtml(detail.checks?.[0] || '')}</div></div>
+                                            <div class="lp-outcome-card meeting"><div class="lp-outcome-level">Meeting</div><div class="lp-outcome-text">${escapeHtml(detail.checks?.[1] || detail.aim)}</div></div>
+                                            <div class="lp-outcome-card exceeding"><div class="lp-outcome-level">Exceeding</div><div class="lp-outcome-text">${escapeHtml(detail.checks?.[2] || '')}</div></div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <div class="lp-complete-wrap">
+                                    <div class="lp-complete-card">
+                                        <div class="lp-complete-title">Complete this lesson plan</div>
+                                        <div class="mt-3 flex flex-col items-center gap-3">
+                                            <button type="button" class="lesson-complete-button focus-ring inline-flex min-w-[260px] items-center justify-center rounded-full px-6 py-3 text-[12px] font-black transition focus:outline-none ${isLessonComplete ? 'bg-[#f6e7ea] text-[#a41034]' : 'bg-[#A41034] text-white hover:bg-[#7f0f31]'}" data-action="${isLessonComplete ? 'undo-complete-lesson' : 'complete-lesson'}" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${lesson.id}">
+                                                ${isLessonComplete ? 'Lesson Completed' : 'Complete Lesson'}
+                                            </button>
+                                            ${isLessonComplete ? `<button type="button" class="focus-ring inline-flex items-center justify-center rounded-full border border-[#e8d7d2] bg-white px-5 py-2.5 text-[11px] font-bold text-[#7a2d36] transition hover:border-[#A41034]/25 hover:bg-[#fff8f8] focus:outline-none" data-action="undo-complete-lesson" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${lesson.id}">Undo</button>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                ${nextLesson ? `<div class="mt-6 flex justify-end"><button type="button" class="focus-ring inline-flex items-center justify-center rounded-2xl bg-[#A41034] px-6 py-3 text-[12px] font-bold tracking-wide text-white transition-all hover:bg-[#7a0c26] focus:outline-none" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${nextLesson.id}">Open Next Lesson</button></div>` : ''}
+                            </div>
+                        </div>
                 </section>
             `;
         }
@@ -5839,6 +5945,30 @@
                     practiceTarget.dataset.practiceTopic || ''
                 );
                 return;
+            }
+
+            const lessonActionTarget = event.target.closest('[data-action]');
+            if (lessonActionTarget) {
+                const lessonKey = getLessonCompletionKey(
+                    lessonActionTarget.dataset.gradeId,
+                    lessonActionTarget.dataset.subjectId,
+                    lessonActionTarget.dataset.blockId,
+                    lessonActionTarget.dataset.lessonId
+                );
+
+                if (lessonActionTarget.dataset.action === 'complete-lesson') {
+                    completedLessonKeys.add(lessonKey);
+                    renderRoute();
+                    showAppToast('Lesson marked complete.');
+                    return;
+                }
+
+                if (lessonActionTarget.dataset.action === 'undo-complete-lesson') {
+                    completedLessonKeys.delete(lessonKey);
+                    renderRoute();
+                    showAppToast('Lesson completion undone.');
+                    return;
+                }
             }
 
             const target = event.target.closest('[data-view]');
