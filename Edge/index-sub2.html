@@ -122,13 +122,12 @@
             isolation: isolate;
             background-color: color-mix(in srgb, var(--subject-accent, #BD1740) 4%, #ffffff);
             background-image:
-                linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.94) 48%, rgba(255, 255, 255, 0.68) 100%),
-                linear-gradient(rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.38)),
-                radial-gradient(circle at 90% 12%, color-mix(in srgb, var(--subject-accent, #A41034) 16%, transparent), transparent 46%),
+                linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.88) 48%, rgba(255,255,255,0.08) 100%),
+                radial-gradient(circle at 90% 12%, color-mix(in srgb, var(--subject-accent, #A41034) 7%, transparent), transparent 42%),
                 var(--subject-bg);
-            background-position: center, center, center, calc(100% - 3rem) center;
+            background-position: center, center, right center;
             background-repeat: no-repeat;
-            background-size: 100% 100%, 100% 100%, 100% 100%, contain;
+            background-size: 100% 100%, 100% 100%, contain;
             box-shadow: 0 18px 52px rgba(28, 25, 23, 0.035);
         }
 
@@ -146,8 +145,8 @@
         }
 
         .subject-card-arrow {
-            background: color-mix(in srgb, #ffffff 72%, var(--subject-accent, #A41034));
-            border: 1px solid color-mix(in srgb, var(--subject-accent, #A41034) 30%, #ffffff);
+            background: color-mix(in srgb, #ffffff 86%, var(--subject-accent, #A41034));
+            border: 1px solid color-mix(in srgb, var(--subject-accent, #A41034) 18%, #ffffff);
             color: var(--subject-accent, #A41034);
             box-shadow: 0 8px 18px color-mix(in srgb, var(--subject-accent, #A41034) 14%, transparent);
         }
@@ -157,24 +156,6 @@
             color: #ffffff;
             border-color: color-mix(in srgb, var(--subject-accent, #A41034) 80%, #ffffff);
             transform: translate3d(2px, -2px, 0);
-        }
-
-        .parent-subject-row {
-            background:
-                radial-gradient(circle at 92% 18%, color-mix(in srgb, var(--subject-accent, #A41034) 10%, transparent), transparent 20rem),
-                linear-gradient(135deg, rgba(255, 255, 255, 0.985) 0%, rgba(255, 250, 248, 0.94) 100%),
-                color-mix(in srgb, var(--subject-accent, #A41034) 4%, #ffffff);
-            box-shadow: 0 14px 36px rgba(28, 25, 23, 0.04);
-        }
-
-        .parent-subject-row:hover {
-            border-color: color-mix(in srgb, var(--subject-accent, #A41034) 34%, #ffffff);
-            box-shadow: 0 20px 48px rgba(28, 25, 23, 0.075);
-            transform: translateY(-1px);
-        }
-
-        .parent-subject-row button {
-            cursor: pointer;
         }
 
         .blocks-page-header {
@@ -396,6 +377,12 @@
             font-size: 13px;
             font-weight: 600 !important;
             letter-spacing: 0;
+        }
+
+        .lesson-journey-shell {
+            background:
+                radial-gradient(circle at 78% 18%, rgba(177, 15, 58, 0.08), transparent 28rem),
+                linear-gradient(180deg, #FBF8F6 0%, #FFFDFC 48%, #FBF8F6 100%);
         }
 
         .lesson-block {
@@ -655,7 +642,7 @@
 
     <!-- Header -->
     <header class="sticky top-0 z-50 w-full border-b border-wine-5 bg-white px-6 backdrop-blur-xl md:px-12">
-        <div class="max-w-[1400px] mx-auto h-24 flex items-center justify-between">
+        <div class="max-w-[1600px] mx-auto h-24 flex items-center justify-between">
             <!-- Logo & Branding -->
             <a href="#" class="focus-ring flex items-center" aria-label="SuperTeacher Edge home">
                 <img src="assets/st-edge-logo4.png" alt="SuperTeacher Edge" class="h-14 w-auto object-contain">
@@ -697,11 +684,10 @@
 
             <!-- Actions -->
             <div class="flex items-center gap-6">
-                <button type="button" id="practiceGymHeaderButton"
-                    class="focus-ring inline-flex h-10 items-center gap-2 rounded-full border border-[#E9C9CD] bg-[#FFF7F4] px-4 text-[12px] font-bold text-[#BD1740] transition-all hover:border-[#BD1740]/30 hover:bg-[#BD1740] hover:text-white focus:outline-none"
-                    aria-label="Open Practice Gym">
-                    <i data-lucide="dumbbell" class="h-4 w-4"></i>
-                    <span class="hidden sm:inline">Practice Gym</span>
+                <button type="button"
+                    class="focus-ring hidden p-3 text-wine bg-[#A41034]/5 rounded-2xl transition-all hover:bg-[#A41034]/10 md:block"
+                    aria-label="Open notifications">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
                 </button>
                 <div class="relative shrink-0">
                     <button type="button" id="profileToggle"
@@ -764,16 +750,22 @@
                     <i data-lucide="line-chart" class="h-4 w-4"></i>
                     <span>Learnometer</span>
                 </button>
+                <button type="button"
+                    class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold  tracking-wide text-[#6D5D5A] hover:bg-white hover:text-wine"
+                    data-nav-title="Practice Test">
+                    <i data-lucide="dumbbell" class="h-4 w-4"></i>
+                    <span>Practice Test</span>
+                </button>
             </div>
         </nav>
     </header>
 
-    <main class="tab-panel max-w-[1400px] mx-auto px-6 py-8 lg:py-10" data-tab-panel="Teacher Lesson Plan">
+    <main class="tab-panel max-w-[1280px] mx-auto px-6 py-8" data-tab-panel="Teacher Lesson Plan">
         <!-- JSON-driven Curriculum Sections -->
-        <section id="curriculum-sections"></section>
+        <section id="curriculum-sections" class="space-y-16"></section>
     </main>
 
-    <main class="tab-panel hidden max-w-[1400px] mx-auto px-4 py-4 sm:px-6" data-tab-panel="Communication">
+    <main class="tab-panel hidden max-w-[1280px] mx-auto px-4 py-4 sm:px-6" data-tab-panel="Communication">
         <aside id="communicationFilterToolbar"
             class="fixed bottom-20 left-4 right-4 z-40 hidden lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2"
             aria-label="Filter announcements by grade"></aside>
@@ -784,10 +776,10 @@
         <div id="communicationModalRoot"></div>
     </main>
 
-    <main class="tab-panel hidden max-w-[1400px] mx-auto px-6" data-tab-panel="Learnometer" id="learnometerPanel">
+    <main class="tab-panel hidden max-w-[1280px] mx-auto px-6" data-tab-panel="Learnometer" id="learnometerPanel">
     </main>
 
-    <main class="tab-panel hidden gym max-w-[1400px] mx-auto px-4 py-5 sm:px-6 lg:py-7" data-tab-panel="Practice Test"
+    <main class="tab-panel hidden gym max-w-[1280px] mx-auto px-4 py-5 sm:px-6 lg:py-7" data-tab-panel="Practice Test"
         id="practiceGymPanel">
         <div id="practiceGymRoot"></div>
     </main>
@@ -812,11 +804,8 @@
         let toolbarOpen = false;
         let currentToolbarView = 'home';
         let activeAppTab = 'Teacher Lesson Plan';
-        let currentRole = 'principle';
         let programmaticBlockScrollTarget = '';
         let programmaticBlockScrollTimer = null;
-        let parentTipDismissed = false;
-        let parentLearningView = 'weekly';
         const expandedGradeIds = new Set([currentGradeId]);
         const collapsedBlockIds = new Set();
         const initializedCollapsedBlockRoutes = new Set();
@@ -2376,26 +2365,6 @@
             renderPracticeGym();
         }
 
-        function getPracticeSubjectForCurriculum(grade, subject) {
-            const subjects = GYM_CURRICULUM[grade] || {};
-            if (subjects[subject]) return subject;
-            if (subject === 'Social Science' && subjects['Environmental Science']) return 'Environmental Science';
-            if (subject === 'Environmental Science' && subjects.EVS) return 'EVS';
-            return Object.keys(subjects)[0] || 'Mathematics';
-        }
-
-        function openSubjectPracticeGym(grade, subject, topic = '') {
-            const safeGrade = GYM_CURRICULUM[grade] ? grade : 'Grade 1';
-            const safeSubject = getPracticeSubjectForCurriculum(safeGrade, subject);
-            practiceGymState.grade = safeGrade;
-            practiceGymState.selectedReviewSubject = safeSubject;
-            practiceGymState.block = '';
-            practiceGymState.difficulty = practiceGymState.difficulty || 'Medium';
-            setActiveNavTitle('Practice Test');
-            showAppTab('Practice Test');
-            openPracticeSetupPage(safeSubject, topic);
-        }
-
         function renderPracticeSectionHeader(title, action = '') {
             return `
                 <div class="mb-4 flex items-center justify-between gap-3">
@@ -2576,10 +2545,10 @@
                     </div>
                     <div class="mt-2 grid grid-cols-7 gap-1">
                         ${days.map((day) => {
-                if (!day || day > 31) return '<span class="h-9 rounded-xl"></span>';
-                const entry = entryByDay.get(day);
-                const future = day > today;
-                return `
+                    if (!day || day > 31) return '<span class="h-9 rounded-xl"></span>';
+                    const entry = entryByDay.get(day);
+                    const future = day > today;
+                    return `
                                 <button type="button" ${entry ? `data-calendar-day="${day}"` : ''} ${future ? 'disabled' : ''} class="relative h-9 rounded-xl text-[13px] font-medium transition-colors ${day === today ? 'bg-[#FFF0F2] text-[#A41034]' : future ? 'text-[#D4CDC8]' : 'text-[#2B2522] hover:bg-[#FAF8F6]'}">
                                     ${day}
                                     ${entry ? `<span class="absolute bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-0.5">
@@ -2588,7 +2557,7 @@
                                     </span>` : ''}
                                 </button>
                             `;
-            }).join('')}
+                }).join('')}
                     </div>
                     ${entries.length ? '' : '<div class="mt-4 rounded-2xl bg-[#FAF8F6] p-4 text-center text-sm text-[#6D5D5A]">No practice yet this month.</div>'}
                     </div>
@@ -2989,7 +2958,25 @@
         function renderPracticeGymGlobalFab() {
             const root = document.getElementById('practiceGymGlobalFabRoot');
             if (!root) return;
-            root.innerHTML = '';
+
+            root.innerHTML = `
+                <div class="fixed bottom-5 right-5 z-40 sm:right-7">
+                    <nav class="flex items-center justify-center rounded-[1.5rem] border border-[#E9C9CD] bg-white/85  backdrop-blur-2xl" aria-label="Practice Gym shortcut">
+                        <button type="button" id="practiceGymGlobalFab" class="group/tip relative p-4 focus-ring flex h-8 items-center justify-center gap-1.5 rounded-full px-3 text-[14px] font-bold text-[#BD1740] transition-all duration-300 hover:bg-[#BD1740]/5 hover:text-[#8a0f2e] focus:outline-none max-sm:min-w-8 max-sm:px-2" aria-label="Open Practice Gym">
+                            <i data-lucide="dumbbell" class="h-3.5 w-3.5"></i>
+                            <span class="max-sm:hidden">Practice Gym</span>
+                        </button>
+                    </nav>
+                </div>
+            `;
+
+            root.querySelector('#practiceGymGlobalFab')?.addEventListener('click', (event) => {
+                event.stopPropagation();
+                setActiveNavTitle('Practice Test');
+                showAppTab('Practice Test');
+                openPracticeSetupPage();
+            });
+            lucide.createIcons();
         }
 
         function bindPracticeGymEvents() {
@@ -3130,56 +3117,48 @@
             earlyChildhood: {
                 name: 'Early Childhood',
                 subtitle: 'Foundation Plan',
-                teacher: 'Ms. Nisha Mehta',
                 progress: 40,
                 icon: 'early'
             },
             english: {
                 name: 'English',
                 subtitle: 'Curriculum Plan',
-                teacher: 'Ms. Ananya Rao',
                 progress: 65,
                 icon: 'book'
             },
             computerScience: {
-                name: 'Computer',
+                name: 'Computer Science',
                 subtitle: 'Curriculum Plan',
-                teacher: 'Mr. Rohan Kapoor',
                 progress: 48,
                 icon: 'monitor'
             },
             mathematics: {
                 name: 'Mathematics',
                 subtitle: 'Curriculum Plan',
-                teacher: 'Ms. Priya Sharma',
                 progress: 30,
                 icon: 'math'
             },
             science: {
                 name: 'Science',
                 subtitle: 'Curriculum Plan',
-                teacher: 'Mr. Arjun Menon',
                 progress: 45,
                 icon: 'flask'
             },
             evs: {
-                name: 'EVS',
+                name: 'Environmental Science',
                 subtitle: 'Curriculum Plan',
-                teacher: 'Ms. Kavya Iyer',
                 progress: 10,
                 icon: 'globe'
             },
             social: {
-                name: 'Soc.Science',
+                name: 'Social',
                 subtitle: 'Curriculum Plan',
-                teacher: 'Mr. Vivek Nair',
                 progress: 36,
                 icon: 'landmark'
             },
             hindi: {
                 name: 'Hindi',
                 subtitle: 'Curriculum Plan',
-                teacher: 'Ms. Pooja Verma',
                 progress: 58,
                 icon: 'hindi'
             }
@@ -3192,7 +3171,6 @@
             subjectLibrary.hindi,
             subjectLibrary.evs,
             subjectLibrary.computerScience,
-            // subjectLibrary.social,
         ];
 
         function renderIcon(iconName) {
@@ -3210,85 +3188,69 @@
                 </svg>
             `;
         }
+
         const subjectThemes = {
             Mathematics: {
-                accent: '#2563EB', // Royal Blue
-                accentSoft: 'rgba(37, 99, 235, 0.08)',
-                accentTrack: 'rgba(37, 99, 235, 0.14)',
-                glow: 'rgba(37, 99, 235, 0.12)',
-                gradientColor: '#DBEAFE',
+                accent: '#3278D8',
+                accentSoft: 'rgba(50, 120, 216, 0.08)',
+                accentTrack: 'rgba(50, 120, 216, 0.12)',
+                glow: 'rgba(50, 120, 216, 0.10)',
                 illustration: 'math',
                 icon: 'icons/maths.png'
             },
-
             Science: {
-                accent: '#16A34A', // Emerald Green
-                accentSoft: 'rgba(22, 163, 74, 0.08)',
-                accentTrack: 'rgba(22, 163, 74, 0.14)',
-                glow: 'rgba(22, 163, 74, 0.12)',
-                gradientColor: '#DCFCE7',
+                accent: '#4A8E22',
+                accentSoft: 'rgba(96, 142, 34, 0.075)',
+                accentTrack: 'rgba(74, 142, 34, 0.13)',
+                glow: 'rgba(74, 142, 34, 0.10)',
                 illustration: 'science',
                 icon: 'icons/science.png'
             },
-
             English: {
-                accent: '#C0265C', // Rose Crimson
-                accentSoft: 'rgba(192, 38, 92, 0.07)',
-                accentTrack: 'rgba(192, 38, 92, 0.14)',
-                glow: 'rgba(192, 38, 92, 0.12)',
-                gradientColor: '#FCE7F3',
+                accent: '#BD1740',
+                accentSoft: 'rgba(189, 23, 64, 0.055)',
+                accentTrack: 'rgba(189, 23, 64, 0.13)',
+                glow: 'rgba(189, 23, 64, 0.10)',
                 illustration: 'english',
                 icon: 'icons/eng.png'
             },
-
             Hindi: {
-                accent: '#EA580C', // Deep Orange
-                accentSoft: 'rgba(234, 88, 12, 0.07)',
-                accentTrack: 'rgba(234, 88, 12, 0.14)',
-                glow: 'rgba(234, 88, 12, 0.12)',
-                gradientColor: '#FED7AA',
+                accent: '#F18708',
+                accentSoft: 'rgba(241, 135, 8, 0.06)',
+                accentTrack: 'rgba(241, 135, 8, 0.14)',
+                glow: 'rgba(241, 135, 8, 0.10)',
                 illustration: 'hindi',
                 icon: 'icons/hindi.png'
             },
-
-            'Computer': {
-                accent: '#7C3AED', // Violet
-                accentSoft: 'rgba(124, 58, 237, 0.08)',
-                accentTrack: 'rgba(124, 58, 237, 0.15)',
-                glow: 'rgba(124, 58, 237, 0.12)',
-                gradientColor: '#EDE9FE',
+            'Computer Science': {
+                accent: '#6D54B8',
+                accentSoft: 'rgba(109, 84, 184, 0.07)',
+                accentTrack: 'rgba(109, 84, 184, 0.14)',
+                glow: 'rgba(109, 84, 184, 0.10)',
                 illustration: 'computer',
                 icon: 'icons/CS.png'
             },
-
-            'EVS': {
-                accent: '#0891B2', // Cyan Teal
-                accentSoft: 'rgba(8, 145, 178, 0.08)',
-                accentTrack: 'rgba(8, 145, 178, 0.14)',
-                glow: 'rgba(8, 145, 178, 0.12)',
-                gradientColor: '#CFFAFE',
+            'Environmental Science': {
+                accent: '#087C87',
+                accentSoft: 'rgba(8, 124, 135, 0.065)',
+                accentTrack: 'rgba(8, 124, 135, 0.13)',
+                glow: 'rgba(8, 124, 135, 0.10)',
                 illustration: 'evs',
                 icon: 'icons/EVS.png'
             },
-
-            'Social Science': {
-                accent: '#92400E', // Earth Brown
-                accentSoft: 'rgba(146, 64, 14, 0.07)',
-                accentTrack: 'rgba(146, 64, 14, 0.14)',
-                glow: 'rgba(146, 64, 14, 0.12)',
-                gradientColor: '#FDE7C7',
-                illustration: 'social',
-                icon: 'icons/social.png'
+            Social: {
+                accent: '#B47955',
+                accentSoft: 'rgba(180, 121, 85, 0.055)',
+                accentTrack: 'rgba(180, 121, 85, 0.13)',
+                glow: 'rgba(180, 121, 85, 0.10)',
+                illustration: 'social'
             },
-
-            'EVS': {
-                accent: '#DB2777', // Playful Pink
-                accentSoft: 'rgba(219, 39, 119, 0.07)',
-                accentTrack: 'rgba(219, 39, 119, 0.14)',
-                glow: 'rgba(219, 39, 119, 0.12)',
-                gradientColor: '#FCE7F3',
-                illustration: 'early',
-                icon: 'icons/early.png'
+            'Early Childhood': {
+                accent: '#E19745',
+                accentSoft: 'rgba(225, 151, 69, 0.055)',
+                accentTrack: 'rgba(225, 151, 69, 0.13)',
+                glow: 'rgba(225, 151, 69, 0.10)',
+                illustration: 'early'
             }
         };
 
@@ -3309,9 +3271,9 @@
                 Mathematics: 'assets/subjects/mathematics_bg.png',
                 Science: 'assets/subjects/science_bg.png',
                 Hindi: 'assets/subjects/hindi_bg.png',
-                'Social Science': 'assets/subjects/social_science_bg.png',
+                Social: 'assets/subjects/social_science_bg.png',
                 'Environmental Science': 'assets/subjects/environmental_science_bg.png',
-                'Computer': 'assets/subjects/computer_science_g1_g2_bg.png',
+                'Computer Science': 'assets/subjects/computer_science_g1_g2_bg.png',
                 'Early Childhood': 'assets/subjects/early_childhood_bg.png'
             };
 
@@ -3415,7 +3377,7 @@
             'Environmental Science': ['My Surroundings', 'My Family', 'Food We Eat', 'Water Around Us', 'Plants Near Us', 'Animals Around Us', 'Our Body', 'Good Habits', 'Weather Around Us', 'Homes and Shelter', 'People Who Help Us', 'Festivals and Places', 'Travel and Transport', 'Keeping Clean', 'Caring for Nature'],
             English: ['The Alphabet Song', 'Letter Sounds', 'Sight Words', 'Reading Fluency', 'Rhyming Words', 'Nouns Around Us', 'Action Words', 'Describing Words', 'Sentence Builders', 'Listening for Details', 'Story Characters', 'Story Setting', 'Picture Reading', 'Writing Workshop', 'Speaking with Confidence'],
             Science: ['Light and Shadows', 'Changes in the Sky', 'Materials Around Us', 'Solids and Liquids', 'Plants Grow', 'Animal Needs', 'Human Body', 'Healthy Habits', 'Forces and Motion', 'Sound Around Us', 'Water Cycle Basics', 'Weather Watch', 'Magnets', 'Simple Machines', 'Observing Like Scientists'],
-            'Social Science': ['My Community', 'My School', 'Rules and Responsibilities', 'Maps and Places', 'Directions Around Us', 'Our Neighborhood', 'Helpers at Work', 'Culture and Heritage', 'Festivals We Celebrate', 'Food and Clothing', 'Transport and Travel', 'Public Places', 'Our Country', 'Good Citizenship', 'Saving Resources'],
+            Social: ['My Community', 'My School', 'Rules and Responsibilities', 'Maps and Places', 'Directions Around Us', 'Our Neighborhood', 'Helpers at Work', 'Culture and Heritage', 'Festivals We Celebrate', 'Food and Clothing', 'Transport and Travel', 'Public Places', 'Our Country', 'Good Citizenship', 'Saving Resources'],
             Mathematics: ['Numbers and Patterns', 'Counting Forward', 'Comparing Numbers', 'Place Value', 'Addition Stories', 'Subtraction Stories', 'Shapes Around Us', 'Geometry in Life', 'Measurement', 'Time of Day', 'Money Basics', 'Data and Pictures', 'Patterns in Nature', 'Fractions as Parts', 'Problem Solving'],
             Hindi: ['Swar Pehchan', 'Vyanjan Pehchan', 'Matra Abhyas', 'Pathan Kaushal', 'Shabd Nirman', 'Vakya Rachna', 'Vyakaran', 'Kahani Pathan', 'Kavita Pathan', 'Shravan Kaushal', 'Baatcheet', 'Chitra Varnan', 'Rachnatmak Lekhan', 'Muhavare', 'Punravartan'],
             'Early Childhood': ['Stories and Sounds', 'Colors Around Me', 'Numbers and Shapes', 'Fine Motor Fun', 'Big and Small', 'My Body', 'My Family', 'Animals and Sounds', 'Fruits and Vegetables', 'Weather Play', 'Good Habits', 'Sharing and Caring', 'Music and Movement', 'World Around Me', 'Creative Play']
@@ -3736,264 +3698,23 @@
             return styles[stage] || styles.practice;
         }
 
-        function getNextLessonTarget(subject) {
-            const block = subject?.blocks.find((item) => item.status === 'In Progress' || (item.progress > 0 && item.progress < 100))
-                || subject?.blocks.find((item) => item.status !== 'Completed')
-                || subject?.blocks[0];
-            if (!block) return null;
-
-            const lesson = block.lessons.find((item) => item.status === 'In Progress')
-                || block.lessons.find((item) => item.status !== 'Completed')
-                || block.lessons[0];
-            if (!lesson) return null;
-
-            return { block, lesson };
-        }
-
-        function getRoleForTab(title = activeAppTab) {
-            if (title === 'Teacher Lesson Plan') return 'teacher';
-            if (title === 'Parent Lesson Plan') return 'parent';
-            return 'principle';
-        }
-
-        function renderSubjectMeta(subject, grade, theme) {
-            if (currentRole === 'principle') {
-                return `
-                <div class="my-2 flex max-w-full flex-col gap-1">
-                    <p class="inline-flex max-w-full items-center gap-1.5 text-[10px] font-medium leading-none text-[#6F625F]">
-                        <span class="truncate">${escapeHtml(subject.teacher || 'Class Teacher')}</span>
-                    </p>
-                </div>
-                `;
-            }
-
-            if (currentRole === 'parent') {
-                const pendingLessons = Math.max(0, (subject.blocks || []).flatMap((block) => block.lessons || []).filter((lesson) => lesson.status !== 'Completed').length);
-                return `
-                <div class="my-2 inline-flex max-w-full items-center gap-1.5 rounded-full bg-[#FFF7F4] px-2 py-1 text-[10px] font-semibold leading-none text-[#8A4B3A] ring-1 ring-[#F2D8CF]">
-                    <i data-lucide="home" class="h-3 w-3 shrink-0" style="color: ${theme.accent};"></i>
-                    <span class="truncate">${pendingLessons} lessons left</span>
-                </div>
-                `;
-            }
-
-            const target = getNextLessonTarget(subject);
-            if (!target) return '';
-
-            const href = `#view=lessons&grade=${grade.id}&subject=${subject.id}&block=${target.block.id}&lesson=${target.lesson.id}`;
-            return `
-                <div class="mt-0.5 flex max-w-full flex-col gap-1">
-                   
-                    <a href="${href}" class="inline-flex my-2 max-w-full items-center gap-1.5 text-[10px] font-bold leading-none transition hover:underline"
-                        style="color: ${theme.accent};"
-                        data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${target.block.id}" data-lesson-id="${target.lesson.id}"
-                        aria-label="Open next lesson: ${escapeHtml(target.lesson.title)}">
-                        <span class="shrink-0">Next Lesson:</span>
-                        <span class="truncate">${escapeHtml(target.lesson.title)}</span>
-                        <i data-lucide="arrow-right" class="h-3 w-3 shrink-0"></i>
-                    </a>
-                </div>
-            `;
-        }
-
-
-        function getParentSubjectMoments(subject) {
-            const blocks = subject.blocks || [];
-            const currentBlock = blocks.find((item) => item.status === 'In Progress' || (item.progress > 0 && item.progress < 100))
-                || blocks.find((item) => item.status !== 'Completed')
-                || blocks[0];
-            const currentIndex = currentBlock ? Math.max(0, blocks.findIndex((item) => item.id === currentBlock.id)) : 0;
-            const lastCompleted = blocks.slice(0, currentIndex).reverse().find((item) => item.status === 'Completed')
-                || blocks.find((item) => item.status === 'Completed');
-            const upNext = blocks.slice(currentIndex + 1).find((item) => item.status !== 'Completed');
-            const currentLessons = currentBlock?.lessons || [];
-            const currentDone = currentLessons.filter((lesson) => lesson.status === 'Completed').length;
-
-            return {
-                currentBlock,
-                currentIndex,
-                currentDone,
-                currentTotal: currentLessons.length,
-                lastCompleted,
-                upNext
-            };
-        }
-
-        function getParentSubjectCard(subject, grade) {
+        function renderSubjectCard(subject, grade) {
             const summary = getSubjectSummary(subject);
             const theme = getSubjectTheme(subject.name);
-            const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
-            const target = getNextLessonTarget(subject);
-            const block = target?.block || subject.blocks?.[0];
-            const lesson = target?.lesson || block?.lessons?.[0];
-            const blockIndex = block ? Math.max(0, subject.blocks.findIndex((item) => item.id === block.id)) : 0;
-            const lessonIndex = block && lesson ? Math.max(0, block.lessons.findIndex((item) => item.id === lesson.id)) : 0;
-            const blockName = block?.title || null;
-            const lessonName = lesson?.title || null;
-            const blockLessons = block?.lessons?.length || 0;
-            const completedBlockLessons = block?.lessons?.filter(l => l.status === 'Completed').length || 0;
-
             return `
-                <article class="subject-card focus-ring group relative flex cursor-pointer flex-col overflow-hidden rounded-[10px] border border-[#E9DDD9] p-4 focus:outline-none"
-                    style="--subject-accent: ${theme.accent}; --subject-bg: url('${getSubjectBackground(subject.name)}');"
-                    data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}"
-                    role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks for ${escapeHtml(grade.title)}">
+                <article class="subject-card focus-ring group relative flex min-h-[214px] cursor-pointer flex-col overflow-hidden rounded-[20px] border border-[#E9DDD9] p-5 transition-all duration-200 ease-out hover:-translate-y-0.5 focus:outline-none" style="--subject-accent: ${theme.accent}; --subject-bg: url('${getSubjectBackground(subject.name)}');" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}" role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks">
 
-                    <!-- Accent gradient over entire card -->
-                    <div class="pointer-events-none absolute inset-0 z-10 rounded-[10px]" aria-hidden="true"
-                        style="background: linear-gradient(to bottom, color-mix(in srgb, var(--subject-accent) 10%, white) 0%, transparent 100%);"></div>
-
-                    <!-- Grade + Subject name row -->
-                    <div class="relative z-20 flex items-start justify-between gap-2">
-                        <div class="min-w-0 flex-1">
-                            <p class="text-[11px] font-medium text-[#A9A19C] leading-none mb-1">${escapeHtml(grade.title)}</p>
-                            <h4 class="truncate text-[18px] font-bold leading-tight text-[#1C1917]">${escapeHtml(subject.name)}</h4>
-                        </div>
-                    <span class="absolute right-3 top-3 z-30" style="color: ${theme.accent}; opacity: 0.7;" aria-hidden="true">
-                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
-                    </span>
+                    <div class="relative z-20 max-w-[62%]">
+                        <h4 class="mt-3 text-[1.32rem] font-bold leading-[1.08] text-[#252221]">${subject.name}</h4>
+                        <p class="mt-2 whitespace-nowrap text-[12px] font-medium text-[#68615E]">${summary.totalBlocks} Blocks • ${summary.totalLessons} Lessons</p>
                     </div>
 
-                    <!-- Current learning lesson -->
-                    <div class="relative z-20 mt-4 min-w-0">
-                        <div class="flex items-start gap-2.5">
-                            <div class="min-w-0 flex-1">
-                                <span class="mb-1 block text-[9px] font-bold uppercase tracking-widest" style="color: var(--subject-accent);">Now Learning</span>
-                                ${blockName ? `<p class="truncate text-[9px] font-medium text-[#B8AFA9]">${escapeHtml(blockName)}</p>` : ''}
-                                ${lessonName
-                    ? `<p class="truncate text-[13px] font-semibold leading-snug text-[#57534E]">${escapeHtml(lessonName)}</p>`
-                    : `<p class="truncate text-[13px] font-semibold leading-snug text-[#57534E]">${escapeHtml(subject.name)}</p>`}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Progress -->
-                    <div class="relative z-20 mt-auto pt-4">
-                        <div class="mb-1.5 flex items-center justify-between gap-2">
-                            <span class="text-[11px] font-medium text-[#78716C]">${completedBlockLessons} / ${blockLessons} Lessons</span>
-                            <span class="text-[11px] font-bold tabular-nums" style="color: ${theme.accent};">${progress}%</span>
-                        </div>
-                        <div class="h-1 overflow-hidden rounded-full" style="background: ${theme.accentTrack};"
-                            role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100" aria-label="${escapeHtml(subject.name)} progress">
-                            <div class="h-full rounded-full transition-all duration-300" style="width: ${progress}%; background: ${theme.accent};"></div>
-                        </div>
-                    </div>
-
-                    <!-- Practice Gym -->
-                    <div class="relative z-20 mt-3 flex items-center justify-end">
-                        <button type="button"
-                            data-open-practice-gym data-practice-grade="${escapeHtml(grade.title)}" data-practice-subject="${escapeHtml(subject.name)}" data-practice-topic="${escapeHtml(block?.title || subject.name)}"
-                            class="focus-ring group/gym inline-flex items-center gap-1 text-[11px] font-medium text-[#A9A19C] transition-colors hover:text-[#78716C] focus:outline-none"
-                            aria-label="Open Practice Gym for ${escapeHtml(subject.name)}">
-                            <i data-lucide="dumbbell" class="h-3 w-3 transition-colors"></i>
-                            <span class="underline-offset-2 group-hover/gym:underline">Practice Gym</span>
-                        </button>
-                    </div>
-                </article>
-            `;
-        }
-
-        function renderSubjectCardv1(subject, grade) {
-            const summary = getSubjectSummary(subject);
-            const theme = getSubjectTheme(subject.name);
-            const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
-
-            return `
-                <article class="subject-card focus-ring group relative flex min-h-[40px] max-h-[120px] cursor-pointer flex-col overflow-hidden rounded-[10px] border border-[#E9DDD9] p-3 focus:outline-none"
-                    style="--subject-accent: ${theme.accent};--subject-bg: url('${getSubjectBackground(subject.name)}');"
-                    data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}"
-                    role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks for ${escapeHtml(grade.title)}">
-
-                    <span class="subject-card-arrow absolute right-3 top-3 z-30 grid h-7 w-7 place-items-center rounded-full" aria-hidden="true">
-                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
-                    </span>
-
-                    <div class="relative z-20 max-w-[calc(100%-2.5rem)]">
-                        <h4 class="text-[1rem] font-bold leading-tight text-[#252221]">${escapeHtml(subject.name)}</h4>
-                        ${renderSubjectMeta(subject, grade, theme)}
-                    </div>
-
-                    <div class="relative z-20 mt-auto pt-0">
-                        <div class="flex items-center justify-between gap-3">
-                            <p class="text-right text-[10px] font-medium text-[#78716C]">${summary.completedLessons}/${summary.totalLessons} Lessons</p>
-                            <span class="text-[10px] font-black tabular-nums" style="color: ${theme.accent};">${progress}%</span>
-                        </div>
-                        <div class="mt-2">
-                            <div class="h-1 overflow-hidden rounded-full bg-[#ecececb3]" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100" aria-label="${escapeHtml(subject.name)} progress ${progress}%">
-                                <div class="h-full rounded-full" style="width: ${progress}%; background: ${theme.accent};"></div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }
-
-        function renderSubjectCardv2(subject, grade) {
-            const summary = getSubjectSummary(subject);
-            const theme = getSubjectTheme(subject.name);
-            const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
-
-            return `
-                <article class="subject-card focus-ring group relative flex min-h-[40px] max-h-[120px] cursor-pointer flex-col overflow-hidden rounded-[10px] border border-[#E9DDD9] p-3 focus:outline-none"
-                    style="--subject-accent: ${theme.accent};--subject-bg: url('${getSubjectBackground(subject.name)}');"
-                    data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}"
-                    role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks for ${escapeHtml(grade.title)}">
-
-                    <span class="absolute right-3 top-3 z-30" style="color: ${theme.accent}; opacity: 0.7;" aria-hidden="true">
-                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
-                    </span>
-                    
-                    <div class="relative z-20 max-w-[calc(100%-2.5rem)]">
-                        <h4 class="text-[1rem] font-bold leading-tight text-[#252221]">${escapeHtml(subject.name)}</h4>
-                    </div>
-
-                    <div class="relative z-20 mt-auto pt-0">
-                        <div class="flex items-center justify-between gap-3">
-                            <p class="text-right text-[10px] font-medium text-[#78716C]">${summary.completedLessons}/${summary.totalLessons} Lessons</p>
-                            <span class="text-[11px] font-black tabular-nums" style="color: ${theme.accent};">${progress}%</span>
-                        </div>
-                        <div class="mt-2">
-                            <div class="h-1 overflow-hidden rounded-full bg-[#ecececb3]" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100" aria-label="${escapeHtml(subject.name)} progress ${progress}%">
-                                <div class="h-full rounded-full" style="width: ${progress}%; background: ${theme.accent};"></div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }
-
-        function renderSubjectCardv3(subject, grade) {
-            const summary = getSubjectSummary(subject);
-            const theme = getSubjectTheme(subject.name);
-            const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
-
-            return `
-                <article class="subject-card focus-ring group relative flex flex-1 min-w-[180px] lg:min-w-[200px] min-h-[80px] max-h-[140px] lg:max-h-[150px] cursor-pointer flex-col overflow-hidden rounded-[10px] border border-[#E9DDD9] p-3 focus:outline-none"
-                    style="--subject-accent: ${theme.accent};--subject-bg: url('${getSubjectBackground(subject.name)}');"
-                    data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}"
-                    role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks for ${escapeHtml(grade.title)}">
-
-                    <div class="pointer-events-none absolute inset-0 z-10 rounded-[10px]" aria-hidden="true"
-                        style="background: linear-gradient(to bottom, color-mix(in srgb, var(--subject-accent) 4%, white) 0%, transparent 100%);"></div>
-
-                    <span class="absolute right-3 top-3 z-30" style="color: ${theme.accent}; opacity: 0.7;" aria-hidden="true">
-                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
-                    </span>
-
-                    <div class="relative z-20 max-w-[calc(100%-2.5rem)]">
-                        <h4 class="text-[1rem] font-bold leading-tight text-[#252221]">${escapeHtml(subject.name)}</h4>
-                    </div>
-
-                    <div class="relative z-20 pt-0 mt-2">
-                        <div class="flex items-center justify-between gap-3">
-                            <p class="text-right text-[10px] font-medium text-[#78716C]">${summary.completedLessons}/${summary.totalLessons} Lessons</p>
-                            <span class="text-[11px] font-black tabular-nums" style="color: ${theme.accent};">${progress}%</span>
-                        </div>
-                        <div class="mt-2">
-                            <div class="h-0.5 overflow-hidden rounded-full bg-[#ecececb3]" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100" aria-label="${escapeHtml(subject.name)} progress ${progress}%">
-                                <div class="h-full rounded-full" style="width: ${progress}%; background: ${theme.accent};"></div>
-                            </div>
-                        </div>
+                    <div class="relative z-20 mt-auto flex items-center justify-between gap-3 border-t border-white/70 pt-5">
+                        <span class="shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] ${getStatusClass(summary.status)}">${summary.status}</span>
+                        <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/80 bg-white/72 px-3.5 py-2 text-[12px] font-bold shadow-[0_6px_18px_rgba(28,25,23,0.035)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-white" style="color: ${theme.accent};" aria-hidden="true">
+                            <span>View blocks</span>
+                            <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                        </span>
                     </div>
                 </article>
             `;
@@ -4021,48 +3742,65 @@
         }
 
         function renderGradeSection(grade) {
+            const isParentTab = activeAppTab === 'Parent Lesson Plan';
+            const isExpanded = isParentTab ? true : expandedGradeIds.has(grade.id);
+            const isCurrent = grade.id === currentGradeId;
             const summary = getGradeSummary(grade);
-            const isParentTab = getRoleForTab() === 'parent';
+            const subjectProgressDonuts = (grade.subjects || []).map((subject) => {
+                const theme = getSubjectTheme(subject.name);
+                const subjectSummary = getSubjectSummary(subject);
+                const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
+                const subjectLabel = {
+                    English: 'ENG',
+                    Mathematics: 'Math',
+                    Science: 'SCI',
+                    Hindi: 'HIN',
+                    'Environmental Science': 'EVS',
+                    'Computer Science': 'CS'
+                }[subject.name] || subject.name.slice(0, 3);
 
-            if (isParentTab) {
-                const attentionSubject = (grade.subjects || []).find((subject) => subject.progress > 0 && subject.progress < 30);
                 return `
-                    <section id="grade-section-${grade.id}" class="scroll-mt-28 mb-5" data-grade-section="${grade.id}">
-                        <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <h2 class="text-[26px] font-bold tracking-tight text-[#16120F]">All subjects</h2>
-                        </div>
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                            ${(grade.subjects || []).map(subject => getParentSubjectCard(subject, grade)).join('')}
-                        </div>
-                    </section>
-                `;
-            }
-
-            // Grade-level SVG donut ring
-            const gr = 18, gradeCirc = +(2 * Math.PI * gr).toFixed(1);
-            const gradeDash = +((summary.progress / 100) * gradeCirc).toFixed(1);
-            const gradeRing = `<svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden="true" class="shrink-0">
-                <circle cx="24" cy="24" r="${gr}" stroke="rgba(189,23,64,0.10)" stroke-width="2"/>
-                <circle cx="24" cy="24" r="${gr}" stroke="#BD1740" stroke-width="2" stroke-linecap="round"
-                    stroke-dasharray="${gradeDash} ${gradeCirc}" transform="rotate(-90 24 24)"/>
-                <text x="24" y="28" text-anchor="middle" font-size="10" font-weight="800" fill="#BD1740" font-family="Inter,sans-serif">${summary.progress}%</text>
-            </svg>`;
-
-            return `
-                <div class="relative mb-8 scroll-mt-28" id="grade-section-${grade.id}" data-grade-section="${grade.id}">
-                    <span class="pointer-events-none absolute -top-[11px] left-5 z-10 select-none rounded-full border border-[#EDE0DB] bg-white px-3 py-0.5 text-[11px] font-black uppercase tracking-widest text-[#a40c2e]">${escapeHtml(grade.title)}</span>
-                    <section class="overflow-hidden rounded-[16px] border border-[#EDE0DB] bg-white/50 shadow-[0_6px_40px_rgba(28,25,23,0.05)] backdrop-blur-sm">
-                        <div class="subjects-row-wrapper px-6 py-5 lg:px-8 lg:py-6" data-grade-id="${grade.id}">
-                            <div class="subjects-row flex flex-wrap gap-3">
-                                ${(grade.subjects || []).map(subject => renderSubjectCardv3(subject, grade)).join('')}
+                    <span class="inline-flex h-12 shrink-0 items-center gap-2.5 rounded-[16px] px-2.5 pr-3 backdrop-blur" style="box-shadow: inset 0 0 0 0.2px color-mix(in srgb, ${theme.accent} 16%, #EFE7E3), 0 8px 18px rgba(28,25,23,0.035);" title="${escapeHtml(subject.name)} ${progress}% progress">
+                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full p-[2px]" style="background: conic-gradient(${theme.accent} ${progress * 3.6}deg, #EFE7E3 0deg);" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100" aria-label="${escapeHtml(subject.name)} progress ${progress}%">
+                            <span class="grid h-full w-full place-items-center rounded-full bg-[#FFFDFC] text-[7px] font-black leading-none tabular-nums shadow-[inset_0_0_0_1px_rgba(255,255,255,0.92)]" style="color: ${theme.accent};">${progress}%</span>
+                        </span>
+                        <span class="grid gap-0.5 leading-none">
+                            <span class="text-[10px] font-bold uppercase tracking-[0.08em] text-[#342E2B]">${escapeHtml(subjectLabel)}</span>
+                            <span class="text-[7px] font-bold tabular-nums text-[#8A817C]">${subjectSummary.completedLessons} / ${subjectSummary.totalLessons}</span>
+                        </span>
+                    </span>`;
+            }).join('');
+            const headerInner = `
+                        <div class="grid min-w-0 flex-1 gap-4 lg:grid-cols-[minmax(240px,1fr)_auto] lg:items-center">
+                        <div class="flex min-w-0 items-center gap-5">
+                            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-[14px] bg-[#BD1740] text-[15px] font-bold text-white">${getGradeBadgeLabel(grade)}</span>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-[17px] font-bold tracking-wide text-[#BD1740] uppercase">${grade.title}</h2>
+                                </div>
+                                <p class="mt-2 text-[14px] font-medium normal-case tracking-normal text-[#78716C]">${summary.subjectsCount} subjects • ${summary.progress}% overall progress</p>
                             </div>
                         </div>
-                    </section>
-                </div>
+                        <div class="hidden min-w-0 flex-wrap items-center justify-end gap-2 md:flex" aria-label="${escapeHtml(grade.title)} subject progress">
+                            ${subjectProgressDonuts}
+                        </div>
+                        </div>`;
+            const headerDividerClass = isExpanded ? 'border-b border-[#E9DDD9]' : '';
+            const stickyHeaderClass = 'sticky top-24 z-30 bg-[#ffffff]';
+            const header = isParentTab
+                ? `<div class="${stickyHeaderClass} flex w-full items-center justify-between gap-4 ${headerDividerClass} rounded-t-[0px] px-8 py-5">${headerInner}</div>`
+                : `<button type="button" class="focus-ring ${stickyHeaderClass} flex w-full cursor-pointer items-center justify-between gap-4 rounded-t-[0px] px-8 py-5 text-left focus:outline-none" data-view="toggle-grade" data-grade-id="${grade.id}" aria-expanded="${isExpanded}">${headerInner}<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/70 text-[#BD1740]"><i data-lucide="chevron-up" class="h-4 w-4 transition-transform ${isExpanded ? '' : 'rotate-180'}"></i></span></button>`;
+            return `
+                <section id="grade-section-${grade.id}" class="scroll-mt-28 mb-8 rounded-[28px] bg-[#BD1740]/[0.025]" data-grade-section="${grade.id}">
+                    ${header}
+                    ${isExpanded ? `
+                        <div class="grid grid-cols-1 gap-4 p-6 md:grid-cols-2 md:gap-7 xl:grid-cols-3">
+                            ${grade.subjects.map((subject) => renderSubjectCard(subject, grade)).join('')}
+                        </div>
+                    ` : ''}
+                </section>
             `;
         }
-
-        // ${(grade.subjects || []).map(subject => renderSubjectCardv1(subject, grade)).join('')}
 
         function renderBlocksPage(gradeId, subjectId) {
             const grade = findGrade(gradeId);
@@ -4086,7 +3824,7 @@
             return `
                 <section class="lesson-journey-shell -mx-6 -mt-4 px-6 pb-16 pt-0 md:-mx-12 md:px-12">
                    
-                    <div class="mx-auto max-w-[1320px] space-y-8 pt-8">
+                    <div class="mx-auto max-w-[1180px] space-y-8 pt-8">
                         ${subject.blocks.map((block, index) => renderBlockSection(block, index, grade, subject)).join('')}
                     </div>
                 </section>
@@ -4312,7 +4050,7 @@
                         </div>`;
             const blockHeader = `<button type="button" class="block-header-sticky focus-ring relative flex w-full cursor-pointer flex-col gap-5 text-left focus:outline-none sm:flex-row sm:items-center sm:justify-between" data-view="toggle-block" data-block-key="${blockKey}" aria-expanded="${isExpanded}" aria-label="${isExpanded ? 'Collapse' : 'Expand'} ${escapeHtml(block.title)}">${blockHeaderInner}</button>`;
             return `
-                <section id="block-section-${blockKey}" class="block-card ${isExpanded ? '' : 'is-collapsed'} mx-auto w-full max-w-[1320px] scroll-mt-56 rounded-[30px] p-4 md:p-6" data-block-section="${blockKey}" style="scroll-margin-top: 13rem;">
+                <section id="block-section-${blockKey}" class="block-card ${isExpanded ? '' : 'is-collapsed'} mx-auto w-full max-w-[1180px] scroll-mt-56 rounded-[30px] p-4 md:p-6" data-block-section="${blockKey}" style="scroll-margin-top: 13rem;">
                     ${blockHeader}
                     ${isExpanded ? `
                         <div class="lesson-block relative mt-8 space-y-7 pl-14 md:space-y-8 md:pl-16" style="--timeline-progress: ${timelineProgress}%;">
@@ -4371,7 +4109,7 @@
 
             return `
                 <section class="lesson-detail-shell -mx-6 -mt-4 px-6 pb-16 pt-6 md:-mx-12 md:px-12">
-                    <div class="mx-auto max-w-[1320px]">
+                    <div class="mx-auto max-w-[1180px]">
                     <button type="button" class="focus-ring mb-6 inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E7D6CF] bg-white px-5 py-3 text-[11px] font-bold tracking-wide text-[#3A071A] transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/5 focus:outline-none" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                         <span>Back to Blocks</span>
@@ -4382,7 +4120,7 @@
                             <img src="${detail.heroImage}" alt="${escapeHtml(block.title)} lesson image" class="h-full w-full object-cover object-center opacity-70 md:opacity-95">
                             <div class="absolute inset-0 bg-gradient-to-r from-[#330717] via-[#330717]/72 to-[#330717]/12"></div>
                         </div>
-                        <div class="relative grid min-h-[430px] lg:min-h-[520px] gap-8 p-6 md:grid-cols-[minmax(0,1fr)_340px] md:p-10 lg:p-12">
+                        <div class="relative grid min-h-[430px] gap-8 p-6 md:grid-cols-[minmax(0,1fr)_320px] md:p-10 lg:p-12">
                             <div class="flex max-w-2xl flex-col justify-end">
                                 <div class="mb-6 flex flex-wrap items-center gap-2">
                                     <span class="rounded-full bg-[#F5A733] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.16em] text-[#330717]">${subject.name} • ${grade.title}</span>
@@ -4519,7 +4257,7 @@
         function renderParentContinueLessonSection() {
             return `
                 <!-- Updated Continue Lesson Section -->
-                <section class="${activeAppTab === 'Parent Lesson Plan' ? 'mb-4' : 'mb-10'} today-fade-in">
+                <section class="mb-10 today-fade-in">
                     <section class="relative rounded-[3rem] overflow-hidden card-shadow group h-[420px]">
                         <!-- Background Image Covering Entire Card with Top Alignment -->
                         <img
@@ -4534,18 +4272,18 @@
                         <div class="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
                             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
                                 <div class="max-w-2xl">
-                                    <span class="inline-flex items-center gap-2 px-3 py-1 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-semibold uppercase tracking-[0.12em] shadow-lg mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play-circle" aria-hidden="true" class="lucide lucide-play-circle w-3 h-3"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"></path><circle cx="12" cy="12" r="10"></circle></svg>
-                                Science · Grade 4 · Block 01
+                                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--amber-orange)] text-white rounded-full text-[10px] font-black uppercase tracking-[0.15em] shadow-xl mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play-circle" aria-hidden="true" class="lucide lucide-play-circle w-3.5 h-3.5"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                Science. Grade 4 - Block 01
                             </span>
-                                    <h1 class="text-[28px] md:text-[32px] font-semibold text-white mb-3 leading-tight tracking-[-0.02em]">
-                                        Light and Shadows
+                                    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
+                                        Light and <br/>Shadows
                                     </h1>
-                                    <div class="max-w-2xl space-y-1.5 text-white/85">
-                                        <p class="text-[14px] font-medium text-white/90">
+                                    <div class="max-w-2xl space-y-2 text-white/85">
+                                        <p class="text-base md:text-lg font-semibold">
                                             Changes in the Sky Across the Day
                                         </p>
-                                        <p class="max-w-xl text-[13px] font-normal leading-[1.6] text-white/65">
+                                        <p class="max-w-xl text-sm md:text-base font-medium leading-6 text-white/75">
                                             Explain why the Sun appears to move in the sky and how it affects the length and rhythm of a day.
                                         </p>
                                     </div>
@@ -4553,25 +4291,20 @@
 
                                 <!-- Action Row -->
                                 <div class="flex flex-col items-end gap-5">
-                                    <div class="flex items-center gap-3 bg-black/30 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
-                                        <div class="h-1 w-20 bg-white/20 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress 45% complete">
-                                            <div class="h-full bg-[#f59138] rounded-full" style="width: 45%"></div>
+                                    <div class="flex items-center gap-4 bg-black/40 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
+                                        <div class="h-1.5 w-24 bg-white/20 rounded-full overflow-hidden" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress 45% complete">
+                                            <div class="h-full bg-[#f59138] rounded-full shadow-[0_0_10px_#f59138]" style="width: 45%"></div>
                                         </div>
-                                        <span class="text-[11px] font-medium text-white/80">45% done</span>
+                                        <span class="text-[10px] font-bold text-white tracking-wide ">45% Progress</span>
                                     </div>
 
-                                    <a
-                                        href="#view=lessons&grade=grade-4&subject=science&block=block-1&lesson=lesson-1"
-                                        data-view="lessons"
-                                        data-grade-id="grade-4"
-                                        data-subject-id="science"
-                                        data-block-id="block-1"
-                                        data-lesson-id="lesson-1"
-                                        class="focus-ring bg-white text-[#1C1917] px-6 py-3 rounded-xl text-[14px] font-semibold flex items-center gap-2 transition-all shadow-lg hover:bg-[#f59138] hover:text-white hover:-translate-y-0.5 active:scale-[0.98]"
+                                    <button
+                                        type="button"
+                                        class="focus-ring bg-white text-[#1C1917] px-10 py-5 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-2xl hover:bg-[#f59138] hover:text-white hover:-translate-y-1 active:scale-95"
                                     >
                                         Continue Lesson
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                                    </a>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -4580,386 +4313,6 @@
             `;
         }
 
-        function renderParentLearningSection() {
-            if (activeAppTab !== 'Parent Lesson Plan') return '';
-
-            const subjects = [
-                {
-                    name: 'Mathematics', topic: 'Fractions — Comparing Fractions',
-                    color: '#6559D6', soft: '#F4F1FF', askBg: 'linear-gradient(135deg, rgba(101,89,214,0.08), rgba(101,89,214,0.03))', askColor: '#17156E',
-                    icon: 'calculator',
-                    learned: ['Comparing fraction sizes', 'Finding common denominators'],
-                    ask: 'Why is 3/4 bigger than 2/3?',
-                    weekTopics: ['Comparing fractions', 'Understanding decimals'],
-                    weekProgress: 70, weekProgressColor: '#6559D6',
-                },
-                {
-                    name: 'Science', topic: 'Plant Systems',
-                    color: '#5A9258', soft: '#F5F6EE', askBg: 'linear-gradient(135deg, rgba(90,146,88,0.10), rgba(90,146,88,0.03))', askColor: '#1F6A2E',
-                    icon: 'leaf',
-                    learned: ['Parts of a plant', 'How plants make food'],
-                    ask: 'Why do plants need sunlight?',
-                    weekTopics: ['Parts of a plant', 'How plants make food'],
-                    weekProgress: 80, weekProgressColor: '#5A9258',
-                },
-                {
-                    name: 'English', topic: 'Descriptive Writing',
-                    color: '#FF4F2F', soft: '#FFF4EF', askBg: 'linear-gradient(135deg, rgba(255,79,47,0.10), rgba(255,79,47,0.03))', askColor: '#B62012',
-                    icon: 'book-open',
-                    learned: ['Using sensory words', 'Writing clear descriptions'],
-                    ask: 'Can you describe your favourite place?',
-                    weekTopics: ['Using sensory words', 'Writing clear descriptions'],
-                    weekProgress: 75, weekProgressColor: '#FF4F2F',
-                },
-            ];
-
-            const weekSubjects = [
-                ...subjects,
-                {
-                    name: 'Environmental Science', topic: 'Our Environment',
-                    color: '#8F8D1C', soft: '#F8F6E9',
-                    icon: 'globe-2',
-                    weekTopics: ['Natural resources', 'Ways to conserve them'],
-                    weekProgress: 65, weekProgressColor: '#8B9B5A',
-                    ask: 'How can we save natural resources?',
-                },
-                {
-                    name: 'Computer Science', topic: 'Sequences & Patterns',
-                    color: '#2F67B5', soft: '#EEF5FF',
-                    icon: 'monitor',
-                    weekTopics: ['Identifying patterns', 'Creating simple sequences'],
-                    weekProgress: 60, weekProgressColor: '#2F67B5',
-                    ask: 'What patterns did you create this week?',
-                },
-            ];
-
-            function circleProgress(pct, color) {
-                const r = 17.5, circ = 2 * Math.PI * r;
-                const offset = circ * (1 - pct / 100);
-                return `
-                    <svg width="48" height="48" viewBox="0 0 48 48" class="shrink-0 drop-shadow-[0_4px_10px_rgba(28,25,23,0.05)]">
-                        <circle cx="24" cy="24" r="${r}" fill="#FFFFFF" stroke="#EFECEA" stroke-width="2"/>
-                        <circle cx="24" cy="24" r="${r}" fill="none" stroke="${color}" stroke-width="2"
-                            stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
-                            transform="rotate(-90 24 24)"/>
-                        <text x="24" y="27" text-anchor="middle" font-size="10" font-weight="800" fill="#292321">${pct}%</text>
-                    </svg>
-                `;
-            }
-
-            const learningTabs = `
-                <div class="flex h-[38px] w-full max-w-[220px] items-center rounded-full border border-[#E3DBD6] bg-[#FFFCFA] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:w-[220px]">
-                    <button type="button" data-learning-tab="today"
-                        class="focus-ring h-full flex-1 rounded-full text-[13px] font-medium transition focus:outline-none ${parentLearningView === 'today' ? 'bg-[#8D1230] text-white shadow-[inset_0_2px_4px_rgba(58,0,15,0.20),0_4px_10px_rgba(125,20,46,0.16)]' : 'text-[#3F3734] hover:bg-[#F8F2EF]'}">
-                        Today
-                    </button>
-                    <button type="button" data-learning-tab="weekly"
-                        class="focus-ring h-full flex-1 rounded-full text-[13px] font-medium transition focus:outline-none ${parentLearningView === 'weekly' ? 'bg-[#8D1230] text-white shadow-[inset_0_2px_4px_rgba(58,0,15,0.20),0_4px_10px_rgba(125,20,46,0.16)]' : 'text-[#3F3734] hover:bg-[#F8F2EF]'}">
-                        Weekly
-                    </button>
-                </div>
-            `;
-
-            const todayView = `
-                <div class="grid gap-4 md:grid-cols-3 md:gap-5">
-                    ${subjects.map(s => `
-                        <article class="parent-learning-card-shell flex flex-col rounded-[18px] border border-[#EFE5DF] bg-white px-5 py-5 shadow-[0_8px_24px_rgba(69,36,21,0.05)]">
-                            <div class="flex items-start gap-3">
-                                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] text-white shadow-[0_4px_12px_rgba(28,25,23,0.12)]" style="background:${s.color}">
-                                    <i data-lucide="${s.icon}" class="h-5 w-5"></i>
-                                </span>
-                                <div class="min-w-0 pt-0.5">
-                                    <p class="text-[15px] font-semibold leading-snug text-[#1C1917]">${s.name}</p>
-                                    <p class="mt-1 text-[12px] font-normal leading-[1.5] text-[#78716C]">${s.topic}</p>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex-1">
-                                <p class="text-[11px] font-medium uppercase tracking-[0.08em] text-[#A0948E]">Aarav learned</p>
-                                <ul class="mt-2.5 space-y-2">
-                                    ${s.learned.map(l => `
-                                        <li class="flex items-start gap-3 text-[13px] font-normal leading-[1.5] text-[#3D3734]">
-                                            <span class="mt-[6px] h-[3px] w-[3px] shrink-0 rounded-full bg-[#B8AEA8]"></span>
-                                            ${l}
-                                        </li>
-                                    `).join('')}
-                                </ul>
-                            </div>
-                            <div class="mt-4 flex items-start gap-3 rounded-[12px] border border-white/60 px-4 py-3.5" style="background:${s.askBg}">
-                                <i data-lucide="message-circle" class="mt-px h-4 w-4 shrink-0" style="color:${s.askColor}"></i>
-                                <div class="min-w-0">
-                                    <p class="text-[11px] font-semibold uppercase tracking-[0.08em]" style="color:${s.askColor}">Ask your child</p>
-                                    <p class="mt-1.5 text-[13px] font-normal leading-[1.6] text-[#3D3734]">"${s.ask}"</p>
-                                </div>
-                            </div>
-                        </article>
-                    `).join('')}
-                </div>
-            `;
-
-            const weeklyView1 = `
-                <div class="rounded-[26px] border border-[#E8DFDA] bg-white px-[30px] py-[21px] shadow-[0_18px_38px_rgba(69,36,21,0.07)]">
-                    <div class="flex flex-col gap-[22px] lg:grid lg:grid-cols-[1fr_315px]">
-                        <div class="min-w-0 lg:border-r lg:border-[#E8E0DA] lg:pr-[19px]">
-                            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                                <div>
-                                    <p class="text-[17px] font-semibold leading-snug text-[#8D1230]">A Week of Growth and Discovery</p>
-                                    <p class="mt-1 text-[13px] font-normal leading-[1.5] text-[#78716C]">Here's what Aarav explored this week across subjects.</p>
-                                </div>
-                                <div class="flex shrink-0 items-center gap-3 pt-1 text-[#3D3734]">
-                                    <i data-lucide="calendar-days" class="h-4 w-4 text-[#A0948E]"></i>
-                                    <span class="text-[12px] font-medium text-[#78716C]">20 – 26 May, 2024</span>
-                                    <button class="focus-ring grid h-6 w-6 place-items-center rounded-full text-[#3D3734] hover:bg-[#F5F0ED] focus:outline-none" aria-label="Previous week">
-                                        <i data-lucide="chevron-left" class="h-4 w-4"></i>
-                                    </button>
-                                    <button class="focus-ring grid h-6 w-6 place-items-center rounded-full text-[#3D3734] hover:bg-[#F5F0ED] focus:outline-none" aria-label="Next week">
-                                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="mt-4 divide-y divide-[#EEE9E5] border-t border-[#E8E0DA]">
-                                ${weekSubjects.map(s => `
-                                    <div class="grid min-h-[68px] grid-cols-[40px_minmax(130px,195px)_1fr_52px] items-center gap-3 py-3 max-md:grid-cols-[40px_1fr_52px]">
-                                        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] text-white shadow-[0_4px_10px_rgba(28,25,23,0.10)]" style="background:${s.color}">
-                                            <i data-lucide="${s.icon}" class="h-5 w-5"></i>
-                                        </span>
-                                        <div class="min-w-0">
-                                            <p class="text-[14px] font-semibold leading-snug text-[#1C1917]">${s.name}</p>
-                                            <p class="mt-0.5 text-[12px] font-normal leading-[1.4] text-[#78716C]">${s.topic}</p>
-                                        </div>
-                                        <ul class="space-y-1.5 max-md:hidden">
-                                            ${s.weekTopics.map(t => `
-                                                <li class="flex items-start gap-3 text-[12px] font-normal leading-[1.5] text-[#3D3734]">
-                                                    <span class="mt-[5px] h-[3px] w-[3px] shrink-0 rounded-full bg-[#B8AEA8]"></span>${t}
-                                                </li>
-                                            `).join('')}
-                                        </ul>
-                                        <div class="flex shrink-0 flex-col items-center">
-                                            ${circleProgress(s.weekProgress, s.weekProgressColor)}
-                                            <p class="-mt-[2px] text-[9px] font-medium leading-[12px] text-[#A0948E]">Lessons</p>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-3 lg:pt-[56px]">
-                            <div class="rounded-[12px] border border-[#ECE8DD] bg-[linear-gradient(135deg,#F1F6E9,#FAF9F3)] px-4 py-4">
-                                <div class="flex items-center justify-between gap-3">
-                                    <div class="flex items-start gap-3">
-                                        <span class="grid h-9 w-9 place-items-center rounded-[10px] bg-[#5A9258] text-white">
-                                            <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-                                        </span>
-                                        <div>
-                                            <p class="text-[11px] font-medium leading-tight text-[#267233]">Strongest Engagement</p>
-                                            <p class="mt-1 text-[15px] font-semibold leading-snug text-[#1C1917]">Science</p>
-                                        </div>
-                                    </div>
-                                    <i data-lucide="trending-up" class="h-5 w-5 shrink-0 text-[#5A9258]"></i>
-                                </div>
-                                <p class="mt-3 text-[12px] font-normal leading-[1.6] text-[#2D3F2E]">Aarav showed great curiosity and participation in Science this week.</p>
-                            </div>
-                            <div class="rounded-[12px] border border-[#F2E5D9] bg-[linear-gradient(135deg,#FFF2E9,#FFF8F2)] px-4 py-4">
-                                <div class="flex items-center justify-between gap-3">
-                                    <div class="flex items-start gap-3">
-                                        <span class="grid h-9 w-9 place-items-center rounded-[10px] bg-[#FF941E] text-white">
-                                            <i data-lucide="target" class="h-4 w-4"></i>
-                                        </span>
-                                        <div>
-                                            <p class="text-[11px] font-medium leading-tight text-[#C86408]">Focus Area</p>
-                                            <p class="mt-1 text-[15px] font-semibold leading-snug text-[#1C1917]">Mathematics</p>
-                                        </div>
-                                    </div>
-                                    <i data-lucide="trending-up" class="h-5 w-5 shrink-0 text-[#FF941E]"></i>
-                                </div>
-                                <p class="mt-3 text-[12px] font-normal leading-[1.6] text-[#3D2B22]">A little extra practice will help build more confidence.</p>
-                            </div>
-                            <div class="rounded-[12px] border border-[#E8E0F3] bg-[linear-gradient(135deg,#F4F3FF,#F8F4FB)] px-4 py-4">
-                                <p class="text-[12px] font-semibold leading-snug text-[#17156E]">Weekly Progress Overview</p>
-                                <p class="mt-2.5 text-[13px] font-normal leading-snug text-[#1C1917]">7 of 10 lessons completed</p>
-                                <div class="mt-2 h-1 w-full overflow-hidden rounded-full bg-[#C7C1EA]">
-                                    <div class="h-full rounded-full bg-[#4F32D4]" style="width:82%"></div>
-                                </div>
-                                <p class="mt-2.5 text-[12px] font-normal leading-[1.5] text-[#5A5662]">Keep it up! Consistency brings growth.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const weeklyView2 = `
-                <div class="rounded-[26px] border border-[#E8DFDA] bg-white px-[30px] py-[24px] shadow-[0_18px_38px_rgba(69,36,21,0.07)]">
-                    <div class="flex flex-col gap-[22px] lg:grid lg:grid-cols-[1fr_290px]">
-                        <!-- Left: subject list -->
-                        <div class="min-w-0 lg:border-r lg:border-[#E8E0DA] lg:pr-[24px]">
-                            <div class="divide-y divide-[#EEE9E5]">
-                                ${weekSubjects.map(s => `
-                                    <div class="grid items-center gap-x-4 gap-y-2 py-[14px]" style="grid-template-columns:44px minmax(120px,175px) 1fr 145px">
-                                        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-[12px] border border-[#EAEAEA] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
-                                            <i data-lucide="${s.icon}" class="h-5 w-5" style="color:${s.color}"></i>
-                                        </span>
-                                        <div class="min-w-0">
-                                            <p class="text-[14px] font-semibold leading-snug text-[#1C1917]">${s.name}</p>
-                                            <p class="mt-0.5 text-[12px] font-normal leading-[1.4] text-[#78716C]">${s.topic}</p>
-                                        </div>
-                                        <ul class="space-y-1.5 max-md:hidden">
-                                            ${s.weekTopics.map(t => `
-                                                <li class="flex items-start gap-2 text-[12px] font-normal leading-[1.5] text-[#3D3734]">
-                                                    <span class="mt-[6px] h-[4px] w-[4px] shrink-0 rounded-full" style="background:${s.weekProgressColor}"></span>${t}
-                                                </li>
-                                            `).join('')}
-                                        </ul>
-                                        <div class="flex shrink-0 flex-col gap-[6px]">
-                                            <div class="flex items-baseline gap-2">
-                                                <span class="text-[10px] font-semibold uppercase tracking-wide" style="color:${s.weekProgressColor}">Covered</span>
-                                                <span class="text-[12px] font-bold leading-none" style="color:${s.weekProgressColor}">${s.weekProgress}%</span>
-                                            </div>
-                                            <div class="h-[3px] w-full overflow-hidden rounded-full bg-[#EBEBEB]">
-                                                <div class="h-full rounded-full" style="width:${s.weekProgress}%;background:${s.weekProgressColor}"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        <!-- Right: Ask Your Child -->
-                        <div class="flex flex-col rounded-[18px] border border-[#E3DEFF] bg-[#F8F7FF] px-5 py-5">
-                            <div class="flex items-start gap-3 pb-4 border-b border-[#E3DEFF]">
-                                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-[#EDE9FF]">
-                                    <i data-lucide="message-circle-more" class="h-5 w-5 text-[#5A4FD9]"></i>
-                                </span>
-                                <div>
-                                    <p class="text-[15px] font-bold leading-snug text-[#4833C2]">Ask Your Child</p>
-                                    <p class="mt-0.5 text-[12px] font-normal leading-[1.5] text-[#78716C]">Have simple conversations about their learning.</p>
-                                </div>
-                            </div>
-                            <div class="divide-y divide-[#E8E3F5] mt-1">
-                                ${weekSubjects.map(s => `
-                                    <div class="flex cursor-pointer items-center gap-3 py-[11px] group">
-                                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-[8px] border border-[#E3E3E3] bg-white">
-                                            <i data-lucide="${s.icon}" class="h-4 w-4" style="color:${s.color}"></i>
-                                        </span>
-                                        <p class="flex-1 text-[12.5px] font-medium leading-[1.4] text-[#1C1917]">${s.ask}</p>
-                                        <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#C4BBB5] transition-colors group-hover:text-[#5A4FD9]"></i>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            return `
-                <section class="today-fade-in mb-6 mt-10">
-                    <div class="mb-[18px] flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div class="flex items-center gap-[18px]">
-                            <h2 class="text-[26px] font-bold tracking-tight text-[#16120F]">${parentLearningView === 'today' ? "Today's Learning" : "This Week's Learning"}</h2>
-                        </div>
-                    </div>
-                    ${parentLearningView === 'today' ? todayView : weeklyView2}
-                </section>
-            `;
-        }
-
-        function renderParentTodayTipSection() {
-            if (activeAppTab !== 'Parent Lesson Plan' || parentTipDismissed) return '';
-
-            return `
-                <section id="parentTodayTip" class="today-fade-in mb-4 rounded-[16px] border border-amber-200/70 bg-[#FFF8EA] px-4 py-3 shadow-[0_10px_28px_rgba(120,78,20,0.045)] sm:px-5">
-                    <div class="flex items-start gap-3">
-                        <span class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-[10px] bg-amber-100 text-amber-700">
-                            <i data-lucide="lightbulb" class="h-4 w-4"></i>
-                        </span>
-                        <div class="min-w-0 flex-1">
-                            <div class="flex flex-wrap items-center justify-between gap-2">
-                                <h2 class="text-[14px] font-bold text-[#3A2D25]">Today's Tip</h2>
-                                <button type="button" data-dismiss-parent-tip class="focus-ring inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] font-bold text-[#8A5A15] transition hover:bg-amber-100/80 focus:outline-none" aria-label="Dismiss today's tip">
-                                    <span>Dismiss</span>
-                                    <i data-lucide="x" class="h-3.5 w-3.5"></i>
-                                </button>
-                            </div>
-                            <p class="mt-1 max-w-3xl text-[13px] font-medium leading-5 text-[#4A3A31]">Ask Arjun why shadows change length during the day.</p>
-                            <p class="mt-1 text-[11px] font-bold text-[#9A6A22]">Science &bull; Block 01</p>
-                        </div>
-                    </div>
-                </section>
-            `;
-        }
-
-
-        function renderPracticeGymSection() {
-            if (activeAppTab !== 'Parent Lesson Plan') return '';
-            return `
-                <section class="today-fade-in mb-6">
-                    <div style="
-                      min-height:140px;
-                      width:100%;
-                      box-sizing:border-box;
-                      display:flex;
-                      align-items:center;
-                      justify-content:space-between;
-                      gap:28px;
-                      padding:28px 48px 28px 30px;
-                      border:1.5px solid #e7def8;
-                      border-radius:34px;
-                      background:linear-gradient(100deg, #f6f1ff 0%, #fbf8ff 45%, #f6f0ff 100%);
-                      box-shadow:0 8px 22px rgba(84, 67, 140, 0.08);
-                      overflow:hidden;
-                    ">
-                      <div style="display:flex; align-items:center; gap:28px; min-width:0;">
-                        <div style="
-                          width:104px; height:104px; min-width:104px;
-                          border-radius:999px;
-                          display:flex; align-items:center; justify-content:center;
-                          background:linear-gradient(145deg, #7466cf 0%, #4b3fa6 100%);
-                          box-shadow:0 8px 16px rgba(46, 36, 128, 0.20), inset 0 1px 0 rgba(255,255,255,0.20);
-                        ">
-                          <svg width="56" height="56" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <rect x="19" y="11" width="8" height="42" rx="4" fill="white"/>
-                            <rect x="37" y="11" width="8" height="42" rx="4" fill="white"/>
-                            <rect x="28.5" y="29" width="7" height="6" rx="3" fill="white"/>
-                            <rect x="8" y="24" width="7" height="16" rx="3.5" fill="white"/>
-                            <rect x="49" y="24" width="7" height="16" rx="3.5" fill="white"/>
-                            <rect x="13" y="29" width="7" height="6" rx="3" fill="white"/>
-                            <rect x="44" y="29" width="7" height="6" rx="3" fill="white"/>
-                          </svg>
-                        </div>
-                        <div style="width:54px; min-width:54px; height:86px; position:relative;">
-                          <svg style="position:absolute; top:5px; left:6px;" width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M24 3L28.8 18.9L45 24L28.8 29.1L24 45L19.2 29.1L3 24L19.2 18.9L24 3Z" fill="#8877D8"/>
-                          </svg>
-                          <svg style="position:absolute; bottom:3px; left:0;" width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M24 3L28.8 18.9L45 24L28.8 29.1L24 45L19.2 29.1L3 24L19.2 18.9L24 3Z" fill="#8877D8"/>
-                          </svg>
-                        </div>
-                        <div style="min-width:0; padding-top:2px;">
-                          <p style="margin:0; color:#07127d; font-size:19px; line-height:1; font-weight:800; letter-spacing:0.07em; text-transform:uppercase;">Practice Gym</p>
-                          <h2 style="margin:18px 0 0; color:#080808; font-family:Georgia, 'Times New Roman', serif; font-size:36px; line-height:1.05; font-weight:500; letter-spacing:-0.035em;">Mathematics needs more practice</h2>
-                          <p style="margin:13px 0 0; color:#2b2525; font-size:22px; line-height:1.15; font-weight:400; letter-spacing:-0.02em;">2 recommended activities to build confidence.</p>
-                        </div>
-                      </div>
-                      <a href="#" style="
-                        flex:0 0 auto;
-                        display:inline-flex; align-items:center; justify-content:center;
-                        gap:20px;
-                        min-width:256px; height:70px;
-                        padding:0 30px; box-sizing:border-box;
-                        border:1.8px solid #d4c9ef;
-                        border-radius:999px;
-                        color:#07127d;
-                        background:rgba(255,255,255,0.40);
-                        box-shadow:0 7px 13px rgba(81, 62, 146, 0.12);
-                        text-decoration:none;
-                        font-size:25px; line-height:1; font-weight:700; letter-spacing:-0.03em;
-                      ">
-                        <span>Start Practice</span>
-                        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                          <path d="M8 20H31" stroke="#07127d" stroke-width="3.5" stroke-linecap="round"/>
-                          <path d="M22 10L32 20L22 30" stroke="#07127d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                      </a>
-                    </div>
-                </section>
-            `;
-        }
 
         function renderHome() {
             const visibleGrades = getLessonPlanGrades();
@@ -4967,11 +4320,9 @@
             return `
                 ${renderParentContinueLessonSection()}
 
-                <div class="mx-auto max-w-[1380px] mt-0" ${showHeading ? 'style="margin-top: 1rem;"' : ''}>
+                <div class="mx-auto max-w-[1320px] ${showHeading ? 'mt-8' : ''}" ${showHeading ? 'style="margin-top: 1rem;"' : ''}>
                     ${visibleGrades.map(renderGradeSection).join('')}
                 </div>
-
-                ${renderParentLearningSection()}
             `;
         }
 
@@ -5064,27 +4415,6 @@
             updateToolbarVisibility();
         }
 
-        function initSubjectOverflow() {
-            document.querySelectorAll('.subjects-row-wrapper').forEach(wrapper => {
-                const row = wrapper.querySelector('.subjects-row');
-                if (!row) return;
-                row.querySelectorAll('.subjects-overflow-btn').forEach(b => b.remove());
-
-                const cards = Array.from(row.querySelectorAll('.subject-card'));
-                if (cards.length === 0) return;
-
-                // Reset to flexible so browser can compute the natural first-row width
-                cards.forEach(c => { c.style.flex = '1 1 180px'; });
-
-                requestAnimationFrame(() => {
-                    // All first-row cards are equal width with flex-1 — measure any one of them
-                    const refWidth = cards[0].getBoundingClientRect().width;
-                    // Lock every card to that width so wrapped rows match the first row
-                    cards.forEach(c => { c.style.flex = `0 0 ${refWidth}px`; });
-                });
-            });
-        }
-
         function renderRoute() {
             const outlet = document.getElementById('curriculum-sections');
             const hash = window.location.hash.replace(/^#/, '');
@@ -5111,36 +4441,9 @@
                 renderGradeToolbar(view, params);
             }
             lucide.createIcons();
-            initSubjectOverflow();
         }
 
         document.addEventListener('click', (event) => {
-            const learningTab = event.target.closest('[data-learning-tab]');
-            if (learningTab) {
-                parentLearningView = learningTab.dataset.learningTab;
-                renderRoute();
-                return;
-            }
-
-            const dismissTip = event.target.closest('[data-dismiss-parent-tip]');
-            if (dismissTip) {
-                parentTipDismissed = true;
-                document.getElementById('parentTodayTip')?.remove();
-                return;
-            }
-
-            const practiceTarget = event.target.closest('[data-open-practice-gym]');
-            if (practiceTarget) {
-                event.preventDefault();
-                event.stopPropagation();
-                openSubjectPracticeGym(
-                    practiceTarget.dataset.practiceGrade || 'Grade 1',
-                    practiceTarget.dataset.practiceSubject || 'Mathematics',
-                    practiceTarget.dataset.practiceTopic || ''
-                );
-                return;
-            }
-
             const target = event.target.closest('[data-view]');
             if (!target) return;
 
@@ -5190,6 +4493,19 @@
                 return;
             }
 
+            if (target.dataset.view === 'toggle-grade') {
+                if (activeAppTab === 'Parent Lesson Plan') return;
+                const gradeId = target.dataset.gradeId;
+                activeGradeId = gradeId;
+                if (expandedGradeIds.has(gradeId)) {
+                    expandedGradeIds.delete(gradeId);
+                } else {
+                    expandedGradeIds.add(gradeId);
+                }
+                renderRoute();
+                return;
+            }
+
             if (target.dataset.view === 'toggle-block') {
                 const blockKey = target.dataset.blockKey;
                 if (collapsedBlockIds.has(blockKey)) {
@@ -5221,7 +4537,6 @@
 
         document.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' && event.key !== ' ') return;
-            if (event.target.closest('[data-open-practice-gym]')) return;
             const target = event.target.closest('[data-view]');
             if (!target) return;
             event.preventDefault();
@@ -5301,20 +4616,11 @@
 
         const navButtons = Array.from(document.querySelectorAll('.nav-button[data-nav-title]'));
         const tabPanels = Array.from(document.querySelectorAll('.tab-panel[data-tab-panel]'));
-        const practiceGymHeaderButton = document.getElementById('practiceGymHeaderButton');
 
         function showAppTab(title, options = {}) {
             activeAppTab = title;
-            currentRole = getRoleForTab(title);
             const preserveHash = Boolean(options.preserveHash);
             const visiblePanel = title === 'Parent Lesson Plan' ? 'Teacher Lesson Plan' : title;
-            practiceGymHeaderButton?.classList.toggle('bg-[#BD1740]', title === 'Practice Test');
-            practiceGymHeaderButton?.classList.toggle('text-white', title === 'Practice Test');
-            if (title === 'Practice Test') {
-                practiceGymHeaderButton?.setAttribute('aria-current', 'page');
-            } else {
-                practiceGymHeaderButton?.removeAttribute('aria-current');
-            }
             tabPanels.forEach((panel) => {
                 panel.classList.toggle('hidden', panel.dataset.tabPanel !== visiblePanel);
             });
@@ -5388,19 +4694,6 @@
                     menuToggle?.setAttribute('aria-expanded', 'false');
                 }
             });
-        });
-
-        practiceGymHeaderButton?.addEventListener('click', (event) => {
-            event.stopPropagation();
-            practiceGymState.showSetupPage = false;
-            practiceGymState.showSetupForm = false;
-            setActiveNavTitle('Practice Test');
-            showAppTab('Practice Test');
-            openPracticeSetupPage();
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-                menuToggle?.setAttribute('aria-expanded', 'false');
-            }
         });
 
         const profileToggle = document.getElementById('profileToggle');

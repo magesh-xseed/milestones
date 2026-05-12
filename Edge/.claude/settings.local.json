@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open /Users/mahesh.r/Xseed/milestone/Edge/index.html)",
+      "Bash(python3 -c ' *)",
+      "Bash(screencapture -x /tmp/chrome_display.png)",
+      "Bash(osascript -e 'tell application \"Google Chrome\" to activate')",
+      "Bash(screencapture -x /tmp/chrome_display2.png)",
+      "Bash(open -a \"Google Chrome\" /Users/mahesh.r/Xseed/milestone/Edge/index.html)",
+      "Bash(screencapture -x /tmp/site_view.png)",
+      "Bash(osascript)",
+      "Bash(screencapture -x /tmp/chrome3.png)",
+      "Bash(screencapture -x /tmp/chrome4.png)"
+    ]
+  }
+}
