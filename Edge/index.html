@@ -716,9 +716,9 @@
                             <div class="mt-0.5 text-xs text-[#8a7968]">Teacher</div>
                         </div>
                         <div class="py-1.5">
-                            <button type="button"
+                            <button type="button" id="profileMenuProfileButton"
                                 class="profile-menu-item w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-[#1a1210] transition-colors">Profile</button>
-                            <button type="button"
+                            <button type="button" id="profileMenuFrontOfficeButton"
                                 class="profile-menu-item w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-[#1a1210] transition-colors">Front
                                 Office</button>
                             <button type="button"
@@ -790,6 +790,16 @@
     <main class="tab-panel hidden gym max-w-[1280px] mx-auto px-4 py-5 sm:px-6 lg:py-7" data-tab-panel="Practice Test"
         id="practiceGymPanel">
         <div id="practiceGymRoot"></div>
+    </main>
+
+    <main class="tab-panel hidden max-w-[960px] mx-auto px-4 py-6 sm:px-5 lg:py-8" data-tab-panel="Profile"
+        id="profilePanel">
+        <div id="profileRoot"></div>
+    </main>
+
+    <main class="tab-panel hidden max-w-[960px] mx-auto px-4 py-6 sm:px-5 lg:py-8" data-tab-panel="Front Office"
+        id="frontOfficePanel">
+        <div id="frontOfficeRoot"></div>
     </main>
 
     <aside id="gradeToolbar"
@@ -933,6 +943,129 @@
         let manageExpandedGroup = null;
         let manageConfirmDelete = null;
         let appToastTimer = null;
+        const profileGradeOptions = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8'];
+        const profileSubjectOptions = ['English', 'Science', 'Mathematics', 'Hindi', 'Computer Science', 'Social Science'];
+        let profileState = {
+            name: 'Ravi Sharma',
+            email: 'ravi.sharma@xseededu.org',
+            countryCode: '+91',
+            mobile: '+91 98765 43210',
+            gender: 'Male',
+            address: 'B-1204, Palm Residency, Sector 54',
+            city: 'Gurugram',
+            state: 'Haryana',
+            postalCode: '122003',
+            country: 'India',
+            schoolName: 'Sunrise Global School',
+            schoolCode: 'XORG103138',
+            combinations: [
+                { grade: 'Grade 4', subject: 'Science' },
+                { grade: 'Grade 4', subject: 'English' }
+            ],
+            draftGrade: 'Grade 1',
+            draftSubject: 'English',
+            child: {
+                name: 'Aarav Sharma',
+                gender: 'Male',
+                grade: 'Grade 4',
+                schoolName: 'Sunrise Global School'
+            }
+        };
+        let frontOfficeState = {
+            activeTab: 'School Management',
+            view: 'list',
+            selectedSchoolId: 'sunrise-global-school',
+            dashboardRange: 'Last 7 Days',
+            dashboardView: 'SuperTeacher',
+            dashboardGroup: 'Branch',
+            createSchool: {
+                schoolName: '',
+                board: 'CBSE',
+                tier: '',
+                address: '',
+                city: '',
+                state: '',
+                pincode: '',
+                adminNumber: '',
+                adminEmail: ''
+            }
+        };
+        const frontOfficeSchools = [
+            {
+                id: 'sunrise-global-school',
+                name: 'Sunrise Global School',
+                board: 'CBSE',
+                city: 'Gurgaon',
+                xorgCode: 'XORG103138',
+                teachers: 42,
+                parents: 380,
+                wau: 78,
+                status: 'Active',
+                teacherCode: 'TCH-1347',
+                parentCode: 'PAR-5613',
+                modules: [
+                    { name: 'Lessons', enabled: true },
+                    { name: 'Practice', enabled: true },
+                    { name: 'Communication', enabled: true },
+                    { name: 'Learnometer', enabled: true },
+                    { name: 'Front Office', enabled: false }
+                ],
+                users: [
+                    { initials: 'DS', name: 'Divya Sharma', meta: 'Gr 3-4 · Science', role: 'Teacher', lastSeen: '2h ago' },
+                    { initials: 'RK', name: 'Ramesh Kumar', meta: 'Gr 3-4 · Maths', role: 'Teacher', lastSeen: 'Yesterday' },
+                    { initials: 'AP', name: 'Aisha Patel', meta: 'Parent · Grade 4', role: 'Parent', lastSeen: 'Today' }
+                ],
+                dashboardStats: {
+                    totalMinutes: '125.39',
+                    activeUsers: '5%',
+                    avgUsage: '6.27'
+                }
+            },
+            { id: 'delhi-public-academy', name: 'Delhi Public Academy', board: 'CBSE', city: 'New Delhi', xorgCode: 'XORG103412', teachers: 68, parents: 520, wau: 54, status: 'Active', dashboardStats: { totalMinutes: '216.44', activeUsers: '14%', avgUsage: '18.92' } },
+            { id: 'jyoti-convent-school', name: 'Jyoti Convent School', board: 'ICSE', city: 'Kolkata', xorgCode: 'XORG103587', teachers: 31, parents: 240, wau: 91, status: 'Active', dashboardStats: { totalMinutes: '304.10', activeUsers: '22%', avgUsage: '24.16' } },
+            { id: 'vidya-vihar', name: 'Vidya Vihar', board: 'CBSE', city: 'Ahmedabad', xorgCode: 'XORG103742', teachers: 24, parents: 180, wau: 12, status: 'Inactive', dashboardStats: { totalMinutes: '42.61', activeUsers: '3%', avgUsage: '4.08' } }
+        ];
+        const frontOfficeDashboardRows = [
+            ['Bangalore', '10.94'],
+            ['Chennai', '32.97'],
+            ['Delhi', '71.43'],
+            ['Guwahati', '163.60'],
+            ['Hyderabad 1', '7.65'],
+            ['Hyderabad 2', '24.39'],
+            ['Madurai', '12.05']
+        ];
+        const frontOfficeDashboardSeries = [
+            { name: 'Bangalore', color: '#5B7CFA', values: [48, 44, 53, 61, 58, 65] },
+            { name: 'Chennai', color: '#A7D34B', values: [38, 41, 39, 46, 43, 47] },
+            { name: 'Delhi', color: '#59639B', values: [18, 22, 57, 55, 43, 35] },
+            { name: 'Guwahati', color: '#F68B2C', values: [60, 56, 40, 69, 84, 88] },
+            { name: 'Hyderabad 1', color: '#5BB6F6', values: [26, 24, 27, 29, 26, 24] },
+            { name: 'Hyderabad 2', color: '#F4C23D', values: [14, 17, 15, 22, 19, 18] },
+            { name: 'Madurai', color: '#E98CA6', values: [21, 19, 24, 23, 22, 25] }
+        ];
+        const frontOfficeSchoolUserRows = [
+            ['13', 'Jermin Jersha', 'G4 - Social Science, G5 - Social Science', '18.40'],
+            ['14', 'Leenu Resolgin', 'G8 - Social Science', '11.20'],
+            ['15', 'Leenu Resolgin', 'G7 - English, G7 - Mathematics, G7 - Science, G7 - Social Science', '24.75'],
+            ['16', 'Nimisha', 'G1 - Environmental Science, G3 - Environmental Science, G5 - Mathematics, G5 - Science, G5 - Social Science, G7 - Science', '21.33'],
+            ['17', 'Priyadharshini P', 'G2 - English, G2 - Environmental Science, G6 - English, G6 - Mathematics, G6 - Science, G6 - Social Science', '16.92'],
+            ['18', 'Reji', 'G2 - Mathematics, G3 - Mathematics, G4 - Mathematics, G5 - Mathematics, G7 - Mathematics, G8 - Mathematics', '28.07'],
+            ['19', 'RS Renuka', 'G1 - English, G2 - English, G4 - Social Science, G5 - Social Science, G6 - Social Science', '13.44'],
+            ['20', 'Varsha', 'UKG - Early Childhood', '8.65']
+        ];
+        const frontOfficeGradeUsageRows = [
+            ['Grade 1', '-', '12.20', '9.50', '8.70', '-', '-', '10.13'],
+            ['Grade 2', '-', '14.80', '12.10', '10.20', '-', '-', '12.37'],
+            ['Grade 3', '-', '18.40', '15.90', '17.30', '-', '-', '17.20'],
+            ['Grade 4', '-', '11.60', '-', '12.80', '15.30', '9.40', '12.28'],
+            ['Grade 5', '-', '15.20', '-', '16.40', '18.10', '10.20', '14.98'],
+            ['Grade 6', '-', '11.90', '-', '12.10', '13.20', '10.60', '11.95'],
+            ['Grade 7', '-', '17.70', '-', '19.20', '26.04', '14.10', '19.26'],
+            ['Grade 8', '-', '10.40', '-', '11.90', '12.20', '9.80', '11.08'],
+            ['Upper Kindergarten', '7.80', '-', '-', '-', '-', '-', '7.80'],
+            ['School Average', '7.80', '15.88', '12.50', '14.79', '20.18', '12.76', '14.49']
+        ];
+        const frontOfficeSchoolSeries = [{ name: 'XORG103138', color: '#C87483', values: [34, 7, 0, 82, 75, 5, 54, 4] }];
 
         function escapeHtml(value = '') {
             return String(value)
@@ -1009,6 +1142,843 @@
         function closeImageLightbox() {
             document.getElementById('communicationImageLightbox')?.remove();
             document.body.style.overflow = '';
+        }
+
+        function getGradeSortValue(gradeLabel = '') {
+            const match = String(gradeLabel).match(/(\d+)/);
+            return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
+        }
+
+        function renderProfileScreen() {
+            const root = document.getElementById('profileRoot');
+            if (!root) return;
+            const sortedCombinations = [...profileState.combinations].sort((left, right) => {
+                const gradeDiff = getGradeSortValue(left.grade) - getGradeSortValue(right.grade);
+                if (gradeDiff !== 0) return gradeDiff;
+                return left.subject.localeCompare(right.subject);
+            });
+
+            root.innerHTML = `
+                <section>
+                    <div class="mx-auto max-w-[860px]">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <h1 class="text-[2.2rem] font-black tracking-[-0.04em] text-[#1F1A17] sm:text-[2.6rem]">Profile</h1>
+                            </div>
+                            <button type="button" id="profileSaveButton" class="focus-ring inline-flex h-12 items-center justify-center rounded-full bg-[#B1123B] px-7 text-sm font-bold text-white transition-colors hover:bg-[#930f31] focus:outline-none">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mx-auto mt-6 max-w-[860px] space-y-4">
+                        <section class="rounded-[1.6rem] border border-[#E8DDD6] bg-[#FBF6F2] p-5 sm:p-5">
+                            <h2 class="text-[1.05rem] font-bold text-[#231D1A]">Basic Details</h2>
+                            <div class="mt-4 space-y-3">
+                                <div class="grid gap-4 md:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]">
+                                    <label class="block">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Name</span>
+                                        <div class="mt-2 flex h-12 items-center rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
+                                            <input data-profile-field="name" value="${escapeHtml(profileState.name)}" class="h-full w-full bg-transparent text-[14px] font-medium text-[#211C19] outline-none" />
+                                            <span class="ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md bg-[#E04E45] text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 10a1 1 0 0 1 1-1h1V7a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v8a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-8Zm4-1h6V7a3 3 0 1 0-6 0v2Zm2 5a1 1 0 1 0 2 0 1 1 0 0 0-2 0Zm-3 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0Zm6 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0Z"/></svg>
+                                            </span>
+                                        </div>
+                                    </label>
+                                    <label class="block">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Gender</span>
+                                        <select data-profile-field="gender" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none">
+                                            <option ${profileState.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                            <option ${profileState.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                            <option ${profileState.gender === 'Other' ? 'selected' : ''}>Other</option>
+                                        </select>
+                                    </label>
+                                </div>
+
+                                <div class="grid gap-x-4 gap-y-3 md:grid-cols-2">
+                                    <label class="block">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Email</span>
+                                        <input data-profile-field="email" value="${escapeHtml(profileState.email)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                    </label>
+                                    <div class="grid gap-x-4 gap-y-3 md:grid-cols-[120px_minmax(0,1fr)]">
+                                        <label class="block">
+                                            <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Code</span>
+                                            <input data-profile-field="countryCode" value="${escapeHtml(profileState.countryCode)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                        </label>
+                                        <label class="block">
+                                            <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Mobile</span>
+                                            <input data-profile-field="mobile" value="${escapeHtml(profileState.mobile)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="grid gap-x-4 gap-y-3 md:grid-cols-2">
+                                    <label class="block">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Address</span>
+                                        <input data-profile-field="address" value="${escapeHtml(profileState.address)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                    </label>
+                                    <div></div>
+                                    <label class="block">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">City</span>
+                                        <input data-profile-field="city" value="${escapeHtml(profileState.city)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                    </label>
+                                    <label class="block">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">State</span>
+                                        <input data-profile-field="state" value="${escapeHtml(profileState.state)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                    </label>
+                                    <label class="block">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Country</span>
+                                        <input data-profile-field="country" value="${escapeHtml(profileState.country)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                    </label>
+                                    <label class="block md:max-w-[240px]">
+                                        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Postal Code</span>
+                                        <input data-profile-field="postalCode" value="${escapeHtml(profileState.postalCode)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="rounded-[1.6rem] border border-[#E8DDD6] bg-[#FBF6F2] p-5 sm:p-5">
+                            <h2 class="text-[1.05rem] font-bold text-[#231D1A]">School Details</h2>
+                            <div class="mt-4 grid gap-x-4 gap-y-3 md:grid-cols-2">
+                                <label class="block">
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">School Name</span>
+                                    <input data-profile-field="schoolName" value="${escapeHtml(profileState.schoolName)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-[#F1E9E3] px-4 text-[14px] font-medium text-[#6C635D] outline-none" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">School Code</span>
+                                    <input data-profile-field="schoolCode" value="${escapeHtml(profileState.schoolCode)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-[#F1E9E3] px-4 text-[14px] font-medium text-[#6C635D] outline-none" />
+                                </label>
+                            </div>
+                        </section>
+
+                        <section class="rounded-[1.6rem] border border-[#E8DDD6] bg-[#FBF6F2] p-5 sm:p-5">
+                            <h2 class="text-[1.05rem] font-bold text-[#231D1A]">Grade Subject Combinations</h2>
+                            <p class="mt-1 text-[13px] font-medium text-[#8B7E77]">You can add 6 grade subject combinations.</p>
+                            <div class="mt-4 flex flex-wrap gap-3">
+                                ${sortedCombinations.map((item) => `
+                                    <span class="inline-flex items-center gap-3 rounded-full border border-[#E4D9D2] bg-white px-3 py-2 text-[14px] font-semibold text-[#2A2320] shadow-[0_4px_10px_rgba(51,7,23,0.03)]">
+                                        <span>${escapeHtml(item.grade)}</span>
+                                        <span class="text-[#B7AAA3]">&bull;</span>
+                                        <span>${escapeHtml(item.subject)}</span>
+                                        <button type="button" class="focus-ring inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FCE9EC] text-[#C24560] hover:bg-[#F9D9E0] focus:outline-none" data-profile-remove-grade="${escapeHtml(item.grade)}" data-profile-remove-subject="${escapeHtml(item.subject)}" aria-label="Remove ${escapeHtml(item.grade)} ${escapeHtml(item.subject)}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                                        </button>
+                                    </span>
+                                `).join('')}
+                            </div>
+                            <div class="mt-4 grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+                                <select id="profileDraftGrade" class="h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none">
+                                    ${profileGradeOptions.map((grade) => `<option value="${escapeHtml(grade)}" ${profileState.draftGrade === grade ? 'selected' : ''}>${grade}</option>`).join('')}
+                                </select>
+                                <select id="profileDraftSubject" class="h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none">
+                                    ${profileSubjectOptions.map((subject) => `<option value="${escapeHtml(subject)}" ${profileState.draftSubject === subject ? 'selected' : ''}>${subject}</option>`).join('')}
+                                </select>
+                                <button type="button" id="profileAddCombinationButton" class="focus-ring inline-flex h-12 items-center justify-center rounded-full bg-[#B1123B] px-6 text-lg font-bold text-white transition-colors hover:bg-[#930f31] focus:outline-none">Add</button>
+                            </div>
+                        </section>
+
+                        <section class="rounded-[1.6rem] border border-[#E8DDD6] bg-[#FBF6F2] p-5 sm:p-5">
+                            <h2 class="text-[1.05rem] font-bold text-[#231D1A]">Child Details</h2>
+                            <div class="mt-4 grid gap-x-4 gap-y-3 md:grid-cols-2">
+                                <label class="block">
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Student Name</span>
+                                    <input data-profile-child-field="name" value="${escapeHtml(profileState.child.name)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Gender</span>
+                                    <select data-profile-child-field="gender" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none">
+                                        <option ${profileState.child.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                        <option ${profileState.child.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                        <option ${profileState.child.gender === 'Other' ? 'selected' : ''}>Other</option>
+                                    </select>
+                                </label>
+                                <label class="block">
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">Grade</span>
+                                    <select data-profile-child-field="grade" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none">
+                                        ${profileGradeOptions.map((grade) => `<option value="${escapeHtml(grade)}" ${profileState.child.grade === grade ? 'selected' : ''}>${grade}</option>`).join('')}
+                                    </select>
+                                </label>
+                                <label class="block">
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-[#9C8F87]">School Name</span>
+                                    <input data-profile-child-field="schoolName" value="${escapeHtml(profileState.child.schoolName)}" class="mt-2 h-12 w-full rounded-[1.1rem] border border-[#E4D9D2] bg-white px-4 text-[14px] font-medium text-[#211C19] outline-none" />
+                                </label>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            `;
+
+            bindProfileEvents();
+        }
+
+        function bindProfileEvents() {
+            const root = document.getElementById('profileRoot');
+            if (!root) return;
+
+            root.querySelectorAll('[data-profile-field]').forEach((field) => {
+                field.addEventListener('input', (event) => {
+                    profileState = { ...profileState, [event.currentTarget.dataset.profileField]: event.currentTarget.value };
+                });
+            });
+
+            root.querySelectorAll('[data-profile-child-field]').forEach((field) => {
+                field.addEventListener('input', (event) => {
+                    profileState = {
+                        ...profileState,
+                        child: {
+                            ...profileState.child,
+                            [event.currentTarget.dataset.profileChildField]: event.currentTarget.value
+                        }
+                    };
+                });
+            });
+
+            root.querySelector('#profileDraftGrade')?.addEventListener('change', (event) => {
+                profileState = { ...profileState, draftGrade: event.currentTarget.value };
+            });
+
+            root.querySelector('#profileDraftSubject')?.addEventListener('change', (event) => {
+                profileState = { ...profileState, draftSubject: event.currentTarget.value };
+            });
+
+            root.querySelector('#profileAddCombinationButton')?.addEventListener('click', () => {
+                const exists = profileState.combinations.some((item) => item.grade === profileState.draftGrade && item.subject === profileState.draftSubject);
+                if (exists) {
+                    showAppToast('This combination already exists.');
+                    return;
+                }
+                profileState = {
+                    ...profileState,
+                    combinations: [...profileState.combinations, { grade: profileState.draftGrade, subject: profileState.draftSubject }]
+                };
+                renderProfileScreen();
+            });
+
+            root.querySelectorAll('[data-profile-remove-grade]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    profileState = {
+                        ...profileState,
+                        combinations: profileState.combinations.filter((item) => !(item.grade === button.dataset.profileRemoveGrade && item.subject === button.dataset.profileRemoveSubject))
+                    };
+                    renderProfileScreen();
+                });
+            });
+
+            root.querySelector('#profileSaveButton')?.addEventListener('click', () => {
+                showAppToast('Profile changes saved.');
+            });
+        }
+
+        function getFrontOfficeSelectedSchool() {
+            return frontOfficeSchools.find((school) => school.id === frontOfficeState.selectedSchoolId) || frontOfficeSchools[0];
+        }
+
+        function getFrontOfficeStats() {
+            return {
+                schools: frontOfficeSchools.length,
+                teachers: frontOfficeSchools.reduce((total, school) => total + (school.teachers || 0), 0),
+                parents: frontOfficeSchools.reduce((total, school) => total + (school.parents || 0), 0)
+            };
+        }
+
+        function renderFrontOfficeMetric(value, label) {
+            return `
+                <article class="rounded-[1.15rem] border border-[#E8DDD6] bg-[#FBF6F2] p-3.5">
+                    <p class="text-[1.55rem] font-black leading-none text-[#1F1A17]">${value}</p>
+                    <p class="mt-2 text-[11px] font-semibold text-[#6F645E]">${label}</p>
+                </article>
+            `;
+        }
+
+        function renderFrontOfficeToggle() {
+            const tabs = ['School Management', 'Data Dashboard'];
+            return `
+                <div class="inline-flex rounded-full border border-[#E8DDD6] bg-[#F1E9E3] p-1">
+                    ${tabs.map((tab) => `
+                        <button type="button" class="focus-ring rounded-full px-4 py-2 text-[11px] font-bold transition-colors ${frontOfficeState.activeTab === tab ? 'bg-white text-[#B1123B] shadow-[0_2px_10px_rgba(51,7,23,0.06)]' : 'text-[#6F645E]'}" data-frontoffice-tab="${tab}">
+                            ${tab}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderFrontOfficeSchoolList() {
+            const stats = getFrontOfficeStats();
+            return `
+                <section class="mx-auto max-w-[860px]">
+                    <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                            <h1 class="text-[1.6rem] font-black tracking-[-0.04em] text-[#1F1A17] sm:text-[1.85rem]">Front Office</h1>
+                            <p class="mt-1.5 text-[12px] font-medium text-[#6F645E]">Manage schools, access codes, and module enablement.</p>
+                        </div>
+                        ${renderFrontOfficeToggle()}
+                    </div>
+                    <div class="mt-4 grid gap-3 md:grid-cols-3">
+                        ${renderFrontOfficeMetric(stats.schools, 'Schools')}
+                        ${renderFrontOfficeMetric(stats.teachers, 'Teachers')}
+                        ${renderFrontOfficeMetric(stats.parents, 'Parents')}
+                    </div>
+                    <section class="mt-5 rounded-[1.15rem] border border-[#E8DDD6] bg-white p-4">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-[#9C8F87]">Schools</p>
+                            </div>
+                            <button type="button" class="focus-ring inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#B1123B] px-4 text-[13px] font-bold text-white transition-colors hover:bg-[#930f31]" data-frontoffice-action="create-school">
+                                <span class="text-base leading-none">+</span>
+                                <span>New School</span>
+                            </button>
+                        </div>
+                        <div class="mt-4 divide-y divide-[#E9E0DA]">
+                            ${frontOfficeSchools.map((school) => `
+                                <button type="button" class="focus-ring flex w-full items-center justify-between gap-3 py-3.5 text-left transition-colors hover:bg-[#FCF8F5]" data-frontoffice-action="open-school" data-school-id="${school.id}">
+                                    <div class="flex min-w-0 items-center gap-4">
+                                        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-[0.9rem] ${school.status === 'Inactive' ? 'bg-[#F2ECE6] text-[#9C8F87]' : 'bg-[#A62342] text-[#F6C95B]'}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 22h16"/><path d="M7 22V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M10 9h.01"/><path d="M14 9h.01"/><path d="M10 13h.01"/><path d="M14 13h.01"/><path d="M10 17h.01"/><path d="M14 17h.01"/></svg>
+                                        </span>
+                                        <span class="min-w-0">
+                                            <span class="block truncate text-[15px] font-bold text-[#221C19]">${school.name}</span>
+                                            <span class="mt-0.5 block text-[12px] font-medium text-[#6F645E]">${school.board} · ${school.city} · ${school.teachers} teachers</span>
+                                        </span>
+                                    </div>
+                                    <span class="flex shrink-0 items-center gap-4">
+                                        <span class="text-right">
+                                            <span class="block text-[15px] font-black ${school.wau >= 70 ? 'text-[#5F9E6E]' : school.wau >= 40 ? 'text-[#2B2521]' : 'text-[#C25555]'}">${school.wau}%</span>
+                                            <span class="mt-0.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-[#9C8F87]">WAU</span>
+                                        </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#9C8F87]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg>
+                                    </span>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </section>
+                </section>
+            `;
+        }
+
+        function renderFrontOfficeSchoolDetail() {
+            const school = getFrontOfficeSelectedSchool();
+            return `
+                <section class="mx-auto max-w-[860px]">
+                    <button type="button" class="focus-ring inline-flex items-center gap-2 text-[12px] font-semibold text-[#6F645E]" data-frontoffice-action="back-to-list">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>
+                        <span>All Schools</span>
+                    </button>
+                    <div class="mt-4 flex items-start justify-between gap-4">
+                        <div>
+                            <h1 class="text-[1.6rem] font-black tracking-[-0.04em] text-[#1F1A17]">${school.name}</h1>
+                            <p class="mt-1.5 text-[12px] font-medium text-[#6F645E]">${school.board} · ${school.city}</p>
+                        </div>
+                        <span class="rounded-full bg-[#EAF6EC] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#68A97A]">${school.status}</span>
+                    </div>
+                    <div class="mt-4 grid gap-3 md:grid-cols-3">
+                        ${renderFrontOfficeMetric(school.teachers, 'Teachers')}
+                        ${renderFrontOfficeMetric(school.parents, 'Parents')}
+                        ${renderFrontOfficeMetric(`${school.wau}%`, 'Weekly active')}
+                    </div>
+                    <section class="mt-5 rounded-[1.15rem] border border-[#E8DDD6] bg-white p-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-[#9C8F87]">Access Codes</p>
+                        <div class="mt-3 space-y-2.5">
+                            <div class="flex items-center justify-between rounded-[0.95rem] border border-[#E8DDD6] bg-[#FBF6F2] px-3.5 py-3">
+                                <span class="text-[12px] font-semibold text-[#8B7E77]">Teacher Code</span>
+                                <span class="text-[15px] font-black tracking-[0.06em] text-[#2B2521]">${school.teacherCode}</span>
+                            </div>
+                            <div class="flex items-center justify-between rounded-[0.95rem] border border-[#E8DDD6] bg-[#FBF6F2] px-3.5 py-3">
+                                <span class="text-[12px] font-semibold text-[#8B7E77]">Parent Code</span>
+                                <span class="text-[15px] font-black tracking-[0.06em] text-[#2B2521]">${school.parentCode}</span>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="mt-5 rounded-[1.15rem] border border-[#E8DDD6] bg-white p-4">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-[#9C8F87]">Enabled Modules</p>
+                        <div class="mt-3 divide-y divide-[#ECE3DC]">
+                            ${school.modules.map((module) => `
+                                <div class="flex items-center justify-between py-3">
+                                    <span class="text-[13px] font-semibold ${module.enabled ? 'text-[#2B2521]' : 'text-[#A79A91]'}">${module.name}</span>
+                                    <button type="button" class="focus-ring inline-flex h-6 w-10 items-center rounded-full p-1 transition-colors ${module.enabled ? 'bg-[#A62342] justify-end' : 'bg-[#E8DDD6] justify-start'}" data-frontoffice-action="toggle-module" data-module-name="${module.name}">
+                                        <span class="h-4 w-4 rounded-full bg-white"></span>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </section>
+                    <section class="mt-5 rounded-[1.15rem] border border-[#E8DDD6] bg-white p-4">
+                        <div class="flex items-center justify-between gap-4">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.24em] text-[#9C8F87]">Users</p>
+                            <button type="button" class="focus-ring inline-flex items-center gap-2 rounded-full border border-[#D96A76] px-3 py-1.5 text-[11px] font-bold text-[#C44D5D]" data-frontoffice-action="bulk-upload">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16.5A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5"/></svg>
+                                <span>Bulk Upload</span>
+                            </button>
+                        </div>
+                        <div class="mt-3 divide-y divide-[#ECE3DC]">
+                            ${school.users.map((user) => `
+                                <div class="flex items-center justify-between gap-4 py-3">
+                                    <div class="flex min-w-0 items-center gap-4">
+                                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#8D5F68] text-[11px] font-bold text-white">${user.initials}</span>
+                                        <span class="min-w-0">
+                                            <span class="block truncate text-[13px] font-bold text-[#2B2521]">${user.name}</span>
+                                            <span class="block text-[11px] font-medium text-[#8B7E77]">${user.meta}</span>
+                                        </span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="inline-flex rounded-full bg-[#DDF3FA] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#4B8E9E]">${user.role}</span>
+                                        <span class="mt-1.5 block text-[10px] font-medium text-[#9C8F87]">${user.lastSeen}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </section>
+                </section>
+            `;
+        }
+
+        function renderFrontOfficeCreateSchool() {
+            const form = frontOfficeState.createSchool;
+            return `
+                <section class="mx-auto max-w-[860px]">
+                    <button type="button" class="focus-ring inline-flex items-center gap-2 text-[12px] font-semibold text-[#6F645E]" data-frontoffice-action="back-to-list">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>
+                        <span>Back to Schools</span>
+                    </button>
+                    <div class="mt-4">
+                        <h1 class="text-[1.6rem] font-black tracking-[-0.04em] text-[#1F1A17]">Create School</h1>
+                        <p class="mt-1.5 text-[12px] font-medium text-[#6F645E]">A parent code and teacher code will be generated on submit.</p>
+                    </div>
+                    <section class="mt-5 rounded-[1.15rem] border border-[#E8DDD6] bg-white p-4">
+                        <div class="space-y-2.5">
+                            <label class="block">
+                                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">School Name</span>
+                                <input value="${escapeHtml(form.schoolName)}" data-frontoffice-form="schoolName" placeholder="e.g. Sunrise Global School" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none placeholder:text-[#A4A0A5]">
+                            </label>
+                            <div class="grid gap-x-3 gap-y-2.5 md:grid-cols-2">
+                                <label class="block">
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">Board</span>
+                                    <select data-frontoffice-form="board" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none">
+                                        ${['CBSE', 'ICSE', 'State Board'].map((item) => `<option ${form.board === item ? 'selected' : ''}>${item}</option>`).join('')}
+                                    </select>
+                                </label>
+                                <label class="block">
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">Monthly Fee Tier (Optional)</span>
+                                    <select data-frontoffice-form="tier" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none">
+                                        <option value="">Select tier</option>
+                                        <option ${form.tier === 'Tier 1' ? 'selected' : ''}>Tier 1</option>
+                                        <option ${form.tier === 'Tier 2' ? 'selected' : ''}>Tier 2</option>
+                                        <option ${form.tier === 'Tier 3' ? 'selected' : ''}>Tier 3</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <label class="block">
+                                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">Address</span>
+                                <textarea data-frontoffice-form="address" rows="4" placeholder="Street, area, landmark" class="mt-1.5 min-h-[100px] w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 py-3 text-[14px] font-medium text-[#211C19] outline-none placeholder:text-[#A4A0A5]">${escapeHtml(form.address)}</textarea>
+                            </label>
+                            <div class="grid gap-x-3 gap-y-2.5 md:grid-cols-3">
+                                <label class="block">
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">City</span>
+                                    <input value="${escapeHtml(form.city)}" data-frontoffice-form="city" placeholder="e.g. Bengaluru" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none placeholder:text-[#A4A0A5]">
+                                </label>
+                                <label class="block">
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">State</span>
+                                    <input value="${escapeHtml(form.state)}" data-frontoffice-form="state" placeholder="e.g. Haryana" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none placeholder:text-[#A4A0A5]">
+                                </label>
+                                <label class="block">
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">Pincode</span>
+                                    <input value="${escapeHtml(form.pincode)}" data-frontoffice-form="pincode" placeholder="e.g. 122002" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none placeholder:text-[#A4A0A5]">
+                                </label>
+                            </div>
+                            <div class="grid gap-x-3 gap-y-2.5 md:grid-cols-2">
+                                <label class="block">
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">Admin Number</span>
+                                    <input value="${escapeHtml(form.adminNumber)}" data-frontoffice-form="adminNumber" placeholder="e.g. +91 98765 43210" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none placeholder:text-[#A4A0A5]">
+                                </label>
+                                <label class="block">
+                                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C8F87]">Admin Email</span>
+                                    <input value="${escapeHtml(form.adminEmail)}" data-frontoffice-form="adminEmail" placeholder="e.g. admin@school.org" class="mt-1.5 h-11 w-full rounded-[1rem] border border-[#E4D9D2] bg-[#FBF6F2] px-4 text-[14px] font-medium text-[#211C19] outline-none placeholder:text-[#A4A0A5]">
+                                </label>
+                            </div>
+                            <div class="pt-2">
+                                <button type="button" class="focus-ring inline-flex h-10 items-center justify-center rounded-full bg-[#B1123B] px-5 text-[13px] font-bold text-white transition-colors hover:bg-[#930f31]" data-frontoffice-action="submit-school">
+                                    Create School
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            `;
+        }
+
+        function renderFrontOfficeDashboardChart() {
+            const width = 760;
+            const height = 200;
+            const paddingX = 42;
+            const paddingTop = 18;
+            const paddingBottom = 24;
+            const max = 90;
+            const min = 0;
+            const plotHeight = height - paddingTop - paddingBottom;
+            const plotWidth = width - (paddingX * 2);
+            const xStep = plotWidth / 5;
+            const yFor = (value) => paddingTop + ((max - value) / (max - min)) * plotHeight;
+            const weeks = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6'];
+            const gridValues = [90, 70, 50, 30];
+            return `
+                <div class="overflow-hidden rounded-[1.15rem] border border-[#E8DDD6] bg-[#FBF6F2] p-3">
+                    <div class="flex flex-wrap gap-3 pb-2">
+                        ${frontOfficeDashboardSeries.map((series) => `
+                            <span class="inline-flex items-center gap-2 text-[10px] font-semibold text-[#6F645E]">
+                                <span class="h-2.5 w-2.5 rounded-full" style="background:${series.color};"></span>
+                                <span>${series.name}</span>
+                            </span>
+                        `).join('')}
+                    </div>
+                    <svg viewBox="0 0 ${width} ${height}" class="w-full">
+                        ${gridValues.map((value) => `
+                            <g>
+                                <line x1="${paddingX}" y1="${yFor(value)}" x2="${width - paddingX}" y2="${yFor(value)}" stroke="#E7DDD6" stroke-width="1"/>
+                                <text x="${paddingX - 10}" y="${yFor(value) + 4}" fill="#9C8F87" font-size="9" text-anchor="end">${value * 2}</text>
+                            </g>
+                        `).join('')}
+                        ${weeks.map((week, index) => `<text x="${paddingX + (xStep * index)}" y="${height - 6}" fill="#9C8F87" font-size="9" text-anchor="middle">${week}</text>`).join('')}
+                        ${frontOfficeDashboardSeries.map((series) => {
+                            const path = series.values.map((value, index) => `${index === 0 ? 'M' : 'L'} ${paddingX + (xStep * index)} ${yFor(value)}`).join(' ');
+                            return `
+                                <path d="${path}" fill="none" stroke="${series.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                ${series.values.map((value, index) => `
+                                    <circle cx="${paddingX + (xStep * index)}" cy="${yFor(value)}" r="3" fill="white" stroke="${series.color}" stroke-width="2"/>
+                                `).join('')}
+                            `;
+                        }).join('')}
+                    </svg>
+                </div>
+            `;
+        }
+
+        function renderFrontOfficeSchoolDashboardChart() {
+            const width = 760;
+            const height = 220;
+            const paddingX = 38;
+            const paddingTop = 16;
+            const paddingBottom = 28;
+            const max = 90;
+            const min = 0;
+            const plotHeight = height - paddingTop - paddingBottom;
+            const plotWidth = width - (paddingX * 2);
+            const xStep = plotWidth / 7;
+            const yFor = (value) => paddingTop + ((max - value) / (max - min)) * plotHeight;
+            const labels = ['15 Mar', '22 Mar', '29 Mar', '05 Apr', '12 Apr', '19 Apr', '26 Apr', '03 May'];
+            const series = frontOfficeSchoolSeries[0];
+            const path = series.values.map((value, index) => `${index === 0 ? 'M' : 'L'} ${paddingX + (xStep * index)} ${yFor(value)}`).join(' ');
+            return `
+                <div class="overflow-hidden rounded-[1.15rem] border border-[#E8DDD6] bg-white p-0">
+                    <div class="border-b border-[#ECE3DC] px-4 py-3">
+                        <p class="text-[12px] font-bold text-[#2B2521]">Average Usage per Registered Teacher per Week Over Time</p>
+                    </div>
+                    <div class="p-3">
+                        <div class="flex justify-center pb-2">
+                            <span class="inline-flex items-center gap-2 text-[10px] font-semibold text-[#6F645E]">
+                                <span class="h-2.5 w-2.5 rounded-full" style="background:${series.color};"></span>
+                                <span>${series.name}</span>
+                            </span>
+                        </div>
+                        <svg viewBox="0 0 ${width} ${height}" class="w-full">
+                            ${[80, 60, 40, 20, 0].map((value) => `
+                                <g>
+                                    <line x1="${paddingX}" y1="${yFor(value)}" x2="${width - paddingX}" y2="${yFor(value)}" stroke="#E7DDD6" stroke-width="1"/>
+                                    <text x="${paddingX - 10}" y="${yFor(value) + 4}" fill="#9C8F87" font-size="9" text-anchor="end">${value * 2}</text>
+                                </g>
+                            `).join('')}
+                            <path d="${path}" fill="none" stroke="${series.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            ${series.values.map((value, index) => `
+                                <circle cx="${paddingX + (xStep * index)}" cy="${yFor(value)}" r="3" fill="white" stroke="${series.color}" stroke-width="2"/>
+                                <text x="${paddingX + (xStep * index)}" y="${height - 8}" fill="#9C8F87" font-size="8.5" text-anchor="middle">${labels[index]}</text>
+                            `).join('')}
+                        </svg>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFrontOfficeSchoolDashboardContent() {
+            const school = getFrontOfficeSelectedSchool();
+            const stats = school.dashboardStats || { totalMinutes: '0.00', activeUsers: '0%', avgUsage: '0.00' };
+            return `
+                <section class="mt-4">
+                    <div>
+                        <h2 class="text-[1.35rem] font-black tracking-[-0.03em] text-[#1F1A17]">${school.name}</h2>
+                        <p class="mt-1 text-[11px] font-medium text-[#6F645E]">${school.board} · ${school.city}</p>
+                    </div>
+                    <div class="mt-4 grid gap-3 md:grid-cols-3">
+                        <article class="rounded-[1.15rem] border border-[#E8DDD6] bg-white p-3.5">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8F4E5A]">Total Minutes Used</p>
+                            <p class="mt-2 text-[1.45rem] font-black leading-none text-[#8F3145]">${stats.totalMinutes}</p>
+                            <p class="mt-2 text-[10px] font-medium text-[#8B7E77]">The total number of minutes used by all users</p>
+                        </article>
+                        <article class="rounded-[1.15rem] border border-[#E8DDD6] bg-white p-3.5">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8F4E5A]">Active Users %</p>
+                            <p class="mt-2 text-[1.45rem] font-black leading-none text-[#8F3145]">${stats.activeUsers}</p>
+                            <p class="mt-2 text-[10px] font-medium text-[#8B7E77]">The percentage of users who have used the app at least once</p>
+                        </article>
+                        <article class="rounded-[1.15rem] border border-[#E8DDD6] bg-white p-3.5">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8F4E5A]">Average Usage per Registered Teacher per Week</p>
+                            <p class="mt-2 text-[1.45rem] font-black leading-none text-[#8F3145]">${stats.avgUsage}</p>
+                            <p class="mt-2 text-[10px] font-medium text-[#8B7E77]">The average number of minutes used per registered teacher per week</p>
+                        </article>
+                    </div>
+                    <section class="mt-4 overflow-hidden rounded-[1.15rem] border border-[#E8DDD6] bg-white">
+                        <div class="border-b border-[#ECE3DC] px-4 py-3">
+                            <p class="text-[12px] font-bold text-[#2B2521]">Average Usage Per User Per Week</p>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-left">
+                                <thead class="bg-[#FBF6F2] text-[10px] font-bold text-[#2B2521]">
+                                    <tr>
+                                        <th class="px-4 py-2.5">#</th>
+                                        <th class="px-4 py-2.5">User Name</th>
+                                        <th class="px-4 py-2.5">Grade · Subject Allotments</th>
+                                        <th class="px-4 py-2.5 text-right">Average Usage per Week</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-[11px] font-medium text-[#6F645E]">
+                                    ${frontOfficeSchoolUserRows.map((row) => `
+                                        <tr class="border-t border-[#F1E9E3]">
+                                            <td class="px-4 py-2.5">${row[0]}</td>
+                                            <td class="px-4 py-2.5 font-semibold text-[#2B2521]">${row[1]}</td>
+                                            <td class="px-4 py-2.5">${row[2]}</td>
+                                            <td class="px-4 py-2.5 text-right">${row[3]}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <section class="mt-4 overflow-hidden rounded-[1.15rem] border border-[#E8DDD6] bg-white">
+                        <div class="border-b border-[#ECE3DC] px-4 py-3">
+                            <p class="text-[12px] font-bold text-[#2B2521]">Grade · Subject Usage</p>
+                            <p class="mt-1 text-[10px] font-semibold text-[#8F4E5A]">( Average Minutes Used for a Grade-Subject per User )</p>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-left">
+                                <thead class="bg-[#FBF6F2] text-[10px] font-bold text-[#2B2521]">
+                                    <tr>
+                                        <th class="px-4 py-2.5">Grade Name</th>
+                                        <th class="px-4 py-2.5">Early Childhood</th>
+                                        <th class="px-4 py-2.5">English</th>
+                                        <th class="px-4 py-2.5">Environmental Science</th>
+                                        <th class="px-4 py-2.5">Mathematics</th>
+                                        <th class="px-4 py-2.5">Science</th>
+                                        <th class="px-4 py-2.5">Social Science</th>
+                                        <th class="px-4 py-2.5 text-center">Grade Average</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-[11px] font-medium text-[#6F645E]">
+                                    ${frontOfficeGradeUsageRows.map((row) => `
+                                        <tr class="border-t border-[#F1E9E3]">
+                                            <td class="px-4 py-2.5 font-semibold text-[#2B2521]">${row[0]}</td>
+                                            <td class="px-4 py-2.5">${row[1]}</td>
+                                            <td class="px-4 py-2.5">${row[2]}</td>
+                                            <td class="px-4 py-2.5">${row[3]}</td>
+                                            <td class="px-4 py-2.5">${row[4]}</td>
+                                            <td class="px-4 py-2.5">${row[5]}</td>
+                                            <td class="px-4 py-2.5">${row[6]}</td>
+                                            <td class="px-4 py-2.5">
+                                                <span class="block rounded-sm bg-[#FAECEE] px-3 py-1 text-center font-bold text-[#9B4A5C]">${row[7]}</span>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <section class="mt-4">
+                        ${renderFrontOfficeSchoolDashboardChart()}
+                    </section>
+                </section>
+            `;
+        }
+
+        function renderFrontOfficeDashboard() {
+            const stats = getFrontOfficeStats();
+            const groupLabel = frontOfficeState.dashboardGroup;
+            const isSchoolView = groupLabel === 'School';
+            return `
+                <section class="mx-auto max-w-[860px]">
+                    <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                            <h1 class="text-[1.6rem] font-black tracking-[-0.04em] text-[#1F1A17] sm:text-[1.85rem]">Front Office</h1>
+                            <p class="mt-1.5 text-[12px] font-medium text-[#6F645E]">Manage schools, access codes, and module enablement.</p>
+                        </div>
+                        ${renderFrontOfficeToggle()}
+                    </div>
+                    <div class="mt-4 grid gap-3 md:grid-cols-3">
+                        ${renderFrontOfficeMetric(stats.schools, 'Schools')}
+                        ${renderFrontOfficeMetric(stats.teachers, 'Teachers')}
+                        ${renderFrontOfficeMetric(stats.parents, 'Parents')}
+                    </div>
+                    <div class="mt-5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="text-[12px] font-semibold text-[#6F645E]">View</span>
+                            <select class="h-9 rounded-full border border-[#E8DDD6] bg-white px-3.5 text-[11px] font-semibold text-[#2B2521]" data-frontoffice-dashboard="view">
+                                ${['SuperTeacher', 'Learnometer'].map((item) => `<option ${frontOfficeState.dashboardView === item ? 'selected' : ''}>${item}</option>`).join('')}
+                            </select>
+                            <select class="h-9 rounded-full border border-[#E8DDD6] bg-white px-3.5 text-[11px] font-semibold text-[#2B2521]" data-frontoffice-dashboard="group">
+                                ${['Branch', 'Cluster', 'School'].map((item) => `<option ${frontOfficeState.dashboardGroup === item ? 'selected' : ''}>${item}</option>`).join('')}
+                            </select>
+                            ${isSchoolView ? `
+                                <select class="h-9 rounded-full border border-[#E8DDD6] bg-white px-3.5 text-[11px] font-semibold text-[#2B2521]" data-frontoffice-dashboard-school>
+                                    ${frontOfficeSchools.map((item) => `<option value="${item.id}" ${item.id === frontOfficeState.selectedSchoolId ? 'selected' : ''}>${item.xorgCode || item.id}</option>`).join('')}
+                                </select>
+                            ` : ''}
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <select class="h-9 rounded-full border border-[#E8DDD6] bg-white px-3.5 text-[11px] font-semibold text-[#2B2521]" data-frontoffice-dashboard="range">
+                                ${['Last 7 Days', 'Last 30 Days'].map((item) => `<option ${frontOfficeState.dashboardRange === item ? 'selected' : ''}>${item}</option>`).join('')}
+                            </select>
+                            <span class="text-[11px] font-semibold text-[#8FA0BF]">May 3, 2026 - May 9, 2026</span>
+                        </div>
+                    </div>
+                    ${isSchoolView ? `
+                        ${frontOfficeState.selectedSchoolId ? renderFrontOfficeSchoolDashboardContent() : ''}
+                    ` : `
+                        <section class="mt-4">
+                            <p class="mb-2.5 text-[12px] font-bold text-[#2B2521]">${groupLabel} Wise Average Usage per Registered Teacher per Week</p>
+                            <div class="overflow-hidden rounded-[1.15rem] border border-[#E8DDD6] bg-white">
+                                <div class="grid grid-cols-[minmax(0,1fr)_180px] border-b border-[#ECE3DC] bg-[#FBF6F2] px-3.5 py-2.5 text-[10px] font-bold text-[#2B2521]">
+                                    <span>${groupLabel}</span>
+                                    <span class="text-right">Average Usage per Registered Teacher per Week</span>
+                                </div>
+                                ${frontOfficeDashboardRows.map(([branch, value]) => `
+                                    <div class="grid grid-cols-[minmax(0,1fr)_180px] border-b border-[#F1E9E3] px-3.5 py-2.5 text-[11px] font-semibold text-[#6F645E] last:border-b-0">
+                                        <span>${branch}</span>
+                                        <span class="text-right">${value}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                        <section class="mt-4">
+                            <p class="mb-2.5 text-[12px] font-bold text-[#2B2521]">Average Usage per Registered Teacher per Week Over Time</p>
+                            ${renderFrontOfficeDashboardChart()}
+                        </section>
+                    `}
+                </section>
+            `;
+        }
+
+        function renderFrontOffice() {
+            const root = document.getElementById('frontOfficeRoot');
+            if (!root) return;
+            let markup = '';
+            if (frontOfficeState.activeTab === 'Data Dashboard') {
+                markup = renderFrontOfficeDashboard();
+            } else if (frontOfficeState.view === 'detail') {
+                markup = renderFrontOfficeSchoolDetail();
+            } else if (frontOfficeState.view === 'create') {
+                markup = renderFrontOfficeCreateSchool();
+            } else {
+                markup = renderFrontOfficeSchoolList();
+            }
+            root.innerHTML = markup;
+            bindFrontOfficeEvents();
+        }
+
+        function bindFrontOfficeEvents() {
+            const root = document.getElementById('frontOfficeRoot');
+            if (!root) return;
+
+            root.querySelectorAll('[data-frontoffice-tab]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    frontOfficeState = {
+                        ...frontOfficeState,
+                        activeTab: button.dataset.frontofficeTab,
+                        view: button.dataset.frontofficeTab === 'Data Dashboard' ? 'dashboard' : 'list'
+                    };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-action="open-school"]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    frontOfficeState = {
+                        ...frontOfficeState,
+                        activeTab: 'School Management',
+                        view: 'detail',
+                        selectedSchoolId: button.dataset.schoolId
+                    };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-action="open-school-dashboard"]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    frontOfficeState = {
+                        ...frontOfficeState,
+                        activeTab: 'Data Dashboard',
+                        view: 'dashboard',
+                        selectedSchoolId: button.dataset.schoolId
+                    };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-action="back-to-list"]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    frontOfficeState = { ...frontOfficeState, activeTab: 'School Management', view: 'list' };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-action="create-school"]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    frontOfficeState = { ...frontOfficeState, activeTab: 'School Management', view: 'create' };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-action="toggle-module"]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const school = getFrontOfficeSelectedSchool();
+                    school.modules = school.modules.map((module) => module.name === button.dataset.moduleName ? { ...module, enabled: !module.enabled } : module);
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-form]').forEach((field) => {
+                field.addEventListener('input', (event) => {
+                    frontOfficeState = {
+                        ...frontOfficeState,
+                        createSchool: {
+                            ...frontOfficeState.createSchool,
+                            [event.currentTarget.dataset.frontofficeForm]: event.currentTarget.value
+                        }
+                    };
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-dashboard]').forEach((field) => {
+                field.addEventListener('change', (event) => {
+                    const key = event.currentTarget.dataset.frontofficeDashboard;
+                    frontOfficeState = { ...frontOfficeState, view: 'dashboard', [`dashboard${key.charAt(0).toUpperCase()}${key.slice(1)}`]: event.currentTarget.value };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-dashboard-school]').forEach((field) => {
+                field.addEventListener('change', (event) => {
+                    frontOfficeState = { ...frontOfficeState, selectedSchoolId: event.currentTarget.value, view: 'dashboard' };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-action="submit-school"]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    showAppToast('School created. Access codes generated.');
+                    frontOfficeState = { ...frontOfficeState, activeTab: 'School Management', view: 'list' };
+                    renderFrontOffice();
+                });
+            });
+
+            root.querySelectorAll('[data-frontoffice-action="bulk-upload"]').forEach((button) => {
+                button.addEventListener('click', () => showAppToast('Bulk upload flow coming next.'));
+            });
         }
 
         function renderAnnouncementMedia(media) {
@@ -4052,6 +5022,8 @@
         function getRoleForTab(title = activeAppTab) {
             if (title === 'Teacher Lesson Plan') return 'teacher';
             if (title === 'Parent Lesson Plan') return 'parent';
+            if (title === 'Profile') return 'teacher';
+            if (title === 'Front Office') return 'principle';
             return 'principle';
         }
 
@@ -5670,6 +6642,12 @@
                     renderPracticeGym();
                     if (practiceGymState.testStarted && !practiceGymState.testDone) startPracticeGymTimer();
                 }
+                if (visiblePanel === 'Profile') {
+                    renderProfileScreen();
+                }
+                if (visiblePanel === 'Front Office') {
+                    renderFrontOffice();
+                }
                 toolbarOpen = false;
                 updateToolbarVisibility();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -5720,6 +6698,8 @@
 
         const profileToggle = document.getElementById('profileToggle');
         const profileMenu = document.getElementById('profileMenu');
+        const profileMenuProfileButton = document.getElementById('profileMenuProfileButton');
+        const profileMenuFrontOfficeButton = document.getElementById('profileMenuFrontOfficeButton');
 
         function setProfileMenuOpen(isOpen) {
             profileToggle?.setAttribute('aria-expanded', String(isOpen));
@@ -5734,6 +6714,18 @@
 
         profileMenu?.addEventListener('click', (event) => {
             event.stopPropagation();
+        });
+
+        profileMenuProfileButton?.addEventListener('click', () => {
+            setProfileMenuOpen(false);
+            setActiveNavTitle('');
+            showAppTab('Profile');
+        });
+
+        profileMenuFrontOfficeButton?.addEventListener('click', () => {
+            setProfileMenuOpen(false);
+            setActiveNavTitle('');
+            showAppTab('Front Office');
         });
 
         document.addEventListener('click', () => {
@@ -5763,6 +6755,8 @@
         renderCommunicationFab();
         renderLearnometer();
         renderPracticeGym();
+        renderProfileScreen();
+        renderFrontOffice();
         renderPracticeGymGlobalFab();
         showAppTab(activeAppTab, { preserveHash: true });
         lucide.createIcons();
