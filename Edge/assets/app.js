@@ -121,7 +121,7 @@
     </header>
 
     <main class="tab-panel max-w-[1280px] mx-auto px-6 py-8" data-tab-panel="Teacher Lesson Plan">
-        <section id="curriculum-sections" class="space-y-16"></section>
+        <section id="curriculum-sections" class="space-y-[0.8rem]"></section>
     </main>
 
     <main class="tab-panel hidden max-w-[1280px] mx-auto px-4 py-4 sm:px-6" data-tab-panel="Communication">
@@ -2761,19 +2761,7 @@
         }
 
         function renderPracticeSubjectFilterToolbar() {
-            const selected = getPracticeSelectedSubject();
-            return `
-                <aside class="fixed bottom-20 left-4 right-4 z-40 lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2" aria-label="Filter practice review by subject">
-                    <nav class="mx-auto flex max-w-[min(34rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#A41034]/10 bg-white/90 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2">
-                        ${PRACTICE_REVIEW_SUBJECTS.map((subject) => `
-                            <button type="button" data-practice-subject="${escapeHtml(subject)}" class="group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold transition-all duration-200 hover:-translate-y-0.5 focus:outline-none lg:h-8 lg:min-w-8 lg:px-2 ${subject === selected ? 'bg-[#A41034] text-white shadow-[0_8px_18px_rgba(164,16,52,0.18)]' : 'text-[#A41034] hover:bg-[#A41034]/5'}" aria-label="Show ${escapeHtml(subject)} practice review">
-                                <span>${escapeHtml(getPracticeSubjectFilterLabel(subject))}</span>
-                                <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#A41034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#A41034] opacity-0 shadow-lg shadow-[#A41034]/10 transition-all duration-200 group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100 lg:block">${escapeHtml(subject)}</span>
-                            </button>
-                        `).join('')}
-                    </nav>
-                </aside>
-            `;
+            return '';
         }
 
         function renderPracticeHero() {
@@ -4493,10 +4481,7 @@
                         <div class="flex items-start gap-2.5">
                             <div class="min-w-0 flex-1">
                                 <span class="mb-1 block text-[9px] font-bold uppercase tracking-widest" style="color: var(--subject-accent);">Now Learning</span>
-                                ${blockName ? `<p class="truncate text-[9px] font-medium text-[#B8AFA9]">${escapeHtml(blockName)}</p>` : ''}
-                                ${lessonName
-                    ? `<p class="truncate text-[13px] font-semibold leading-snug text-[#57534E]">${escapeHtml(lessonName)}</p>`
-                    : `<p class="truncate text-[13px] font-semibold leading-snug text-[#57534E]">${escapeHtml(subject.name)}</p>`}
+                                <p class="truncate text-[13px] font-semibold leading-snug text-[#1C1917]">${escapeHtml(blockName || lessonName || subject.name)}</p>
                             </div>
                         </div>
                     </div>
@@ -4516,7 +4501,7 @@
                     <!-- Practice Gym -->
                     <div class="relative z-20 mt-3 flex items-center justify-end">
                         <button type="button"
-                            data-open-practice-gym data-practice-grade="${escapeHtml(grade.title)}" data-practice-subject="${escapeHtml(subject.name)}" data-practice-topic="${escapeHtml(block?.title || subject.name)}"
+                            data-open-practice-gym-page
                             class="focus-ring group/gym inline-flex items-center gap-1 text-[11px] font-medium text-[#A9A19C] transition-colors hover:text-[#78716C] focus:outline-none"
                             aria-label="Open Practice Gym for ${escapeHtml(subject.name)}">
                             <i data-lucide="dumbbell" class="h-3 w-3 transition-colors"></i>
@@ -4704,35 +4689,63 @@
             const grade = findGrade(gradeId);
             const subject = findSubject(gradeId, subjectId);
             if (!grade || !subject) return renderHome();
-            initializeCollapsedBlocksPage(grade, subject);
 
             const theme = getSubjectTheme(subject.name);
             const totalSessions = subject.blocks.reduce((sum, block) => sum + block.lessons.length, 0);
             const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
             const completedSessions = subject.blocks.reduce((sum, block) => sum + block.lessons.filter(l => l.status === 'Completed').length, 0);
 
-            return `
-                <div class="relative mx-auto max-w-[1180px]">
-                    <div class="flex items-center justify-between gap-6 rounded-2xl bg-white/70 px-6 py-5 shadow-sm backdrop-blur-md ring-1 ring-white/60">
-                        <div class="flex min-w-0 items-center gap-4">
-                            <div class="min-w-0">
-                                <p class="text-[11px] font-bold uppercase tracking-[0.16em]" style="color:${theme.accent};">Block List</p>
-                                <h1 class="mt-0.5 truncate text-xl font-bold text-[#1C1917] md:text-2xl">${escapeHtml(grade.title)} &middot; ${escapeHtml(subject.name)}</h1>
-                                <p class="mt-0.5 text-[13px] font-medium text-[#78716C]">${subject.blocks.length} blocks &bull; ${totalSessions} sessions</p>
-                            </div>
-                        </div>
-                        <div class="flex shrink-0 flex-col items-end gap-1.5">
-                            <span class="text-[11px] font-bold tabular-nums" style="color:${theme.accent};">${completedSessions} / ${totalSessions} done</span>
-                            <div class="h-2 w-40 overflow-hidden rounded-full" style="background:${theme.accentTrack};">
-                                <div class="h-full rounded-full transition-all duration-300" style="width:${progress}%;background:${theme.accent};"></div>
-                            </div>
-                            <span class="text-[10px] font-medium text-[#A8A29E]">${progress}% complete</span>
+            if (activeAppTab === 'Parent Lesson Plan') {
+                return `
+                    <div class="relative mx-auto max-w-[1180px]">
+                        <div class="px-1 py-1">
+                            <h1 class="truncate text-xl font-bold text-[#1C1917] md:text-2xl">${escapeHtml(grade.title)} &middot; ${escapeHtml(subject.name)}</h1>
                         </div>
                     </div>
-                </div>
-                <section class="lesson-journey-shell -mx-6 -mt-4 px-6 pb-16 pt-0 md:-mx-12 md:px-12">
+                    <section class="lesson-journey-shell -mx-6 -mt-2 px-6 pb-16 pt-0 md:-mx-12 md:px-12">
+                        <div class="mx-auto max-w-[1180px] space-y-6 pt-4">
+                            ${subject.blocks.map((block, index) => {
+                    const firstLesson = block.lessons?.[0];
+                    const canOpen = Boolean(firstLesson);
+                    return `
+                                    <article class="focus-ring rounded-[30px] border border-[#EDE0DB] bg-white p-4 shadow-[0_12px_30px_rgba(28,25,23,0.05)] transition-all duration-200 md:p-6 ${canOpen ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(28,25,23,0.08)]' : ''}"
+                                        ${canOpen ? `data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${firstLesson.id}" role="button" tabindex="0" aria-label="Open ${escapeHtml(block.title)}"` : ''}>
+                                        <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                                            <div class="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-center">
+                                                ${renderBlockImageBadge(block, index, theme, subject.name)}
+                                                <div class="min-w-0">
+                                                    <div class="flex flex-wrap items-center gap-2">
+                                                        <p class="rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#A41034] ring-1 ring-[#E9DDD9]/80">Block ${index + 1}</p>
+                                                    </div>
+                                                    <h2 class="mt-3 text-1xl font-bold leading-tight text-[#1C1917] md:text-[1.3rem]">${escapeHtml(block.title)}</h2>
+                                                    <p class="mt-2 max-w-2xl text-sm font-medium leading-6 text-[#6F625F]">${escapeHtml(getParentBlockDescription(block.title))}</p>
+                                                </div>
+                                            </div>
+                                            ${canOpen ? `
+                                                <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#FFF7F4] text-[#B10F3A] shadow-[0_10px_24px_rgba(28,25,23,0.07)] ring-1 ring-[#E9DDD9]/75 transition-all duration-200">
+                                                    <i data-lucide="chevron-right" class="h-4 w-4"></i>
+                                                </span>
+                                            ` : ''}
+                                        </div>
+                                    </article>
+                                `;
+                }).join('')}
+                        </div>
+                    </section>
+                `;
+            }
 
-                    <div class="mx-auto max-w-[1180px] space-y-8 pt-8">
+            initializeCollapsedBlocksPage(grade, subject);
+
+            return `
+                <div class="relative mx-auto max-w-[1180px]">
+                    <div class="px-1 py-1">
+                        <h1 class="truncate text-xl font-bold text-[#1C1917] md:text-2xl">${escapeHtml(grade.title)} &middot; ${escapeHtml(subject.name)}</h1>
+                    </div>
+                </div>
+                <section class="lesson-journey-shell -mx-6 -mt-2 px-6 pb-16 pt-0 md:-mx-12 md:px-12">
+
+                    <div class="mx-auto max-w-[1180px] space-y-8 pt-4">
                         ${subject.blocks.map((block, index) => renderBlockSection(block, index, grade, subject)).join('')}
                     </div>
                 </section>
@@ -4996,6 +5009,10 @@
                     </span>
                 </span>
             `;
+        }
+
+        function getParentBlockDescription(blockTitle) {
+            return `Explore key ideas, examples, and activities for ${blockTitle.toLowerCase()}.`;
         }
 
         function renderBlockSection(block, blockIndex, grade, subject) {
@@ -5947,6 +5964,14 @@
                 return;
             }
 
+            const practicePageTarget = event.target.closest('[data-open-practice-gym-page]');
+            if (practicePageTarget) {
+                event.preventDefault();
+                event.stopPropagation();
+                window.location.href = appPages.practiceGym;
+                return;
+            }
+
             const lessonActionTarget = event.target.closest('[data-action]');
             if (lessonActionTarget) {
                 const lessonKey = getLessonCompletionKey(
@@ -6137,8 +6162,10 @@
             currentRole = getRoleForTab(title);
             const preserveHash = Boolean(options.preserveHash);
             const visiblePanel = title === 'Parent Lesson Plan' ? 'Teacher Lesson Plan' : title;
-            practiceGymHeaderButton?.classList.toggle('bg-[#BD1740]', title === 'Practice Test');
-            practiceGymHeaderButton?.classList.toggle('text-white', title === 'Practice Test');
+            practiceGymHeaderButton?.classList.toggle('border-[#BD1740]/30', title === 'Practice Test');
+            practiceGymHeaderButton?.classList.toggle('bg-[#FFF7F4]', title === 'Practice Test');
+            practiceGymHeaderButton?.classList.toggle('text-[#BD1740]', title === 'Practice Test');
+            practiceGymHeaderButton?.classList.toggle('shadow-[0_10px_24px_rgba(189,23,64,0.12)]', title === 'Practice Test');
             if (title === 'Practice Test') {
                 practiceGymHeaderButton?.setAttribute('aria-current', 'page');
             } else {
