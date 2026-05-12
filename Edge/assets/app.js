@@ -4815,7 +4815,7 @@
                         <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 class="text-[26px] font-bold tracking-tight text-[#16120F]">All subjects</h2>
                         </div>
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                             ${(grade.subjects || []).map(subject => getParentSubjectCard(subject, grade)).join('')}
                         </div>
                     </section>
