@@ -183,6 +183,7 @@
         let programmaticBlockScrollTimer = null;
         let parentTipDismissed = false;
         let parentLearningView = 'weekly';
+        let selectedParentLearningBlock = 4;
         const completedLessonKeys = new Set();
         let lessonNotesState = {};
         const expandedGradeIds = new Set([currentGradeId]);
@@ -2819,6 +2820,21 @@
             `;
         }
 
+        function renderGymSelectInline(name, label, options, value, disabled = false) {
+            return `
+                <label class="min-w-0">
+                    <span class="mb-1.5 block text-[11px] font-medium leading-4 text-[#8B8B8B]">${label}</span>
+                    <span class="flex h-12 items-center gap-2 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)] ${disabled ? 'opacity-50' : ''}">
+                        <i data-lucide="${getGymFieldIcon(name)}" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                        <select data-gym-field="${name}" ${disabled ? 'disabled' : ''} class="min-w-0 w-full cursor-pointer bg-transparent text-[13px] font-medium leading-5 text-[#1C1917] outline-none disabled:cursor-not-allowed">
+                            <option value="">Select ${label.toLowerCase()}...</option>
+                            ${options.map((option) => `<option value="${escapeHtml(option)}" ${option === value ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}
+                        </select>
+                    </span>
+                </label>
+            `;
+        }
+
         function getPracticeSelectedSubject() {
             if (!practiceGymState.selectedReviewSubject) {
                 practiceGymState.selectedReviewSubject = PRACTICE_REVIEW_DATA.summary.lastPracticedSubject || 'Mathematics';
@@ -2956,13 +2972,6 @@
                             <div>
                                 <h1 class="whitespace-nowrap font-['Poppins'] text-[26px] font-semibold leading-8 text-[#1C1917] sm:text-[34px] sm:leading-10">Practice Test Review</h1>
                                 ${weakTopic ? `<p class="mt-2 text-sm font-medium text-[#7C706A]">Next focus: <span class="font-semibold text-[#A41034]">${escapeHtml(weakTopic)}</span></p>` : ''}
-                            </div>
-                            <div class="flex flex-col gap-3 sm:flex-row xl:shrink-0">
-                                <button type="button" data-practice-start class="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#A41034] px-5 text-[13px] font-semibold text-white shadow-[0_14px_28px_rgba(164,16,52,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#7a0c26]">
-                                    <i data-lucide="play" class="h-4 w-4 fill-current"></i>
-                                    Start Practice
-                                </button>
-                                
                             </div>
                         </div>
                         <div class="mt-7 grid gap-0 overflow-hidden rounded-[20px] bg-[#FAF8F6] sm:grid-cols-4">
@@ -3334,6 +3343,58 @@
             `;
         }
 
+        function renderPracticeGymInlineSetupForm() {
+            const subjects = practiceGymState.grade ? Object.keys(GYM_CURRICULUM[practiceGymState.grade] || {}) : [];
+            const blocks = practiceGymState.grade && practiceGymState.subject ? GYM_CURRICULUM[practiceGymState.grade][practiceGymState.subject] || [] : [];
+            const ready = isPracticeGymReady();
+            const timeIndex = GYM_TIME_OPTIONS.indexOf(practiceGymState.timeLimit);
+
+            return `
+                <section class="mx-auto w-full max-w-[1100px] rounded-[22px] border border-[#E7E5E4] bg-white p-4 shadow-[0_18px_45px_rgba(28,25,23,0.06)] sm:p-5">
+                    <div class="mb-4 flex items-center justify-between gap-4">
+                        <h1 class="truncate font-['Poppins'] text-[24px] font-semibold leading-8 tracking-[-0.3px] text-[#1C1917]">Practice Now</h1>
+                    </div>
+                    <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-[minmax(112px,0.75fr)_minmax(138px,1fr)_minmax(168px,1.25fr)_minmax(124px,0.85fr)_minmax(164px,1fr)_minmax(148px,0.95fr)] lg:items-end">
+                        ${renderGymSelectInline('grade', 'Grade', GYM_GRADES, practiceGymState.grade)}
+                        ${renderGymSelectInline('subject', 'Subject', subjects, practiceGymState.subject, !practiceGymState.grade)}
+                        ${renderGymSelectInline('block', 'Block', blocks, practiceGymState.block, !practiceGymState.subject)}
+                        ${renderGymSelectInline('difficulty', 'Difficulty', GYM_DIFFICULTY_LEVELS, practiceGymState.difficulty)}
+                        <div class="rounded-xl border border-[#E7E5E4] bg-[#FAFAFA] px-3 py-2">
+                            <div class="mb-1 flex items-center justify-between gap-2">
+                                <span class="text-[11px] font-medium leading-4 text-[#8B8B8B]">Time Limit</span>
+                                <span class="text-xs font-semibold text-[#1C1917]">${practiceGymState.timeLimit} min</span>
+                            </div>
+                            <input type="range" min="0" max="${GYM_TIME_OPTIONS.length - 1}" step="1" value="${timeIndex < 0 ? 2 : timeIndex}" data-gym-time class="h-1.5 w-full cursor-pointer accent-[#A41034]">
+                            <div class="mt-1 flex justify-between text-[10px] font-medium leading-4 text-[#8B8B8B]">
+                                ${GYM_TIME_OPTIONS.map((time) => `<button type="button" data-gym-time-option="${time}" class="transition-colors ${practiceGymState.timeLimit === time ? 'font-semibold text-[#A41034]' : 'hover:text-[#1C1917]'}">${time}m</button>`).join('')}
+                            </div>
+                        </div>
+                        ${practiceGymState.mode === 'teacher' ? (
+                    practiceGymState.pdfGenerated ? `
+                                <div class="flex h-12 items-center gap-2 rounded-xl border border-[#4CAF50]/20 bg-[#f2faf3] px-3">
+                                    <i data-lucide="check" class="h-4 w-4 shrink-0 text-[#4CAF50]"></i>
+                                    <div class="min-w-0 flex-1">
+                                        <p class="truncate text-[12px] font-semibold leading-4 text-[#1C1917]">PDF Ready</p>
+                                        <button type="button" data-gym-generate-another class="truncate text-[11px] font-medium leading-4 text-[#8B8B8B] transition-colors hover:text-[#A41034]">Generate another</button>
+                                    </div>
+                                </div>
+                            ` : `
+                                <button type="button" data-gym-download-pdf ${ready ? '' : 'disabled'} class="focus-ring flex h-12 w-full items-center justify-center gap-2 rounded-xl px-3 text-[12px] font-semibold tracking-[0.2px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                                    <i data-lucide="download" class="h-4 w-4"></i>
+                                    Generate PDF
+                                </button>
+                            `
+                ) : `
+                            <button type="button" data-gym-start-test ${ready ? '' : 'disabled'} class="focus-ring flex h-12 w-full items-center justify-center gap-2 rounded-xl px-3 text-[12px] font-semibold tracking-[0.2px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                                <i data-lucide="play" class="h-4 w-4 fill-current"></i>
+                                Start Test
+                            </button>
+                        `}
+                    </div>
+                </section>
+            `;
+        }
+
         function renderPracticeSetupSheet() {
             if (!practiceGymState.showSetupForm) return '';
             return `
@@ -3354,8 +3415,8 @@
 
         function renderPracticeGymSelection() {
             return `
-                <section class="mx-auto max-w-[760px] space-y-5 pb-24">
-                    ${renderPracticeHero()}
+                <section class="mx-auto max-w-[1100px] space-y-5 pb-24">
+                    ${renderPracticeGymInlineSetupForm()}
                     ${renderThisWeekSummary()}
                     ${renderPracticeCalendar()}
                     ${renderWhereToImprove()}
@@ -3651,7 +3712,7 @@
                 icon: 'globe'
             },
             social: {
-                name: 'Soc.Science',
+                name: 'Social Science',
                 subtitle: 'Curriculum Plan',
                 teacher: 'Mr. Vivek Nair',
                 progress: 36,
@@ -3670,10 +3731,10 @@
             subjectLibrary.english,
             subjectLibrary.mathematics,
             subjectLibrary.science,
+            subjectLibrary.computerScience,
+            subjectLibrary.social,
             subjectLibrary.hindi,
             subjectLibrary.evs,
-            subjectLibrary.computerScience,
-            // subjectLibrary.social,
         ];
 
         function renderIcon(iconName) {
@@ -3769,7 +3830,7 @@
                 glow: 'rgba(219, 39, 119, 0.12)',
                 gradientColor: '#FCE7F3',
                 illustration: 'early',
-                icon: 'icons/early.png'
+                icon: 'icons/EVS.png'
             }
         };
 
@@ -3801,14 +3862,14 @@
 
         function renderSubjectImage(subject, theme) {
             return `
-                <img src="${theme.icon}" alt="" class="subject-icon-image pointer-events-none absolute right-5 top-7 z-10 h-[104px] w-[132px] object-contain object-center opacity-40 transition-all duration-200 group-hover:scale-[1.02] group-hover:opacity-40 max-sm:right-4 max-sm:top-12 max-sm:h-[92px] max-sm:w-[112px]" aria-hidden="true">
+                <img src="${theme.icon}" alt="" class="subject-icon-image pointer-events-none absolute right-5 top-7 z-10 lg:h-[76px] lg:w-[132px] md:h-[66px] md:w-[120px] object-contain object-center opacity-40 transition-all duration-200 group-hover:scale-[1.02] group-hover:opacity-40 max-sm:right-4 max-sm:top-4 max-sm:h-[77px] max-sm:w-[112px] h-[77px] w-[112px]" aria-hidden="true">
             `;
         }
 
         function renderSubjectLinearProgress(value, theme) {
             const safeValue = Math.max(0, Math.min(100, Number(value) || 0));
             return `
-                <div class="relative h-1.5 w-full overflow-hidden rounded-full" style="background: ${theme.accentTrack};">
+                <div class="relative h-[6px] w-full overflow-hidden rounded-full" style="background: ${theme.accentTrack};">
                     <div class="h-full rounded-full" style="width: ${safeValue}%; background: ${theme.accent};"></div>
                 </div>
             `;
@@ -4747,37 +4808,46 @@
         }
 
         function renderSubjectCardv3(subject, grade) {
+            if (subject.name === 'Social Science') return '';
+
             const summary = getSubjectSummary(subject);
             const theme = getSubjectTheme(subject.name);
-            const progress = Math.max(0, Math.min(100, Number(subject.progress) || 0));
-
+            const referenceCompletedBySubject = {
+                English: 54,
+                Mathematics: 28,
+                Science: 120,
+                Hindi: 57,
+                'Environmental Science': 0,
+                'Computer Science': 86
+            };
+            const completedLessons = grade.id === 'grade-1'
+                ? referenceCompletedBySubject[subject.name] ?? summary.completedLessons
+                : summary.completedLessons;
             return `
-                <article class="subject-card focus-ring group relative flex flex-1 min-w-[150px] lg:min-w-[140px] min-h-[80px] max-h-[140px] lg:max-h-[150px] cursor-pointer flex-col overflow-hidden rounded-[10px] border border-[#E9DDD9] p-3 focus:outline-none"
-                    style="--subject-accent: ${theme.accent};--subject-bg: url('${getSubjectBackground(subject.name)}');"
-                    data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}"
-                    role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks for ${escapeHtml(grade.title)}">
+                <article class="subject-card focus-ring group relative flex cursor-pointer flex-col overflow-hidden rounded-[20px] border border-[#E9DDD9] p-5 transition-all duration-200 ease-out hover:-translate-y-0.5 focus:outline-none" style="--subject-accent: ${theme.accent}; background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.98)), radial-gradient(circle at 86% 22%, ${theme.glow}, transparent 32%), ${theme.accentSoft};" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}" role="button" tabindex="0" aria-label="View ${escapeHtml(subject.name)} blocks">
+                    ${renderSubjectImage(subject, theme)}
 
-                    <div class="pointer-events-none absolute inset-0 z-10 rounded-[10px]" aria-hidden="true"
-                        style="background: linear-gradient(to bottom, color-mix(in srgb, var(--subject-accent) 4%, white) 0%, transparent 100%);"></div>
-
-                    <span class="absolute right-3 top-3 z-30" style="color: ${theme.accent}; opacity: 0.7;" aria-hidden="true">
-                        <i data-lucide="chevron-right" class="h-4 w-4"></i>
-                    </span>
-
-                    <div class="relative z-20 max-w-[calc(100%-2.5rem)]">
-                        <h4 class="text-[1rem] font-bold leading-tight text-[#252221]">${escapeHtml(subject.name)}</h4>
+                    <div class="relative z-20 max-w-[62%]">
+                        <h4 class="mt-0 text-[1.32rem] font-bold leading-[1.08] text-[#252221]">${escapeHtml(subject.name)}</h4>
+                        <p class="mt-2 whitespace-nowrap text-[12px] font-medium text-[#68615E]">${summary.totalBlocks} Blocks • ${summary.totalLessons} Lessons</p>
                     </div>
 
-                    <div class="relative z-20 pt-0 mt-2">
-                        <div class="flex items-center justify-between gap-3">
-                            <p class="text-right text-[10px] font-medium text-[#78716C]">${summary.completedLessons}/${summary.totalLessons} Lessons</p>
-                            <span class="text-[11px] font-black tabular-nums" style="color: ${theme.accent};">${progress}%</span>
-                        </div>
-                        <div class="mt-2">
-                            <div class="h-0.5 overflow-hidden rounded-full bg-[#ecececb3]" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100" aria-label="${escapeHtml(subject.name)} progress ${progress}%">
-                                <div class="h-full rounded-full" style="width: ${progress}%; background: ${theme.accent};"></div>
+                    <div class="relative z-20 mt-0 pt-8">
+                        <div class="mb-2 flex items-end justify-between gap-3">
+                            <div>
+                                <p class="mt-0.5 text-[12px] font-bold text-[#2E2A28]">${completedLessons} / ${summary.totalLessons} lessons completed</p>
                             </div>
+                            <span class="shrink-0 bg-white/72 text-[11px] font-bold" style="color: ${theme.accent};">${subject.progress}%</span>
                         </div>
+                        ${renderSubjectLinearProgress(subject.progress, theme)}
+                    </div>
+
+                    <div class="relative z-20 mt-4 flex items-center justify-between gap-3 border-t border-white/70">
+                        <span class="shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] ${getStatusClass(summary.status)}">${summary.status}</span>
+                        <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-white/80 bg-white/72 px-3.5 py-2 text-[12px] font-bold shadow-[0_6px_18px_rgba(28,25,23,0.035)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:bg-white" style="color: ${theme.accent};" aria-hidden="true">
+                            <span>View blocks</span>
+                            <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                        </span>
                     </div>
                 </article>
             `;
@@ -4809,45 +4879,35 @@
             const isParentTab = getRoleForTab() === 'parent';
 
             if (isParentTab) {
-                const attentionSubject = (grade.subjects || []).find((subject) => subject.progress > 0 && subject.progress < 30);
-                return `
-                    <section id="grade-section-${grade.id}" class="scroll-mt-28 mb-5" data-grade-section="${grade.id}">
-                        <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <h2 class="text-[26px] font-bold tracking-tight text-[#16120F]">All subjects</h2>
-                        </div>
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                            ${(grade.subjects || []).map(subject => getParentSubjectCard(subject, grade)).join('')}
-                        </div>
-                    </section>
-                `;
+                return ``;
             }
 
-            // Grade-level SVG donut ring
-            const gr = 18, gradeCirc = +(2 * Math.PI * gr).toFixed(1);
-            const gradeDash = +((summary.progress / 100) * gradeCirc).toFixed(1);
-            const gradeRing = `<svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden="true" class="shrink-0">
-                <circle cx="24" cy="24" r="${gr}" stroke="rgba(189,23,64,0.10)" stroke-width="2"/>
-                <circle cx="24" cy="24" r="${gr}" stroke="#BD1740" stroke-width="2" stroke-linecap="round"
-                    stroke-dasharray="${gradeDash} ${gradeCirc}" transform="rotate(-90 24 24)"/>
-                <text x="24" y="28" text-anchor="middle" font-size="10" font-weight="800" fill="#BD1740" font-family="Inter,sans-serif">${summary.progress}%</text>
-            </svg>`;
+            const isExpanded = expandedGradeIds.has(grade.id);
+            const headerInner = `
+                        <div class="flex items-center gap-6">
+                            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-[14px] bg-[#BD1740] text-[15px] font-bold text-white">${getGradeBadgeLabel(grade)}</span>
+                            <div class="min-w-0">
+                                <h2 class="text-[17px] font-bold tracking-wide text-[#BD1740] uppercase">${escapeHtml(grade.title)}</h2>
+                                <p class="mt-1 text-[14px] font-medium normal-case tracking-normal text-[#78716C]">${summary.subjectsCount} subjects • ${summary.progress}% overall progress</p>
+                            </div>
+                        </div>`;
+            const header = `<button type="button" class="focus-ring sticky top-24 z-30 flex w-full cursor-pointer items-center justify-between bg-white lg:rounded-[28px] rounded-[18px] lg:px-8 lg:py-5 md:px-6 md:py-3 px-4 py-4  text-left backdrop-blur-sm focus:outline-none" data-view="toggle-grade" data-grade-id="${grade.id}" aria-expanded="${isExpanded}">${headerInner}<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/70 text-[#BD1740]"><i data-lucide="chevron-up" class="h-4 w-4 transition-transform ${isExpanded ? '' : 'rotate-180'}"></i></span></button>`;
 
             return `
-                <div class="relative mb-8 scroll-mt-28" id="grade-section-${grade.id}" data-grade-section="${grade.id}">
-                    <span class="pointer-events-none absolute -top-[11px] left-5 z-10 select-none rounded-full border border-[#EDE0DB] bg-white px-3 py-0.5 text-[11px] font-black uppercase tracking-widest text-[#a40c2e]">${escapeHtml(grade.title)}</span>
-                    <section class="overflow-hidden rounded-[16px] border border-[#EDE0DB] bg-white/50 shadow-[0_6px_40px_rgba(28,25,23,0.05)] backdrop-blur-sm">
-                        <div class="subjects-row-wrapper px-6 py-6 lg:px-6 lg:py-6" data-grade-id="${grade.id}">
-                            <div class="subjects-row flex flex-wrap gap-3">
-                                
+                <section id="grade-section-${grade.id}" class="scroll-mt-28 mb-8 rounded-[28px] " data-grade-section="${grade.id}">
+                    ${header}
+                    ${isExpanded ? `
+                        <div class="mt-3 rounded-[28px] lg:bg-[#BD1740]/[0.025] md:bg-[#BD1740]/[0.025] lg:p-6 md:p-4">
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-7 xl:grid-cols-3">
                                 ${(grade.subjects || []).map(subject => renderSubjectCardv3(subject, grade)).join('')}
                             </div>
                         </div>
-                    </section>
-                </div>
+                    ` : ''}
+                </section>
             `;
         }
 
-                            // <div class="subjects-row flex flex-wrap gap-3 after:flex-auto after:content-[''] after:min-w-[150px] lg:after:min-w-[140px]">
+        // <div class="subjects-row flex flex-wrap gap-3 after:flex-auto after:content-[''] after:min-w-[150px] lg:after:min-w-[140px]">
         // ${(grade.subjects || []).map(subject => renderSubjectCardv1(subject, grade)).join('')}
 
         function renderBlocksPage(gradeId, subjectId) {
@@ -5545,9 +5605,13 @@
         function renderParentLearningSection() {
             if (activeAppTab !== 'Parent Lesson Plan') return '';
 
+            const parentLearningWeekCount = 15;
+            const canGoPreviousLearningWeek = selectedParentLearningBlock > 1;
+            const canGoNextLearningWeek = selectedParentLearningBlock < parentLearningWeekCount;
+
             const subjects = [
                 {
-                    name: 'Mathematics', topic: 'Fractions — Comparing Fractions',
+                    name: 'Mathematics', topic: 'Fractions - Comparing Fractions',
                     color: '#6559D6', soft: '#F4F1FF', askBg: 'linear-gradient(135deg, rgba(101,89,214,0.08), rgba(101,89,214,0.03))', askColor: '#17156E',
                     icon: 'calculator',
                     learned: ['Comparing fraction sizes', 'Finding common denominators'],
@@ -5576,14 +5640,32 @@
             ];
 
             const weekSubjects = [
-                ...subjects,
                 {
-                    name: 'Environmental Science', topic: 'Our Environment',
-                    color: '#8F8D1C', soft: '#F8F6E9',
-                    icon: 'globe-2',
-                    weekTopics: ['Natural resources', 'Ways to conserve them'],
-                    weekProgress: 65, weekProgressColor: '#8B9B5A',
-                    ask: 'How can we save natural resources?',
+                    name: 'English', topic: 'Descriptive Writing',
+                    routeName: 'English',
+                    color: '#FF4F2F', soft: '#FFF4EF',
+                    icon: 'book-open',
+                    weekTopics: ['Using sensory words', 'Writing clear descriptions'],
+                    weekProgress: 75, weekProgressColor: '#FF4F2F',
+                    ask: 'Can you describe your favourite place?',
+                },
+                {
+                    name: 'Maths', topic: 'Fractions - Comparing Fractions',
+                    routeName: 'Mathematics',
+                    color: '#6559D6', soft: '#F4F1FF',
+                    icon: 'calculator',
+                    weekTopics: ['Comparing fractions', 'Understanding decimals'],
+                    weekProgress: 70, weekProgressColor: '#6559D6',
+                    ask: 'Why is 3/4 bigger than 2/3?',
+                },
+                {
+                    name: 'Science', topic: 'Plant Systems',
+                    routeName: 'Science',
+                    color: '#5A9258', soft: '#F5F6EE',
+                    icon: 'leaf',
+                    weekTopics: ['Parts of a plant', 'How plants make food'],
+                    weekProgress: 80, weekProgressColor: '#5A9258',
+                    ask: 'Why do plants need sunlight?',
                 },
                 {
                     name: 'Computer Science', topic: 'Sequences & Patterns',
@@ -5592,8 +5674,40 @@
                     weekTopics: ['Identifying patterns', 'Creating simple sequences'],
                     weekProgress: 60, weekProgressColor: '#2F67B5',
                     ask: 'What patterns did you create this week?',
+                    locked: true,
+                },
+                {
+                    name: 'Social Science', topic: 'Communities and Places',
+                    routeName: 'Social Science',
+                    color: '#8F8D1C', soft: '#F8F6E9',
+                    icon: 'landmark',
+                    weekTopics: ['Understanding communities', 'Reading simple maps'],
+                    weekProgress: 65, weekProgressColor: '#8B9B5A',
+                    ask: 'What did you learn about your community?',
+                },
+                {
+                    name: 'Hindi', topic: 'Path Bodh',
+                    routeName: 'Hindi',
+                    color: '#B3529E', soft: '#FFF1FB',
+                    icon: 'languages',
+                    weekTopics: ['Reading comprehension', 'New vocabulary'],
+                    weekProgress: 72, weekProgressColor: '#B3529E',
+                    ask: 'Which new Hindi words did you learn?',
                 },
             ];
+
+            const parentWeeklyGradeId = 'grade-4';
+            function getParentWeeklySubjectRoute(weeklySubject) {
+                if (weeklySubject.locked) return null;
+                const grade = findGrade(parentWeeklyGradeId);
+                const routeSubjectName = weeklySubject.routeName || weeklySubject.name;
+                const routeSubject = grade?.subjects.find((item) => item.name === routeSubjectName);
+
+                return grade && routeSubject ? {
+                    gradeId: grade.id,
+                    subjectId: routeSubject.id
+                } : null;
+            }
 
             function circleProgress(pct, color) {
                 const r = 17.5, circ = 2 * Math.PI * r;
@@ -5753,8 +5867,59 @@
                         <!-- Left: subject list -->
                         <div class="min-w-0 lg:border-r lg:border-[#E8E0DA] lg:pr-[24px]">
                             <div class="divide-y divide-[#EEE9E5]">
-                                ${weekSubjects.map(s => `
-                                    <div class="grid items-center gap-x-4 gap-y-2 py-[14px]" style="grid-template-columns:44px minmax(120px,175px) 1fr 145px">
+                                ${weekSubjects.map(s => {
+                                    const route = getParentWeeklySubjectRoute(s);
+                                    if (s.locked) {
+                                        return `
+                                    <div class="relative grid min-h-[68px] items-center gap-x-4 gap-y-2 overflow-hidden rounded-[12px] py-[14px]"
+                                        style="grid-template-columns:44px minmax(120px,175px) 1fr 145px 28px"
+                                        aria-disabled="true">
+                                        <div class="pointer-events-none absolute inset-0 rounded-[12px] bg-[linear-gradient(115deg,rgba(251,252,253,0.92),rgba(246,248,250,0.82))]" aria-hidden="true"></div>
+                                        <div class="pointer-events-none absolute inset-y-0 right-8 hidden w-[38%] opacity-[0.18] blur-[0.2px] md:block" aria-hidden="true">
+                                            <svg class="absolute right-0 top-1/2 h-[78px] w-[180px] -translate-y-1/2 text-[#CFD5DD]" viewBox="0 0 260 118" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="46" y="15" width="116" height="70" rx="11" stroke="currentColor" stroke-width="3"/>
+                                                <path d="M46 37H162" stroke="currentColor" stroke-width="3"/>
+                                                <circle cx="59" cy="26" r="3" fill="currentColor"/>
+                                                <circle cx="73" cy="26" r="3" fill="currentColor"/>
+                                                <circle cx="87" cy="26" r="3" fill="currentColor"/>
+                                                <path d="M83 55L67 71L83 87" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M125 55L141 71L125 87" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M113 55L99 89" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                                <rect x="151" y="49" width="65" height="43" rx="10" stroke="currentColor" stroke-width="3"/>
+                                                <path d="M174 64C169 64 169 75 174 75C169 75 169 86 174 86" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                                <path d="M193 64C198 64 198 75 193 75C198 75 198 86 193 86" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                                <path d="M214 91H244" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                                <path d="M228 40H248" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                                <path d="M238 30V50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                                <path d="M7 90H33" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                                <path d="M20 77V103" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                                            </svg>
+                                        </div>
+                                        <span class="relative z-10 grid h-11 w-11 shrink-0 place-items-center rounded-[12px] border border-[#E3E7EC] bg-white/75 text-[#8F98A4] shadow-[0_2px_8px_rgba(0,0,0,0.035)]">
+                                            <i data-lucide="lock" class="h-5 w-5"></i>
+                                        </span>
+                                        <div class="relative z-10 min-w-0">
+                                            <p class="text-[14px] font-semibold leading-snug text-[#5F6873]">${s.name}</p>
+                                            <p class="mt-0.5 text-[12px] font-normal leading-[1.4] text-[#8B949E]">Subject isn't available yet</p>
+                                        </div>
+                                        <div class="relative z-10 max-md:hidden">
+                                            <div class="inline-flex items-center gap-2 text-[12px] font-normal leading-[1.5] text-[#7E8792]">
+                                                <i data-lucide="megaphone" class="h-4 w-4 shrink-0"></i>
+                                                <span>Ask your school to add it</span>
+                                            </div>
+                                        </div>
+                                        <div class="relative z-10 flex shrink-0 flex-col gap-[6px]">
+                                        </div>
+                                        <span class="relative z-10 grid h-7 w-7 shrink-0 place-items-center rounded-full text-[#A3A9B2]" aria-hidden="true">
+                                            <i data-lucide="lock-keyhole" class="h-4 w-4"></i>
+                                        </span>
+                                    </div>
+                                `;
+                                    }
+                                    return `
+                                    <div class="focus-ring group grid ${route ? 'cursor-pointer' : 'cursor-default'} items-center gap-x-4 gap-y-2 rounded-[12px] py-[14px] transition ${route ? 'hover:bg-[#FFFCFA]' : ''} focus:outline-none"
+                                        style="grid-template-columns:44px minmax(120px,175px) 1fr 145px 28px"
+                                        ${route ? `data-view="blocks" data-grade-id="${route.gradeId}" data-subject-id="${route.subjectId}" role="button" tabindex="0" aria-label="Open ${s.name} lesson plan"` : ''}>
                                         <span class="grid h-11 w-11 shrink-0 place-items-center rounded-[12px] border border-[#EAEAEA] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
                                             <i data-lucide="${s.icon}" class="h-5 w-5" style="color:${s.color}"></i>
                                         </span>
@@ -5778,8 +5943,12 @@
                                                 <div class="h-full rounded-full" style="width:${s.weekProgress}%;background:${s.weekProgressColor}"></div>
                                             </div>
                                         </div>
+                                        <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[#A0948E] transition ${route ? 'group-hover:bg-white group-hover:text-[#3D3734]' : ''}" aria-hidden="true">
+                                            <i data-lucide="chevron-right" class="h-4 w-4"></i>
+                                        </span>
                                     </div>
-                                `).join('')}
+                                `;
+                                }).join('')}
                             </div>
                         </div>
                         <!-- Right: Ask Your Child -->
@@ -5794,13 +5963,12 @@
                                 </div>
                             </div>
                             <div class="divide-y divide-[#E8E3F5] mt-1">
-                                ${weekSubjects.map(s => `
+                                ${weekSubjects.filter((s) => !s.locked).map(s => `
                                     <div class="flex cursor-pointer items-center gap-3 py-[11px] group">
                                         <span class="grid h-8 w-8 shrink-0 place-items-center rounded-[8px] border border-[#E3E3E3] bg-white">
                                             <i data-lucide="${s.icon}" class="h-4 w-4" style="color:${s.color}"></i>
                                         </span>
                                         <p class="flex-1 text-[12.5px] font-medium leading-[1.4] text-[#1C1917]">${s.ask}</p>
-                                        <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#C4BBB5] transition-colors group-hover:text-[#5A4FD9]"></i>
                                     </div>
                                 `).join('')}
                             </div>
@@ -5809,12 +5977,35 @@
                 </div>
             `;
 
+            const blockHeaderNavigation = parentLearningView === 'weekly' ? `
+                <div class="flex w-full items-center justify-start gap-2 sm:w-auto sm:justify-end" aria-label="Weekly learning navigation">
+                    <button type="button"
+                        class="focus-ring inline-flex h-9 items-center justify-center gap-1.5 rounded-full border border-[#E3DBD6] bg-white px-3 text-[12px] font-bold text-[#3F3734] shadow-[0_8px_18px_rgba(69,36,21,0.05)] transition hover:border-[#CFC2BC] hover:bg-[#FFFCFA] focus:outline-none disabled:cursor-not-allowed disabled:opacity-45"
+                        data-parent-week-nav="previous"
+                        ${canGoPreviousLearningWeek ? '' : 'disabled'}
+                        aria-label="Previous block">
+                        <i data-lucide="chevron-left" class="h-4 w-4 text-[#a40a2e]"></i>
+                    </button>
+                    <div class="hidden min-w-[96px] text-center text-[12px] font-bold text-[#a40a2e] sm:block" aria-live="polite">
+                        Block ${selectedParentLearningBlock} of ${parentLearningWeekCount}
+                    </div>
+                    <button type="button"
+                        class="focus-ring inline-flex h-9 items-center justify-center gap-1.5 rounded-full border border-[#E3DBD6] bg-white px-3 text-[12px] font-bold text-[#3F3734] shadow-[0_8px_18px_rgba(69,36,21,0.05)] transition hover:border-[#CFC2BC] hover:bg-[#FFFCFA] focus:outline-none disabled:cursor-not-allowed disabled:opacity-45"
+                        data-parent-week-nav="next"
+                        ${canGoNextLearningWeek ? '' : 'disabled'}
+                        aria-label="Next block">
+                        <i data-lucide="chevron-right" class="h-4 w-4 text-[#a40a2e]"></i>
+                    </button>
+                </div>
+            ` : '';
+
             return `
                 <section class="today-fade-in mb-6 mt-10">
                     <div class="mb-[18px] flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div class="flex items-center gap-[18px]">
-                            <h2 class="text-[26px] font-bold tracking-tight text-[#16120F]">${parentLearningView === 'today' ? "Today's Learning" : "This Week's Learning"}</h2>
+                        <div class="flex min-w-0 items-center gap-[18px]">
+                            <h2 class="text-[26px] font-bold tracking-tight text-[#16120F]">What is your child learning?</h2>
                         </div>
+                        ${blockHeaderNavigation}
                     </div>
                     ${parentLearningView === 'today' ? todayView : weeklyView2}
                 </section>
@@ -6136,6 +6327,14 @@
                 return;
             }
 
+            const parentWeekNav = event.target.closest('[data-parent-week-nav]');
+            if (parentWeekNav && !parentWeekNav.disabled) {
+                selectedParentLearningBlock += parentWeekNav.dataset.parentWeekNav === 'previous' ? -1 : 1;
+                selectedParentLearningBlock = Math.max(1, Math.min(15, selectedParentLearningBlock));
+                renderRoute();
+                return;
+            }
+
             const dismissTip = event.target.closest('[data-dismiss-parent-tip]');
             if (dismissTip) {
                 parentTipDismissed = true;
@@ -6205,6 +6404,17 @@
                         block: 'start'
                     });
                 });
+                return;
+            }
+
+            if (target.dataset.view === 'toggle-grade') {
+                const gradeId = target.dataset.gradeId;
+                if (expandedGradeIds.has(gradeId)) {
+                    expandedGradeIds.delete(gradeId);
+                } else {
+                    expandedGradeIds.add(gradeId);
+                }
+                renderRoute();
                 return;
             }
 
