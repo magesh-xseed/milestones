@@ -575,21 +575,19 @@
             position: relative;
             width: min(1400px, 100%);
             height: 100%;
-            overflow-y: auto;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            overflow: hidden;
             padding: 12px 0 8px;
             font-size: var(--projector-font-size, 16px);
-            scrollbar-width: thin;
-            scrollbar-color: rgba(113, 113, 122, 0.28) transparent;
-            touch-action: pan-y;
+            touch-action: none;
         }
 
-        .projector-slide-shell::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        .projector-slide-shell::-webkit-scrollbar-thumb {
-            border-radius: 999px;
-            background: rgba(113, 113, 122, 0.28);
+        .projector-slide-scale-stage {
+            width: 100%;
+            transform-origin: top center;
+            will-change: transform;
         }
 
         .projector-slide-frame {
@@ -600,6 +598,7 @@
             border-radius: 34px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 252, 251, 0.96));
             overflow: hidden;
+            transform-origin: top center;
         }
 
         .projector-slide-frame::before {
@@ -6422,8 +6421,10 @@
 
         <div class="projector-viewport" id="projectorViewport">
             <div class="projector-slide-shell" id="projectorSlideShell" style="--projector-font-size: 16px;">
-                <div class="projector-slide-frame">
-                    <div id="projectorSlide"></div>
+                <div class="projector-slide-scale-stage" id="projectorSlideScaleStage">
+                    <div class="projector-slide-frame" id="projectorSlideFrame">
+                        <div id="projectorSlide"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -7164,6 +7165,8 @@
         const projectorProgressFill = document.getElementById("projectorProgressFill");
         const projectorCounter = document.getElementById("projectorCounter");
         const projectorSlideShell = document.getElementById("projectorSlideShell");
+        const projectorSlideScaleStage = document.getElementById("projectorSlideScaleStage");
+        const projectorSlideFrame = document.getElementById("projectorSlideFrame");
         const projectorSlide = document.getElementById("projectorSlide");
         const projectorViewport = document.getElementById("projectorViewport");
         const projectorBottomBar = document.getElementById("projectorBottomBar");
@@ -7533,10 +7536,6 @@
                             </div>
                             <p class="projector-video-caption">${slide.body?.[0] || ""}</p>
                         </div>
-                        <div class="projector-highlight-callout">
-                            <span class="projector-highlight-chip">Teacher prompt</span>
-                            <p>${slide.instruction}</p>
-                        </div>
                     </article>
                 `;
             }
@@ -7629,6 +7628,23 @@
                     ? (projectorState.isAudioPlaying && !projectorState.isAudioPaused ? "Pause Audio" : "Play Audio")
                     : "Audio Unavailable";
             }
+            requestAnimationFrame(fitProjectorSlideToViewport);
+        }
+
+        function fitProjectorSlideToViewport() {
+            if (!projectorState.isOpen || !projectorSlideShell || !projectorSlideScaleStage || !projectorSlideFrame) return;
+
+            projectorSlideScaleStage.style.transform = "scale(1)";
+
+            const shellWidth = projectorSlideShell.clientWidth;
+            const shellHeight = projectorSlideShell.clientHeight;
+            const frameWidth = projectorSlideFrame.offsetWidth;
+            const frameHeight = projectorSlideFrame.offsetHeight;
+
+            if (!shellWidth || !shellHeight || !frameWidth || !frameHeight) return;
+
+            const scale = Math.min(1, shellWidth / frameWidth, shellHeight / frameHeight);
+            projectorSlideScaleStage.style.transform = `scale(${scale})`;
         }
 
         function renderProjectorFrame() {
@@ -7638,9 +7654,9 @@
             renderedSlide?.classList.add(
                 projectorState.direction === "backward" ? "is-animating-backward" : "is-animating-forward"
             );
-            projectorSlideShell.scrollTop = 0;
             stopProjectorAudio();
             syncProjectorControls();
+            requestAnimationFrame(fitProjectorSlideToViewport);
         }
 
         function handleProjectorAnswerSelect(event) {
@@ -7703,6 +7719,7 @@
                 activeFullscreen && (activeFullscreen === projectorOverlay || projectorOverlay?.contains(activeFullscreen))
             );
             syncProjectorControls();
+            requestAnimationFrame(fitProjectorSlideToViewport);
         }
 
         async function toggleProjectorFullscreen(shouldEnter) {
@@ -7848,7 +7865,7 @@
             projectorState.currentIndex = 0;
             projectorState.fontSize = 16;
             projectorState.direction = "forward";
-            projectorState.isFullscreen = false;
+            projectorState.isFullscreen = true;
             projectorState.answers = {};
             projectorState.previousFocus = document.activeElement;
             projectorState.keydownHandler = handleProjectorKeydown;
@@ -7863,6 +7880,10 @@
             renderProjectorFrame();
             attachProjectorListeners();
             markProjectorActivity();
+            requestAnimationFrame(fitProjectorSlideToViewport);
+            if (!await requestProjectorFullscreen()) {
+                syncProjectorFullscreenState();
+            }
         }
 
         async function closeProjectorMode() {
@@ -7910,6 +7931,11 @@
 
         projectorFontUp?.addEventListener("click", () => {
             adjustProjectorFontSize(PROJECTOR_FONT_STEP);
+        });
+
+        window.addEventListener("resize", () => {
+            if (!projectorState.isOpen) return;
+            requestAnimationFrame(fitProjectorSlideToViewport);
         });
 
         document.querySelectorAll(".projector-mode-trigger").forEach((button) => {

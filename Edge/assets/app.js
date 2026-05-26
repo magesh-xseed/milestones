@@ -2591,7 +2591,7 @@
                                             </div>
                                         </div>
                                         <div class="flex w-full justify-start lg:w-auto lg:justify-end">
-                                            <span class="inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-[0.9rem] border px-5 text-[13px] font-bold transition-all duration-300 sm:min-h-[52px] sm:px-6 sm:text-[14px] lg:min-h-[56px] lg:gap-3 lg:rounded-[1rem] lg:px-7 lg:text-[15px] border-[#F1BAC4] bg-white text-[#a51034] group-hover:border-[#a51034] group-hover:bg-[#a51034] group-hover:text-white">
+                                            <span class="inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-[0.9rem] border px-5 text-[13px] font-bold transition-all duration-300 sm:min-h-[40px] sm:40-6 sm:text-[14px] lg:min-h-[56px] lg:gap-3 lg:rounded-[1rem] lg:px-7 lg:text-[15px] border-[#F1BAC4] bg-white text-[#a51034] group-hover:border-[#a51034] group-hover:bg-[#a51034] group-hover:text-white">
                                                 Start Assessment
                                                 <i data-lucide="arrow-right" class="h-5 w-5"></i>
                                             </span>
@@ -2759,7 +2759,7 @@
                 return `
                     <button
                         type="button"
-                        class="learnometer-question-nav focus-ring group relative flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full border text-[14px] font-semibold transition-all duration-300 ${
+                        class="learnometer-question-nav focus-ring group relative flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border text-[14px] font-semibold transition-all duration-300 ${
                             isCurrent
                                 ? 'border-[#FFD8AE] bg-[#FFF6EB] text-[#FF8A1F] shadow-[0_10px_22px_rgba(255,138,31,0.10)]'
                                 : isAnswered
@@ -2772,7 +2772,7 @@
                     >
                         <span>${String(index + 1).padStart(2, '0')}</span>
                         ${isAnswered
-                            ? '<span class="absolute -bottom-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#2CC56F] text-white shadow-[0_8px_16px_rgba(44,197,111,0.24)]"><i data-lucide="check" class="h-3.5 w-3.5"></i></span>'
+                            ? '<span class="absolute -bottom-1.5 flex h-[3.5] w-[3.5] items-center justify-center rounded-full bg-[#2CC56F] text-white shadow-[0_8px_16px_rgba(44,197,111,0.24)]"><i data-lucide="check" class="h-3.5 w-3.5"></i></span>'
                             : isCurrent
                                 ? '<span class="absolute -bottom-1 h-2.5 w-2.5 rounded-full bg-[#FF8A1F]"></span>'
                                 : ''
@@ -2782,9 +2782,9 @@
             }).join('');
 
             return `
-                <section class="tab-content py-4 sm:py-5 lg:py-6">
+                <section class="tab-content pt-4 sm:pt-5 lg:pt-6">
                     <div class="relative overflow-hidden rounded-[2.5rem] px-4 py-2 sm:px-6 sm:py-2 lg:px-8 lg:py-2">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-40 bg-[radial-gradient(circle,_rgba(116,118,255,0.11)_0,_rgba(116,118,255,0.02)_28%,_transparent_68%)] lg:block"></div>
+                        <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-40"></div>
                         <div class="pointer-events-none absolute bottom-12 right-6 hidden h-40 w-40 rounded-full bg-[radial-gradient(circle,_rgba(255,161,84,0.15)_0,_rgba(255,161,84,0.03)_42%,_transparent_72%)] lg:block"></div>
 
                         <div class="fade-in">
@@ -2792,7 +2792,7 @@
                                 <div class="flex items-center gap-3 sm:gap-4">
                                     <button
                                         type="button"
-                                        class="learnometer-question-nav focus-ring flex h-[52px] w-[52px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
+                                        class="learnometer-question-nav focus-ring flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
                                         data-question-index="${learnometerState.currentQ - 1}"
                                         ${learnometerState.currentQ === 0 ? 'disabled' : ''}
                                     >
@@ -2809,7 +2809,7 @@
                                 <div class="flex flex-wrap items-center gap-3 pl-[66px] sm:pl-[70px] lg:pl-0">
                                     <button
                                         type="button"
-                                        class="learnometer-question-nav focus-ring flex h-[52px] w-[52px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
+                                        class="learnometer-question-nav focus-ring flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
                                         data-question-index="${learnometerState.currentQ + 1}"
                                         ${canAdvance ? '' : 'disabled'}
                                     >
@@ -2826,7 +2826,7 @@
                         </div>
 
                         <div class="mx-auto mt-7 max-w-[1160px] sm:mt-8">
-                            <div class="fade-in rounded-[2rem] border border-[#F1EAE4] bg-white/96 p-5 backdrop-blur-md sm:p-6 lg:p-7 bg:white">
+                            <div class="fade-in rounded-[2rem] border border-[#F1EAE4] bg-white p-5 backdrop-blur-md sm:p-6 lg:p-7 bg:white shadow-[0_12px_28px_rgba(255,138,31,0.10)]">
                                 <div class="flex items-start justify-between gap-5">
                                     <div>
                                         <div class="flex items-center gap-2 text-[15px] font-semibold tracking-[-0.02em]">
@@ -2837,9 +2837,6 @@
                                             <div class="h-full w-4 rounded-full bg-[#FF8A1F]"></div>
                                         </div>
                                     </div>
-                                    <button type="button" class="focus-ring flex h-10 w-10 items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#5B6477] transition-colors hover:text-[#26324B]" aria-label="Bookmark question">
-                                        <i data-lucide="bookmark" class="h-[18px] w-[18px]"></i>
-                                    </button>
                                 </div>
 
                                 <div class="mt-6 sm:mt-8">
