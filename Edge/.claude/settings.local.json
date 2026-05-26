@@ -12,7 +12,9 @@
       "Bash(screencapture -x /tmp/chrome3.png)",
       "Bash(screencapture -x /tmp/chrome4.png)",
       "Read(//Users/mahesh.r/Downloads/**)",
-      "Bash(ls *.docx)"
+      "Bash(ls *.docx)",
+      "Bash(git -C /Users/mahesh.r/Xseed/milestone/Edge log --oneline -10)",
+      "Bash(git -C /Users/mahesh.r/Xseed/milestone/Edge log --all --oneline -- teacher-lesson-detail.html)"
     ]
   }
 }

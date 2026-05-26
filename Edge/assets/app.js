@@ -1,8 +1,9 @@
         const appPages = Object.freeze({
             home: 'index.html',
             teacherBlocks: 'teacher-blocks.html',
-            parentBlocks: 'parent-blocks.html',
+            parentBlocks: 'parent-lesson-plan.html',
             teacherLessonDetail: 'teacher-lesson-detail.html',
+            parentLessonDetail: 'parent-lesson-detail.html',
             parentLessonPlan: 'parent-lesson-plan.html',
             communication: 'communication.html',
             learnometer: 'learnometer.html',
@@ -31,17 +32,33 @@
             return `${baseClass}${isActive ? activeClass : inactiveClass}`;
         }
 
+        function renderXseedFooter() {
+            return `
+    <footer class="xseed-site-footer" aria-label="Site footer">
+        <div class="xseed-site-footer__inner">
+            <div class="xseed-site-footer__brand">
+                <img src="assets/XSEED_white_logo.png" alt="XSEED">
+            </div>
+            <div class="xseed-site-footer__copy">
+                <p class="xseed-site-footer__title">A research-driven learning methodology that builds real-world problem-solving skills, critical thinking, and reasoning.</p>
+                <p class="xseed-site-footer__meta">Built on the XSEED Methodology • &copy; 2026 MASTEREDGE H.I.</p>
+            </div>
+        </div>
+    </footer>
+            `;
+        }
+
         function renderAppShell() {
             document.title = APP_BOOT.pageTitle;
-            document.body.className = 'overflow-x-hidden antialiased selection:bg-[#A41034]/10';
+            document.body.className = 'overflow-x-hidden antialiased selection:bg-[#a51034]/10';
             document.body.innerHTML = `
     <div class="orb top-[-10%] right-[-5%] h-[400px] w-[400px] bg-[#f59138]"></div>
-    <div class="orb bottom-[-5%] left-[-5%] h-[300px] w-[300px] bg-[#A41034]"></div>
+    <div class="orb bottom-[-5%] left-[-5%] h-[300px] w-[300px] bg-[#a51034]"></div>
 
     <header class="sticky top-0 z-50 w-full border-b border-wine-5 bg-white px-6 backdrop-blur-xl md:px-12">
         <div class="mx-auto flex h-24 max-w-[1600px] items-center justify-between">
             <a href="${appPages.home}" class="focus-ring flex items-center" aria-label="SuperTeacher Edge home">
-                <img src="assets/st-edge-logo4.png" alt="SuperTeacher Edge" class="h-14 w-auto object-contain">
+                <img src="assets/master-edge-logo2.png" alt="SuperTeacher Edge" class="h-10 w-auto object-contain">
             </a>
 
             <nav class="hidden items-center rounded-[2rem] border border-wine-5 bg-amber-light p-1.5 lg:flex" aria-label="Primary navigation">
@@ -61,7 +78,7 @@
 
             <div class="flex items-center gap-6">
                 <a href="${appPages.practiceGym}" id="practiceGymHeaderButton"
-                    class="focus-ring inline-flex h-10 items-center gap-2 rounded-full border border-[#E9C9CD] bg-[#FFF7F4] px-4 text-[12px] font-bold text-[#BD1740] transition-all hover:border-[#BD1740]/30 hover:bg-[#BD1740] hover:text-white focus:outline-none"
+                    class="focus-ring inline-flex h-10 items-center gap-2 rounded-full border border-[#E9C9CD] bg-[#FFF7F4] px-4 text-[12px] font-bold text-[#a51034] transition-all hover:border-[#a51034]/30 hover:bg-[#a51034] hover:text-white focus:outline-none"
                     aria-label="Open Practice Gym">
                     <i data-lucide="dumbbell" class="h-4 w-4"></i>
                     <span class="hidden sm:inline">Practice Gym</span>
@@ -134,7 +151,7 @@
         <div id="communicationModalRoot"></div>
     </main>
 
-    <main class="tab-panel hidden max-w-[1280px] mx-auto px-6" data-tab-panel="Learnometer" id="learnometerPanel"></main>
+    <main class="tab-panel hidden w-full px-0" data-tab-panel="Learnometer" id="learnometerPanel"></main>
 
     <main class="tab-panel hidden gym mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:py-7" data-tab-panel="Practice Test"
         id="practiceGymPanel">
@@ -155,14 +172,15 @@
         class="fixed bottom-20 left-4 right-4 z-40 hidden lg:bottom-auto lg:left-auto lg:right-4 lg:top-[calc(50%+1rem)] lg:-translate-y-1/2"
         aria-label="Quick navigation"></aside>
     <button id="toolbarToggle" type="button"
-        class="focus-ring fixed bottom-5 right-5 z-40 hidden h-12 w-12 place-items-center rounded-full border border-[#A41034]/10 bg-white/90 text-[#A41034] shadow-[0_16px_40px_rgba(123,3,35,0.18)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-[#fffaf3] lg:hidden"
+        class="focus-ring fixed bottom-5 right-5 z-40 hidden h-12 w-12 place-items-center rounded-full border border-[#a51034]/10 bg-white/90 text-[#a51034] shadow-[0_16px_40px_rgba(123,3,35,0.18)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:bg-[#fffaf3] lg:hidden"
         aria-label="Open quick navigation" aria-expanded="false">
         <i data-lucide="panel-right-open" class="h-5 w-5"></i>
     </button>
     <div id="appToast"
-        class="pointer-events-none fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 rounded-2xl border border-[#A41034]/10 bg-white px-4 py-3 text-sm font-semibold text-[#1C1917] opacity-0 shadow-[0_18px_45px_rgba(123,3,35,0.16)] transition-all duration-300"
+        class="pointer-events-none fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 rounded-2xl border border-[#a51034]/10 bg-white px-4 py-3 text-sm font-semibold text-[#1C1917] opacity-0 shadow-[0_18px_45px_rgba(123,3,35,0.16)] transition-all duration-300"
         role="status" aria-live="polite"></div>
     <div id="practiceGymGlobalFabRoot"></div>
+    ${renderXseedFooter()}
             `;
         }
 
@@ -183,9 +201,12 @@
         let programmaticBlockScrollTimer = null;
         let parentTipDismissed = false;
         let parentLearningView = 'weekly';
+        const parentCurrentLearningBlock = 4;
         let selectedParentLearningBlock = 4;
         const completedLessonKeys = new Set();
         let lessonNotesState = {};
+        let lessonNotesDraftState = {};
+        let activeLessonNotesSection = '';
         const expandedGradeIds = new Set([currentGradeId]);
         const collapsedBlockIds = new Set();
         const initializedCollapsedBlockRoutes = new Set();
@@ -1365,14 +1386,14 @@
             if (media.type === 'pdf') {
                 return `
                     <div class="mt-5 flex items-center gap-4 rounded-3xl border border-[#E7E5E4] bg-[#F5F5F4] p-4">
-                        <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-white">
+                        <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#a51034] text-white">
                             <i data-lucide="file-text" class="h-5 w-5"></i>
                         </div>
                         <div class="min-w-0 flex-1">
                             <p class="truncate text-sm font-black text-[#1C1917]">${escapeHtml(media.name)}</p>
                             <p class="mt-0.5 text-[11px] font-bold  tracking-wider text-[#A8A29E]">PDF · ${escapeHtml(media.size)}</p>
                         </div>
-                        <button type="button" class="focus-ring rounded-2xl bg-white px-4 py-2.5 text-[10px] font-black  tracking-wider text-[#A41034] transition hover:bg-[#fff7ed]">View</button>
+                        <button type="button" class="focus-ring rounded-2xl bg-white px-4 py-2.5 text-[10px] font-black  tracking-wider text-[#a51034] transition hover:bg-[#fff7ed]">View</button>
                     </div>
                 `;
             }
@@ -1382,7 +1403,7 @@
                     <div class="relative mt-5 overflow-hidden rounded-3xl bg-[#1C1917]">
                         <img src="${escapeHtml(media.thumbnail)}" alt="${escapeHtml(media.alt || '')}" class="h-72 w-full object-cover opacity-80">
                         <button type="button" class="focus-ring absolute inset-0 grid place-items-center" aria-label="Play video">
-                            <span class="grid h-16 w-16 place-items-center rounded-full bg-white/95 text-[#A41034] shadow-2xl">
+                            <span class="grid h-16 w-16 place-items-center rounded-full bg-white/95 text-[#a51034] shadow-2xl">
                                 <i data-lucide="play" class="h-7 w-7 fill-current"></i>
                             </span>
                         </button>
@@ -1397,7 +1418,7 @@
             return Object.entries(announcement.reactions).map(([emoji, count]) => {
                 const active = announcement.myReactions.has(emoji);
                 return `
-                    <button type="button" class="reaction-button focus-ring rounded-xl px-3 py-2 text-xs font-bold transition ${active ? 'bg-[#fff7ed] text-[#A41034] ring-1 ring-[#f59138]/30' : 'bg-[#F5F5F4] text-[#78716C] hover:bg-[#fff7ed] hover:text-[#A41034]'}" data-post-id="${announcement.id}" data-emoji="${escapeHtml(emoji)}">
+                    <button type="button" class="reaction-button focus-ring rounded-xl px-3 py-2 text-xs font-bold transition ${active ? 'bg-[#fff7ed] text-[#a51034] ring-1 ring-[#f59138]/30' : 'bg-[#F5F5F4] text-[#78716C] hover:bg-[#fff7ed] hover:text-[#a51034]'}" data-post-id="${announcement.id}" data-emoji="${escapeHtml(emoji)}">
                         <span aria-hidden="true">${emoji}</span>
                         <span>${count + (active ? 1 : 0)}</span>
                     </button>
@@ -1412,7 +1433,7 @@
                 <article class="rounded-3xl bg-white p-5 ring-1 ring-[#E7E5E4]/80 transition-colors hover:ring-[#D8D2CC] sm:p-6">
                     <div class="mb-4 flex items-start justify-between gap-4">
                         <div class="flex min-w-0 items-center gap-4">
-                            <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#A41034] text-sm font-bold tracking-normal text-white">${avatar}</div>
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#a51034] text-sm font-bold tracking-normal text-white">${avatar}</div>
                             <div class="min-w-0">
                                 <h2 class="truncate text-[15px] font-semibold text-[#1C1917]">${escapeHtml(announcement.author)}</h2>
                                 <p class="mt-0.5 text-xs font-medium text-[#78716C]">${escapeHtml(announcement.role)} · ${escapeHtml(announcement.timestamp)}</p>
@@ -1458,7 +1479,7 @@
                                 <div class="mb-5">
                                     <label class="mb-2 block text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">Group</label>
                                     <div class="flex items-center gap-2">
-                                        <select id="announcementAudience" class="h-12 flex-1 cursor-pointer rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-4 text-[13px] font-bold text-[#1C1917] outline-none transition-colors hover:border-[#A41034]/20">
+                                        <select id="announcementAudience" class="h-12 flex-1 cursor-pointer rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-4 text-[13px] font-bold text-[#1C1917] outline-none transition-colors hover:border-[#a51034]/20">
                                             <optgroup label="Default">
                                                 ${communicationGradeFilters.map((audience) => `<option ${audience === announcementDraftAudience ? 'selected' : ''}>${escapeHtml(audience)}</option>`).join('')}
                                             </optgroup>
@@ -1468,23 +1489,23 @@
                                                 </optgroup>
                                             ` : ''}
                                         </select>
-                                        <button type="button" id="openGroupCreateButton" class="focus-ring grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#A41034] text-white transition-colors hover:bg-[#7a0c26]" aria-label="Create group">
+                                        <button type="button" id="openGroupCreateButton" class="focus-ring grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#a51034] text-white transition-colors hover:bg-[#7a0c26]" aria-label="Create group">
                                             <i data-lucide="plus" class="h-4 w-4"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="mb-5">
                                     <label class="mb-2 block text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">Message</label>
-                                    <textarea id="announcementText" rows="5" placeholder="Write your announcement here..." class="w-full resize-none rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-5 py-4 text-[14px] font-medium text-[#1C1917] outline-none transition-colors placeholder:text-[#A8A29E] focus:border-[#A41034]/30">${escapeHtml(announcementDraftText)}</textarea>
+                                    <textarea id="announcementText" rows="5" placeholder="Write your announcement here..." class="w-full resize-none rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-5 py-4 text-[14px] font-medium text-[#1C1917] outline-none transition-colors placeholder:text-[#A8A29E] focus:border-[#a51034]/30">${escapeHtml(announcementDraftText)}</textarea>
                                 </div>
                                 <div>
                                     <label class="mb-2 block text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">Attachment</label>
-                                    <label id="announcementDropzone" class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-[#D6D3D1] bg-[#F5F5F4] py-6 text-center transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/[0.03]">
+                                    <label id="announcementDropzone" class="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-[#D6D3D1] bg-[#F5F5F4] py-6 text-center transition-all hover:border-[#a51034]/30 hover:bg-[#a51034]/[0.03]">
                                         <input id="announcementFile" type="file" accept="image/*,video/*,.pdf" class="hidden">
                                         <span class="grid h-10 w-10 place-items-center rounded-2xl border border-[#E7E5E4] bg-white text-[#A8A29E]">
                                             <i data-lucide="upload" class="h-4 w-4"></i>
                                         </span>
-                                        <span id="announcementFileLabel" class="text-[12px] font-bold text-[#78716C]">Drag & drop or <span class="text-[#A41034]">browse</span></span>
+                                        <span id="announcementFileLabel" class="text-[12px] font-bold text-[#78716C]">Drag & drop or <span class="text-[#a51034]">browse</span></span>
                                         <span class="text-[10px] font-bold text-[#A8A29E]">Images, Videos, PDFs</span>
                                     </label>
                                 </div>
@@ -1507,7 +1528,7 @@
             const updatePublishButton = () => {
                 const ready = textInput.value.trim().length > 0;
                 publishButton.disabled = !ready;
-                publishButton.className = `focus-ring rounded-2xl px-8 py-3 text-[11px] font-bold text-white transition-all active:scale-95 ${ready ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#A8A29E]'}`;
+                publishButton.className = `focus-ring rounded-2xl px-8 py-3 text-[11px] font-bold text-white transition-all active:scale-95 ${ready ? 'bg-[#a51034] hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#A8A29E]'}`;
             };
             const updateFileLabel = () => {
                 const file = fileInput.files?.[0];
@@ -1524,14 +1545,14 @@
             fileInput.addEventListener('change', updateFileLabel);
             dropzone.addEventListener('dragover', (event) => {
                 event.preventDefault();
-                dropzone.classList.add('border-[#A41034]', 'bg-[#A41034]/5');
+                dropzone.classList.add('border-[#a51034]', 'bg-[#a51034]/5');
             });
             dropzone.addEventListener('dragleave', () => {
-                dropzone.classList.remove('border-[#A41034]', 'bg-[#A41034]/5');
+                dropzone.classList.remove('border-[#a51034]', 'bg-[#a51034]/5');
             });
             dropzone.addEventListener('drop', (event) => {
                 event.preventDefault();
-                dropzone.classList.remove('border-[#A41034]', 'bg-[#A41034]/5');
+                dropzone.classList.remove('border-[#a51034]', 'bg-[#a51034]/5');
                 if (!event.dataTransfer.files?.length) return;
                 try {
                     fileInput.files = event.dataTransfer.files;
@@ -1610,7 +1631,7 @@
                     <div class="flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white shadow-[0_24px_80px_rgba(28,25,23,0.18)]">
                         <div class="flex shrink-0 items-center justify-between border-b border-[#F5F5F4] px-8 pb-5 pt-8">
                             <div class="flex items-center gap-2">
-                                <div class="h-6 w-1.5 rounded-full bg-[#A41034]"></div>
+                                <div class="h-6 w-1.5 rounded-full bg-[#a51034]"></div>
                                 <h3 class="communication-card-title text-[#1C1917]">New Group</h3>
                             </div>
                             <button type="button" class="close-modal focus-ring grid h-8 w-8 place-items-center rounded-xl bg-[#F5F5F4] text-[#78716C] transition-colors hover:bg-[#E7E5E4]" aria-label="Close group form">
@@ -1633,16 +1654,16 @@
                 return `
                                     <div class="mb-4">
                                         <button type="button" class="toggle-grade mb-2 flex w-full items-center gap-2" data-grade="${escapeHtml(grade)}">
-                                            <span class="grid h-4 w-4 place-items-center rounded-md border-2 ${allSelected ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1]'}">${allSelected ? '<i data-lucide="check" class="h-2.5 w-2.5"></i>' : ''}</span>
+                                            <span class="grid h-4 w-4 place-items-center rounded-md border-2 ${allSelected ? 'border-[#a51034] bg-[#a51034] text-white' : 'border-[#D6D3D1]'}">${allSelected ? '<i data-lucide="check" class="h-2.5 w-2.5"></i>' : ''}</span>
                                             <span class="text-[10px] font-bold uppercase tracking-wide text-[#A8A29E]">${escapeHtml(grade)}</span>
                                         </button>
                                         <div class="space-y-1 pl-1">
                                             ${gradeStudents.map((student) => {
                     const selected = groupDraftSelected.has(student.id);
                     return `
-                                                    <button type="button" class="toggle-student flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all ${selected ? 'border-[#A41034]/20 bg-[#A41034]/5' : 'border-transparent bg-[#F5F5F4] hover:border-[#E7E5E4]'}" data-student-id="${student.id}">
-                                                        <span class="grid h-4 w-4 shrink-0 place-items-center rounded-md border-2 ${selected ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1]'}">${selected ? '<i data-lucide="check" class="h-2.5 w-2.5"></i>' : ''}</span>
-                                                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[#A41034] text-[11px] font-bold text-white">${escapeHtml(studentInitials(student))}</span>
+                                                    <button type="button" class="toggle-student flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all ${selected ? 'border-[#a51034]/20 bg-[#a51034]/5' : 'border-transparent bg-[#F5F5F4] hover:border-[#E7E5E4]'}" data-student-id="${student.id}">
+                                                        <span class="grid h-4 w-4 shrink-0 place-items-center rounded-md border-2 ${selected ? 'border-[#a51034] bg-[#a51034] text-white' : 'border-[#D6D3D1]'}">${selected ? '<i data-lucide="check" class="h-2.5 w-2.5"></i>' : ''}</span>
+                                                        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[#a51034] text-[11px] font-bold text-white">${escapeHtml(studentInitials(student))}</span>
                                                         <span>
                                                             <span class="block text-[13px] font-bold leading-none text-[#1C1917]">${escapeHtml(student.name)}</span>
                                                             <span class="mt-0.5 block text-[10px] font-bold text-[#A8A29E]">${escapeHtml(student.grade)}</span>
@@ -1659,7 +1680,7 @@
                             <span class="text-[11px] font-bold text-[#A8A29E]">${groupDraftSelected.size} selected</span>
                             <div class="flex items-center gap-3">
                                 <button type="button" class="close-modal focus-ring rounded-2xl px-5 py-2.5 text-[11px] font-bold text-[#78716C] transition-colors hover:bg-[#F5F5F4]">Cancel</button>
-                                <button type="button" id="createGroupButton" ${groupDraftName.trim() && groupDraftSelected.size ? '' : 'disabled'} class="focus-ring rounded-2xl px-6 py-2.5 text-[11px] font-bold text-white transition-all active:scale-95 ${groupDraftName.trim() && groupDraftSelected.size ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#A8A29E]'}">Create Group</button>
+                                <button type="button" id="createGroupButton" ${groupDraftName.trim() && groupDraftSelected.size ? '' : 'disabled'} class="focus-ring rounded-2xl px-6 py-2.5 text-[11px] font-bold text-white transition-all active:scale-95 ${groupDraftName.trim() && groupDraftSelected.size ? 'bg-[#a51034] hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#A8A29E]'}">Create Group</button>
                             </div>
                         </div>
                     </div>
@@ -1762,7 +1783,7 @@
                                 <h3 class="communication-card-title text-[#1C1917]">Groups</h3>
                             </div>
                             <div class="flex items-center gap-2">
-                                <button type="button" id="manageNewGroupButton" class="focus-ring flex items-center gap-2 rounded-2xl bg-[#A41034] px-4 py-2 text-[10px] font-bold text-white transition-colors hover:bg-[#7a0c26]">
+                                <button type="button" id="manageNewGroupButton" class="focus-ring flex items-center gap-2 rounded-2xl bg-[#a51034] px-4 py-2 text-[10px] font-bold text-white transition-colors hover:bg-[#7a0c26]">
                                     <i data-lucide="plus" class="h-3 w-3"></i>
                                     New Group
                                 </button>
@@ -1778,7 +1799,7 @@
                                         <div class="overflow-hidden rounded-2xl border border-[#E7E5E4]">
                                             <div class="flex items-center justify-between px-5 py-4">
                                                 <button type="button" class="expand-group flex flex-1 items-center gap-3 text-left" data-group="${escapeHtml(group.name)}">
-                                                    <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#A41034] text-white"><i data-lucide="users" class="h-4 w-4"></i></span>
+                                                    <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#a51034] text-white"><i data-lucide="users" class="h-4 w-4"></i></span>
                                                     <span>
                                                         <span class="block text-[13px] font-bold text-[#1C1917]">${escapeHtml(group.name)}</span>
                                                         <span class="block text-[10px] font-bold text-[#A8A29E]">${group.members.length} members</span>
@@ -1802,7 +1823,7 @@
                                                     <div class="space-y-2">
                                                         ${group.members.map((student) => `
                                                             <div class="flex items-center gap-3">
-                                                                <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[#A41034] text-[10px] font-bold text-white">${escapeHtml(studentInitials(student))}</span>
+                                                                <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[#a51034] text-[10px] font-bold text-white">${escapeHtml(studentInitials(student))}</span>
                                                                 <span class="text-[12px] font-bold text-[#1C1917]">${escapeHtml(student.name)}</span>
                                                                 <span class="ml-auto text-[10px] font-bold text-[#A8A29E]">${escapeHtml(student.grade)}</span>
                                                             </div>
@@ -1919,11 +1940,11 @@
             if (activeAppTab !== 'Communication') return;
 
             toolbar.innerHTML = `
-                <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#A41034]/10 bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Filter announcements by grade">
+                <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#a51034]/10 bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Filter announcements by grade">
                     ${communicationGradeFilters.map((filter) => `
-                        <button type="button" class="communication-filter-button group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold text-[#A41034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A41034]/5 hover:text-[#5a0219] focus:outline-none lg:h-7 lg:min-w-7 lg:px-1.5 lg:text-[10px] ${filter === communicationFilter ? 'bg-[#f59138]/15 ring-1 ring-[#f59138]/30' : ''}" data-communication-filter="${escapeHtml(filter)}" aria-label="Show ${escapeHtml(filter)} announcements">
+                        <button type="button" class="communication-filter-button group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold text-[#a51034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#a51034]/5 hover:text-[#5a0219] focus:outline-none lg:h-7 lg:min-w-7 lg:px-1.5 lg:text-[10px] ${filter === communicationFilter ? 'bg-[#f59138]/15 ring-1 ring-[#f59138]/30' : ''}" data-communication-filter="${escapeHtml(filter)}" aria-label="Show ${escapeHtml(filter)} announcements">
                             <span>${escapeHtml(getCommunicationFilterLabel(filter))}</span>
-                            <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#A41034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#A41034] opacity-0 shadow-lg shadow-[#A41034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">${escapeHtml(filter)}</span>
+                            <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#a51034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#a51034] opacity-0 shadow-lg shadow-[#a51034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">${escapeHtml(filter)}</span>
                         </button>
                     `).join('')}
                 </nav>
@@ -1978,15 +1999,15 @@
                 <div class="fixed bottom-20 right-6 z-40 flex flex-col items-end gap-3">
                     <div class="${communicationFabOpen ? 'flex' : 'hidden'} flex-col gap-2 rounded-3xl bg-white p-2 ring-1 ring-[#E7E5E4]">
                         <button type="button" class="communication-fab-action focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-[#1C1917] transition-colors hover:bg-[#F7F5F3] focus:outline-none" data-communication-action="new-announcement">
-                            <i data-lucide="send" class="h-4 w-4 text-[#A41034]"></i>
+                            <i data-lucide="send" class="h-4 w-4 text-[#a51034]"></i>
                             <span>New Announcement</span>
                         </button>
                         <button type="button" class="communication-fab-action focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-[#1C1917] transition-colors hover:bg-[#F7F5F3] focus:outline-none" data-communication-action="manage-groups">
-                            <i data-lucide="users" class="h-4 w-4 text-[#A41034]"></i>
+                            <i data-lucide="users" class="h-4 w-4 text-[#a51034]"></i>
                             <span>Groups</span>
                         </button>
                     </div>
-                    <button type="button" id="communicationFabButton" class="focus-ring grid h-14 w-14 place-items-center rounded-full bg-[#A41034] text-white shadow-[0_14px_30px_rgba(164,16,52,0.24)] transition-colors hover:bg-[#7a0c26] focus:outline-none" aria-label="Open communication actions" aria-expanded="${communicationFabOpen}">
+                    <button type="button" id="communicationFabButton" class="focus-ring grid h-14 w-14 place-items-center rounded-full bg-[#a51034] text-white shadow-[0_14px_30px_rgba(164,16,52,0.24)] transition-colors hover:bg-[#7a0c26] focus:outline-none" aria-label="Open communication actions" aria-expanded="${communicationFabOpen}">
                         <i data-lucide="${communicationFabOpen ? 'x' : 'plus'}" class="h-6 w-6"></i>
                     </button>
                 </div>
@@ -2013,7 +2034,7 @@
             {
                 id: 'grade4-learnometer',
                 name: 'Grade 4 Learnometer Test',
-                subject: 'Mathematics',
+                subject: 'English, Mathematics,  Science',
                 grade: 'Grade 4',
                 block: 'Annual Assessment',
                 duration: 30,
@@ -2036,7 +2057,7 @@
             {
                 id: 'grade4-pilot',
                 name: 'Grade 4 Pilot Test',
-                subject: 'Mathematics',
+                subject: 'English, Mathematics,  Science',
                 grade: 'Grade 4',
                 block: 'Pilot Assessment',
                 duration: 25,
@@ -2086,6 +2107,7 @@
             testDone: false,
             timer: null
         };
+        const LEARNOMETER_STORAGE_KEY = 'learnometerState';
 
         function learnometerLogo(size = 26) {
             return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" stroke-width="1.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>`;
@@ -2095,10 +2117,109 @@
             return LEARNOMETER_TESTS.find((test) => test.id === learnometerState.selectedTestId) || LEARNOMETER_TESTS[0];
         }
 
+        function persistLearnometerState() {
+            const snapshot = {
+                step: learnometerState.step,
+                studentId: learnometerState.studentId,
+                teacherCode: learnometerState.teacherCode,
+                loginError: learnometerState.loginError,
+                selectedTestId: learnometerState.selectedTestId,
+                testType: learnometerState.testType,
+                currentQ: learnometerState.currentQ,
+                selected: learnometerState.selected,
+                answers: learnometerState.answers,
+                skipped: learnometerState.skipped,
+                timeLeft: learnometerState.timeLeft,
+                testDone: learnometerState.testDone
+            };
+
+            window.sessionStorage.setItem(LEARNOMETER_STORAGE_KEY, JSON.stringify(snapshot));
+        }
+
+        function clearPersistedLearnometerState() {
+            window.sessionStorage.removeItem(LEARNOMETER_STORAGE_KEY);
+        }
+
+        function restorePersistedLearnometerState() {
+            const rawState = window.sessionStorage.getItem(LEARNOMETER_STORAGE_KEY);
+            if (!rawState) return false;
+
+            try {
+                const snapshot = JSON.parse(rawState);
+                const allowedSteps = new Set(['login', 'select', 'details', 'test', 'results']);
+                if (!snapshot || !allowedSteps.has(snapshot.step)) return false;
+
+                learnometerState.step = snapshot.step;
+                learnometerState.studentId = typeof snapshot.studentId === 'string' ? snapshot.studentId : '';
+                learnometerState.teacherCode = typeof snapshot.teacherCode === 'string' ? snapshot.teacherCode : '';
+                learnometerState.loginError = typeof snapshot.loginError === 'string' ? snapshot.loginError : '';
+
+                if (LEARNOMETER_TESTS.some((test) => test.id === snapshot.selectedTestId)) {
+                    learnometerState.selectedTestId = snapshot.selectedTestId;
+                }
+
+                learnometerState.testType = snapshot.testType === 'practice' || snapshot.testType === 'test' ? snapshot.testType : null;
+                learnometerState.currentQ = Number.isInteger(snapshot.currentQ)
+                    ? Math.min(Math.max(snapshot.currentQ, 0), LEARNOMETER_QUESTIONS.length - 1)
+                    : 0;
+                learnometerState.selected = Number.isInteger(snapshot.selected) ? snapshot.selected : null;
+                learnometerState.answers = Array.isArray(snapshot.answers) ? snapshot.answers.slice(0, LEARNOMETER_QUESTIONS.length) : [];
+                learnometerState.skipped = Array.isArray(snapshot.skipped) ? snapshot.skipped.slice(0, LEARNOMETER_QUESTIONS.length) : [];
+                learnometerState.timeLeft = Number.isFinite(snapshot.timeLeft) ? Math.max(0, snapshot.timeLeft) : 0;
+                learnometerState.testDone = Boolean(snapshot.testDone);
+                return true;
+            } catch (error) {
+                clearPersistedLearnometerState();
+                return false;
+            }
+        }
+
+        function syncLearnometerStateFromHash() {
+            const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+            const hashStep = params.get('learnometerStep');
+
+            if (!hashStep) return false;
+
+            const allowedSteps = new Set(['login', 'select', 'details', 'test', 'results']);
+            if (!allowedSteps.has(hashStep)) return false;
+
+            const hashTestId = params.get('learnometerTest');
+            if (hashTestId && LEARNOMETER_TESTS.some((test) => test.id === hashTestId)) {
+                learnometerState.selectedTestId = hashTestId;
+            }
+
+            learnometerState.step = hashStep;
+            if (hashStep === 'test' || hashStep === 'results') {
+                restorePersistedLearnometerState();
+                learnometerState.step = hashStep;
+            }
+            return true;
+        }
+
+        function updateLearnometerHash() {
+            const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+
+            params.delete('learnometerStep');
+            params.delete('learnometerTest');
+
+            if (learnometerState.step !== 'login') {
+                params.set('learnometerStep', learnometerState.step);
+                params.set('learnometerTest', learnometerState.selectedTestId);
+            }
+
+            const nextHash = params.toString();
+            const currentHash = window.location.hash.replace(/^#/, '');
+
+            if (nextHash === currentHash) return;
+
+            const nextUrl = `${window.location.pathname}${window.location.search}${nextHash ? `#${nextHash}` : ''}`;
+            window.history.replaceState(null, '', nextUrl);
+        }
+
         function renderLearnometerStudentCard() {
             return `
                 <div class="mx-auto mb-6 flex max-w-xl items-center gap-4 rounded-[1.75rem] border border-[#ECE6E1] bg-white px-5 py-4 shadow-[0_14px_32px_rgba(28,25,23,0.05)]">
-                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#A41034]/[0.08] text-[#A41034]">
+                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#a51034]/[0.08] text-[#a51034]">
                         <i data-lucide="user-round" class="h-7 w-7"></i>
                     </div>
                     <div class="grid min-w-0 flex-1 gap-3 sm:grid-cols-3 sm:gap-4">
@@ -2151,6 +2272,7 @@
                 learnometerState.timeLeft -= 1;
                 const timerNode = document.getElementById('learnometerTimer');
                 if (timerNode) timerNode.textContent = formatLearnometerTime(learnometerState.timeLeft);
+                persistLearnometerState();
             }, 1000);
         }
 
@@ -2198,6 +2320,7 @@
             learnometerState.skipped = [];
             learnometerState.timeLeft = 0;
             learnometerState.testDone = false;
+            clearPersistedLearnometerState();
             renderLearnometer();
         }
 
@@ -2221,40 +2344,174 @@
 
         function renderLearnometerLogin() {
             const ready = learnometerState.studentId.trim() && learnometerState.teacherCode.trim();
+            const trustItems = [
+                { icon: 'shield', label: 'Secure & Private', desc: 'Your data is safe and protected' },
+                { icon: 'sparkles', label: 'Personalized Insights', desc: 'Tailored learning recommendations' },
+                { icon: 'trending-up', label: 'Track Progress', desc: 'Monitor growth across concepts' },
+            ];
+            const skillBars = [['Reading', 82, '#a51034'], ['Writing', 68, '#C44060'], ['Grammar', 54, '#D4708A']];
+            const growthBars = [22, 34, 26, 42, 36, 50, 44, 58, 52, 64];
             return `
-                <section class="flex min-h-[calc(100vh-80px)] items-start justify-center pt-16 tab-content max-sm:pt-8">
-                    <div class="w-full max-w-[460px]">
-                        <div class="mb-7 flex flex-col items-center fade-in">
-                            <h1 class="font-['Poppins'] text-[30px] font-semibold leading-9 tracking-[-0.3px] text-[#1C1917]">Learnometer</h1>
-                            <p class="mt-1 text-sm font-normal leading-6 text-[#8B8B8B]">Sign in to access your test</p>
-                        </div>
-                        <form id="learnometerLoginForm" class="slide-up rounded-[20px] border border-[#ECE8E4] bg-white p-8 shadow-[0_20px_50px_rgba(28,25,23,0.08)] max-sm:p-6">
-                            <div class="mb-6 space-y-5">
-                                <div>
-                                    <label class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">XSEED student ID</label>
-                                    <span class="flex h-[52px] items-center gap-3 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-4 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
-                                        <i data-lucide="id-card" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
-                                        <input id="learnometerStudentId" type="text" value="${escapeHtml(learnometerState.studentId)}" placeholder="e.g. XS-2026-04821" class="w-full bg-transparent text-sm font-medium text-[#1C1917] placeholder-[#B8B2AE] outline-none">
-                                    </span>
+                <section class="-mx-6 relative flex overflow-hidden" style="min-height:calc(100vh - 80px);">
+
+                    <!-- ── Full-width background ── -->
+                    <div class="absolute inset-0" style="background-image:url('assets/learnometer-background.jpeg');background-size:cover;background-position:center;"></div>
+                    <div class="absolute inset-0" style="background:linear-gradient(105deg,rgba(4,2,1,0.84) 0%,rgba(4,2,1,0.62) 30%,rgba(4,2,1,0.24) 56%,rgba(4,2,1,0.06) 100%);"></div>
+
+                    <!-- ── LEFT: Hero panel ── -->
+                    <div class="relative z-10 hidden lg:flex lg:flex-col" style="width:58%;min-width:0;">
+
+                        <div class="flex flex-col h-full" style="padding:52px 56px;">
+                            <!-- Heading -->
+                            <div style="margin-top:28px;max-width:400px;">
+                                <h1 style="font-family:'Poppins',sans-serif;font-size:54px;font-weight:700;color:#FFFFFF;line-height:1.05;letter-spacing:-1.5px;">Learnometer</h1>
+                                <p style="font-size:20px;font-weight:600;color:rgba(255,255,255,0.90);line-height:1.4;">Understand your child's learning journey.</p>
+                                <p style="font-size:14px;font-weight:400;color:rgba(255,255,255,0.58);margin-top:14px;line-height:1.68;">Track progress, discover strengths, and unlock personalized learning insights.</p>
+                            </div>
+
+                            <!-- Floating insight cards -->
+                            <div style="margin-top:auto;margin-bottom:60px;display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:400px;align-self:flex-end;">
+                                <!-- Concept Mastery -->
+                                <div class="learno-glass-card" style="animation-delay:0s;">
+                                    <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.60);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">Concept Mastery</div>
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <svg width="48" height="48" viewBox="0 0 52 52" style="flex-shrink:0;">
+                                            <circle cx="26" cy="26" r="18" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="6"/>
+                                            <circle cx="26" cy="26" r="18" fill="none" stroke="#E8607A" stroke-width="6" stroke-dasharray="81.4 31.7" stroke-linecap="round" transform="rotate(-90 26 26)"/>
+                                            <text x="26" y="30" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="Inter,sans-serif">72%</text>
+                                        </svg>
+                                        <div>
+                                            <div style="font-size:20px;font-weight:800;color:#FFFFFF;line-height:1;">72%</div>
+                                            <div style="font-size:10px;color:rgba(255,255,255,0.52);margin-top:3px;">Mastered</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">Teacher code</label>
-                                    <span class="flex h-[52px] items-center gap-3 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-4 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)]">
-                                        <i data-lucide="key-round" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
-                                        <input id="learnometerTeacherCode" type="text" value="${escapeHtml(learnometerState.teacherCode)}" placeholder="e.g. TCH-8842" class="w-full bg-transparent text-sm font-medium text-[#1C1917] placeholder-[#B8B2AE] outline-none">
-                                    </span>
+
+                                <!-- Learning Growth -->
+                                <div class="learno-glass-card" style="animation-delay:0.9s;">
+                                    <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.60);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">Learning Growth</div>
+                                    <div style="display:flex;align-items:flex-end;gap:3px;height:36px;">
+                                        ${growthBars.map((v) => `<div style="flex:1;background:linear-gradient(180deg,rgba(255,255,255,0.90),rgba(255,255,255,0.40));border-radius:2px 2px 0 0;height:${v}%;"></div>`).join('')}
+                                    </div>
+                                    <div style="margin-top:8px;display:flex;align-items:center;gap:5px;">
+                                        <span style="font-size:14px;font-weight:800;color:#6EE7B7;">↑ 18%</span>
+                                        <span style="font-size:10px;color:rgba(255,255,255,0.50);">vs last term</span>
+                                    </div>
+                                </div>
+
+                                <!-- Skill Understanding -->
+                                <div class="learno-glass-card" style="animation-delay:0.45s;">
+                                    <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.60);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">Skill Understanding</div>
+                                    <div style="display:flex;flex-direction:column;gap:5px;">
+                                        ${skillBars.map(([l, v, c]) => `
+                                            <div style="display:flex;align-items:center;gap:6px;">
+                                                <div style="font-size:9px;color:rgba(255,255,255,0.52);width:42px;flex-shrink:0;">${l}</div>
+                                                <div style="flex:1;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;overflow:hidden;">
+                                                    <div style="width:${v}%;height:100%;background:rgba(255,255,255,0.80);border-radius:2px;"></div>
+                                                </div>
+                                                <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.90);width:22px;text-align:right;">${v}%</div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                     <div style="margin-top:8px;font-size:13px;font-weight:800;color:#1C1917;">68% <span style="font-size:10px;color:#A8A29E;font-weight:400;">Average</span></div>
+                                </div>
+
+                                <!-- Practice Insights -->
+                                <div class="learno-glass-card" style="animation-delay:1.35s;">
+                                     <div style="font-size:9px;font-weight:700;color:#8B7560;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">Practice Insights</div>
+                                    <svg width="100%" height="38" viewBox="0 0 110 38" fill="none" preserveAspectRatio="none">
+                                        <defs>
+                                            <linearGradient id="pgFill" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stop-color="#a51034" stop-opacity="0.28"/>
+                                                <stop offset="100%" stop-color="#a51034" stop-opacity="0"/>
+                                            </linearGradient>
+                                        </defs>
+                                         <polyline points="0,34 14,26 30,30 44,18 60,22 74,10 88,14 110,4" stroke="rgba(255,255,255,0.85)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <polygon points="0,34 14,26 30,30 44,18 60,22 74,10 88,14 110,4 110,38 0,38" fill="url(#pgFill)"/>
+                                    </svg>
+                                    <div style="margin-top:6px;font-size:16px;font-weight:800;color:#1C1917;">4.6 hrs <span style="font-size:10px;color:#A8A29E;font-weight:400;">Total Practice</span></div>
                                 </div>
                             </div>
-                            ${learnometerState.loginError ? `
-                                <p class="mb-4 flex items-center gap-2 rounded-xl bg-red-50 px-3 py-2 text-[12px] font-medium text-red-600">
-                                    <i data-lucide="circle-alert" class="h-3.5 w-3.5 shrink-0"></i>
-                                    ${escapeHtml(learnometerState.loginError)}
-                                </p>
-                            ` : ''}
-                            <button type="submit" id="learnometerSignInButton" ${ready ? '' : 'disabled'} class="focus-ring h-[52px] w-full rounded-xl text-[14px] font-semibold transition-all active:scale-[0.98] ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_14px_28px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F2EFEC] text-[#9A928D]'}">
-                                Sign in
-                            </button>
-                        </form>
+
+                            <!-- Trust indicators -->
+                            <div style="display:flex;gap:22px;flex-wrap:wrap;">
+                                ${trustItems.map((t) => `
+                                    <div style="display:flex;align-items:flex-start;gap:10px;max-width:155px;">
+                                        <div style="width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                            <i data-lucide="${t.icon}" style="width:13px;height:13px;color:rgba(255,255,255,0.82);"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.88);">${t.label}</div>
+                                            <div style="font-size:10px;color:rgba(255,255,255,0.50);line-height:1.4;margin-top:2px;">${t.desc}</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── RIGHT: Auth panel ── -->
+                    <div class="relative z-10 flex flex-1 items-center justify-center" style="padding:48px 28px;">
+                        <div style="width:100%;max-width:460px;">
+                            <div class="learno-auth-card slide-up">
+
+                                <!-- Icon header -->
+                                <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:30px;">
+                                    <div style="width:72px;height:72px;border-radius:22px;background:linear-gradient(148deg,#FFF5F7,#FDEAEE);border:1.5px solid rgba(164,16,52,0.10);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 36px rgba(164,16,52,0.11);position:relative;margin-bottom:22px;">
+                                        <i data-lucide="gauge" style="width:30px;height:30px;color:#a51034;"></i>
+                                    </div>
+                                    <h2 style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#1C1917;letter-spacing:-0.3px;text-align:center;line-height:1.25;">Welcome to Learnometer</h2>
+                                    <p style="font-size:13px;color:#8B8B8B;text-align:center;margin-top:7px;line-height:1.55;">Sign in to access your assessment dashboard</p>
+                                </div>
+
+                                <!-- Form -->
+                                <form id="learnometerLoginForm">
+                                    <div style="display:flex;flex-direction:column;gap:18px;margin-bottom:20px;">
+                                        <div>
+                                            <label style="display:block;font-size:12px;font-weight:600;color:#6B6460;margin-bottom:8px;letter-spacing:0.01em;">XSEED student ID</label>
+                                            <div class="learno-input-wrap">
+                                                <i data-lucide="id-card" class="learno-input-icon"></i>
+                                                <input id="learnometerStudentId" type="text" value="${escapeHtml(learnometerState.studentId)}" placeholder="e.g. XS-2026-04821" class="learno-input" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label style="display:block;font-size:12px;font-weight:600;color:#6B6460;margin-bottom:8px;letter-spacing:0.01em;">Teacher code</label>
+                                            <div class="learno-input-wrap">
+                                                <i data-lucide="key-round" class="learno-input-icon"></i>
+                                                <input id="learnometerTeacherCode" type="text" value="${escapeHtml(learnometerState.teacherCode)}" placeholder="e.g. TCH-8842" class="learno-input" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    ${learnometerState.loginError ? `
+                                        <div style="margin-bottom:16px;padding:10px 14px;background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;display:flex;align-items:center;gap:8px;">
+                                            <i data-lucide="circle-alert" style="width:14px;height:14px;color:#DC2626;flex-shrink:0;"></i>
+                                            <span style="font-size:12px;font-weight:500;color:#DC2626;">${escapeHtml(learnometerState.loginError)}</span>
+                                        </div>
+                                    ` : ''}
+
+                                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+                                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                                            <div style="width:18px;height:18px;border-radius:5px;background:#a51034;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                                <i data-lucide="check" style="width:11px;height:11px;color:white;"></i>
+                                            </div>
+                                            <span style="font-size:13px;font-weight:500;color:#57504B;">Remember me</span>
+                                        </label>
+                                        <a href="#" style="font-size:13px;font-weight:600;color:#a51034;text-decoration:none;">Need help?</a>
+                                    </div>
+
+                                    <button type="submit" id="learnometerSignInButton" ${ready ? '' : 'disabled'} class="learno-cta ${ready ? 'learno-cta-on' : 'learno-cta-off'}">
+                                        Continue &nbsp;→
+                                    </button>
+                                </form>
+
+                                <!-- Footer -->
+                                <div style="margin-top:22px;padding-top:18px;border-top:1px solid #F0EBE6;display:flex;align-items:center;justify-content:center;gap:7px;">
+                                    <i data-lucide="lock" style="width:12px;height:12px;color:#C8C0BB;"></i>
+                                    <span style="font-size:12px;color:#C8C0BB;font-weight:500;">Trusted by schools. Built for every learner.</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
             `;
@@ -2266,37 +2523,84 @@
 
             const ready = Boolean(learnometerState.studentId.trim() && learnometerState.teacherCode.trim());
             button.disabled = !ready;
-            button.className = `focus-ring h-[52px] w-full rounded-xl text-[14px] font-semibold transition-all active:scale-[0.98] ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_14px_28px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F2EFEC] text-[#9A928D]'}`;
+            button.className = `learno-cta ${ready ? 'learno-cta-on' : 'learno-cta-off'}`;
         }
 
         function renderLearnometerSelect() {
             return `
-                <section class="flex min-h-[calc(100vh-80px)] items-center justify-center tab-content">
-                    <div class="w-full max-w-3xl">
-                        ${renderLearnometerStudentCard()}
-                        <div class="fade-in mb-8 text-center">
-                            <h1 class="text-3xl font-black tracking-tight text-[#1C1917]">Choose Your Test</h1>
-                            <p class="mt-1 text-[13px] font-medium text-[#A8A29E]">Available grade-level Learnometer tests for this student</p>
+                <section class="learno-screen-enter tab-content py-4 sm:py-5 lg:py-6">
+                    <div class="mx-auto w-full max-w-[1260px]">
+                        <div class="mb-5 flex flex-col gap-3 sm:gap-4 lg:mb-7 lg:flex-row lg:items-center lg:justify-between">
+                            <div class="max-w-[520px]">
+                                <h1 class="text-[1.65rem] font-black leading-[1.02] tracking-[-0.05em] text-[#a40f31] sm:text-[2rem] lg:text-[2.35rem]">
+                                    Learnometer
+                                </h1>
+                                <p class="mt-2 max-w-[420px] text-[13px] font-medium leading-5 text-[#7B736D] sm:text-[14px] sm:leading-6">
+                                    Available grade-level Learnometer tests for this student
+                                </p>
+                            </div>
+
+                            <div class="w-full max-w-[360px] rounded-[1.2rem] border border-[#EEE6E0] bg-white px-3.5 py-3 shadow-[0_12px_26px_rgba(28,25,23,0.04)] sm:px-4">
+                                <div class="flex items-center gap-2.5 sm:gap-3">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FCF5F1] text-[#a51034] sm:h-10 sm:w-10">
+                                        <i data-lucide="user-round" class="h-4 w-4 sm:h-5 sm:w-5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="truncate text-[13px] font-bold text-[#1C1917] sm:text-[14px]">Riya Sharma</p>
+                                        <p class="mt-0.5 flex flex-wrap items-center gap-1.5 text-[12px] font-medium text-[#8D847D] sm:text-[13px]">
+                                            <span>Grade 4</span>
+                                            <span class="text-[#C8C0BB]">•</span>
+                                            <span>Student ID: ST10245</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="slide-up overflow-hidden rounded-[2.5rem] border border-[#E7E5E4] bg-white p-4 sm:p-5">
-                            <div class="space-y-3">
+                        <div class="mb-5 flex items-center gap-3 sm:mb-6 sm:gap-4">
+                            <p class="shrink-0 text-[12px] font-black uppercase tracking-[0.08em] text-[#7D746D]">Available Assessments</p>
+                            <div class="h-px flex-1 bg-[#E7E0DA]"></div>
+                        </div>
+
+                        <div class="slide-up">
+                            <div class="space-y-4 sm:space-y-5 lg:space-y-6">
                                 ${LEARNOMETER_TESTS.map((test) => `
-                                    <button type="button" class="learnometer-test-row focus-ring flex w-full items-center gap-4 rounded-[1.75rem] border border-[#ECE8E4] bg-[#FCFBFA] px-5 py-5 text-left transition-all hover:border-[#D9D2CD] hover:bg-white" data-test-id="${escapeHtml(test.id)}">
-                                        <div class="flex min-w-0 flex-1 items-center gap-4">
-                                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#A41034]/[0.08] text-[#A41034]">
-                                                <i data-lucide="clipboard-list" class="h-5 w-5"></i>
+                                    <button type="button" class="learnometer-test-row focus-ring group flex w-full flex-col gap-4 rounded-[1.5rem] border border-[#EFE7E1] bg-white px-4 py-4 text-left shadow-[0_18px_44px_rgba(28,25,23,0.045)] sm:gap-5 sm:px-5 sm:py-5 lg:flex-row lg:items-center lg:gap-8 lg:rounded-[2rem] lg:px-9 lg:py-7" data-test-id="${escapeHtml(test.id)}">
+                                        <div class="flex min-w-0 flex-1 items-center gap-3 sm:gap-4 lg:gap-7">
+                                            <div class="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-[1.2rem] bg-[#FCF5F1] text-[#a51034] sm:h-[80px] sm:w-[80px] sm:rounded-[1.4rem] lg:h-[92px] lg:w-[92px] lg:rounded-[1.75rem]">
+                                                <i data-lucide="clipboard-list" class="h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10"></i>
                                             </div>
+                                            <div class="hidden h-[114px] w-px bg-[#EEE6E0] lg:block"></div>
                                             <div class="min-w-0">
-                                                <p class="truncate text-[16px] font-bold text-[#1C1917]">${escapeHtml(test.name)}</p>
-                                                <p class="mt-1 text-[12px] font-medium text-[#8B817B]">${escapeHtml(test.endDate)}</p>
+                                                <h2 class="truncate text-[16px] font-bold tracking-[-0.04em] text-[#1C1917] sm:text-[16px] lg:text-[20px] lg:tracking-[-0.05em]">${escapeHtml(test.name)}</h2>
+                                                <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[13px] font-medium text-[#6F6761] sm:mt-3 sm:text-[14px] lg:gap-x-5 lg:gap-y-2 lg:text-[15px]">
+                                                    <span class="inline-flex items-center gap-2">
+                                                        <i data-lucide="book-open" class="h-4 w-4 text-[#76706A]"></i>
+                                                        ${escapeHtml(test.subject)}
+                                                    </span>
+                                                    <span class="text-[#B9B1AB]">•</span>
+                                                    <span class="inline-flex items-center gap-2">
+                                                        <i data-lucide="clock-3" class="h-4 w-4 text-[#76706A]"></i>
+                                                        ${test.duration} mins
+                                                    </span>
+                                                </div>
+                                                <div class="mt-3 inline-flex items-center gap-2 text-[13px] font-semibold text-[#a51034] sm:text-[14px] lg:mt-4 lg:text-[15px]">
+                                                    <i data-lucide="calendar-days" class="h-4 w-4"></i>
+                                                    ${escapeHtml(test.endDate.replace(/^Ends on\s+/i, 'Available until '))}
+                                                </div>
                                             </div>
                                         </div>
-                                        <i data-lucide="chevron-right" class="h-5 w-5 shrink-0 text-[#A8A29E]"></i>
+                                        <div class="flex w-full justify-start lg:w-auto lg:justify-end">
+                                            <span class="inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-[0.9rem] border px-5 text-[13px] font-bold transition-all duration-300 sm:min-h-[52px] sm:px-6 sm:text-[14px] lg:min-h-[56px] lg:gap-3 lg:rounded-[1rem] lg:px-7 lg:text-[15px] border-[#F1BAC4] bg-white text-[#a51034] group-hover:border-[#a51034] group-hover:bg-[#a51034] group-hover:text-white">
+                                                Start Assessment
+                                                <i data-lucide="arrow-right" class="h-5 w-5"></i>
+                                            </span>
+                                        </div>
                                     </button>
                                 `).join('')}
                             </div>
-                            <button type="button" id="learnometerSignOut" class="mt-5 w-full text-center text-[11px] font-bold text-[#A8A29E] transition-colors hover:text-[#78716C]">
+                            <button type="button" id="learnometerSignOut" class="mx-auto mt-8 flex items-center gap-2 text-[13px] font-medium text-[#7C736D] transition-colors hover:text-[#4E4742] sm:mt-10 sm:text-[14px] lg:mt-12">
+                                <i data-lucide="log-out" class="h-4 w-4"></i>
                                 Sign out
                             </button>
                         </div>
@@ -2307,33 +2611,102 @@
 
         function renderLearnometerSelectDetails() {
             const selectedTest = getSelectedLearnometerTest();
+            const overviewItems = [
+                { icon: 'file-text', value: LEARNOMETER_QUESTIONS.length, label: 'Questions' },
+                { icon: 'clock-3', value: selectedTest.duration, label: 'Minutes' },
+                { icon: 'book-open', value: selectedTest.subject, label: 'Subject' },
+                { icon: 'calendar-days', value: selectedTest.endDate.replace(/^Ends on\s+/i, ''), label: 'Available until' }
+            ];
+            const instructionGroups = [
+                {
+                    icon: 'lightbulb',
+                    title: 'Before You Start',
+                    items: selectedTest.instructions.slice(0, 2)
+                },
+                {
+                    icon: 'crosshair',
+                    title: 'During the Assessment',
+                    items: selectedTest.instructions.slice(2, 4)
+                },
+                {
+                    icon: 'clipboard-check',
+                    title: 'Before Submitting',
+                    items: selectedTest.instructions.slice(4, 6)
+                }
+            ];
             return `
-                <section class="flex min-h-[calc(100vh-80px)] items-center justify-center py-8 tab-content">
-                    <div class="w-full max-w-4xl">
-                        <div class="fade-in mb-8 text-center">
-                            <h1 class="text-3xl font-black tracking-tight text-[#1C1917]">${escapeHtml(selectedTest.name)}</h1>
-                            <p class="mt-2 text-[13px] font-medium text-[#8B817B]">${escapeHtml(selectedTest.grade)} · ${escapeHtml(selectedTest.subject)} · ${LEARNOMETER_QUESTIONS.length} questions · ${selectedTest.duration} minutes · ${escapeHtml(selectedTest.endDate)}</p>
-                        </div>
-
-                        <div class="slide-up rounded-[2.5rem] border border-[#E7E5E4] bg-white px-8 py-8">
-                            <h2 class="mb-5 text-[20px] font-black text-[#1C1917]">Instructions</h2>
-                            <div class="space-y-2">
-                                ${selectedTest.instructions.map((instruction, index) => `
-                                    <div class="flex items-start gap-3">
-                                        <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F5E9E4] text-[10px] font-bold text-[#8A5A4A]">${index + 1}</div>
-                                        <p class="pt-0.5 text-[13px] font-medium leading-6 text-[#574B45]">${escapeHtml(instruction)}</p>
+                <section class="learno-screen-enter tab-content py-6 lg:py-8">
+                    <div class="mx-auto w-full max-w-[1080px]">
+                        <div class="slide-up overflow-hidden rounded-[2rem] border border-[#F0E7E1] bg-white shadow-[0_18px_44px_rgba(28,25,23,0.045)]">
+                            <div class="border-b border-[#F2EAE4] px-6 py-4 sm:px-4 sm:py-4 lg:px-6">
+                                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                    <div class="min-w-0">
+                                        <div class="mt-2 flex items-start gap-3">
+                                            <div class="min-w-0">
+                                                <h1 class="text-[1.58rem] font-bold leading-[1.08] tracking-[-0.04em] text-[#1C1917] sm:text-[1.8rem] lg:text-[2rem]">${escapeHtml(selectedTest.grade)} Learnometer</h1>
+                                            </div>
+                                        </div>
                                     </div>
-                                `).join('')}
+                                    <div class="inline-flex items-center gap-2 self-start sm:self-center rounded-full border border-[#F3E3E7] bg-[#FCF7F8] px-3 py-1.5 text-[11px] font-medium text-[#a40f31] sm:text-[12px]">                                        Read the instructions once before you begin.
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mt-8 border-t border-[#F5F5F4] pt-6">
-                                <div class="flex flex-col gap-3 sm:flex-row">
-                                    <button type="button" class="learnometer-start-test focus-ring flex flex-1 items-center justify-center gap-2 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] py-4 text-[12px] font-black tracking-wider text-[#1C1917] transition-all hover:bg-[#EEECEA] active:scale-95" data-test-type="practice">
+                            <div class="grid lg:grid-cols-[260px_minmax(0,1fr)]">
+                                <div class="border-b border-[#F1E9E3] px-6 py-7 sm:px-7 sm:py-8 lg:border-b-0 lg:border-r lg:px-7 lg:py-8">
+                                    <p class="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#a40f31]">Assessment Overview</p>
+                                    <div class="mt-6 space-y-5 sm:space-y-6">
+                                        ${overviewItems.map((item) => `
+                                            <div class="flex items-center gap-3.5">
+                                                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FCF5F1] text-[#a51034]">
+                                                    <i data-lucide="${item.icon}" class="h-5 w-5"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-[15px] font-semibold text-[#1C1917]">${escapeHtml(String(item.value))}</p>
+                                                    <p class="mt-0.5 text-[13px] font-medium text-[#7E7670]">${escapeHtml(item.label)}</p>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+
+                                <div class="px-6 py-7 sm:px-7 sm:py-8 lg:px-9 lg:py-8">
+                                    <h2 class="text-[1.5rem] font-bold leading-[1.12] tracking-[-0.035em] text-[#1C1917] sm:text-[1.65rem] lg:text-[1.8rem]">Before You Begin</h2>
+
+                                    <div class="mt-0 space-y-0 sm:mt-0">
+                                        ${instructionGroups.map((group, groupIndex) => `
+                                            <div class="flex gap-4 py-4 sm:gap-[1.125rem] sm:py-5 ${groupIndex < instructionGroups.length - 1 ? 'border-b border-[#F2EAE4]' : ''}">
+                                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCF5F1] text-[#a51034] sm:h-11 sm:w-11">
+                                                    <i data-lucide="${group.icon}" class="h-[18px] w-[18px] sm:h-5 sm:w-5"></i>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h3 class="text-[14px] font-semibold tracking-[-0.01em] text-[#A7374F] sm:text-[15px]">${escapeHtml(group.title)}</h3>
+                                                    <div class="mt-3 space-y-2.5">
+                                                        ${group.items.map((instruction) => `
+                                                            <div class="flex items-start gap-3">
+                                                                <div class="mt-1 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-[#F8DCE2] text-[#a51034] sm:h-5 sm:w-5">
+                                                                    <i data-lucide="check" class="h-3 w-3"></i>
+                                                                </div>
+                                                                <p class="text-[13px] font-medium leading-6 text-[#514945] sm:text-[14px]">${escapeHtml(instruction)}</p>
+                                                            </div>
+                                                        `).join('')}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-[#F2EAE4] px-6 py-5 sm:px-7 lg:px-9">
+                                <div class="flex flex-col gap-2.5 sm:flex-row sm:justify-end">
+                                    <button type="button" class="learnometer-start-test focus-ring flex h-[50px] items-center justify-center gap-2.5 rounded-[1rem] border border-[#F2B7C1] bg-white px-7 text-[14px] font-semibold text-[#a51034] transition-all hover:bg-[#FFF7F8] active:scale-[0.99]" data-test-type="practice">
                                         <i data-lucide="pencil" class="h-4 w-4"></i>
-                                        Practice Test
+                                        Practice First
                                     </button>
-                                    <button type="button" class="learnometer-start-test focus-ring flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[#A41034] py-4 text-[12px] font-black tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95" data-test-type="test">
-                                    <i data-lucide="play" class="h-4 w-4 fill-current"></i>
-                                    Start Test
+                                    <button type="button" class="learnometer-start-test focus-ring flex h-[50px] items-center justify-center gap-2.5 rounded-[1rem] bg-[#a51034] px-7 text-[14px] font-semibold text-white shadow-[0_14px_28px_rgba(196,22,58,0.2)] transition-all hover:bg-[#AF1434] active:scale-[0.99]" data-test-type="test">
+                                        <i data-lucide="play" class="h-4 w-4 fill-current"></i>
+                                        Start Assessment
+                                        <i data-lucide="arrow-right" class="h-[18px] w-[18px]"></i>
                                     </button>
                                 </div>
                             </div>
@@ -2344,85 +2717,166 @@
         }
 
         function renderLearnometerTest() {
-            const selectedTest = getSelectedLearnometerTest();
             const question = LEARNOMETER_QUESTIONS[learnometerState.currentQ];
-            const progress = (learnometerState.currentQ / LEARNOMETER_QUESTIONS.length) * 100;
+            const answeredCount = learnometerState.answers.filter((answer) => answer !== null && answer !== undefined).length;
+            const progress = LEARNOMETER_QUESTIONS.length ? (answeredCount / LEARNOMETER_QUESTIONS.length) * 100 : 0;
             const warn = learnometerState.timeLeft < 60;
-            const badgeClass = learnometerState.testType === 'practice'
-                ? 'border border-amber-100 bg-amber-50 text-amber-600'
-                : 'border border-[#A41034]/15 bg-[#A41034]/[0.08] text-[#A41034]';
+            const canAdvance = learnometerState.currentQ < LEARNOMETER_QUESTIONS.length - 1;
+            const nextLabel = learnometerState.currentQ + 1 === LEARNOMETER_QUESTIONS.length
+                ? 'Submit Test'
+                : learnometerState.selected === null
+                    ? 'Skip for now'
+                    : 'Next';
             const options = question.options.map((option, index) => {
                 const selected = learnometerState.selected === index;
                 return `
-                    <button type="button" class="learnometer-option focus-ring w-full rounded-2xl border-2 px-6 py-4 text-left text-[13px] font-bold transition-all active:scale-[0.99] ${selected ? 'border-[#A41034] bg-[#A41034]/[0.08] text-[#A41034]' : 'border-transparent bg-[#F5F5F4] text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}" data-option-index="${index}">
-                        <span class="inline-flex items-center gap-3">
-                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 text-[10px] font-black transition-all ${selected ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}">${String.fromCharCode(65 + index)}</span>
-                            ${escapeHtml(option)}
+                    <button type="button" class="learnometer-option focus-ring w-full rounded-[1.4rem] border px-4 py-3.5 text-left text-[14px] font-medium leading-relaxed transition-all duration-300 active:scale-[0.995] sm:px-5 sm:py-4 sm:text-[15px] ${selected ? 'border-[#FFB168] bg-[#FFF8F1] text-[#182B52]' : 'border-[#ECE7E2] bg-white text-[#182B52] hover:border-[#FFD4AC] hover:bg-[#FFFDFC]'}" data-option-index="${index}">
+                        <span class="flex items-center gap-4">
+                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[16px] font-bold transition-all ${selected ? 'bg-[#FF8A1F] text-white' : 'bg-[#FFF5F1] text-[#B83D2A]'}">${String.fromCharCode(65 + index)}</span>
+                            <span class="min-w-0 flex-1">${escapeHtml(option)}</span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-all ${selected ? 'border-[#FF8A1F] text-[#FF8A1F]' : 'border-transparent text-transparent'}">
+                                <i data-lucide="check" class="h-[18px] w-[18px]"></i>
+                            </span>
                         </span>
+                    </button>
+                `;
+            }).join('');
+            const questionNav = LEARNOMETER_QUESTIONS.map((_, index) => {
+                const isCurrent = index === learnometerState.currentQ;
+                const isAnswered = learnometerState.answers[index] !== null && learnometerState.answers[index] !== undefined;
+                const isSkipped = Boolean(learnometerState.skipped[index]) && !isAnswered;
+                const beforeWindow = index < 8;
+                const afterWindow = index >= LEARNOMETER_QUESTIONS.length - 3;
+                const nearCurrent = Math.abs(index - learnometerState.currentQ) <= 1;
+                const shouldShow = beforeWindow || afterWindow || nearCurrent;
+
+                if (!shouldShow) {
+                    const prevIndex = index - 1;
+                    const prevShown = prevIndex >= 0 && (prevIndex < 8 || prevIndex >= LEARNOMETER_QUESTIONS.length - 3 || Math.abs(prevIndex - learnometerState.currentQ) <= 1);
+                    return prevShown ? `<span class="px-2 text-[22px] leading-none text-[#A8A29E]">…</span>` : '';
+                }
+
+                return `
+                    <button
+                        type="button"
+                        class="learnometer-question-nav focus-ring group relative flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full border text-[14px] font-semibold transition-all duration-300 ${
+                            isCurrent
+                                ? 'border-[#FFD8AE] bg-[#FFF6EB] text-[#FF8A1F] shadow-[0_10px_22px_rgba(255,138,31,0.10)]'
+                                : isAnswered
+                                    ? 'border-[#BFEFD0] bg-[#F5FFF8] text-[#2CC56F]'
+                                    : isSkipped
+                                        ? 'border-[#F8E1BC] bg-[#FFF8EF] text-[#D48C2F]'
+                                        : 'border-[#E9E4DE] bg-white text-[#26324B] hover:border-[#D9D3CC]'
+                        }"
+                        data-question-index="${index}"
+                    >
+                        <span>${String(index + 1).padStart(2, '0')}</span>
+                        ${isAnswered
+                            ? '<span class="absolute -bottom-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#2CC56F] text-white shadow-[0_8px_16px_rgba(44,197,111,0.24)]"><i data-lucide="check" class="h-3.5 w-3.5"></i></span>'
+                            : isCurrent
+                                ? '<span class="absolute -bottom-1 h-2.5 w-2.5 rounded-full bg-[#FF8A1F]"></span>'
+                                : ''
+                        }
                     </button>
                 `;
             }).join('');
 
             return `
-                <section class="tab-content py-6">
-                    <div class="fade-in mb-8 flex items-center justify-between">
-                        <div>
-                            <h1 class="text-2xl font-black leading-none tracking-tight text-[#1C1917]">${escapeHtml(selectedTest.name)}</h1>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="flex items-center gap-2 rounded-2xl border px-5 py-3 text-[13px] font-black transition-colors ${warn ? 'border-red-200 bg-red-50 text-red-500' : 'border-[#E7E5E4] bg-[#F5F5F4] text-[#1C1917]'}">
-                                <i data-lucide="clock" class="h-3.5 w-3.5"></i>
-                                <span id="learnometerTimer">${formatLearnometerTime(learnometerState.timeLeft)}</span>
-                            </div>
-                            <button type="button" id="learnometerExitTest" class="focus-ring rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-5 py-3 text-[11px] font-black  tracking-wider text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Exit</button>
-                        </div>
-                    </div>
+                <section class="tab-content py-4 sm:py-5 lg:py-6">
+                    <div class="relative overflow-hidden rounded-[2.5rem] px-4 py-2 sm:px-6 sm:py-2 lg:px-8 lg:py-2">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-40 bg-[radial-gradient(circle,_rgba(116,118,255,0.11)_0,_rgba(116,118,255,0.02)_28%,_transparent_68%)] lg:block"></div>
+                        <div class="pointer-events-none absolute bottom-12 right-6 hidden h-40 w-40 rounded-full bg-[radial-gradient(circle,_rgba(255,161,84,0.15)_0,_rgba(255,161,84,0.03)_42%,_transparent_72%)] lg:block"></div>
 
-                    <div class="mb-8">
-                        <div class="mt-5 overflow-x-auto pb-2">
-                            <div class="flex min-w-[820px] items-center">
-                                ${LEARNOMETER_QUESTIONS.map((_, index) => {
-                const isCurrent = index === learnometerState.currentQ;
-                const isAnswered = learnometerState.answers[index] !== null && learnometerState.answers[index] !== undefined;
-                const isSkipped = Boolean(learnometerState.skipped[index]) && !isAnswered;
-                const circleClass = isCurrent
-                    ? 'border-[#A41034] bg-[#A41034] text-white'
-                    : isAnswered
-                        ? 'border-[#2E8B57] bg-[#2E8B57] text-white'
-                        : isSkipped
-                            ? 'border-[#E0A72F] bg-[#F4C542] text-[#5B4303]'
-                            : 'border-[#D8D1CB] bg-white text-[#8B817B]';
-                const lineClass = isAnswered
-                    ? 'bg-[#2E8B57]'
-                    : isSkipped
-                        ? 'bg-[#F4C542]'
-                        : 'bg-[#E7E1DC]';
-                return `
-                                    <div class="flex flex-1 items-center">
-                                        <button type="button" class="learnometer-question-nav focus-ring relative z-[1] flex h-11 w-11 items-center justify-center rounded-full border-2 text-[12px] font-black transition-all ${circleClass}" data-question-index="${index}">
-                                            ${index + 1}
-                                        </button>
-                                        ${index < LEARNOMETER_QUESTIONS.length - 1 ? `<span class="mx-1.5 h-[3px] flex-1 rounded-full ${lineClass}"></span>` : ''}
+                        <div class="fade-in">
+                            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                                <div class="flex items-center gap-3 sm:gap-4">
+                                    <button
+                                        type="button"
+                                        class="learnometer-question-nav focus-ring flex h-[52px] w-[52px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
+                                        data-question-index="${learnometerState.currentQ - 1}"
+                                        ${learnometerState.currentQ === 0 ? 'disabled' : ''}
+                                    >
+                                        <i data-lucide="chevron-left" class="h-6 w-6"></i>
+                                    </button>
+
+                                    <div class="min-w-0 overflow-x-auto pb-2">
+                                        <div class="flex min-w-max items-center gap-3">
+                                            ${questionNav}
+                                        </div>
                                     </div>
-                                `;
-            }).join('')}
-                            </div>
-                        </div>
-                    </div>
+                                </div>
 
-                    <div class="mx-auto max-w-2xl">
-                        <div class="fade-in mb-6 rounded-[2.5rem] border border-[#E7E5E4] bg-white p-10">
-                            <div class="mb-8 flex items-start gap-4">
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#A41034] text-[13px] font-black text-white">${learnometerState.currentQ + 1}</div>
-                                <p class="pt-1 text-[16px] font-bold leading-relaxed text-[#1C1917]">${escapeHtml(question.text)}</p>
+                                <div class="flex flex-wrap items-center gap-3 pl-[66px] sm:pl-[70px] lg:pl-0">
+                                    <button
+                                        type="button"
+                                        class="learnometer-question-nav focus-ring flex h-[52px] w-[52px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
+                                        data-question-index="${learnometerState.currentQ + 1}"
+                                        ${canAdvance ? '' : 'disabled'}
+                                    >
+                                        <i data-lucide="chevron-right" class="h-6 w-6"></i>
+                                    </button>
+                                    <div class="h-8 w-px bg-[#EFE8E2]"></div>
+                                    <div class="flex items-center gap-2 text-[12px] font-medium ${warn ? 'text-red-500' : 'text-[#4B5563]'} sm:text-[13px]">
+                                        <i data-lucide="clock-3" class="h-[18px] w-[18px]"></i>
+                                        <span id="learnometerTimer" class="font-semibold tracking-[-0.01em]">${formatLearnometerTime(learnometerState.timeLeft)}</span>
+                                    </div>
+                                    <button type="button" id="learnometerExitTest" class="focus-ring text-[13px] font-medium text-[#5E6678] transition-colors hover:text-[#26324B]">Exit</button>
+                                </div>
                             </div>
-                            <div class="space-y-3">${options}</div>
                         </div>
-                        <div class="flex justify-end">
-                            <button type="button" id="learnometerNext" ${learnometerState.selected === null ? 'disabled' : ''} class="focus-ring flex items-center gap-3 rounded-2xl px-8 py-4 text-[11px] font-black  tracking-wider transition-all active:scale-95 ${learnometerState.selected !== null ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#E7E5E4] text-[#A8A29E]'}">
-                                ${learnometerState.currentQ + 1 === LEARNOMETER_QUESTIONS.length ? 'Submit Test' : 'Next Question'}
-                                <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
-                            </button>
+
+                        <div class="mx-auto mt-7 max-w-[1160px] sm:mt-8">
+                            <div class="fade-in rounded-[2rem] border border-[#F1EAE4] bg-white/96 p-5 backdrop-blur-md sm:p-6 lg:p-7 bg:white">
+                                <div class="flex items-start justify-between gap-5">
+                                    <div>
+                                        <div class="flex items-center gap-2 text-[15px] font-semibold tracking-[-0.02em]">
+                                            <span class="text-[#FF8A1F]">${learnometerState.currentQ + 1}</span>
+                                            <span class="text-[#5B6477]">/ ${LEARNOMETER_QUESTIONS.length}</span>
+                                        </div>
+                                        <div class="mt-2 h-1 w-14 rounded-full bg-[#F3ECE6]">
+                                            <div class="h-full w-4 rounded-full bg-[#FF8A1F]"></div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="focus-ring flex h-10 w-10 items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#5B6477] transition-colors hover:text-[#26324B]" aria-label="Bookmark question">
+                                        <i data-lucide="bookmark" class="h-[18px] w-[18px]"></i>
+                                    </button>
+                                </div>
+
+                                <div class="mt-6 sm:mt-8">
+                                    <p class="max-w-[860px] text-[21px] font-semibold leading-[1.4] tracking-[-0.03em] text-[#182B52] sm:text-[25px] lg:text-[30px]">
+                                        ${escapeHtml(question.text)}
+                                    </p>
+                                </div>
+
+                                <div class="mt-6 space-y-3.5 sm:mt-8 sm:space-y-4">${options}</div>
+                            </div>
+                        </div>
+
+                        <div class="mx-auto mt-7 max-w-[1160px] sm:mt-8">
+                            <div class="rounded-[2rem] border border-white/85 bg-white/92 px-5 py-4 shadow-[0_16px_40px_rgba(28,25,23,0.05)] backdrop-blur-md sm:px-6 sm:py-5 lg:px-8">
+                                <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                                    <button type="button" id="learnometerPrevious" class="focus-ring flex h-[54px] items-center gap-3 rounded-[1.1rem] px-4 text-[14px] font-medium text-[#4A5568] transition-colors hover:bg-[#FAF7F4] disabled:cursor-not-allowed disabled:opacity-45" ${learnometerState.currentQ === 0 ? 'disabled' : ''}>
+                                        <i data-lucide="arrow-left" class="h-5 w-5"></i>
+                                        Previous
+                                    </button>
+
+                                    <div class="min-w-0 flex-1 px-0 lg:px-8">
+                                        <p class="text-center text-[14px] font-medium text-[#4B5563] sm:text-[15px]">
+                                            ${answeredCount} of ${LEARNOMETER_QUESTIONS.length} answered
+                                        </p>
+                                        <div class="mx-auto mt-3 h-[5px] max-w-[320px] overflow-hidden rounded-full bg-[#E9E5E1]">
+                                            <div class="h-full rounded-full bg-[#32C667] transition-all duration-300" style="width:${progress}%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-end">
+                                        <button type="button" id="learnometerNext" ${!canAdvance && learnometerState.selected === null ? 'disabled' : ''} class="focus-ring flex h-[54px] min-w-[154px] items-center justify-center gap-3 rounded-[1.1rem] px-6 text-[15px] font-semibold transition-all duration-300 active:scale-[0.99] ${!canAdvance && learnometerState.selected === null ? 'cursor-not-allowed bg-[#E7E5E4] text-[#A8A29E]' : 'bg-[linear-gradient(180deg,#FFF8F1_0%,#FFF4E8_100%)] text-[#FF8A1F] shadow-[0_12px_28px_rgba(255,138,31,0.10)] hover:shadow-[0_16px_34px_rgba(255,138,31,0.14)]'}">
+                                            ${nextLabel}
+                                            <i data-lucide="arrow-right" class="h-5 w-5"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -2437,7 +2891,7 @@
             const circumference = 2 * Math.PI * 52;
             const badgeClass = learnometerState.testType === 'practice'
                 ? 'border border-amber-100 bg-amber-50 text-amber-600'
-                : 'border border-[#A41034]/15 bg-[#A41034]/[0.08] text-[#A41034]';
+                : 'border border-[#a51034]/15 bg-[#a51034]/[0.08] text-[#a51034]';
 
             return `
                 <section class="tab-content py-12">
@@ -2451,7 +2905,7 @@
                             <div class="relative mx-auto my-8 h-36 w-36">
                                 <svg viewBox="0 0 120 120" class="h-full w-full -rotate-90">
                                     <circle cx="60" cy="60" r="52" fill="none" stroke="#F5F5F4" stroke-width="10" />
-                                    <circle cx="60" cy="60" r="52" fill="none" stroke="${passed ? '#A41034' : '#f59138'}" stroke-width="10" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference * (1 - pct / 100)}" stroke-linecap="round" style="transition: stroke-dashoffset 1.2s ease" />
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="${passed ? '#a51034' : '#f59138'}" stroke-width="10" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference * (1 - pct / 100)}" stroke-linecap="round" style="transition: stroke-dashoffset 1.2s ease" />
                                 </svg>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center">
                                     <span class="text-3xl font-black text-[#1C1917]">${pct}%</span>
@@ -2468,7 +2922,7 @@
                             </div>
                             <div class="flex items-center justify-center gap-3">
                                 <button type="button" id="learnometerBackToTest" class="focus-ring rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-8 py-4 text-[11px] font-black  tracking-wider text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Back to Test</button>
-                                <button type="button" id="learnometerRetry" class="focus-ring rounded-2xl bg-[#A41034] px-8 py-4 text-[11px] font-black  tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95">
+                                <button type="button" id="learnometerRetry" class="focus-ring rounded-2xl bg-[#a51034] px-8 py-4 text-[11px] font-black  tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95">
                                     ${learnometerState.testType === 'practice' ? 'Start Official Test' : 'Try Practice Again'}
                                 </button>
                             </div>
@@ -2494,6 +2948,8 @@
                 panel.innerHTML = renderLearnometerTest();
             }
 
+            updateLearnometerHash();
+            persistLearnometerState();
             bindLearnometerEvents();
             lucide.createIcons();
         }
@@ -2505,20 +2961,24 @@
             const studentInput = panel.querySelector('#learnometerStudentId');
             const teacherInput = panel.querySelector('#learnometerTeacherCode');
             studentInput?.addEventListener('input', (event) => {
-                learnometerState.studentId = event.target.value;
+                const normalizedValue = event.target.value.toUpperCase();
+                event.target.value = normalizedValue;
+                learnometerState.studentId = normalizedValue;
                 learnometerState.loginError = '';
                 updateLearnometerLoginButton();
             });
             teacherInput?.addEventListener('input', (event) => {
-                learnometerState.teacherCode = event.target.value;
+                const normalizedValue = event.target.value.toUpperCase();
+                event.target.value = normalizedValue;
+                learnometerState.teacherCode = normalizedValue;
                 learnometerState.loginError = '';
                 updateLearnometerLoginButton();
             });
 
             panel.querySelector('#learnometerLoginForm')?.addEventListener('submit', (event) => {
                 event.preventDefault();
-                learnometerState.studentId = document.getElementById('learnometerStudentId')?.value || '';
-                learnometerState.teacherCode = document.getElementById('learnometerTeacherCode')?.value || '';
+                learnometerState.studentId = document.getElementById('learnometerStudentId')?.value.toUpperCase() || '';
+                learnometerState.teacherCode = document.getElementById('learnometerTeacherCode')?.value.toUpperCase() || '';
                 if (learnometerState.studentId.trim() && learnometerState.teacherCode.trim()) {
                     learnometerState.step = 'select';
                     learnometerState.loginError = '';
@@ -2809,8 +3269,8 @@
             return `
                 <label class="block">
                     <span class="mb-2 block text-xs font-medium leading-5 text-[#8B8B8B]">${label}</span>
-                    <span class="flex h-14 items-center gap-3 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-4 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)] ${disabled ? 'opacity-50' : ''}">
-                        <i data-lucide="${getGymFieldIcon(name)}" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                    <span class="flex h-14 items-center gap-3 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-4 transition-all focus-within:border-[#a51034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)] ${disabled ? 'opacity-50' : ''}">
+                        <i data-lucide="${getGymFieldIcon(name)}" class="h-4 w-4 shrink-0 text-[#a51034]"></i>
                         <select data-gym-field="${name}" ${disabled ? 'disabled' : ''} class="w-full cursor-pointer bg-transparent text-sm font-medium leading-6 text-[#1C1917] outline-none disabled:cursor-not-allowed">
                             <option value="">Select ${label.toLowerCase()}...</option>
                             ${options.map((option) => `<option value="${escapeHtml(option)}" ${option === value ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}
@@ -2824,8 +3284,8 @@
             return `
                 <label class="min-w-0">
                     <span class="mb-1.5 block text-[11px] font-medium leading-4 text-[#8B8B8B]">${label}</span>
-                    <span class="flex h-12 items-center gap-2 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#A41034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)] ${disabled ? 'opacity-50' : ''}">
-                        <i data-lucide="${getGymFieldIcon(name)}" class="h-4 w-4 shrink-0 text-[#A41034]"></i>
+                    <span class="flex h-12 items-center gap-2 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] px-3 transition-all focus-within:border-[#a51034] focus-within:shadow-[0_0_0_3px_rgba(164,16,52,0.10)] ${disabled ? 'opacity-50' : ''}">
+                        <i data-lucide="${getGymFieldIcon(name)}" class="h-4 w-4 shrink-0 text-[#a51034]"></i>
                         <select data-gym-field="${name}" ${disabled ? 'disabled' : ''} class="min-w-0 w-full cursor-pointer bg-transparent text-[13px] font-medium leading-5 text-[#1C1917] outline-none disabled:cursor-not-allowed">
                             <option value="">Select ${label.toLowerCase()}...</option>
                             ${options.map((option) => `<option value="${escapeHtml(option)}" ${option === value ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}
@@ -2920,7 +3380,7 @@
                 <div class="-mx-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0">
                     <div class="flex w-max min-w-full gap-2">
                         ${PRACTICE_REVIEW_SUBJECTS.map((subject) => `
-                            <button type="button" data-practice-subject="${escapeHtml(subject)}" class="focus-ring shrink-0 rounded-full px-4 py-2 text-[13px] font-semibold transition-all ${subject === selected ? 'bg-[#A41034] text-white shadow-[0_10px_24px_rgba(164,16,52,0.18)]' : 'border border-[#EEE9E5] bg-white/80 text-[#6D5D5A] hover:border-[#A41034]/20 hover:text-[#A41034]'}">
+                            <button type="button" data-practice-subject="${escapeHtml(subject)}" class="focus-ring shrink-0 rounded-full px-4 py-2 text-[13px] font-semibold transition-all ${subject === selected ? 'bg-[#a51034] text-white shadow-[0_10px_24px_rgba(164,16,52,0.18)]' : 'border border-[#EEE9E5] bg-white/80 text-[#6D5D5A] hover:border-[#a51034]/20 hover:text-[#a51034]'}">
                                 ${escapeHtml(subject)}
                             </button>
                         `).join('')}
@@ -2959,7 +3419,7 @@
                 <section class="overflow-hidden rounded-[24px] border border-[#F1EDEA] bg-white shadow-[0_18px_45px_rgba(28,25,23,0.045)]">
                     <div class="p-5 sm:p-7 lg:p-8">
                         <div class="mb-5 flex flex-wrap items-center gap-2">
-                            <span class="inline-flex items-center gap-2 rounded-full bg-[#FAF8F6] px-3 py-1.5 text-[12px] font-semibold text-[#A41034]">
+                            <span class="inline-flex items-center gap-2 rounded-full bg-[#FAF8F6] px-3 py-1.5 text-[12px] font-semibold text-[#a51034]">
                                 <i data-lucide="book-marked" class="h-3.5 w-3.5"></i>
                                 ${escapeHtml(subject)}
                             </span>
@@ -2971,7 +3431,7 @@
                         <div class="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
                             <div>
                                 <h1 class="whitespace-nowrap font-['Poppins'] text-[26px] font-semibold leading-8 text-[#1C1917] sm:text-[34px] sm:leading-10">Practice Test Review</h1>
-                                ${weakTopic ? `<p class="mt-2 text-sm font-medium text-[#7C706A]">Next focus: <span class="font-semibold text-[#A41034]">${escapeHtml(weakTopic)}</span></p>` : ''}
+                                ${weakTopic ? `<p class="mt-2 text-sm font-medium text-[#7C706A]">Next focus: <span class="font-semibold text-[#a51034]">${escapeHtml(weakTopic)}</span></p>` : ''}
                             </div>
                         </div>
                         <div class="mt-7 grid gap-0 overflow-hidden rounded-[20px] bg-[#FAF8F6] sm:grid-cols-4">
@@ -3003,7 +3463,7 @@
                         ${weekStats.map((item) => `
                             <div class="flex items-center justify-between gap-4 py-4">
                                 <div class="flex min-w-0 items-center gap-3">
-                                    <i data-lucide="${item.icon}" class="h-5 w-5 shrink-0 text-[#A41034]"></i>
+                                    <i data-lucide="${item.icon}" class="h-5 w-5 shrink-0 text-[#a51034]"></i>
                                     <span class="truncate text-sm font-semibold text-[#2B2522]">${item.label}</span>
                                 </div>
                                 <span class="shrink-0 text-[16px] font-semibold ${item.accent ? 'text-[#059669]' : 'text-[#1C1917]'}">${item.value}</span>
@@ -3070,10 +3530,10 @@
                 const entry = entryByDay.get(day);
                 const future = day > today;
                 return `
-                                <button type="button" ${entry ? `data-calendar-day="${day}"` : ''} ${future ? 'disabled' : ''} class="relative h-9 rounded-xl text-[13px] font-medium transition-colors ${day === today ? 'bg-[#FFF0F2] text-[#A41034]' : future ? 'text-[#D4CDC8]' : 'text-[#2B2522] hover:bg-[#FAF8F6]'}">
+                                <button type="button" ${entry ? `data-calendar-day="${day}"` : ''} ${future ? 'disabled' : ''} class="relative h-9 rounded-xl text-[13px] font-medium transition-colors ${day === today ? 'bg-[#FFF0F2] text-[#a51034]' : future ? 'text-[#D4CDC8]' : 'text-[#2B2522] hover:bg-[#FAF8F6]'}">
                                     ${day}
                                     ${entry ? `<span class="absolute bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-0.5">
-                                        ${entry.best ? '<span class="h-1 w-1 rounded-full bg-[#A41034]"></span>' : `<span class="h-1 w-1 rounded-full ${entry.completed ? 'bg-[#F49138]' : 'bg-[#A41034]'}"></span>`}
+                                        ${entry.best ? '<span class="h-1 w-1 rounded-full bg-[#a51034]"></span>' : `<span class="h-1 w-1 rounded-full ${entry.completed ? 'bg-[#F49138]' : 'bg-[#a51034]'}"></span>`}
                                         ${entry.subjects.length > 1 ? `<span class="text-[9px] font-semibold text-[#8B8B8B]">+${entry.subjects.length - 1}</span>` : ''}
                                     </span>` : ''}
                                 </button>
@@ -3097,11 +3557,11 @@
                                 <div class="min-w-0">
                                     <div class="flex items-center justify-between gap-3">
                                         <p class="truncate text-sm font-semibold text-[#1C1917]">${escapeHtml(item.topic)}</p>
-                                        <p class="text-sm font-semibold text-[#A41034]">${item.accuracy}%</p>
+                                        <p class="text-sm font-semibold text-[#a51034]">${item.accuracy}%</p>
                                     </div>
-                                    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#F2EEE9]"><div class="h-full rounded-full bg-[#A41034]" style="width: ${item.accuracy}%"></div></div>
+                                    <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-[#F2EEE9]"><div class="h-full rounded-full bg-[#a51034]" style="width: ${item.accuracy}%"></div></div>
                                 </div>
-                                <button type="button" data-practice-topic="${escapeHtml(item.topic)}" class="rounded-xl bg-[#F8F4F0] px-3 py-2 text-[12px] font-semibold text-[#A41034] hover:bg-[#FDF0F2]">Practice</button>
+                                <button type="button" data-practice-topic="${escapeHtml(item.topic)}" class="rounded-xl bg-[#F8F4F0] px-3 py-2 text-[12px] font-semibold text-[#a51034] hover:bg-[#FDF0F2]">Practice</button>
                             </div>
                         `).join('')}
                     </div>` : '<div class="rounded-2xl bg-[#FAF8F6] p-4 text-sm text-[#6D5D5A]">Great work! No weak areas found yet.</div>'}
@@ -3116,15 +3576,15 @@
                 <section class="rounded-[22px] border border-[#F0E7DF] bg-white p-5 shadow-[0_14px_32px_rgba(28,25,23,0.045)]">
                     ${renderPracticeSectionHeader('Usage', `
                         <div class="flex rounded-full bg-[#F8F4F0] p-1">
-                            <button type="button" data-usage-metric="attempts" class="rounded-full px-3 py-1 text-[11px] font-semibold ${metric === 'attempts' ? 'bg-white text-[#A41034] shadow-sm' : 'text-[#8B8B8B]'}">Attempts</button>
-                            <button type="button" data-usage-metric="minutes" class="rounded-full px-3 py-1 text-[11px] font-semibold ${metric === 'minutes' ? 'bg-white text-[#A41034] shadow-sm' : 'text-[#8B8B8B]'}">Time Spent</button>
+                            <button type="button" data-usage-metric="attempts" class="rounded-full px-3 py-1 text-[11px] font-semibold ${metric === 'attempts' ? 'bg-white text-[#a51034] shadow-sm' : 'text-[#8B8B8B]'}">Attempts</button>
+                            <button type="button" data-usage-metric="minutes" class="rounded-full px-3 py-1 text-[11px] font-semibold ${metric === 'minutes' ? 'bg-white text-[#a51034] shadow-sm' : 'text-[#8B8B8B]'}">Time Spent</button>
                         </div>
                     `)}
                     <div class="flex h-44 items-end gap-3 border-b border-[#F0EEEC] pb-3">
                         ${PRACTICE_REVIEW_DATA.usage.map((item) => `
                             <div class="flex flex-1 flex-col items-center gap-2">
                                 <div class="flex h-32 w-full items-end justify-center">
-                                    <div class="w-full max-w-[30px] rounded-t-xl bg-[#A41034]" style="height: ${Math.max(8, (item[metric] / maxValue) * 100)}%"></div>
+                                    <div class="w-full max-w-[30px] rounded-t-xl bg-[#a51034]" style="height: ${Math.max(8, (item[metric] / maxValue) * 100)}%"></div>
                                 </div>
                                 <span class="text-[11px] font-medium text-[#8B8B8B]">${item.day}</span>
                             </div>
@@ -3144,11 +3604,11 @@
             const rows = PRACTICE_REVIEW_DATA.history.filter((row) => selected === 'Overall' || row.subject === selected).slice(0, 5);
             return `
                 <section class="rounded-[22px] border border-[#F0E7DF] bg-white p-5 shadow-[0_14px_32px_rgba(28,25,23,0.045)]">
-                    ${renderPracticeSectionHeader('Practice History', '<button type="button" class="text-[12px] font-semibold text-[#A41034]">View all history</button>')}
+                    ${renderPracticeSectionHeader('Practice History', '<button type="button" class="text-[12px] font-semibold text-[#a51034]">View all history</button>')}
                     <div class="divide-y divide-[#F0EEEC]">
                         ${(rows.length ? rows : PRACTICE_REVIEW_DATA.history.slice(0, 5)).map((row) => `
                             <div class="flex items-center gap-4 py-3">
-                                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#F8F4F0] text-[#A41034]"><i data-lucide="${row.icon}" class="h-4 w-4"></i></span>
+                                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#F8F4F0] text-[#a51034]"><i data-lucide="${row.icon}" class="h-4 w-4"></i></span>
                                 <div class="min-w-0 flex-1">
                                     <p class="truncate text-sm font-semibold text-[#1C1917]">${escapeHtml(row.title)}</p>
                                     <p class="mt-0.5 truncate text-[12px] text-[#7C706A]">${escapeHtml(row.subject)} · ${escapeHtml(row.date)} · ${escapeHtml(row.topic)}</p>
@@ -3157,7 +3617,7 @@
                                     <p class="text-sm font-semibold text-[#1C1917]">Score ${row.score}%</p>
                                     <p class="text-[12px] text-[#7C706A]">${escapeHtml(row.status)}</p>
                                 </div>
-                                <button type="button" data-history-action="${escapeHtml(row.action)}" class="rounded-xl bg-[#F8F4F0] px-3 py-2 text-[12px] font-semibold text-[#A41034] hover:bg-[#FDF0F2]">${escapeHtml(row.action)}</button>
+                                <button type="button" data-history-action="${escapeHtml(row.action)}" class="rounded-xl bg-[#F8F4F0] px-3 py-2 text-[12px] font-semibold text-[#a51034] hover:bg-[#FDF0F2]">${escapeHtml(row.action)}</button>
                             </div>
                         `).join('')}
                     </div>
@@ -3174,7 +3634,7 @@
                     <section class="fixed bottom-4 left-4 right-4 rounded-[24px] bg-white p-5 shadow-[0_24px_70px_rgba(28,25,23,0.22)] sm:static sm:w-full sm:max-w-md">
                         <div class="mb-4 flex items-start justify-between gap-4">
                             <div>
-                                <p class="text-[12px] font-semibold text-[#A41034]">May ${entry.day}, 2026</p>
+                                <p class="text-[12px] font-semibold text-[#a51034]">May ${entry.day}, 2026</p>
                                 <h3 class="mt-1 text-xl font-semibold text-[#1C1917]">${escapeHtml(entry.topic)}</h3>
                             </div>
                             <button type="button" data-close-day-sheet class="grid h-9 w-9 place-items-center rounded-full bg-[#F8F4F0] text-[#6D5D5A]"><i data-lucide="x" class="h-4 w-4"></i></button>
@@ -3186,8 +3646,8 @@
                             <div class="rounded-2xl bg-[#FAF8F6] p-3"><p class="text-[12px] text-[#8B8B8B]">Attempted</p><p class="mt-1 font-semibold text-[#1C1917]">${entry.attempted} questions</p></div>
                         </div>
                         <div class="mt-5 flex gap-3">
-                            <button type="button" data-history-action="Review" class="flex-1 rounded-2xl border border-[#E8DDD5] px-4 py-3 text-sm font-semibold text-[#A41034]">Review</button>
-                            <button type="button" data-practice-topic="${escapeHtml(entry.topic)}" class="flex-1 rounded-2xl bg-[#A41034] px-4 py-3 text-sm font-semibold text-white">Retry</button>
+                            <button type="button" data-history-action="Review" class="flex-1 rounded-2xl border border-[#E8DDD5] px-4 py-3 text-sm font-semibold text-[#a51034]">Review</button>
+                            <button type="button" data-practice-topic="${escapeHtml(entry.topic)}" class="flex-1 rounded-2xl bg-[#a51034] px-4 py-3 text-sm font-semibold text-white">Retry</button>
                         </div>
                     </section>
                 </div>
@@ -3195,7 +3655,7 @@
         }
 
         function renderPracticeStat(label, value, tone = 'wine') {
-            const color = tone === 'amber' ? '#f59138' : tone === 'green' ? '#2E7D32' : '#A41034';
+            const color = tone === 'amber' ? '#f59138' : tone === 'green' ? '#2E7D32' : '#a51034';
             return `
                 <div class="rounded-2xl border border-[#E7E5E4] bg-white p-4">
                     <p class="text-[12px] font-medium text-[#78716C]">${label}</p>
@@ -3207,14 +3667,14 @@
         function renderPracticeQuickCard(icon, title, description, difficulty, time, cta, action = '') {
             return `
                 <article class="flex min-h-[174px] flex-col rounded-2xl border border-[#E7E5E4] bg-white p-5 shadow-[0_10px_28px_rgba(28,25,23,0.045)]">
-                    <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#A41034]/8 text-[#A41034]">
+                    <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#a51034]/8 text-[#a51034]">
                         <i data-lucide="${icon}" class="h-5 w-5"></i>
                     </div>
                     <h3 class="text-[15px] font-semibold text-[#1C1917]">${title}</h3>
                     <p class="mt-1.5 flex-1 text-sm leading-5 text-[#6D5D5A]">${description}</p>
                     <div class="mt-4 flex items-center justify-between gap-3 border-t border-[#F0EEEC] pt-3">
                         <span class="text-[11px] font-medium text-[#8B8B8B]">${difficulty} · ${time}</span>
-                        <button type="button" ${action} class="rounded-lg bg-[#F7F5F3] px-3 py-2 text-[12px] font-semibold text-[#A41034] transition-colors hover:bg-[#A41034]/8">${cta}</button>
+                        <button type="button" ${action} class="rounded-lg bg-[#F7F5F3] px-3 py-2 text-[12px] font-semibold text-[#a51034] transition-colors hover:bg-[#a51034]/8">${cta}</button>
                     </div>
                 </article>
             `;
@@ -3227,15 +3687,15 @@
                     <article class="rounded-2xl border border-[#E7E5E4] bg-white p-5 shadow-[0_10px_28px_rgba(28,25,23,0.045)]">
                         <div class="mb-4 flex items-center justify-between gap-3">
                             <div>
-                                <p class="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#A41034]">Live Practice Preview</p>
+                                <p class="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#a51034]">Live Practice Preview</p>
                                 <h3 class="mt-1 text-lg font-semibold text-[#1C1917]">Question 3 of 10</h3>
                             </div>
                             <span class="rounded-full bg-[#fff7ed] px-3 py-1 text-xs font-semibold text-[#b75d13]">04:28</span>
                         </div>
-                        <div class="mb-4 h-1.5 overflow-hidden rounded-full bg-[#F0EEEC]"><div class="h-full w-[30%] rounded-full bg-[#A41034]"></div></div>
+                        <div class="mb-4 h-1.5 overflow-hidden rounded-full bg-[#F0EEEC]"><div class="h-full w-[30%] rounded-full bg-[#a51034]"></div></div>
                         <div class="rounded-2xl bg-[#FAFAFA] p-5">
                             <div class="mb-3 flex flex-wrap gap-2">
-                                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#A41034]">Equivalent Fractions</span>
+                                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#a51034]">Equivalent Fractions</span>
                                 <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#78716C]">Medium</span>
                             </div>
                             <p class="text-[15px] font-semibold leading-6 text-[#1C1917]">Which fraction is equivalent to 2/4?</p>
@@ -3245,12 +3705,12 @@
                             <div class="mt-4 flex flex-wrap gap-2">
                                 <button class="rounded-xl border border-[#E7E5E4] px-4 py-2 text-xs font-semibold text-[#78716C]">Hint used</button>
                                 <button class="rounded-xl border border-[#E7E5E4] px-4 py-2 text-xs font-semibold text-[#78716C]">Skip</button>
-                                <button class="rounded-xl bg-[#A41034] px-4 py-2 text-xs font-semibold text-white">Submit</button>
+                                <button class="rounded-xl bg-[#a51034] px-4 py-2 text-xs font-semibold text-white">Submit</button>
                             </div>
                         </div>
                     </article>
                     <article class="rounded-2xl border border-[#E7E5E4] bg-white p-5 shadow-[0_10px_28px_rgba(28,25,23,0.045)]">
-                        <p class="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#A41034]">${isTeacher ? 'Teacher Result' : 'Child Result'}</p>
+                        <p class="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#a51034]">${isTeacher ? 'Teacher Result' : 'Child Result'}</p>
                         <h3 class="mt-1 text-lg font-semibold text-[#1C1917]">${isTeacher ? 'Class practice summary' : 'Great work, Aarav'}</h3>
                         <div class="mt-4 grid grid-cols-2 gap-3">
                             ${isTeacher ? `
@@ -3281,8 +3741,8 @@
             const timeIndex = GYM_TIME_OPTIONS.indexOf(practiceGymState.timeLimit);
 
             // <div class="inline-flex w-fit items-center gap-1 rounded-xl border border-[#E5E5E5] bg-[#F6F6F6] p-1">
-            //     <button type="button" data-gym-mode="teacher" class="h-9 rounded-lg px-5 text-[13px] font-semibold transition-all ${practiceGymState.mode === 'teacher' ? 'bg-white text-[#A41034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]' : 'text-[#78716C] hover:text-[#1C1917]'}">Teacher</button>
-            //     <button type="button" data-gym-mode="parent" class="h-9 rounded-lg px-5 text-[13px] font-semibold transition-all ${practiceGymState.mode === 'parent' ? 'bg-white text-[#A41034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]' : 'text-[#78716C] hover:text-[#1C1917]'}">Parent</button>
+            //     <button type="button" data-gym-mode="teacher" class="h-9 rounded-lg px-5 text-[13px] font-semibold transition-all ${practiceGymState.mode === 'teacher' ? 'bg-white text-[#a51034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]' : 'text-[#78716C] hover:text-[#1C1917]'}">Teacher</button>
+            //     <button type="button" data-gym-mode="parent" class="h-9 rounded-lg px-5 text-[13px] font-semibold transition-all ${practiceGymState.mode === 'parent' ? 'bg-white text-[#a51034] shadow-[0_4px_14px_rgba(28,25,23,0.08)]' : 'text-[#78716C] hover:text-[#1C1917]'}">Parent</button>
             // </div>
             return `
 
@@ -3309,9 +3769,9 @@
                                 <span class="text-xs font-semibold text-[#1C1917]">${practiceGymState.timeLimit} min</span>
                             </div>
                             <div>
-                                <input type="range" min="0" max="${GYM_TIME_OPTIONS.length - 1}" step="1" value="${timeIndex < 0 ? 2 : timeIndex}" data-gym-time class="h-1.5 w-full cursor-pointer accent-[#A41034]">
+                                <input type="range" min="0" max="${GYM_TIME_OPTIONS.length - 1}" step="1" value="${timeIndex < 0 ? 2 : timeIndex}" data-gym-time class="h-1.5 w-full cursor-pointer accent-[#a51034]">
                                 <div class="mt-1 flex justify-between text-[10px] font-medium leading-4 text-[#8B8B8B]">
-                                    ${GYM_TIME_OPTIONS.map((time) => `<button type="button" data-gym-time-option="${time}" class="transition-colors ${practiceGymState.timeLimit === time ? 'font-semibold text-[#A41034]' : 'hover:text-[#1C1917]'}">${time}m</button>`).join('')}
+                                    ${GYM_TIME_OPTIONS.map((time) => `<button type="button" data-gym-time-option="${time}" class="transition-colors ${practiceGymState.timeLimit === time ? 'font-semibold text-[#a51034]' : 'hover:text-[#1C1917]'}">${time}m</button>`).join('')}
                                 </div>
                             </div>
                         </div>
@@ -3322,17 +3782,17 @@
                                         <i data-lucide="check" class="h-4 w-4 text-[#4CAF50]"></i>
                                         <div class="min-w-0 flex-1">
                                             <p class="text-[13px] font-semibold leading-5 text-[#1C1917]">PDF Ready</p>
-                                            <button type="button" data-gym-generate-another class="text-xs font-medium leading-4 text-[#8B8B8B] transition-colors hover:text-[#A41034]">Generate another</button>
+                                            <button type="button" data-gym-generate-another class="text-xs font-medium leading-4 text-[#8B8B8B] transition-colors hover:text-[#a51034]">Generate another</button>
                                         </div>
                                     </div>
                                 ` : `
-                                    <button type="button" data-gym-download-pdf ${ready ? '' : 'disabled'} class="focus-ring flex h-14 w-full items-center justify-center gap-2 rounded-xl px-5 text-[13px] font-semibold tracking-[0.3px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                                    <button type="button" data-gym-download-pdf ${ready ? '' : 'disabled'} class="focus-ring flex h-14 w-full items-center justify-center gap-2 rounded-xl px-5 text-[13px] font-semibold tracking-[0.3px] transition-all active:scale-95 ${ready ? 'bg-[#a51034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
                                         <i data-lucide="download" class="h-4 w-4"></i>
                                         Generate & Download PDF
                                     </button>
                                 `
                 ) : `
-                                <button type="button" data-gym-start-test ${ready ? '' : 'disabled'} class="focus-ring flex h-14 w-full items-center justify-center gap-2 rounded-xl px-5 text-[13px] font-semibold tracking-[0.3px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                                <button type="button" data-gym-start-test ${ready ? '' : 'disabled'} class="focus-ring flex h-14 w-full items-center justify-center gap-2 rounded-xl px-5 text-[13px] font-semibold tracking-[0.3px] transition-all active:scale-95 ${ready ? 'bg-[#a51034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
                                     <i data-lucide="play" class="h-4 w-4 fill-current"></i>
                                     Start Test
                                 </button>
@@ -3364,9 +3824,9 @@
                                 <span class="text-[11px] font-medium leading-4 text-[#8B8B8B]">Time Limit</span>
                                 <span class="text-xs font-semibold text-[#1C1917]">${practiceGymState.timeLimit} min</span>
                             </div>
-                            <input type="range" min="0" max="${GYM_TIME_OPTIONS.length - 1}" step="1" value="${timeIndex < 0 ? 2 : timeIndex}" data-gym-time class="h-1.5 w-full cursor-pointer accent-[#A41034]">
+                            <input type="range" min="0" max="${GYM_TIME_OPTIONS.length - 1}" step="1" value="${timeIndex < 0 ? 2 : timeIndex}" data-gym-time class="h-1.5 w-full cursor-pointer accent-[#a51034]">
                             <div class="mt-1 flex justify-between text-[10px] font-medium leading-4 text-[#8B8B8B]">
-                                ${GYM_TIME_OPTIONS.map((time) => `<button type="button" data-gym-time-option="${time}" class="transition-colors ${practiceGymState.timeLimit === time ? 'font-semibold text-[#A41034]' : 'hover:text-[#1C1917]'}">${time}m</button>`).join('')}
+                                ${GYM_TIME_OPTIONS.map((time) => `<button type="button" data-gym-time-option="${time}" class="transition-colors ${practiceGymState.timeLimit === time ? 'font-semibold text-[#a51034]' : 'hover:text-[#1C1917]'}">${time}m</button>`).join('')}
                             </div>
                         </div>
                         ${practiceGymState.mode === 'teacher' ? (
@@ -3375,17 +3835,17 @@
                                     <i data-lucide="check" class="h-4 w-4 shrink-0 text-[#4CAF50]"></i>
                                     <div class="min-w-0 flex-1">
                                         <p class="truncate text-[12px] font-semibold leading-4 text-[#1C1917]">PDF Ready</p>
-                                        <button type="button" data-gym-generate-another class="truncate text-[11px] font-medium leading-4 text-[#8B8B8B] transition-colors hover:text-[#A41034]">Generate another</button>
+                                        <button type="button" data-gym-generate-another class="truncate text-[11px] font-medium leading-4 text-[#8B8B8B] transition-colors hover:text-[#a51034]">Generate another</button>
                                     </div>
                                 </div>
                             ` : `
-                                <button type="button" data-gym-download-pdf ${ready ? '' : 'disabled'} class="focus-ring flex h-12 w-full items-center justify-center gap-2 rounded-xl px-3 text-[12px] font-semibold tracking-[0.2px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                                <button type="button" data-gym-download-pdf ${ready ? '' : 'disabled'} class="focus-ring flex h-12 w-full items-center justify-center gap-2 rounded-xl px-3 text-[12px] font-semibold tracking-[0.2px] transition-all active:scale-95 ${ready ? 'bg-[#a51034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
                                     <i data-lucide="download" class="h-4 w-4"></i>
                                     Generate PDF
                                 </button>
                             `
                 ) : `
-                            <button type="button" data-gym-start-test ${ready ? '' : 'disabled'} class="focus-ring flex h-12 w-full items-center justify-center gap-2 rounded-xl px-3 text-[12px] font-semibold tracking-[0.2px] transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
+                            <button type="button" data-gym-start-test ${ready ? '' : 'disabled'} class="focus-ring flex h-12 w-full items-center justify-center gap-2 rounded-xl px-3 text-[12px] font-semibold tracking-[0.2px] transition-all active:scale-95 ${ready ? 'bg-[#a51034] text-white hover:-translate-y-0.5 hover:bg-[#7a0c26] hover:shadow-[0_12px_24px_rgba(164,16,52,0.22)]' : 'cursor-not-allowed bg-[#F5F5F4] text-[#B8B2AE]'}">
                                 <i data-lucide="play" class="h-4 w-4 fill-current"></i>
                                 Start Test
                             </button>
@@ -3424,7 +3884,7 @@
                     ${renderPracticeHistory()}
                 </section>
                 ${renderPracticeSubjectFilterToolbar()}
-                <button type="button" data-practice-start class="focus-ring fixed bottom-5 left-4 right-4 z-30 h-14 rounded-2xl bg-[#A41034] py-4 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(164,16,52,0.22)] sm:hidden">Start Practice</button>
+                <button type="button" data-practice-start class="focus-ring fixed bottom-5 left-4 right-4 z-30 h-14 rounded-2xl bg-[#a51034] py-4 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(164,16,52,0.22)] sm:hidden">Start Practice</button>
                 ${renderPracticeSetupSheet()}
                 ${renderCalendarDayDetailsSheet()}
             `;
@@ -3449,22 +3909,22 @@
                     <div class="mb-8">
                         <div class="mb-2 flex items-center justify-between">
                             <span class="text-[10px] font-black tracking-widest text-[#A8A29E]">Question ${practiceGymState.currentQ + 1} of ${practiceGymState.questions.length}</span>
-                            <span class="text-[10px] font-black tracking-widest text-[#A41034]">${practiceGymState.difficulty.toUpperCase()}</span>
+                            <span class="text-[10px] font-black tracking-widest text-[#a51034]">${practiceGymState.difficulty.toUpperCase()}</span>
                         </div>
                         <div class="h-1.5 w-full overflow-hidden rounded-full bg-[#F5F5F4]">
-                            <div class="h-full rounded-full bg-[#A41034] transition-all duration-500" style="width: ${progress}%"></div>
+                            <div class="h-full rounded-full bg-[#a51034] transition-all duration-500" style="width: ${progress}%"></div>
                         </div>
                     </div>
                     <div class="mb-6 rounded-[2.5rem] border border-[#E7E5E4] bg-white p-10">
                         <div class="mb-8 flex items-start gap-4">
-                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#A41034] text-[13px] font-black text-white">${practiceGymState.currentQ + 1}</div>
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#a51034] text-[13px] font-black text-white">${practiceGymState.currentQ + 1}</div>
                             <p class="flex-1 text-[16px] font-bold leading-relaxed text-[#1C1917]">${escapeHtml(question.text)}</p>
                         </div>
                         <div class="space-y-3">
                             ${question.options.map((option, index) => `
-                                <button type="button" data-gym-answer="${index}" class="w-full rounded-2xl border-2 px-6 py-4 text-left text-[13px] font-bold transition-all active:scale-[0.99] ${practiceGymState.selected === index ? 'border-[#A41034] bg-[#A41034]/[0.08] text-[#A41034]' : 'border-transparent bg-[#F5F5F4] text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}">
+                                <button type="button" data-gym-answer="${index}" class="w-full rounded-2xl border px-5 py-3.5 text-left text-[14px] font-semibold leading-snug transition-all active:scale-[0.99] ${practiceGymState.selected === index ? 'border-[#a51034] bg-[#a51034]/[0.08] text-[#a51034] shadow-[0_10px_24px_rgba(164,16,52,0.08)]' : 'border-[#ECE7E2] bg-[#FFFDFC] text-[#3A332F] hover:border-[#a51034]/20 hover:bg-white'}">
                                     <span class="inline-flex items-center gap-3">
-                                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 text-[10px] font-black ${practiceGymState.selected === index ? 'border-[#A41034] bg-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}">${String.fromCharCode(65 + index)}</span>
+                                        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-[11px] font-bold ${practiceGymState.selected === index ? 'border-[#a51034] bg-[#a51034] text-white' : 'border-[#E1D8D2] bg-white text-[#a51034]'}">${String.fromCharCode(65 + index)}</span>
                                         ${escapeHtml(option)}
                                     </span>
                                 </button>
@@ -3472,7 +3932,7 @@
                         </div>
                     </div>
                     <div class="flex justify-end">
-                        <button type="button" data-gym-next ${answered ? '' : 'disabled'} class="flex items-center gap-3 rounded-2xl px-8 py-4 text-[11px] font-black transition-all active:scale-95 ${answered ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#E7E5E4] text-[#A8A29E]'}">
+                        <button type="button" data-gym-next ${answered ? '' : 'disabled'} class="flex items-center gap-3 rounded-2xl px-8 py-4 text-[11px] font-black transition-all active:scale-95 ${answered ? 'bg-[#a51034] text-white hover:bg-[#7a0c26]' : 'cursor-not-allowed bg-[#E7E5E4] text-[#A8A29E]'}">
                             ${practiceGymState.currentQ + 1 === practiceGymState.questions.length ? 'Submit Test' : 'Next Question'}
                             <i data-lucide="chevron-right" class="h-4 w-4"></i>
                         </button>
@@ -3489,7 +3949,7 @@
             return `
                 <section class="mx-auto max-w-2xl py-6">
                     <div class="rounded-[2.5rem] border border-[#E7E5E4] bg-white p-12 text-center">
-                        <div class="relative mx-auto mb-8 flex h-36 w-36 items-center justify-center rounded-full border-[10px] ${passed ? 'border-[#A41034]' : 'border-[#f59138]'}">
+                        <div class="relative mx-auto mb-8 flex h-36 w-36 items-center justify-center rounded-full border-[10px] ${passed ? 'border-[#a51034]' : 'border-[#f59138]'}">
                             <div>
                                 <p class="text-3xl font-black text-[#1C1917]">${percentage}%</p>
                                 <p class="text-[9px] font-black tracking-widest text-[#A8A29E]">Score</p>
@@ -3505,7 +3965,7 @@
                         </div>
                         <div class="flex items-center justify-center gap-3">
                             <button type="button" data-gym-reset class="rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] px-8 py-4 text-[11px] font-black tracking-wider text-[#78716C] transition-colors hover:bg-[#E7E5E4]">Back to Gym</button>
-                            <button type="button" data-gym-start-test class="rounded-2xl bg-[#A41034] px-8 py-4 text-[11px] font-black tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95">Try Again</button>
+                            <button type="button" data-gym-start-test class="rounded-2xl bg-[#a51034] px-8 py-4 text-[11px] font-black tracking-wider text-white transition-all hover:bg-[#7a0c26] active:scale-95">Try Again</button>
                         </div>
                     </div>
                 </section>
@@ -3836,7 +4296,7 @@
 
         function getSubjectTheme(subjectName = '') {
             return subjectThemes[subjectName] || {
-                accent: '#A41034',
+                accent: '#a51034',
                 accentSoft: 'rgba(164, 16, 52, 0.045)',
                 accentTrack: 'rgba(164, 16, 52, 0.12)',
                 glow: 'rgba(164, 16, 52, 0.10)',
@@ -4885,19 +5345,19 @@
             const isExpanded = expandedGradeIds.has(grade.id);
             const headerInner = `
                         <div class="flex items-center gap-6">
-                            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-[14px] bg-[#BD1740] text-[15px] font-bold text-white">${getGradeBadgeLabel(grade)}</span>
+                            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-[14px] bg-[#a51034] text-[15px] font-bold text-white">${getGradeBadgeLabel(grade)}</span>
                             <div class="min-w-0">
-                                <h2 class="text-[17px] font-bold tracking-wide text-[#BD1740] uppercase">${escapeHtml(grade.title)}</h2>
+                                <h2 class="text-[17px] font-bold tracking-wide text-[#a51034] uppercase">${escapeHtml(grade.title)}</h2>
                                 <p class="mt-1 text-[14px] font-medium normal-case tracking-normal text-[#78716C]">${summary.subjectsCount} subjects • ${summary.progress}% overall progress</p>
                             </div>
                         </div>`;
-            const header = `<button type="button" class="focus-ring sticky top-24 z-30 flex w-full cursor-pointer items-center justify-between bg-white lg:rounded-[28px] rounded-[18px] lg:px-8 lg:py-5 md:px-6 md:py-3 px-4 py-4  text-left backdrop-blur-sm focus:outline-none" data-view="toggle-grade" data-grade-id="${grade.id}" aria-expanded="${isExpanded}">${headerInner}<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/70 text-[#BD1740]"><i data-lucide="chevron-up" class="h-4 w-4 transition-transform ${isExpanded ? '' : 'rotate-180'}"></i></span></button>`;
+            const header = `<button type="button" class="focus-ring sticky top-24 z-30 flex w-full cursor-pointer items-center justify-between bg-white lg:rounded-[28px] rounded-[18px] lg:px-8 lg:py-5 md:px-6 md:py-3 px-4 py-4  text-left backdrop-blur-sm focus:outline-none" data-view="toggle-grade" data-grade-id="${grade.id}" aria-expanded="${isExpanded}">${headerInner}<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/70 text-[#a51034]"><i data-lucide="chevron-up" class="h-4 w-4 transition-transform ${isExpanded ? '' : 'rotate-180'}"></i></span></button>`;
 
             return `
                 <section id="grade-section-${grade.id}" class="scroll-mt-28 mb-8 rounded-[28px] " data-grade-section="${grade.id}">
                     ${header}
                     ${isExpanded ? `
-                        <div class="mt-3 rounded-[28px] lg:bg-[#BD1740]/[0.025] md:bg-[#BD1740]/[0.025] lg:p-6 md:p-4">
+                        <div class="mt-3 rounded-[28px] lg:bg-[#a51034]/[0.025] md:bg-[#a51034]/[0.025] lg:p-6 md:p-4">
                             <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-7 xl:grid-cols-3">
                                 ${(grade.subjects || []).map(subject => renderSubjectCardv3(subject, grade)).join('')}
                             </div>
@@ -4940,7 +5400,7 @@
                                                 ${renderBlockImageBadge(block, index, theme, subject.name)}
                                                 <div class="min-w-0">
                                                     <div class="flex flex-wrap items-center gap-2">
-                                                        <p class="rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#A41034] ring-1 ring-[#E9DDD9]/80">Block ${index + 1}</p>
+                                                        <p class="rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#a51034] ring-1 ring-[#E9DDD9]/80">Block ${index + 1}</p>
                                                     </div>
                                                     <h2 class="mt-3 text-1xl font-bold leading-tight text-[#1C1917] md:text-[1.3rem]">${escapeHtml(block.title)}</h2>
                                                     <p class="mt-2 max-w-2xl text-sm font-medium leading-6 text-[#6F625F]">${escapeHtml(getParentBlockDescription(block.title))}</p>
@@ -4982,8 +5442,8 @@
         }
 
         function getLessonStatusClass(status) {
-            if (status === 'Completed') return 'bg-[#A41034]/5 text-[#A41034]';
-            if (status === 'In Progress') return 'bg-[#f59138]/15 text-[#A41034]';
+            if (status === 'Completed') return 'bg-[#a51034]/5 text-[#a51034]';
+            if (status === 'In Progress') return 'bg-[#f59138]/15 text-[#a51034]';
             return 'bg-[#F5F5F4] text-[#78716C]';
         }
 
@@ -5024,6 +5484,79 @@
 
         function getLessonNoteStorageKey(gradeId, subjectId, blockId, lessonId, sectionId) {
             return `edge-note:${gradeId}:${subjectId}:${blockId}:${lessonId}:${sectionId}`;
+        }
+
+        function getLessonNotesSectionKey(gradeId, subjectId, blockId, lessonId, sectionId) {
+            return [gradeId, subjectId, blockId, lessonId, sectionId].join(':');
+        }
+
+        function renderLessonSectionActions(gradeId, subjectId, blockId, lessonId, sectionId, minutes, options = {}) {
+            const sectionKey = getLessonNotesSectionKey(gradeId, subjectId, blockId, lessonId, sectionId);
+            const note = lessonNotesState[sectionId] || { text: '' };
+            const isNotesOpen = activeLessonNotesSection === sectionKey;
+            const showAudioChip = Boolean(options.showAudioChip);
+            const notesLabel = options.notesLabel || 'Notes';
+            const audioLabel = options.audioLabel || 'Audio';
+
+            return `
+                <div class="lp-sec-meta-actions">
+                    <div class="lp-sec-meta">${minutes}</div>
+                    ${showAudioChip ? `
+                        <button type="button" class="focus-ring lp-section-chip lp-audio-trigger" data-audio-section="${sectionId}">
+                            <i data-lucide="volume-2" class="h-3.5 w-3.5"></i>
+                            <span>${audioLabel}</span>
+                        </button>
+                    ` : ''}
+                    <button
+                        type="button"
+                        class="focus-ring lp-section-chip lp-notes-trigger ${note.text ? 'has-note' : ''} ${isNotesOpen ? 'is-open' : ''}"
+                        data-notes-toggle
+                        data-grade-id="${gradeId}"
+                        data-subject-id="${subjectId}"
+                        data-block-id="${blockId}"
+                        data-lesson-id="${lessonId}"
+                        data-section-id="${sectionId}">
+                        <span class="lp-notes-dot" aria-hidden="true"></span>
+                        <span>${notesLabel}</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderLessonNotesComposer(gradeId, subjectId, blockId, lessonId, sectionId) {
+            const sectionKey = getLessonNotesSectionKey(gradeId, subjectId, blockId, lessonId, sectionId);
+            if (activeLessonNotesSection !== sectionKey) return '';
+
+            const existingNote = lessonNotesState[sectionId]?.text || '';
+            const draft = Object.prototype.hasOwnProperty.call(lessonNotesDraftState, sectionKey)
+                ? lessonNotesDraftState[sectionKey]
+                : existingNote;
+
+            return `
+                <form
+                    class="lp-inline-notes-card"
+                    data-notes-form
+                    data-grade-id="${gradeId}"
+                    data-subject-id="${subjectId}"
+                    data-block-id="${blockId}"
+                    data-lesson-id="${lessonId}"
+                    data-section-id="${sectionId}">
+                    <label class="lp-inline-notes-label" for="lesson-note-${sectionKey}">My Notes</label>
+                    <div class="lp-inline-notes-shell">
+                        <textarea
+                            id="lesson-note-${sectionKey}"
+                            class="lp-inline-notes-input"
+                            name="note"
+                            rows="3"
+                            placeholder="Write your notes here."
+                            data-notes-input
+                        >${escapeHtml(draft)}</textarea>
+                        <button type="submit" class="focus-ring lp-inline-notes-submit" aria-label="Save note">
+                            <i data-lucide="send-horizontal" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                </form>
+            `;
         }
 
         function extractLessonMinutes(detail) {
@@ -5255,7 +5788,7 @@
                             ${renderBlockImageBadge(block, blockIndex, subjectTheme, subject.name)}
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-2">
-                                    <p class="rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#A41034] ring-1 ring-[#E9DDD9]/80">Block ${blockIndex + 1}</p>
+                                    <p class="rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#a51034] ring-1 ring-[#E9DDD9]/80">Block ${blockIndex + 1}</p>
                                 </div>
                                 <h2 class="mt-3 text-1xl font-bold leading-tight text-[#1C1917] md:text-[1.3rem]">${block.title}</h2>
                                 <p class="mt-2 max-w-2xl text-sm font-medium leading-6 text-[#6F625F]">${isComplete ? `All ${block.lessons.length} sessions completed` : `${progressState} • ${completedLessons}/${block.lessons.length} sessions complete`}</p>
@@ -5319,7 +5852,7 @@
             `;
         }
 
-        function renderParentLessonSectionHeader(icon, title, tag, accent = '#A41034') {
+        function renderParentLessonSectionHeader(icon, title, tag, accent = '#a51034') {
             return `
                 <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-center gap-3">
@@ -5359,7 +5892,6 @@
             const sectionMinutes = extractLessonMinutes(detail);
             const noteIds = ['aim', 'action', 'analysis', 'application', 'assessment'];
             noteIds.forEach((sectionId) => {
-                if (lessonNotesState[sectionId]) return;
                 try {
                     const raw = window.localStorage.getItem(getLessonNoteStorageKey(grade.id, subject.id, block.id, lesson.id, sectionId));
                     lessonNotesState[sectionId] = raw ? JSON.parse(raw) : { text: '', savedAt: '' };
@@ -5393,7 +5925,7 @@
                     ` : ''}
 
                     <div class="mx-auto max-w-[1040px] px-6 pb-8 pt-6 md:px-8">
-                        <button type="button" class="focus-ring mb-5 inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E7D6CF] bg-white px-4 py-2.5 text-[11px] font-bold tracking-wide text-[#3A071A] transition-all hover:border-[#A41034]/30 hover:bg-[#A41034]/5 focus:outline-none" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
+                        <button type="button" class="focus-ring mb-5 inline-flex cursor-pointer items-center gap-2 rounded-full border border-[#E7D6CF] bg-white px-4 py-2.5 text-[11px] font-bold tracking-wide text-[#3A071A] transition-all hover:border-[#a51034]/30 hover:bg-[#a51034]/5 focus:outline-none" data-view="blocks" data-grade-id="${grade.id}" data-subject-id="${subject.id}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                             <span>Back to Blocks</span>
                         </button>
@@ -5401,7 +5933,7 @@
                         <div class="lp-lesson-layout">
                             <div class="lp-section-flow">
                                 <section class="lp-section-stack scroll-mt-40">
-                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Aim</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.aim}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.aim?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Aim</div><div class="lp-sec-rule"></div>${renderLessonSectionActions(grade.id, subject.id, block.id, lesson.id, 'aim', sectionMinutes.aim)}</div></div></div>
                                     <div class="lp-section-body">
                                         <div class="lp-aim-statement">${escapeHtml(detail.aim)}</div>
                                         <div class="lp-aim-context">${escapeHtml(detail.flow?.[0]?.text || '')}</div>
@@ -5426,8 +5958,9 @@
                                 </section>
 
                                 <section class="lp-section-stack scroll-mt-40">
-                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Action</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.action}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.action?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Action</div><div class="lp-sec-rule"></div>${renderLessonSectionActions(grade.id, subject.id, block.id, lesson.id, 'action', sectionMinutes.action, { showAudioChip: true, notesLabel: 'My Notes' })}</div></div></div>
                                     <div class="lp-section-body">
+                                        ${renderLessonNotesComposer(grade.id, subject.id, block.id, lesson.id, 'action')}
                                         <div class="lp-sub-lbl lp-action-kicker">${escapeHtml(detail.flow?.[1]?.title || 'Activity')}</div>
                                         <div class="lp-steps">
                                             ${(detail.sections || []).map((section, index) => `
@@ -5446,8 +5979,9 @@
                                 </section>
 
                                 <section class="lp-section-stack scroll-mt-40">
-                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Analysis</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.analysis}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.analysis?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Analysis</div><div class="lp-sec-rule"></div>${renderLessonSectionActions(grade.id, subject.id, block.id, lesson.id, 'analysis', sectionMinutes.analysis, { showAudioChip: true, notesLabel: 'My Notes' })}</div></div></div>
                                     <div class="lp-section-body">
+                                        ${renderLessonNotesComposer(grade.id, subject.id, block.id, lesson.id, 'analysis')}
                                         <div class="lp-analysis-layout">
                                             <div class="lp-analysis-stack">
                                                 <div>
@@ -5467,8 +6001,9 @@
                                 </section>
 
                                 <section class="lp-section-stack scroll-mt-40">
-                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Application</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.application}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.application?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Application</div><div class="lp-sec-rule"></div>${renderLessonSectionActions(grade.id, subject.id, block.id, lesson.id, 'application', sectionMinutes.application, { showAudioChip: true, notesLabel: 'My Notes' })}</div></div></div>
                                     <div class="lp-section-body">
+                                        ${renderLessonNotesComposer(grade.id, subject.id, block.id, lesson.id, 'application')}
                                         <div class="lp-sub-lbl accent">Independent Practice</div>
                                         <p class="lp-practice-intro">${escapeHtml(detail.flow?.[3]?.text || lesson.description)}</p>
                                         ${detail.applicationImage ? `<figure class="lp-inline-figure" style="margin-top:0;margin-bottom:18px;"><img src="${detail.applicationImage}" alt="Application practice illustration" loading="lazy" decoding="async"></figure>` : ''}
@@ -5485,7 +6020,7 @@
                                 </section>
 
                                 <section class="lp-section-stack scroll-mt-40">
-                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Assessment</div><div class="lp-sec-rule"></div><div class="lp-sec-meta-actions"><div class="lp-sec-meta">${sectionMinutes.assessment}</div><button type="button" class="focus-ring lp-notes-trigger ${lessonNotesState.assessment?.text ? 'has-note' : ''}"><span class="lp-notes-dot" aria-hidden="true"></span><span>Notes</span></button></div></div></div></div>
+                                    <div class="lp-section-heading"><div class="lp-section-heading-copy"><div class="lp-sec-heading-line"><div class="lp-sec-title">Assessment</div><div class="lp-sec-rule"></div>${renderLessonSectionActions(grade.id, subject.id, block.id, lesson.id, 'assessment', sectionMinutes.assessment)}</div></div></div>
                                     <div class="lp-section-body">
                                         <div class="lp-sub-lbl accent">Learning Outcomes</div>
                                         <div class="lp-outcomes-grid">
@@ -5500,15 +6035,15 @@
                                     <div class="lp-complete-card">
                                         <div class="lp-complete-title">Complete this lesson plan</div>
                                         <div class="mt-3 flex flex-col items-center gap-3">
-                                            <button type="button" class="lesson-complete-button focus-ring inline-flex min-w-[260px] items-center justify-center rounded-full px-6 py-3 text-[12px] font-black transition focus:outline-none ${isLessonComplete ? 'bg-[#f6e7ea] text-[#a41034]' : 'bg-[#A41034] text-white hover:bg-[#7f0f31]'}" data-action="${isLessonComplete ? 'undo-complete-lesson' : 'complete-lesson'}" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${lesson.id}">
+                                            <button type="button" class="lesson-complete-button focus-ring inline-flex min-w-[260px] items-center justify-center rounded-full px-6 py-3 text-[12px] font-black transition focus:outline-none ${isLessonComplete ? 'bg-[#f6e7ea] text-[#a51034]' : 'bg-[#a51034] text-white hover:bg-[#7f0f31]'}" data-action="${isLessonComplete ? 'undo-complete-lesson' : 'complete-lesson'}" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${lesson.id}">
                                                 ${isLessonComplete ? 'Lesson Completed' : 'Complete Lesson'}
                                             </button>
-                                            ${isLessonComplete ? `<button type="button" class="focus-ring inline-flex items-center justify-center rounded-full border border-[#e8d7d2] bg-white px-5 py-2.5 text-[11px] font-bold text-[#7a2d36] transition hover:border-[#A41034]/25 hover:bg-[#fff8f8] focus:outline-none" data-action="undo-complete-lesson" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${lesson.id}">Undo</button>` : ''}
+                                            ${isLessonComplete ? `<button type="button" class="focus-ring inline-flex items-center justify-center rounded-full border border-[#e8d7d2] bg-white px-5 py-2.5 text-[11px] font-bold text-[#7a2d36] transition hover:border-[#a51034]/25 hover:bg-[#fff8f8] focus:outline-none" data-action="undo-complete-lesson" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${lesson.id}">Undo</button>` : ''}
                                         </div>
                                     </div>
                                 </div>
 
-                                ${nextLesson ? `<div class="mt-6 flex justify-end"><button type="button" class="focus-ring inline-flex items-center justify-center rounded-2xl bg-[#A41034] px-6 py-3 text-[12px] font-bold tracking-wide text-white transition-all hover:bg-[#7a0c26] focus:outline-none" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${nextLesson.id}">Open Next Lesson</button></div>` : ''}
+                                ${nextLesson ? `<div class="mt-6 flex justify-end"><button type="button" class="focus-ring inline-flex items-center justify-center rounded-2xl bg-[#a51034] px-6 py-3 text-[12px] font-bold tracking-wide text-white transition-all hover:bg-[#7a0c26] focus:outline-none" data-view="lessons" data-grade-id="${grade.id}" data-subject-id="${subject.id}" data-block-id="${block.id}" data-lesson-id="${nextLesson.id}">Open Next Lesson</button></div>` : ''}
                             </div>
                         </div>
                 </section>
@@ -5520,7 +6055,7 @@
             const lessonPlanTitle = getLessonSessionTitle(lesson, index);
             return `
                 <article class="grid gap-5 rounded-[2rem] border border-[#E7E5E4] bg-white p-5 transition-all hover:shadow-xl hover:shadow-black/5 md:grid-cols-[auto_1fr_auto] md:items-center md:p-6">
-                    <div class="grid h-12 w-12 place-items-center rounded-2xl bg-[#A41034]/5 text-sm font-bold text-[#A41034]">${index + 1}</div>
+                    <div class="grid h-12 w-12 place-items-center rounded-2xl bg-[#a51034]/5 text-sm font-bold text-[#a51034]">${index + 1}</div>
                     <div>
                         <div class="flex flex-wrap items-center gap-3">
                             <h2 class="text-xl font-semibold text-[#1C1917]">${lessonPlanTitle}</h2>
@@ -5531,7 +6066,7 @@
                             <span class="text-sm font-bold text-[#78716C]">${lesson.duration}</span>
                         </div>
                     </div>
-                    <button type="button" class="focus-ring cursor-pointer rounded-2xl bg-[#A41034] px-6 py-4 text-[11px] font-bold  tracking-wide text-white transition-all hover:bg-[#5a0219] focus:outline-none">${actionLabel}</button>
+                    <button type="button" class="focus-ring cursor-pointer rounded-2xl bg-[#a51034] px-6 py-4 text-[11px] font-bold  tracking-wide text-white transition-all hover:bg-[#5a0219] focus:outline-none">${actionLabel}</button>
                 </article>
             `;
         }
@@ -5606,8 +6141,9 @@
             if (activeAppTab !== 'Parent Lesson Plan') return '';
 
             const parentLearningWeekCount = 15;
+            const parentLearningAccessLimit = Math.min(parentLearningWeekCount, parentCurrentLearningBlock + 1);
             const canGoPreviousLearningWeek = selectedParentLearningBlock > 1;
-            const canGoNextLearningWeek = selectedParentLearningBlock < parentLearningWeekCount;
+            const canGoNextLearningWeek = selectedParentLearningBlock < parentLearningAccessLimit;
 
             const subjects = [
                 {
@@ -5702,11 +6238,16 @@
                 const grade = findGrade(parentWeeklyGradeId);
                 const routeSubjectName = weeklySubject.routeName || weeklySubject.name;
                 const routeSubject = grade?.subjects.find((item) => item.name === routeSubjectName);
+                if (!grade || !routeSubject) return null;
 
-                return grade && routeSubject ? {
+                const firstBlock = routeSubject.blocks?.[0];
+                const firstLesson = firstBlock?.lessons?.[0];
+                return {
                     gradeId: grade.id,
-                    subjectId: routeSubject.id
-                } : null;
+                    subjectId: routeSubject.id,
+                    blockId: firstBlock?.id ?? null,
+                    lessonId: firstLesson?.id ?? null,
+                };
             }
 
             function circleProgress(pct, color) {
@@ -5919,7 +6460,7 @@
                                     return `
                                     <div class="focus-ring group grid ${route ? 'cursor-pointer' : 'cursor-default'} items-center gap-x-4 gap-y-2 rounded-[12px] py-[14px] transition ${route ? 'hover:bg-[#FFFCFA]' : ''} focus:outline-none"
                                         style="grid-template-columns:44px minmax(120px,175px) 1fr 145px 28px"
-                                        ${route ? `data-view="blocks" data-grade-id="${route.gradeId}" data-subject-id="${route.subjectId}" role="button" tabindex="0" aria-label="Open ${s.name} lesson plan"` : ''}>
+                                        ${route ? `data-view="lessons" data-grade-id="${route.gradeId}" data-subject-id="${route.subjectId}"${route.blockId ? ` data-block-id="${route.blockId}"` : ''}${route.lessonId ? ` data-lesson-id="${route.lessonId}"` : ''} role="button" tabindex="0" aria-label="Open ${s.name} lesson plan"` : ''}>
                                         <span class="grid h-11 w-11 shrink-0 place-items-center rounded-[12px] border border-[#EAEAEA] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
                                             <i data-lucide="${s.icon}" class="h-5 w-5" style="color:${s.color}"></i>
                                         </span>
@@ -5992,8 +6533,9 @@
                     <button type="button"
                         class="focus-ring inline-flex h-9 items-center justify-center gap-1.5 rounded-full border border-[#E3DBD6] bg-white px-3 text-[12px] font-bold text-[#3F3734] shadow-[0_8px_18px_rgba(69,36,21,0.05)] transition hover:border-[#CFC2BC] hover:bg-[#FFFCFA] focus:outline-none disabled:cursor-not-allowed disabled:opacity-45"
                         data-parent-week-nav="next"
+                        data-parent-week-max="${parentLearningAccessLimit}"
                         ${canGoNextLearningWeek ? '' : 'disabled'}
-                        aria-label="Next block">
+                        aria-label="Next block${canGoNextLearningWeek ? '' : ' locked until the current block is completed'}">
                         <i data-lucide="chevron-right" class="h-4 w-4 text-[#a40a2e]"></i>
                     </button>
                 </div>
@@ -6137,6 +6679,7 @@
 
             if (tab === 'Parent Lesson Plan') {
                 if (view === 'blocks') return appPages.parentBlocks;
+                if (view === 'lessons') return appPages.parentLessonDetail;
                 return appPages.parentLessonPlan;
             }
 
@@ -6240,13 +6783,13 @@
                 }
 
                 toolbar.innerHTML = `
-                    <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#A41034]/10 bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Jump to block">
+                    <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#a51034]/10 bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.12)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Jump to block">
                         ${subject.blocks.map((block, index) => {
                     const blockKey = `${grade.id}:${subject.id}:${block.id}`;
                     return `
-                                <button type="button" class="group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold text-[#A41034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A41034]/5 hover:text-[#5a0219] focus:outline-none lg:h-7 lg:min-w-7 lg:px-1.5 lg:text-[10px] ${blockKey === activeBlockKey ? 'bg-[#f59138]/15 ring-1 ring-[#f59138]/30' : ''}" data-view="jump-block" data-block-key="${blockKey}" aria-label="Jump to Block ${index + 1}">
+                                <button type="button" class="group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[11px] font-bold text-[#a51034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#a51034]/5 hover:text-[#5a0219] focus:outline-none lg:h-7 lg:min-w-7 lg:px-1.5 lg:text-[10px] ${blockKey === activeBlockKey ? 'bg-[#f59138]/15 ring-1 ring-[#f59138]/30' : ''}" data-view="jump-block" data-block-key="${blockKey}" aria-label="Jump to Block ${index + 1}">
                                     <span>B${index + 1}</span>
-                                    <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#A41034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#A41034] opacity-0 shadow-lg shadow-[#A41034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">Block ${index + 1}</span>
+                                    <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#a51034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#a51034] opacity-0 shadow-lg shadow-[#a51034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">Block ${index + 1}</span>
                                 </button>
                             `;
                 }).join('')}
@@ -6259,9 +6802,9 @@
             toolbar.innerHTML = `
                 <nav class="mx-auto flex max-w-[min(28rem,calc(100vw-2rem))] flex-row flex-wrap items-center justify-center gap-2 rounded-[2rem] border border-[#E9C9CD] bg-white/85 p-2.5 shadow-[0_18px_50px_rgba(123,3,35,0.08)] backdrop-blur-2xl lg:max-w-none lg:flex-col lg:gap-1 lg:p-2" aria-label="Jump to grade">
                     ${getLessonPlanGrades().map((grade) => `
-                        <button type="button" class="group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[12px] font-bold text-[#BD1740] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#BD1740]/5 hover:text-[#8a0f2e] focus:outline-none lg:h-9 lg:min-w-9 lg:px-2 ${grade.id === activeGradeId ? 'bg-[#BD1740]/10' : ''}" data-view="jump-grade" data-grade-id="${grade.id}" aria-label="Jump to ${grade.title}">
+                        <button type="button" class="group/tip relative focus-ring grid h-9 min-w-9 place-items-center rounded-full px-2 text-[12px] font-bold text-[#a51034] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#a51034]/5 hover:text-[#8a0f2e] focus:outline-none lg:h-9 lg:min-w-9 lg:px-2 ${grade.id === activeGradeId ? 'bg-[#a51034]/10' : ''}" data-view="jump-grade" data-grade-id="${grade.id}" aria-label="Jump to ${grade.title}">
                             <span>${getGradeBadgeLabel(grade)}</span>
-                            <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#A41034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#A41034] opacity-0 shadow-lg shadow-[#A41034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">${grade.title}</span>
+                            <span class="pointer-events-none absolute right-full top-1/2 mr-3 hidden -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#a51034]/10 bg-[#fffaf3] px-2.5 py-1.5 text-[11px] font-semibold text-[#a51034] opacity-0 shadow-lg shadow-[#a51034]/10 transition-all duration-200 group-hover/tip:translate-x-0 group-hover/tip:opacity-100 group-focus-visible/tip:translate-x-0 group-focus-visible/tip:opacity-100 lg:block">${grade.title}</span>
                         </button>
                     `).join('')}
                 </nav>
@@ -6329,8 +6872,10 @@
 
             const parentWeekNav = event.target.closest('[data-parent-week-nav]');
             if (parentWeekNav && !parentWeekNav.disabled) {
-                selectedParentLearningBlock += parentWeekNav.dataset.parentWeekNav === 'previous' ? -1 : 1;
-                selectedParentLearningBlock = Math.max(1, Math.min(15, selectedParentLearningBlock));
+                const direction = parentWeekNav.dataset.parentWeekNav === 'previous' ? -1 : 1;
+                const maxAccessibleBlock = Number(parentWeekNav.dataset.parentWeekMax) || Math.min(15, parentCurrentLearningBlock + 1);
+                selectedParentLearningBlock += direction;
+                selectedParentLearningBlock = Math.max(1, Math.min(maxAccessibleBlock, selectedParentLearningBlock));
                 renderRoute();
                 return;
             }
@@ -6359,6 +6904,33 @@
                 event.preventDefault();
                 event.stopPropagation();
                 window.location.href = appPages.practiceGym;
+                return;
+            }
+
+            const lessonNotesToggle = event.target.closest('[data-notes-toggle]');
+            if (lessonNotesToggle) {
+                const sectionKey = getLessonNotesSectionKey(
+                    lessonNotesToggle.dataset.gradeId,
+                    lessonNotesToggle.dataset.subjectId,
+                    lessonNotesToggle.dataset.blockId,
+                    lessonNotesToggle.dataset.lessonId,
+                    lessonNotesToggle.dataset.sectionId
+                );
+                activeLessonNotesSection = activeLessonNotesSection === sectionKey ? '' : sectionKey;
+                if (activeLessonNotesSection) {
+                    const sectionId = lessonNotesToggle.dataset.sectionId;
+                    lessonNotesDraftState[sectionKey] = lessonNotesState[sectionId]?.text || '';
+                }
+                renderRoute();
+                requestAnimationFrame(() => {
+                    document.querySelector('[data-notes-input]')?.focus();
+                });
+                return;
+            }
+
+            const lessonAudioChip = event.target.closest('[data-audio-section]');
+            if (lessonAudioChip) {
+                showAppToast(`${lessonAudioChip.dataset.audioSection.charAt(0).toUpperCase()}${lessonAudioChip.dataset.audioSection.slice(1)} audio will be available here.`);
                 return;
             }
 
@@ -6483,6 +7055,49 @@
             target.click();
         });
 
+        document.addEventListener('input', (event) => {
+            const noteInput = event.target.closest('[data-notes-input]');
+            if (!noteInput) return;
+            const form = noteInput.closest('[data-notes-form]');
+            if (!form) return;
+            const sectionKey = getLessonNotesSectionKey(
+                form.dataset.gradeId,
+                form.dataset.subjectId,
+                form.dataset.blockId,
+                form.dataset.lessonId,
+                form.dataset.sectionId
+            );
+            lessonNotesDraftState[sectionKey] = noteInput.value;
+        });
+
+        document.addEventListener('submit', (event) => {
+            const form = event.target.closest('[data-notes-form]');
+            if (!form) return;
+            event.preventDefault();
+
+            const { gradeId, subjectId, blockId, lessonId, sectionId } = form.dataset;
+            const sectionKey = getLessonNotesSectionKey(gradeId, subjectId, blockId, lessonId, sectionId);
+            const noteInput = form.querySelector('[data-notes-input]');
+            const text = (noteInput?.value || '').trim();
+            const savedAt = text ? new Date().toISOString() : '';
+
+            lessonNotesState[sectionId] = { text, savedAt };
+            lessonNotesDraftState[sectionKey] = text;
+
+            try {
+                window.localStorage.setItem(
+                    getLessonNoteStorageKey(gradeId, subjectId, blockId, lessonId, sectionId),
+                    JSON.stringify({ text, savedAt })
+                );
+            } catch {
+                // Ignore storage failures and keep the in-memory state.
+            }
+
+            activeLessonNotesSection = '';
+            renderRoute();
+            showAppToast(text ? 'Note saved.' : 'Note cleared.');
+        });
+
         let scrollSyncFrame = null;
         function getActiveSection(sections, anchorY) {
             return sections.reduce((current, section) => {
@@ -6563,9 +7178,9 @@
             currentRole = getRoleForTab(title);
             const preserveHash = Boolean(options.preserveHash);
             const visiblePanel = title === 'Parent Lesson Plan' ? 'Teacher Lesson Plan' : title;
-            practiceGymHeaderButton?.classList.toggle('border-[#BD1740]/30', title === 'Practice Test');
+            practiceGymHeaderButton?.classList.toggle('border-[#a51034]/30', title === 'Practice Test');
             practiceGymHeaderButton?.classList.toggle('bg-[#FFF7F4]', title === 'Practice Test');
-            practiceGymHeaderButton?.classList.toggle('text-[#BD1740]', title === 'Practice Test');
+            practiceGymHeaderButton?.classList.toggle('text-[#a51034]', title === 'Practice Test');
             practiceGymHeaderButton?.classList.toggle('shadow-[0_10px_24px_rgba(189,23,64,0.12)]', title === 'Practice Test');
             if (title === 'Practice Test') {
                 practiceGymHeaderButton?.setAttribute('aria-current', 'page');
@@ -6727,14 +7342,22 @@
         document.getElementById('newAnnouncementButton')?.addEventListener('click', openNewAnnouncement);
         document.getElementById('manageGroupsButton')?.addEventListener('click', openManageGroups);
 
+        function handleAppHashChange() {
+            renderRoute();
+            if (activeAppTab === 'Learnometer' && syncLearnometerStateFromHash()) {
+                renderLearnometer();
+            }
+        }
+
         window.addEventListener('resize', updateToolbarVisibility);
-        window.addEventListener('hashchange', renderRoute);
+        window.addEventListener('hashchange', handleAppHashChange);
         renderRoute();
         renderCommunicationComposer();
         renderCommunicationFeed();
         renderCommunicationFilterToolbar();
         bindCommunicationSearch();
         renderCommunicationFab();
+        syncLearnometerStateFromHash();
         renderLearnometer();
         renderPracticeGym();
         renderProfileScreen();

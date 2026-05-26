@@ -1,0 +1,3754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperTeacherEDGE | Light and Shadows — Parent's Guide</title>
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <script src="tailwindcss.js"></script>
+    <link rel="stylesheet" href="assets/app.css">
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --page: #faf8f5;
+            --ink: #211c19;
+            --muted: #746c66;
+            --line: rgba(28,25,23,0.08);
+            --cream: #fffdf9;
+            --orange: #d87924;
+            --orange-soft: #fff4e8;
+            --blue: #2f6f9f;
+            --blue-soft: #edf6fb;
+            --purple: #7762a8;
+            --purple-soft: #f4f1fb;
+            --green: #4f7d53;
+            --green-soft: #f1f8ef;
+            --wine: #a51034;
+            --shadow: 0 18px 48px rgba(28,25,23,0.055);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.5), transparent 360px), var(--page);
+            color: var(--ink);
+            font-family: "Inter", system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; cursor: pointer; }
+
+        .page-wrap {
+            width: min(1100px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        #siteHeader {
+            transition: transform 300ms ease;
+        }
+
+        #siteHeader.is-hidden {
+            transform: translateY(-100%);
+        }
+
+        /* ── Hero ─────────────────────────────────────── */
+        .hero-wrap { position: relative; padding: 18px 0 0; }
+
+        .hero {
+            position: relative;
+            min-height: 410px;
+            overflow: hidden;
+            border-radius: 28px;
+            background: #1a1f2e;
+            color: #fff;
+            box-shadow: 0 24px 60px rgba(28,25,23,0.16);
+        }
+
+        .hero img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 40%;
+            transform: scale(1.01);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.14), rgba(0,0,0,0.06) 30%, rgba(0,0,0,0.52)),
+                linear-gradient(108deg, rgba(20,16,36,0.88), rgba(20,16,36,0.22) 56%, rgba(20,16,36,0.48));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            min-height: 410px;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px;
+        }
+
+        .hero-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .glass-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 999px;
+            background: rgba(18,16,14,0.38);
+            padding: 9px 15px;
+            color: rgba(255,255,255,0.94);
+            backdrop-filter: blur(12px);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .glass-pill svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+        .parent-guide-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border-radius: 999px;
+            background: rgba(164,16,52,0.72);
+            border: 1px solid rgba(255,255,255,0.22);
+            padding: 8px 16px;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            backdrop-filter: blur(12px);
+        }
+
+        .lesson-kicker {
+            display: inline-flex;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            padding: 6px 14px;
+            color: #7b1730;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .hero-kicker-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero h1 {
+            max-width: 760px;
+            margin: 16px 0 10px;
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: clamp(34px, 5vw, 58px);
+            font-weight: 700;
+            line-height: 1.06;
+            letter-spacing: 0;
+        }
+
+        .hero-sub {
+            max-width: 640px;
+            margin: 0 0 24px;
+            color: rgba(255,255,255,0.84);
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.65;
+        }
+
+        .lesson-tabs {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            height: 0;
+            margin-top: 0;
+            background: transparent;
+            transition: background 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+        }
+
+        .lesson-tabs-sentinel {
+            height: 1px;
+        }
+
+        .lesson-tabs.is-stuck {
+            border-bottom: 1px solid rgba(28,25,23,0.08);
+            background: rgba(255,255,255,0.94);
+            box-shadow: 0 10px 26px rgba(28,25,23,0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            pointer-events: auto;
+        }
+
+        .lesson-tabs-inner {
+            position: relative;
+            display: flex;
+            min-height: 64px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border: 1px solid rgba(28,25,23,0.08);
+            border-radius: 18px;
+            background: rgba(255,253,249,0.82);
+            padding: 0 14px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 12px 28px rgba(28,25,23,0.055);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: border-color 180ms ease, border-radius 180ms ease, background 180ms ease, box-shadow 180ms ease, opacity 180ms ease, transform 180ms ease;
+        }
+
+        .lesson-tabs.is-stuck .lesson-tabs-inner {
+            width: 100%;
+            max-width: none;
+            min-height: 64px;
+            border-color: transparent;
+            border-radius: 0;
+            background: #fff;
+            padding-right: max(24px, calc((100vw - 1100px) / 2.19 + 0px));
+            padding-left: max(24px, calc((100vw - 1100px) / 2 + 0px));
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .lesson-back-link {
+            display: inline-flex;
+            min-height: 40px;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            color: #000;
+            transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+        }
+
+        .lesson-back-link:hover {
+            background: rgba(123,23,48,0.07);
+            transform: translateY(-1px);
+        }
+
+        .lesson-compact-copy {
+            display: grid;
+            min-width: 0;
+            flex: 1 1 auto;
+            gap: 1px;
+        }
+
+        .lesson-compact-meta {
+            color: #78182f;
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .lesson-compact-title {
+            max-width: none;
+            overflow: hidden;
+            color: #211c19;
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.25;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lesson-progress-track {
+            position: absolute;
+            right: 10px;
+            bottom: 0;
+            left: 10px;
+            height: 2px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: rgba(28,25,23,0.08);
+            opacity: 0;
+            transition: opacity 160ms ease;
+        }
+
+        .lesson-tabs.is-stuck .lesson-progress-track {
+            opacity: 1;
+        }
+
+        .lesson-progress-fill {
+            display: block;
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: #d87924;
+            transition: none;
+        }
+
+        main {
+            padding: 26px 0 88px;
+        }
+
+        .section {
+            scroll-margin-top: 88px;
+            margin-bottom: 64px;
+        }
+
+        .lesson-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 168px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .lesson-content {
+            min-width: 0;
+            --lp-space-1: 8px;
+            --lp-space-2: 12px;
+            --lp-space-3: 16px;
+            --lp-space-4: 24px;
+            --lp-space-5: 32px;
+            --lp-type-section-title-size: clamp(28px, 2.4vw, 32px);
+            --lp-type-section-title-line: 1.2;
+            --lp-type-section-title-weight: 900;
+            --lp-type-tag-size: 11px;
+            --lp-type-tag-line: 1.35;
+            --lp-type-tag-weight: 800;
+            --lp-type-heading-size: clamp(16px, 1.45vw, 18px);
+            --lp-type-heading-line: 1.3;
+            --lp-type-heading-weight: 700;
+            --lp-type-display-size: clamp(24px, 2.8vw, 30px);
+            --lp-type-display-line: 1.22;
+            --lp-type-display-weight: 700;
+            --lp-type-body-size: 15px;
+            --lp-type-body-line: 1.7;
+            --lp-type-body-weight: 600;
+            --lp-type-body-strong-size: 17px;
+            --lp-type-body-strong-line: 1.72;
+            --lp-type-body-strong-weight: 600;
+            --lp-type-caption-size: 12px;
+            --lp-type-caption-line: 1.55;
+            --lp-type-caption-weight: 600;
+            --lp-type-chip-size: 13px;
+            --lp-type-chip-line: 1;
+            --lp-type-chip-weight: 800;
+        }
+
+        .section-rail {
+            position: sticky;
+            top: var(--section-rail-top, 86px);
+            z-index: 30;
+            padding-top: 4px;
+            transition: top 180ms ease;
+        }
+
+        .section-nav-card {
+            border: 1px solid rgba(28,25,23,0.07);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.86);
+            padding: 10px;
+            box-shadow: 0 16px 36px rgba(28,25,23,0.06);
+        }
+
+        .section-nav-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 3px 4px 9px;
+            color: #8b8179;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .section-nav-list {
+            position: relative;
+            display: grid;
+            gap: 3px;
+        }
+
+        .section-nav-link {
+            display: flex;
+            min-height: 34px;
+            align-items: center;
+            gap: 9px;
+            border-radius: 12px;
+            padding: 0 9px;
+            color: #716861;
+            font-size: 12px;
+            font-weight: 800;
+            transition: background 160ms ease, color 160ms ease;
+        }
+
+        .section-nav-link::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            flex: 0 0 auto;
+            border-radius: 999px;
+            background: rgba(116,108,102,0.26);
+            transition: background 160ms ease, transform 160ms ease;
+        }
+
+        .section-nav-link:hover {
+            background: rgba(123,23,48,0.05);
+            color: #332c27;
+        }
+
+        .section-nav-link.active {
+            background: #fff4e8;
+            color: #7b1730;
+        }
+
+        .section-nav-link.active::before {
+            background: #d87924;
+            transform: scale(1.22);
+        }
+
+        .section-nav-progress {
+            margin-top: 7px;
+            height: 3px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: rgba(28,25,23,0.08);
+        }
+
+        .section-nav-progress span {
+            display: block;
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: #d87924;
+            transition: none;
+        }
+
+        .card {
+            border: 1px solid rgba(28,25,23,0.08);
+            border-radius: 28px;
+            background: white;
+            box-shadow: 0 24px 48px rgba(28,25,23,0.07);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: clamp(24px, 4vw, 34px) clamp(24px, 4vw, 34px) 0;
+        }
+
+        .section-heading-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .section-title-group {
+            display: grid;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .section-title {
+            margin: 0;
+            color: #7b1730;
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: clamp(28px, 2.4vw, 32px);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: 0;
+        }
+
+        .section-sub {
+            margin: 12px 0 0;
+            max-width: 62ch;
+            color: #746c66;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.75;
+        }
+
+        .about-body,
+        .ideas-list,
+        .timeline,
+        .focus-grid,
+        .q-list,
+        .activities-list {
+            padding: 0 clamp(24px, 4vw, 34px) clamp(24px, 4vw, 34px);
+        }
+
+        /* ── Today's Focus ──────────────────────────── */
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .focus-card {
+            border-radius: 22px;
+            border: 1px solid rgba(28,25,23,0.07);
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,249,244,0.98));
+            padding: 22px;
+            box-shadow: 0 14px 32px rgba(28,25,23,0.05);
+        }
+
+        .focus-label {
+            margin: 0 0 10px;
+            color: #a51034;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .focus-text {
+            margin: 0;
+            color: #332c27;
+            font-size: 17px;
+            line-height: 1.75;
+            font-weight: 600;
+        }
+
+        /* ── About section body ───────────────────────── */
+
+        .about-lead {
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.7;
+            color: #2a221d;
+            margin: 0 0 22px;
+        }
+
+        .about-body p {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #574b48;
+            margin: 0 0 18px;
+        }
+
+        .about-body p:last-child { margin-bottom: 0; }
+
+        .about-feature {
+            gap: 24px;
+            align-items: start;
+            margin-bottom: 26px;
+        }
+
+        .about-copy-stack {
+            display: grid;
+            gap: 0;
+        }
+
+        .about-visual {
+            position: relative;
+            overflow: hidden;
+            max-width: 760px;
+            margin-right: auto;
+            margin-left: auto;
+            border-radius: 16px;
+            min-height: 0;
+            background: #f8fafc;
+            box-shadow: 0 20px 40px rgba(28,25,23,0.08);
+        }
+
+        .about-visual img {
+            width: 100%;
+            height: 320px;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+
+        .about-visual-badge {
+            position: absolute;
+            left: 18px;
+            bottom: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: rgba(28,25,23,0.72);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+
+        .about-points {
+            list-style: none;
+            margin: 0 0 28px;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .about-point {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            gap: 12px;
+            align-items: start;
+            padding: 16px 18px;
+            border-radius: 18px;
+        }
+
+        .about-point-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #7a1830;
+            color: #ffff;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .about-point-copy {
+            font-size: 16px;
+            line-height: 1.75;
+            color: #4f443f;
+            font-weight: 600;
+        }
+
+        .insight-card {
+            border-radius: 20px;
+            background: linear-gradient(135deg, #fffaf2 0%, #fff5e6 100%);
+            border: 1px solid rgba(216,121,36,0.18);
+            padding: 26px 28px;
+            margin-top: 32px;
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .insight-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f49138, #d87924);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .insight-icon svg { width: 20px; height: 20px; }
+
+        .insight-label {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #c27020;
+        }
+
+        .insight-list {
+            list-style: none;
+            margin: 0; padding: 0;
+            display: grid;
+            gap: 9px;
+        }
+
+        .insight-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #4a3a2e;
+            line-height: 1.7;
+        }
+
+        .insight-list li::before {
+            content: "";
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #d87924;
+            margin-top: 7px;
+            flex-shrink: 0;
+        }
+
+        /* ── Section 2: Big Ideas ─────────────────────── */
+        .ideas-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .idea-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            display: grid;
+            gap: 0;
+            padding: 0;
+        }
+
+        .idea-card:hover {
+            border-color: rgba(123,23,48,0.14);
+        }
+
+        .idea-card::before {
+            content: "";
+            position: absolute;
+            left: 24px;
+            top: 0;
+            width: 88px;
+            height: 4px;
+            border-radius: 999px;
+            z-index: 2;
+        }
+
+        .idea-media {
+            position: relative;
+            width: 20vh;
+            height: 20vh;
+            overflow: hidden;
+            flex-shrink: 0;
+            border-radius: 16px;
+            border: 2px solid #fff;
+            background: #f7f2ed;
+            box-shadow: 0 14px 24px rgba(28,25,23,0.12);
+        }
+
+        .idea-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .idea-media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(24,20,17,0.04), rgba(24,20,17,0.24));
+        }
+
+        .idea-top {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            align-items: start;
+            gap: 24px;
+            padding: 26px 22px 18px;
+        }
+
+        .idea-body {
+            min-width: 0;
+            padding: 0;
+            display: grid;
+            align-content: start;
+        }
+
+        .idea-num {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .idea-card:nth-child(1) .idea-num { color: #d87924; }
+        .idea-card:nth-child(2) .idea-num { color: #2f6f9f; }
+        .idea-card:nth-child(3) .idea-num { color: #7762a8; }
+        .idea-card:nth-child(4) .idea-num { color: #4f7d53; }
+
+        .idea-title {
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.25;
+            color: #211c19;
+            margin-bottom: 12px;
+        }
+
+        .idea-points {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .idea-points li {
+            position: relative;
+            padding-left: 18px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #5d534d;
+            font-weight: 600;
+        }
+
+        .idea-points li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 11px;
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: rgba(123,23,48,0.7);
+        }
+
+        .idea-footer {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 14px;
+            margin: 0 22px 22px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(123,23,48,0.06), rgba(216,121,36,0.09));
+        }
+
+        .idea-footer-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.72);
+            color: #8d1d3a;
+            flex-shrink: 0;
+        }
+
+        .idea-footer-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .idea-footer-copy {
+            min-width: 0;
+        }
+
+        .idea-footer-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #8d1d3a;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .idea-footer-text {
+            margin: 0;
+            color: #4e4540;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        /* ── Section 3: Sessions Timeline ─────────────── */
+        .timeline {
+            position: relative;
+            padding-left: 52px;
+            display: grid;
+            gap: 16px;
+            margin-top: 1.5rem;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 24px;
+            top: 22px;
+            bottom: 22px;
+            width: 3px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(164,16,52,0.9) 0%, rgba(216,121,36,0.34) 100%);
+        }
+
+        .tl-item { position: relative; }
+
+        .tl-node {
+            position: absolute;
+            left: -40px;
+            top: 4.4rem;
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            z-index: 1;
+        }
+
+        .tl-node.done {
+            background: #a51034;
+            color: #fff;
+            box-shadow: 0 0 0 4px rgba(164,16,52,0.14);
+        }
+
+        .tl-node.active {
+            background: #fff;
+            color: #a51034;
+            border: 2.5px solid #a51034;
+            box-shadow: 0 0 0 5px rgba(164,16,52,0.12), 0 0 0 9px rgba(164,16,52,0.05);
+        }
+
+        .tl-node.next {
+            background: #fff;
+            color: #b0a8a2;
+            border: 2px solid #ddd8d2;
+        }
+
+        .tl-card {
+            background: #fff;
+            border: 1px solid rgba(28,25,23,0.05);
+            border-radius: 24px;
+            padding: 20px 20px 0px 20px;
+            box-shadow: 0 10px 28px rgba(28,25,23,0.05);
+            transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 260ms ease, background 260ms ease;
+        }
+
+        .tl-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 38px rgba(28,25,23,0.08);
+        }
+
+        .tl-card.is-active {
+            border-color: rgba(164,16,52,0.2);
+            box-shadow: 0 4px 24px rgba(164,16,52,0.08);
+        }
+
+        .tl-item.is-expanded .tl-card,
+        .tl-card.is-expanded {
+            transform: translateY(-4px);
+            border-color: rgba(164,16,52,0.1);
+            box-shadow: 0 24px 52px rgba(84,46,25,0.12);
+        }
+
+        .tl-card-shell {
+            --tl-media-size: 140px;
+            --tl-shell-gap: 26px;
+            display: grid;
+            grid-template-columns: var(--tl-media-size) minmax(0, 1fr);
+            gap: var(--tl-shell-gap);
+            align-items: start;
+        }
+
+        .tl-card-media {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            background: #f7f2ed;
+            min-height: 0;
+            width: var(--tl-media-size);
+            height: var(--tl-media-size);
+            margin-bottom: 0;
+            flex-shrink: 0;
+            border: 2px solid #fff;
+            box-shadow: 0 14px 28px rgba(28,25,23,0.12);
+        }
+
+        .tl-card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .tl-card-media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(28,25,23,0.04), rgba(28,25,23,0.22));
+        }
+
+        .tl-card-media-tag {
+            position: absolute;
+            left: 12px;
+            bottom: 12px;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.88);
+            color: #7b1730;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .tl-card-body {
+            min-width: 0;
+            padding: 4px 2px 2px 0;
+        }
+
+        .tl-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .tl-session-num {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: #a51034;
+            margin-bottom: 3px;
+        }
+
+        .tl-title {
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: #211c19;
+            line-height: 1.35;
+        }
+
+        .tl-chips {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .tl-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .tl-chip svg { width: 11px; height: 11px; }
+        .tl-chip.dur { background: rgba(28,25,23,0.05); color: #746c66; }
+        .tl-chip.done { background: #f0faf4; color: #2e7d4f; }
+        .tl-chip.prog { background: #fff0f2; color: #a51034; }
+        .tl-chip.next { background: #f0f2ff; color: #5b6fa6; }
+
+        .tl-summary-wrap {
+            position: relative;
+            margin-top: 2px;
+            padding-right: 88px;
+        }
+
+        .tl-summary {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #746c66;
+            margin: 0;
+        }
+
+        .tl-summary.is-clamped {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tl-summary-toggle {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            padding: 0;
+            border: 0;
+            color: #746c66;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            padding-left: 22px;
+        }
+
+        .tl-summary-toggle.is-visible {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .parent-action {
+            margin-top: 18px;
+            border-top: 1px solid rgba(28,25,23,0.07);
+            padding-top: 18px;
+        }
+
+        .parent-action-title {
+            margin: 0 0 12px;
+            color: #a51034;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .parent-action-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .parent-action-item {
+            display: grid;
+            gap: 5px;
+        }
+
+        .parent-action-label {
+            color: #7d726c;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .parent-action-copy {
+            color: #4f443f;
+            font-size: 16px;
+            line-height: 1.8;
+            font-weight: 600;
+        }
+
+        /* ── Learning Growth ────────────────────────── */
+        .growth-shell {
+            position: relative;
+            overflow: hidden;
+            border-radius: 34px;
+            border: 1px solid rgba(164,12,46,0.06);
+            background:
+                radial-gradient(circle at top center, rgba(212,183,156,0.14), transparent 34%),
+                linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,252,249,0.98));
+            box-shadow: 0 24px 64px rgba(60, 35, 24, 0.08);
+            padding: clamp(30px, 4vw, 44px);
+        }
+
+        .growth-shell::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .growth-header,
+        .growth-footer,
+        .growth-list {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .growth-list {
+            margin-top: 1.5rem;
+        }
+
+        .growth-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .growth-header-copy {
+            min-width: 0;
+        }
+
+        .growth-heading {
+            margin: 0;
+            color: #211916;
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: clamp(28px, 4vw, 36px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+        }
+
+        .growth-subtitle {
+            margin: 12px 0 0;
+            color: rgba(164,12,46,0.68);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .growth-intro {
+            color: #4c433e;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.7;
+            max-width: 56ch;
+        }
+
+        .growth-status {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 102px;
+            min-width: 300px;
+            padding: 22px 28px;
+            border-radius: 26px;
+            border: 1px solid rgba(164,12,46,0.06);
+            background: linear-gradient(180deg, rgba(255,246,246,0.95), rgba(252,242,242,0.92));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+            color: #544842;
+            font-size: clamp(16px, 1.8vw, 20px);
+            font-weight: 500;
+            line-height: 1.25;
+            text-align: center;
+        }
+
+        .growth-status strong {
+            color: var(--wine);
+            font-weight: 700;
+        }
+
+        .growth-row {
+            display: grid;
+            grid-template-columns: minmax(180px, 280px) minmax(0, 1fr) 120px;
+            align-items: center;
+            gap: 28px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(28,25,23,0.08);
+        }
+
+        .growth-row-label {
+            margin: 0;
+            color: #1f1a17;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.45;
+        }
+
+        .growth-progress {
+            height: 6px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(164,12,46,0.04), rgba(87,55,44,0.05));
+            overflow: hidden;
+        }
+
+        .growth-progress-fill {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #b00f34 0%, #cc2846 55%, #de6b7b 100%);
+            box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
+        }
+
+        .growth-row-meta {
+            color: #7a6c66;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .growth-footer {
+            margin-top: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .growth-note {
+            color: #4f443f;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.8;
+        }
+
+        .growth-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: clamp(168px, 20vw, 220px);
+            max-width: 100%;
+            min-height: clamp(40px, 3.8vw, 46px);
+            padding: 0 clamp(14px, 1.5vw, 18px);
+            border: 2px solid rgba(164, 12, 46, 0.9);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.86);
+            color: var(--wine);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        }
+
+        .growth-cta:hover {
+            transform: translateY(-1px);
+            background: #fff8f9;
+            box-shadow: 0 18px 40px rgba(164,12,46,0.08);
+        }
+
+        .growth-cta svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.1;
+        }
+
+        /* ── Section 4: Questions Accordion ───────────── */
+        .q-list { display: grid; gap: 12px; margin-top: 1rem; }
+
+        .q-item {
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid rgba(28,25,23,0.08);
+            box-shadow: 0 2px 12px rgba(28,25,23,0.04);
+            overflow: hidden;
+            transition: box-shadow 200ms, border-color 200ms;
+        }
+
+        .q-item.is-open {
+            box-shadow: 0 8px 36px rgba(28,25,23,0.09);
+            border-color: rgba(164,16,52,0.16);
+        }
+
+        .q-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 22px 24px;
+            background: transparent;
+            border: none;
+            text-align: left;
+        }
+
+        .q-trigger-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .q-num {
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            background: rgba(164,16,52,0.07);
+            color: #a51034;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .q-text {
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2a221d;
+            line-height: 1.5;
+            padding-top: 5px;
+        }
+
+        .q-arrow {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(28,25,23,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 150ms, transform 260ms ease;
+        }
+
+        .q-arrow svg { width: 16px; height: 16px; color: #746c66; transition: color 150ms; }
+        .q-item.is-open .q-arrow { transform: rotate(180deg); background: rgba(164,16,52,0.08); }
+        .q-item.is-open .q-arrow svg { color: #a51034; }
+
+        .q-body {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 320ms cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .q-body.open { max-height: 300px; }
+
+        .q-content {
+            padding: 0 24px 24px;
+            padding-left: calc(24px + 32px + 14px);
+        }
+
+        .q-guidance-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a51034;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .q-why,
+        .q-guidance {
+            font-size: 16px;
+            line-height: 1.85;
+            color: #574b48;
+        }
+
+        .q-why {
+            margin-bottom: 14px;
+        }
+
+        .q-guidance {
+            margin: 0 0 14px;
+        }
+
+        .q-tip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 10px;
+            background: #fff4e6;
+            border: 1px solid rgba(216,121,36,0.2);
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #c27020;
+        }
+
+        /* ── Section 5: Try at Home ───────────────────── */
+        .activities-list { display: grid; gap: 28px; margin-top: 1.75rem; }
+
+        .act-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 34px;
+            box-shadow: 0 26px 70px rgba(28,25,23,0.08);
+            padding: 34px;
+            transition: transform 240ms ease, box-shadow 240ms ease;
+        }
+
+        .act-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.44), transparent 24%),
+                radial-gradient(circle at 82% 16%, rgba(255,255,255,0.72), transparent 18%);
+        }
+
+        .act-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 34px 88px rgba(28,25,23,0.11);
+        }
+
+        .act-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .act-kicker,
+        .act-session-link {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .act-kicker {
+            background: rgba(164,12,46,0.08);
+            color: #a40c2e;
+        }
+
+        .act-session-link {
+            background: rgba(255,255,255,0.72);
+            color: #735c56;
+            box-shadow: inset 0 0 0 1px rgba(164,12,46,0.06);
+        }
+
+        .act-body {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 0;
+        }
+
+        .act-hero {
+            align-items: center;
+            padding-bottom: 30px;
+        }
+
+        .act-badges {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .act-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 999px;
+            padding: 9px 14px;
+            background: rgba(255,255,255,0.74);
+            box-shadow: inset 0 0 0 1px rgba(164,12,46,0.07);
+            color: #6b5750;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .act-badge svg {
+            width: 14px;
+            height: 14px;
+            color: #a40c2e;
+        }
+
+        .act-title {
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: clamp(2rem, 3vw, 2.75rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: #251f1c;
+            line-height: 1.08;
+            margin-bottom: 14px;
+        }
+
+        .act-desc {
+            max-width: 62ch;
+            font-size: 17px;
+            line-height: 1.95;
+            color: #5f5450;
+            margin: 0;
+        }
+
+        .act-hero-art {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 220px;
+        }
+
+        .act-hero-art svg {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            color: #a40c2e;
+            opacity: 0.92;
+        }
+
+        .act-section {
+            padding: 28px 0;
+            border-top: 1px solid rgba(164,12,46,0.09);
+        }
+
+        .act-section-head,
+        .materials-eyebrow,
+        .parent-note-eyebrow {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #a40c2e;
+            margin-bottom: 14px;
+        }
+
+        .materials-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .activity-steps {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 24px;
+        }
+
+        .activity-step {
+            display: grid;
+            grid-template-columns: 52px minmax(0, 1fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .activity-step-marker {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            min-height: 100%;
+        }
+
+        .activity-step-marker::after {
+            content: "";
+            position: absolute;
+            top: 54px;
+            bottom: -28px;
+            left: 50%;
+            width: 1px;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg, rgba(164,12,46,0.2), rgba(164,12,46,0.02));
+        }
+
+        .activity-step:last-child .activity-step-marker::after {
+            display: none;
+        }
+
+        .activity-step-num {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(164,12,46,0.12), rgba(164,12,46,0.06));
+            box-shadow: inset 0 0 0 1px rgba(164,12,46,0.08), 0 10px 24px rgba(164,12,46,0.08);
+            color: #a40c2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .activity-step-copy {
+            color: #453a36;
+            font-size: 17px;
+            line-height: 1.95;
+            font-weight: 500;
+            padding-top: 2px;
+            max-width: 54ch;
+        }
+
+        .mat-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.88);
+            box-shadow: inset 0 0 0 1px rgba(164,12,46,0.06), 0 10px 22px rgba(28,25,23,0.05);
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #5c4f4b;
+        }
+
+        .act-support {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .parent-note {
+            position: relative;
+            background: linear-gradient(180deg, #fff8ee 0%, #fff4e5 100%);
+            border-radius: 28px;
+            padding: 20px 22px 20px 28px;
+        }
+        
+        .parent-note p {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #61483b;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .photo-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 18px;
+            border-radius: 18px;
+            border: 1px dashed rgba(123,23,48,0.24);
+            background: rgba(255,247,244,0.92);
+            padding: 16px 18px;
+        }
+
+        .photo-cta-copy {
+            display: grid;
+            gap: 4px;
+        }
+
+        .photo-cta-title {
+            color: #2f2925;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .photo-cta-sub {
+            color: #7a6f69;
+            font-size: 13px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .photo-cta-button {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(164,16,52,0.14);
+            background: #fff;
+            padding: 0 16px;
+            color: #a51034;
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .mobile-quick-bar {
+            position: fixed;
+            right: 14px;
+            bottom: 14px;
+            left: 14px;
+            z-index: 70;
+            display: none;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            border: 1px solid rgba(28,25,23,0.08);
+            border-radius: 22px;
+            background: rgba(255,255,255,0.94);
+            padding: 10px;
+            box-shadow: 0 18px 44px rgba(28,25,23,0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .mobile-quick-link {
+            display: grid;
+            justify-items: center;
+            gap: 6px;
+            border-radius: 16px;
+            padding: 10px 6px;
+            color: #5d534d;
+            font-size: 11px;
+            font-weight: 800;
+            text-align: center;
+            transition: background 160ms ease, color 160ms ease;
+        }
+
+        .mobile-quick-link:hover,
+        .mobile-quick-link:focus-visible {
+            background: rgba(123,23,48,0.06);
+            color: #7b1730;
+            outline: none;
+        }
+
+        .mobile-quick-link svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        /* ── Responsive ───────────────────────────────── */
+        @media (max-width: 980px) {
+            .lesson-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .section-rail {
+                display: none;
+            }
+
+            .section-nav-card {
+                overflow-x: auto;
+            }
+
+            .section-nav-list {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding-bottom: 2px;
+                scrollbar-width: none;
+            }
+
+            .section-nav-list::-webkit-scrollbar {
+                display: none;
+            }
+
+            .section-nav-link {
+                flex: 0 0 auto;
+                white-space: nowrap;
+            }
+
+            .act-card { padding: 24px; }
+            .act-hero,
+            .act-support {
+                grid-template-columns: 1fr;
+            }
+            .act-top {
+                align-items: flex-start;
+            }
+            .act-title {
+                max-width: none;
+            }
+            .act-hero-art {
+                min-height: 160px;
+                justify-items: start;
+            }
+            .about-feature,
+            .tl-card-shell,
+            .act-body {
+                grid-template-columns: 1fr;
+            }
+            .tl-card-shell {
+                --tl-media-size: 112px;
+            }
+            .tl-card-media {
+                margin-bottom: 18px;
+            }
+            .idea-top {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                padding: 18px 18px 14px;
+            }
+            .idea-media {
+                width: 112px;
+                height: 112px;
+            }
+            .idea-body {
+                padding: 0;
+            }
+            .idea-footer {
+                margin: 0 18px 18px;
+                padding: 16px 18px;
+            }
+            .focus-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .growth-row {
+                grid-template-columns: minmax(140px, 220px) minmax(0, 1fr) 96px;
+                gap: 18px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .act-card {
+                border-radius: 30px;
+                padding: 22px 18px;
+            }
+
+            .act-hero {
+                gap: 18px;
+                padding-bottom: 24px;
+            }
+
+            .act-section {
+                padding: 22px 0;
+            }
+
+            .activity-step {
+                grid-template-columns: 42px minmax(0, 1fr);
+                gap: 14px;
+            }
+
+            .activity-step-num {
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+
+            .activity-step-marker::after {
+                top: 46px;
+            }
+
+            .activity-step-copy,
+            .act-desc,
+            .parent-note p {
+                font-size: 15px;
+            }
+
+            .act-why {
+                padding: 20px 20px 20px 58px;
+            }
+
+            .act-why::before {
+                left: 18px;
+                top: 16px;
+                font-size: 3.1rem;
+            }
+        }
+
+        /* ── Hero Stats Bar ──────────────────────────── */
+        .hero-stats-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 13px 24px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-top: 1px solid rgba(255,255,255,0.09);
+            border-radius: 0 0 28px 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255,255,255,0.86);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hero-stat svg { width: 13px; height: 13px; opacity: 0.75; flex-shrink: 0; }
+
+        .hero-stat-sep {
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.28);
+            flex-shrink: 0;
+        }
+
+        .hero-parent-chip {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 999px;
+            background: rgba(164,16,52,0.68);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 5px 13px;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .tl-item.is-expanded .tl-node {
+            box-shadow: 0 0 0 5px rgba(164,16,52,0.14), 0 0 22px rgba(216,121,36,0.28);
+        }
+
+        .tl-item.is-expanded .tl-node.active {
+            box-shadow: 0 0 0 6px rgba(164,16,52,0.12), 0 0 0 10px rgba(164,16,52,0.05), 0 0 26px rgba(216,121,36,0.3);
+        }
+
+        .tl-guide {
+            grid-column: 1 / -1;
+            border-top: 1px solid rgba(28,25,23,0.06);
+        }
+
+        .tl-parent-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border: 0;
+            background: transparent;
+            color: #7b1730;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: color 180ms ease, transform 180ms ease;
+        }
+
+        .tl-parent-toggle .toggle-chev {
+            margin-left: auto;
+        }
+
+        .tl-parent-toggle:hover {
+            color: #a51034;
+        }
+
+        .tl-parent-toggle svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: rgba(28, 25, 23, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 150ms, transform 260ms ease;
+
+            /* transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); */
+        }
+
+        .tl-parent-toggle.is-open .toggle-chev {
+            transform: rotate(180deg);
+        }
+
+        .tl-parent-panel {
+            overflow: hidden;
+            height: 0;
+            opacity: 0;
+            transform: translateY(-6px);
+            pointer-events: none;
+            will-change: height, opacity, transform;
+            transition: height 520ms cubic-bezier(0.22, 1, 0.36, 1), opacity 320ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .tl-parent-panel.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .tl-parent-content {
+            margin-top: 18px;
+            padding: 10px 0px;
+        }
+
+        .tl-parent-item {
+            display: flex;
+            align-items: start;
+            gap: 14px;
+            padding: 24px 0;
+            border-top: 1px solid rgba(216,121,36,0.12);
+        }
+
+        .tl-parent-item:first-child { border-top: 0; padding-top: 0; }
+
+        .tl-parent-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.72);
+        }
+
+        .tl-parent-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 1.9;
+        }
+
+        .tl-parent-item.learned .tl-parent-icon {
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(253,236,240,0.98) 58%, rgba(244,215,222,0.98) 100%);
+            color: #b43f57;
+        }
+
+        .tl-parent-item.ask .tl-parent-icon {
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,247,228,0.98) 58%, rgba(250,231,187,0.98) 100%);
+            color: #dc8a1f;
+        }
+
+        .tl-parent-item.observe .tl-parent-icon,
+        .tl-parent-item.curious .tl-parent-icon,
+        .tl-parent-item.real .tl-parent-icon {
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(244,239,252,0.98) 58%, rgba(230,220,246,0.98) 100%);
+            color: #8d5ac2;
+        }
+
+        .tl-parent-body {
+            flex: 1;
+            min-width: 0;
+            display: grid;
+            gap: 8px;
+            padding-top: 2px;
+        }
+
+        .tl-parent-lbl {
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            line-height: 1.35;
+        }
+
+        .tl-parent-item.learned .tl-parent-lbl {
+            color: #bc475a;
+        }
+
+        .tl-parent-item.ask .tl-parent-lbl {
+            color: #db8a21;
+        }
+
+        .tl-parent-item.observe .tl-parent-lbl,
+        .tl-parent-item.curious .tl-parent-lbl,
+        .tl-parent-item.real .tl-parent-lbl {
+            color: #8757b7;
+        }
+
+        .tl-parent-copy {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #574d47;
+            font-weight: 500;
+        }
+
+        .tl-ask-chip {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #574d47;
+            line-height: 1.8;
+            padding: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* ── Activity insight block ──────────────────── */
+        .act-why {
+            position: relative;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(164,12,46,0.05), rgba(164,12,46,0.025));
+            padding: 20px;
+        }
+        .act-why svg { display: none; }
+
+        .act-why p {
+            margin: 0;
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: 1.12rem;
+            line-height: 1.9;
+            color: #5a353e;
+        }
+
+        /* ── Scroll reveal ──────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 480ms ease, transform 480ms ease;
+        }
+
+        .reveal.visible { opacity: 1; transform: none; }
+
+        @media (max-width: 640px) {
+            .hero-stats-bar { border-radius: 0 0 22px 22px; gap: 5px; }
+            .growth-shell { padding: 24px 20px; border-radius: 26px; }
+            .growth-heading { font-size: 26px; }
+            .growth-subtitle { margin-top: 16px; font-size: 11px; letter-spacing: 0.14em; }
+            .growth-intro { font-size: 16px; }
+            .growth-header { flex-direction: column; }
+            .growth-status {
+                min-height: 74px;
+                min-width: 0;
+                width: 100%;
+                padding: 18px 20px;
+                border-radius: 20px;
+                font-size: 18px;
+            }
+            .growth-list { margin-top: 30px; }
+            .growth-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 22px 0;
+            }
+            .growth-progress { height: 10px; }
+            .growth-row-meta { text-align: left; font-size: 15px; }
+            .growth-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .growth-note { font-size: 16px; }
+            .growth-cta {
+                width: 100%;
+                min-width: 0;
+                min-height: 62px;
+                font-size: 18px;
+            }
+            .growth-cta svg {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page-wrap {
+                width: min(100% - 28px, 1100px);
+            }
+
+            .section-rail {
+                display: none;
+            }
+
+            .hero {
+                min-height: 380px;
+                border-radius: 22px;
+            }
+
+            .hero-content {
+                min-height: 380px;
+                padding: 18px;
+            }
+
+            .hero h1 {
+                font-size: clamp(30px, 9vw, 42px);
+            }
+
+            .lesson-tabs-inner,
+            .lesson-tabs.is-stuck .lesson-tabs-inner {
+                min-height: 58px;
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .tl-card-shell {
+                gap: 16px;
+            }
+
+            .tl-card-media {
+                width: 112px;
+                height: 112px;
+                margin-bottom: 18px;
+            }
+
+            .idea-media {
+                width: 112px;
+                height: 112px;
+            }
+
+            .idea-body {
+                padding: 0;
+            }
+
+            .idea-title {
+                font-size: 20px;
+            }
+
+            .idea-points li {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .idea-footer {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 0 14px 14px;
+                padding: 15px 16px;
+            }
+
+            .idea-footer-icon {
+                width: 26px;
+                height: 26px;
+            }
+
+            .lesson-compact-title {
+                font-size: 14px;
+            }
+
+            .timeline { padding-left: 38px; }
+            .timeline::before { left: 9px; top: 18px; bottom: 18px; }
+            .tl-node { left: -31px; width: 22px; height: 22px; font-size: 10px; }
+            .tl-card-top { flex-direction: column; gap: 8px; }
+            .tl-chips { justify-content: flex-start; }
+            .tl-summary-wrap { padding-right: 82px; }
+            .tl-summary-toggle { font-size: 12px; padding-left: 18px; }
+            .tl-parent-content { padding: 8px 18px; border-radius: 22px; }
+            .tl-parent-item { gap: 12px; padding: 18px 0; }
+            .tl-parent-icon { width: 46px; height: 46px; border-radius: 14px; }
+            .tl-parent-icon svg { width: 21px; height: 21px; }
+            .tl-parent-body { padding-top: 0; }
+            .focus-grid {
+                grid-template-columns: 1fr;
+            }
+            .focus-card,
+            .tl-card,
+            .q-trigger,
+            .q-content,
+            .act-body {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .growth-shell { padding: 24px 20px; }
+            .q-text {
+                font-size: 17px;
+            }
+            .q-content {
+                padding-bottom: 20px;
+                padding-left: 20px;
+            }
+            .photo-cta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .mobile-quick-bar {
+                display: grid;
+            }
+            main {
+                padding-bottom: 116px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .idea-media {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+
+        .media-card {
+            position: relative;
+            max-width: 760px;
+            margin-right: auto;
+            margin-left: auto;
+            margin-bottom: 2rem;
+            cursor: zoom-in;
+            text-align: center;
+        }
+
+        .media-card img,
+        .media-card svg {
+            display: block;
+            width: 100%;
+            height: 320px;
+            border-radius: 16px;
+            background: #f8fafc;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 260ms ease;
+        }
+
+        .media-card img {
+            margin: 0 auto;
+        }
+
+        .media-card:hover img,
+        .media-card:hover svg {
+            transform: scale(1.025);
+        }
+
+        .media-title {
+            margin: 0 0 16px;
+            color: #9d958f;
+            text-align: center;
+            font-size: var(--lp-type-tag-size);
+            line-height: var(--lp-type-tag-line);
+            font-weight: var(--lp-type-tag-weight);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .media-card::after {
+            content: "Zoom";
+            position: absolute;
+            right: 18px;
+            bottom: 18px;
+            border-radius: 999px;
+            background: rgba(33, 28, 25, 0.78);
+            padding: 7px 11px;
+            color: #fff;
+            font-size: var(--lp-type-tag-size);
+            line-height: var(--lp-type-tag-line);
+            font-weight: var(--lp-type-tag-weight);
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 160ms ease, transform 160ms ease;
+            pointer-events: none;
+        }
+
+        .media-card:hover::after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- ═══════════════════════════════ HEADER NAV ═══ -->
+    <header id="siteHeader"
+        class="sticky top-0 z-50 w-full border-b border-wine-5 bg-white px-6 backdrop-blur-xl md:px-12">
+        <div class="mx-auto flex h-24 max-w-[1600px] items-center justify-between">
+            <a href="index.html" class="focus-ring flex items-center" aria-label="SuperTeacher Edge home">
+                <img src="assets/master-edge-logo2.png" alt="SuperTeacher Edge" class="h-10 w-auto object-contain">
+            </a>
+
+            <nav class="hidden items-center rounded-[2rem] border border-wine-5 bg-amber-light p-1.5 lg:flex"
+                aria-label="Primary navigation">
+                <a href="index.html"
+                    class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold tracking-wide text-[#6D5D5A] hover:text-wine"
+                    data-nav-title="Teacher Lesson Plan">
+                    <span>Teacher Lesson Plan</span>
+                </a>
+                <a href="parent-lesson-plan.html"
+                    class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold tracking-wide active bg-white text-wine shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]"
+                    data-nav-title="Parent Lesson Plan" aria-current="page">
+                    <span>Parent Lesson Plan</span>
+                </a>
+                <a href="communication.html"
+                    class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold tracking-wide text-[#6D5D5A] hover:text-wine"
+                    data-nav-title="Communication">
+                    <span>Communication</span>
+                </a>
+                <a href="learnometer.html"
+                    class="nav-button focus-ring flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 text-xs font-semibold tracking-wide text-[#6D5D5A] hover:text-wine"
+                    data-nav-title="Learnometer">
+                    <span>Learnometer</span>
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-6">
+                <a href="practice-gym.html"
+                    class="focus-ring inline-flex h-10 items-center gap-2 rounded-full border border-[#E9C9CD] bg-[#FFF7F4] px-4 text-[12px] font-bold text-[#a51034] transition-all hover:border-[#a51034]/30 hover:bg-[#a51034] hover:text-white focus:outline-none"
+                    aria-label="Open Practice Gym">
+                    <i data-lucide="dumbbell" class="h-4 w-4"></i>
+                    <span class="hidden sm:inline">Practice Gym</span>
+                </a>
+                <div class="relative shrink-0">
+                    <button type="button" id="profileToggle"
+                        class="focus-ring flex h-10 w-10 items-center justify-center rounded-full bg-wine text-sm font-bold tracking-wide text-white shadow-[0_2px_8px_rgba(164,16,52,0.25)] transition-all hover:shadow-[0_4px_16px_rgba(164,16,52,0.35)]"
+                        aria-label="Open profile menu" aria-expanded="false">
+                        RS
+                    </button>
+                    <div id="profileMenu"
+                        class="profile-menu hidden absolute right-0 top-[calc(100%+10px)] z-[200] min-w-[210px] rounded-[14px] bg-white p-1.5 shadow-[0_8px_32px_rgba(26,18,16,0.12),0_1px_4px_rgba(26,18,16,0.06)] transition-all duration-200">
+                        <div class="border-b border-[#f0ebe6] px-3.5 pb-3 pt-2.5">
+                            <div class="text-sm font-bold text-[#1a1210]">Ravi Sharma</div>
+                            <div class="mt-0.5 text-xs text-[#8a7968]">Teacher</div>
+                        </div>
+                        <div class="py-1.5">
+                            <a href="profile.html" class="profile-menu-item block w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-[#1a1210] transition-colors">Profile</a>
+                        </div>
+                        <div class="border-t border-[#f0ebe6] pb-0.5 pt-1.5">
+                            <button type="button" class="profile-menu-item sign-out w-full rounded-lg px-3.5 py-2.5 text-left text-sm font-medium text-wine transition-colors">Sign Out</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="focus-ring p-2 text-wine lg:hidden" id="menuToggle"
+                    aria-label="Open navigation menu" aria-expanded="false">
+                    <i data-lucide="menu" class="h-7 w-7"></i>
+                </button>
+            </div>
+        </div>
+        <nav id="mobileMenu" class="hidden border-t border-wine-5 pb-5 lg:hidden" aria-label="Mobile navigation">
+            <div class="grid gap-2 rounded-[1.5rem] bg-amber-light p-2">
+                <a href="index.html"
+                    class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold tracking-wide transition-all duration-300 text-[#6D5D5A] hover:bg-white hover:text-wine">
+                    <i data-lucide="graduation-cap" class="h-4 w-4"></i>
+                    <span>Teacher Lesson Plan</span>
+                </a>
+                <a href="parent-lesson-plan.html"
+                    class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold tracking-wide transition-all duration-300 active bg-white text-wine" aria-current="page">
+                    <i data-lucide="home" class="h-4 w-4"></i>
+                    <span>Parent Lesson Plan</span>
+                </a>
+                <a href="communication.html"
+                    class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold tracking-wide transition-all duration-300 text-[#6D5D5A] hover:bg-white hover:text-wine">
+                    <i data-lucide="message-square" class="h-4 w-4"></i>
+                    <span>Communication</span>
+                </a>
+                <a href="learnometer.html"
+                    class="nav-button focus-ring flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-xs font-semibold tracking-wide transition-all duration-300 text-[#6D5D5A] hover:bg-white hover:text-wine">
+                    <i data-lucide="line-chart" class="h-4 w-4"></i>
+                    <span>Learnometer</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════ HERO ═══════ -->
+    <div class="hero-wrap page-wrap">
+        <header class="hero">
+            <img src="https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg"
+                alt="Light passing through a prism creating a spectrum, representing light and shadows science">
+            <div class="hero-content">
+                <div class="hero-top">
+                    <a class="glass-pill" href="parent-lesson-plan.html">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        Back
+                    </a>
+                </div>
+
+                <div>
+                    <div class="hero-kicker-row">
+                        <span class="lesson-kicker">Grade 2 · Science · Block 11</span>
+                        <div class="glass-pill" style="padding: 6px 12px;">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            8 Sessions
+                        </div>
+                    </div>
+                    <h1>Light and Shadows</h1>
+                    <p class="hero-sub">A Parent's Guide to Arjun's Science Block — understand what they're learning, why it matters, and how to bring it home.</p>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="lesson-tabs-sentinel" aria-hidden="true"></div>
+    <nav class="lesson-tabs" aria-label="Current lesson">
+        <div class="page-wrap lesson-tabs-inner">
+            <a class="lesson-back-link" href="parent-lesson-plan.html" aria-label="Back to Blocks">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </a>
+            <div class="lesson-compact-copy">
+                <span class="lesson-compact-meta">Grade 2 · Science · Block 11</span>
+                <span class="lesson-compact-title">Light and Shadows</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══════════════════════════ MAIN CONTENT ════════ -->
+    <main class="page-wrap">
+        <div class="lesson-layout">
+            <div class="lesson-content">
+
+        <!-- ─── 1. ABOUT THIS BLOCK ─────────────────── -->
+        <section id="about" class="section">
+            <article class="card">
+                <div class="section-header">
+                    <div class="section-heading-row">
+                        <div class="section-title-group">
+                            <h2 class="section-title">What Is This Block About?</h2>
+                        </div>
+                    </div>
+                    <p class="section-sub">Everything arjun will explore — explained the way a curious parent would want to read it.</p>
+                </div>
+                <div class="about-body">
+                    <div class="about-feature">
+                        <div class="about-copy-stack">
+                            <p class="about-lead">This block helps arjun understand light, shadows, and why the sky changes from day to night.</p>
+
+                            <div class="about-points">
+                                <div class="about-point">
+                                    <div class="about-point-num">1</div>
+                                    <div class="about-point-copy">They learn that light travels in straight lines and that shadows appear when light is blocked.</div>
+                                </div>
+                                <div class="about-point">
+                                    <div class="about-point-num">2</div>
+                                    <div class="about-point-copy">They observe how shadow size and direction change when the light source changes position.</div>
+                                </div>
+                                <div class="about-point">
+                                    <div class="about-point-num">3</div>
+                                    <div class="about-point-copy">They connect these ideas to the Sun, Earth’s rotation, and the pattern of day and night.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  <div class="media-card" data-lightbox>
+                            <p class="media-title">How Earth's Rotation Creates Day and Night</p>
+                            <img src="https://images.news18.com/ibnkhabar/uploads/2021/10/Earth-and-Sun-001-1200-shutterstock.jpg"
+                                alt="Diagram showing Earth rotating around the Sun">
+                        </div>
+
+                    <p>By the end of the 8 sessions, arjun should be able to explain everyday observations using simple science ideas instead of guesswork.</p>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                            </div>
+                            <div class="insight-label">What Arjun Will Discover</div>
+                        </div>
+                        <ul class="insight-list">
+                            <li>Light travels in straight lines from its source — it can't bend around corners</li>
+                            <li>Shadows form when an opaque object blocks the path of light</li>
+                            <li>The size and direction of a shadow changes depending on where the light source is</li>
+                            <li>The Sun is our primary natural light source and drives the cycle of day and night</li>
+                            <li>Earth's rotation — not the Sun moving — explains why the sky changes throughout the day</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- ─── 2. BIG IDEAS ────────────────────────── -->
+        <section id="ideas" class="section">
+            <article class="card">
+                <div class="section-header">
+                    <div class="section-heading-row">
+                        <div class="section-title-group">
+                            <h2 class="section-title">The Big Ideas</h2>
+                        </div>
+                    </div>
+                    <p class="section-sub">Four foundational concepts arjun will build understanding around — each connected to the world they already know.</p>
+                </div>
+
+            <div class="ideas-list">
+                <!-- Idea 1 -->
+                <div class="idea-card">
+                    <div class="idea-top">
+                        <div class="idea-media">
+                            <img src="https://littleastronomy.com/wp-content/uploads/2019/02/eastwest-1024x597.jpg" alt="Earth spinning west to east makes the Sun appear to move across the sky" loading="lazy" decoding="async">
+                        </div>
+                        <div class="idea-body">
+                            <div class="idea-num">Concept 01</div>
+                            <div class="idea-title">The Sun Only Appears to Move</div>
+                            <ul class="idea-points">
+                                <li>The Sun does not move across the sky in the way it seems to.</li>
+                                <li>The Earth spins from west to east.</li>
+                                <li>That spin makes the Sun appear to rise in the east and set in the west.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Idea 2 -->
+                <div class="idea-card">
+                    <div class="idea-top">
+                        <div class="idea-media">
+                            <img src="https://images.unsplash.com/photo-1532187643603-ba119ca4109e" alt="Observation and shadow experiment concept" loading="lazy" decoding="async">
+                        </div>
+                        <div class="idea-body">
+                            <div class="idea-num">Concept 02</div>
+                            <div class="idea-title">Shadows Shift with the Sun</div>
+                            <ul class="idea-points">
+                                <li>As the Sun's position changes, shadows change too.</li>
+                                <li>Shadows are long in the morning and evening.</li>
+                                <li>Shadows are shortest around midday and always fall on the side opposite the Sun.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Idea 3 -->
+                <div class="idea-card">
+                    <div class="idea-top">
+                        <div class="idea-media">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Changing sky and day night concept" loading="lazy" decoding="async">
+                        </div>
+                        <div class="idea-body">
+                            <div class="idea-num">Concept 03</div>
+                            <div class="idea-title">Lower Light Makes Bigger Shadows</div>
+                            <ul class="idea-points">
+                                <li>The closer the light source is, the bigger the shadow it casts.</li>
+                                <li>The lower the light source is, the longer and larger the shadow appears.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Idea 4 -->
+                <div class="idea-card">
+                    <div class="idea-top">
+                        <div class="idea-media">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Earth and Sun concept" loading="lazy" decoding="async">
+                        </div>
+                        <div class="idea-body">
+                            <div class="idea-num">Concept 04</div>
+                            <div class="idea-title">Different Materials Cast Different Shadows</div>
+                            <ul class="idea-points">
+                                <li>Opaque objects cast dark, sharp shadows.</li>
+                                <li>Translucent objects cast faint shadows.</li>
+                                <li>Transparent objects cast little or almost no shadow at all.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </article>
+        </section>
+
+        <!-- ─── 3. SESSIONS TIMELINE ─────────────────── -->
+        <section id="sessions" class="section">
+            <article class="card">
+                <div class="section-header">
+                    <div class="section-heading-row">
+                        <div class="section-title-group">
+                            <h2 class="section-title">What Happens in Each Session</h2>
+                        </div>
+                    </div>
+                    <p class="section-sub">A walk through all 8 sessions — what arjun learns, what they do, and how long it takes.</p>
+                </div>
+
+            <div class="timeline">
+
+                <!-- Session 1 — Completed -->
+                <div class="tl-item">
+                    <div class="tl-node done" aria-label="Completed">1</div>
+                    <div class="tl-card">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9" alt="Session 1 What is Light" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 01</div>
+                                        <div class="tl-title">What is Light?</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip done"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Completed</span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">Children explore the difference between natural light sources (the Sun, fire, stars) and artificial ones (bulbs, torches). They classify objects and discover that some things make their own light while others only reflect it.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                            <div class="tl-guide">
+                                <button class="tl-parent-toggle" data-panel="p1" aria-expanded="false" aria-controls="p1">
+                                    <span>Explore Parent Guide</span>
+                                    <svg class="toggle-chev" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                                <div class="tl-parent-panel" id="p1">
+                                    <div class="tl-parent-content">
+                                        <!-- <div class="tl-parent-item learned">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.75 6.75A2.75 2.75 0 0 1 7.5 4h3.75a2.75 2.75 0 0 1 2.25 1.17A2.75 2.75 0 0 1 15.75 4h.75a2.75 2.75 0 0 1 2.75 2.75v11.5a.75.75 0 0 1-1.14.64l-2.52-1.5a1.5 1.5 0 0 0-1.54 0l-1.64.97a1.5 1.5 0 0 1-1.52 0l-1.65-.97a1.5 1.5 0 0 0-1.53 0l-2.52 1.5a.75.75 0 0 1-1.14-.64z"/></svg>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">What arjun learned</div>
+                                                <div class="tl-parent-copy">The difference between luminous objects (things that make their own light, like the Sun, a candle, a bulb) and non-luminous objects (things that only reflect light, like the Moon or a mirror).</div>
+                                            </div>
+                                        </div> -->
+                                        <div class="tl-parent-item ask">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 1 1 5.82 1c0 2-3 3-3 3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 17h.01"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 19.5c-2.43-.9-4-2.86-4-5.14C4.5 9.74 7.86 6 12 6s7.5 3.74 7.5 8.36c0 2.28-1.57 4.24-4 5.14L12 18.25z"/></svg>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">Ask arjun today</div>
+                                                <div class="tl-ask-chip">Is the Moon a light source, or does it reflect light from the Sun?</div>
+                                            </div>
+                                        </div>
+                                        <div class="tl-parent-item observe">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 10.5 12 4.5l8.25 6"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 9.75v9.75h12V9.75"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 19.5v-5.25h4v5.25"/></svg>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">What to observe at home</div>
+                                                <div class="tl-parent-copy">Walk through your home after dark and ask arjun to point to every light source they can find. Notice if they correctly spot that the TV reflects but doesn't make the same kind of light as a lamp.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 2 — Completed -->
+                <div class="tl-item">
+                    <div class="tl-node done" aria-label="Completed">2</div>
+                    <div class="tl-card">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1532187643603-ba119ca4109e" alt="Session 2 How Do Shadows Form" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 02</div>
+                                        <div class="tl-title">How Do Shadows Form?</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip done"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Completed</span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">Using torches and simple objects, children discover that shadows only form when light is blocked. They observe that the shadow always appears on the opposite side of the object from the light source.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                            <div class="tl-guide">
+                                <button class="tl-parent-toggle" data-panel="p2" aria-expanded="false" aria-controls="p2">
+                                    <span>Explore Parent Guide</span>
+                                    <svg class="toggle-chev" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                                <div class="tl-parent-panel" id="p2">
+                                    <div class="tl-parent-content">
+                                        <!-- <div class="tl-parent-item learned">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.75 6.75A2.75 2.75 0 0 1 7.5 4h3.75a2.75 2.75 0 0 1 2.25 1.17A2.75 2.75 0 0 1 15.75 4h.75a2.75 2.75 0 0 1 2.75 2.75v11.5a.75.75 0 0 1-1.14.64l-2.52-1.5a1.5 1.5 0 0 0-1.54 0l-1.64.97a1.5 1.5 0 0 1-1.52 0l-1.65-.97a1.5 1.5 0 0 0-1.53 0l-2.52 1.5a.75.75 0 0 1-1.14-.64z"/></svg>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">What arjun learned</div>
+                                                <div class="tl-parent-copy">Shadows form when an object blocks light — and the shadow always appears on the opposite side of the object from the light source. No light, no shadow.</div>
+                                            </div>
+                                        </div> -->
+                                        <div class="tl-parent-item ask">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.09 9a3 3 0 1 1 5.82 1c0 2-3 3-3 3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 17h.01"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 19.5c-2.43-.9-4-2.86-4-5.14C4.5 9.74 7.86 6 12 6s7.5 3.74 7.5 8.36c0 2.28-1.57 4.24-4 5.14L12 18.25z"/></svg>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">Ask arjun today</div>
+                                                <div class="tl-ask-chip">If I shine a torch at you from your left side, which side will your shadow appear on?</div>
+                                            </div>
+                                        </div>
+                                        <div class="tl-parent-item real">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 10.5 12 4.5l8.25 6"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 9.75v9.75h12V9.75"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 19.5v-5.25h4v5.25"/></svg>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">Real-world connection</div>
+                                                <div class="tl-parent-copy">Next time you're outside, ask arjun to predict which direction their shadow will fall before they check. Small conversations like this build deep scientific intuition.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 3 — Completed -->
+                <div class="tl-item">
+                    <div class="tl-node done" aria-label="Completed">3</div>
+                    <div class="tl-card">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9" alt="Session 3 Shadow Shapes and Sizes" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 03</div>
+                                        <div class="tl-title">Shadow Shapes and Sizes</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip done"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Completed</span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">Children experiment with changing shadow size by moving the torch nearer and farther from the object. They record observations and begin to see the pattern: closer light = bigger shadow, farther light = smaller shadow.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                            <div class="tl-guide">
+                                <button class="tl-parent-toggle" data-panel="p3" aria-expanded="false" aria-controls="p3">
+                                    <span>Explore Parent Guide</span>
+                                    <svg class="toggle-chev" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                                <div class="tl-parent-panel" id="p3">
+                                    <div class="tl-parent-content">
+                                        <!-- <div class="tl-parent-item learned">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <i data-lucide="ruler"></i>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">What arjun learned</div>
+                                                <div class="tl-parent-copy">When the light source moves closer to an object, the shadow becomes larger. When the light moves farther away, the shadow becomes smaller. Arjun is beginning to connect distance with size.</div>
+                                            </div>
+                                        </div> -->
+                                        <div class="tl-parent-item ask">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <i data-lucide="message-circle"></i>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">Ask arjun today</div>
+                                                <div class="tl-ask-chip">Why do you think your shadow gets longer or shorter when the light moves?</div>
+                                            </div>
+                                        </div>
+                                        <div class="tl-parent-item observe">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <i data-lucide="flashlight"></i>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">Try this at home</div>
+                                                <div class="tl-parent-copy">Use a torch and a small toy in a dim room. Move the torch closer and farther away, and ask arjun to predict how the shadow will change before they see it.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 4 — In Progress -->
+                <div class="tl-item is-expanded">
+                    <div class="tl-node active" aria-label="In Progress">4</div>
+                    <div class="tl-card is-active is-expanded">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9" alt="Session 4 Light Travels in Straight Lines" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 04 — Current</div>
+                                        <div class="tl-title">Light Travels in Straight Lines</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip prog">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                            In Progress
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">A pivotal session where children discover why light can't curve around obstacles. Using card with holes in a straight line, they show that light only passes through when all holes are perfectly aligned — proving that light travels in straight lines.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                            <div class="tl-guide">
+                                <button class="tl-parent-toggle is-open" data-panel="p4" aria-expanded="true" aria-controls="p4">
+                                    <span>Explore Parent Guide</span>
+                                    <svg class="toggle-chev" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                                <div class="tl-parent-panel open" id="p4">
+                                    <div class="tl-parent-content">
+                                        <!-- <div class="tl-parent-item learned">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <i data-lucide="lightbulb"></i>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">What arjun is discovering</div>
+                                                <div class="tl-parent-copy">Light travels in a perfectly straight line and cannot bend around obstacles. This explains why you can't see around a corner even if a light is shining just beyond it — and why shadows have sharp, well-defined edges.</div>
+                                            </div>
+                                        </div> -->
+                                        <div class="tl-parent-item ask">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <i data-lucide="message-circle"></i>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">Ask arjun today</div>
+                                                <div class="tl-ask-chip">If I put a wall between us in a dark room and shone a torch at the wall, would any light reach you? Why not?</div>
+                                            </div>
+                                        </div>
+                                        <div class="tl-parent-item real">
+                                            <div class="tl-parent-icon" aria-hidden="true">
+                                                <i data-lucide="link-2"></i>
+                                            </div>
+                                            <div class="tl-parent-body">
+                                                <div class="tl-parent-lbl">Real-world connection</div>
+                                                <div class="tl-parent-copy">Fibre optic cables actually do "bend" light — but using tiny mirrors, not by bending the light itself. If arjun is curious about this, that's a sign of exceptional thinking.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 5 — Upcoming -->
+                <div class="tl-item">
+                    <div class="tl-node next" aria-label="Upcoming">5</div>
+                    <div class="tl-card">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475" alt="Session 5 Transparent Translucent and Opaque" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 05</div>
+                                        <div class="tl-title">Transparent, Translucent and Opaque</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip next">Upcoming</span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">Children test everyday materials — glass, tracing paper, cardboard, plastic — to classify how much light passes through each. They learn three new vocabulary words that describe how materials interact with light, and connect this to why windows are made of glass.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 6 — Upcoming -->
+                <div class="tl-item">
+                    <div class="tl-node next" aria-label="Upcoming">6</div>
+                    <div class="tl-card">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Session 6 The Sun Our Star" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 06</div>
+                                        <div class="tl-title">The Sun: Our Star</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip next">Upcoming</span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">Zooming out to the bigger picture: the Sun is introduced as a star — a natural light source 150 million km away. Children learn how the Sun's position in the sky changes throughout the day, and explore why we should never look directly at it.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 7 — Upcoming -->
+                <div class="tl-item">
+                    <div class="tl-node next" aria-label="Upcoming">7</div>
+                    <div class="tl-card">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Session 7 Day and Night" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 07</div>
+                                        <div class="tl-title">Day and Night</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip next">Upcoming</span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">The Earth-rotation model is introduced. Using a globe and a torch, children model how the Earth spinning on its axis causes one side to face the Sun (day) while the other faces away (night). This is often a genuine "aha moment" for 7-year-olds.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 8 — Upcoming -->
+                <div class="tl-item">
+                    <div class="tl-node next" aria-label="Upcoming">8</div>
+                    <div class="tl-card">
+                        <div class="tl-card-shell">
+                            <figure class="tl-card-media">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Session 8 The Earth Sun Relationship" loading="lazy" decoding="async">
+                            </figure>
+                            <div class="tl-card-body">
+                                <div class="tl-card-top">
+                                    <div>
+                                        <div class="tl-session-num">Session 08</div>
+                                        <div class="tl-title">The Earth–Sun Relationship</div>
+                                    </div>
+                                    <div class="tl-chips">
+                                        <span class="tl-chip dur"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>35 min</span>
+                                        <span class="tl-chip next">Upcoming</span>
+                                    </div>
+                                </div>
+                                <div class="tl-summary-wrap">
+                                    <p class="tl-summary">The block's capstone session. Children consolidate their understanding of Earth's orbit around the Sun, connecting it to seasons, the length of days, and patterns they've observed in everyday life. They apply all five big ideas to explain a set of real-world scenarios.</p>
+                                    <button class="tl-summary-toggle" type="button">View more</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </article>
+        </section>
+
+        <!-- ─── GROWTH INSIGHTS ──────────────────────── -->
+        <section id="growth" class="section">
+            <div class="growth-shell reveal">
+
+                <div class="growth-header">
+
+                    <div class="section-heading-row">
+                        <div class="section-title-group">
+                            <h2 class="section-title">Growth Insights</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="growth-intro">Arjun is building understanding across this block.</p>
+
+                <div class="growth-list">
+                    <div class="growth-row">
+                        <h3 class="growth-row-label">Light Sources</h3>
+                        <div class="growth-progress" aria-hidden="true"><span class="growth-progress-fill" style="width: 76%"></span></div>
+                        <div class="growth-row-meta">Strong</div>
+                    </div>
+
+                    <div class="growth-row">
+                        <h3 class="growth-row-label">Shadows</h3>
+                        <div class="growth-progress" aria-hidden="true"><span class="growth-progress-fill" style="width: 63%"></span></div>
+                        <div class="growth-row-meta">Growing</div>
+                    </div>
+
+                    <div class="growth-row">
+                        <h3 class="growth-row-label">Reflection</h3>
+                        <div class="growth-progress" aria-hidden="true"><span class="growth-progress-fill" style="width: 45%"></span></div>
+                        <div class="growth-row-meta">Emerging</div>
+                    </div>
+
+                    <div class="growth-row">
+                        <h3 class="growth-row-label">Day &amp; Night Patterns</h3>
+                        <div class="growth-progress" aria-hidden="true"><span class="growth-progress-fill" style="width: 61%"></span></div>
+                        <div class="growth-row-meta">Growing</div>
+                    </div>
+                </div>
+
+                <div class="growth-footer">
+                    <p class="growth-note">Practicing regularly helps build strong understanding and confidence.</p>
+                    <a class="growth-cta" href="#activities">
+                        <span>Continue Practice</span>
+                        <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 4. QUESTIONS TO ASK YOUR CHILD ──────── -->
+        <section id="questions" class="section">
+            <article class="card">
+                <div class="section-header">
+                    <div class="section-heading-row">
+                        <div class="section-title-group">
+                            <h2 class="section-title">Questions to Ask Arjun</h2>
+                        </div>
+                    </div>
+                    <p class="section-sub">Great science conversations start with curiosity. These prompts are designed for the dinner table, the car, or a morning walk.</p>
+                </div>
+
+            <div class="q-list">
+
+                <div class="q-item" id="q1">
+                    <button class="q-trigger" aria-expanded="false" data-q="1">
+                        <div class="q-trigger-left">
+                            <div class="q-num">1</div>
+                            <div class="q-text">Why is your shadow longer in the morning than at noon?</div>
+                        </div>
+                        <div class="q-arrow">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="q-body" id="qb1">
+                        <div class="q-content">
+                            <p class="q-why">This question directly checks whether arjun understands the relationship between the Sun's position and shadow length — one of the core ideas in Session 3 and 6. In the morning, the Sun is low on the horizon, so its light hits at a steep angle, creating long shadows. By noon, the Sun is almost overhead, making shadows nearly disappear.</p>
+                            <span class="q-tip">💡 Tip: Step outside in the morning and again at noon to test it together!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q-item" id="q2">
+                    <button class="q-trigger" aria-expanded="false" data-q="2">
+                        <div class="q-trigger-left">
+                            <div class="q-num">2</div>
+                            <div class="q-text">If you walked toward a light bulb, what would happen to your shadow?</div>
+                        </div>
+                        <div class="q-arrow">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="q-body" id="qb2">
+                        <div class="q-content">
+                            <p class="q-why">This tests whether arjun can apply the shadow-size rule in reverse — and think about it from the object's perspective rather than the light source's. Moving closer to the source makes the shadow grow larger behind you. Moving away makes it shrink. Many children intuitively think the opposite.</p>
+                            <span class="q-tip">💡 Tip: Try this with a torch in a dark room — the surprise usually makes it stick!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q-item" id="q3">
+                    <button class="q-trigger" aria-expanded="false" data-q="3">
+                        <div class="q-trigger-left">
+                            <div class="q-num">3</div>
+                            <div class="q-text">Why do we have day and night? Is the Sun moving?</div>
+                        </div>
+                        <div class="q-arrow">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="q-body" id="qb3">
+                        <div class="q-content">
+                            <p class="q-why">This is the big conceptual shift of Session 7. It <em>looks</em> like the Sun moves across the sky — but that's an illusion created by Earth's rotation. Arjun should be able to explain that the Earth spins, not the Sun, and that's why different parts of the world are in daylight at different times.</p>
+                            <span class="q-tip">💡 Tip: Use a ball and a torch in a dark room to model it. Let them spin the "Earth" themselves!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q-item" id="q4">
+                    <button class="q-trigger" aria-expanded="false" data-q="4">
+                        <div class="q-trigger-left">
+                            <div class="q-num">4</div>
+                            <div class="q-text">Can you name 3 things that make their own light and 3 that only reflect it?</div>
+                        </div>
+                        <div class="q-arrow">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="q-body" id="qb4">
+                        <div class="q-content">
+                            <p class="q-why">From Session 1, this tests the distinction between luminous objects (Sun, candle, bulb, fire) and non-luminous objects (Moon, mirror, paper). The Moon is the classic trick question — it looks like a light source but only reflects sunlight. If arjun gets that one right, they've really understood the concept.</p>
+                            <span class="q-tip">💡 Tip: Look around whatever room you're in — make it a competition to spot more objects in each category!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q-item" id="q5">
+                    <button class="q-trigger" aria-expanded="false" data-q="5">
+                        <div class="q-trigger-left">
+                            <div class="q-num">5</div>
+                            <div class="q-text">Why can light pass through a glass window but not through a wall?</div>
+                        </div>
+                        <div class="q-arrow">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="q-body" id="qb5">
+                        <div class="q-content">
+                            <p class="q-why">This draws on Session 5's vocabulary: transparent, translucent, and opaque. Glass is transparent (light passes through clearly), frosted glass is translucent (light passes through but gets scattered), and a wall is opaque (no light passes through at all). If arjun can use these three words correctly, that's excellent science vocabulary for Grade 2.</p>
+                            <span class="q-tip">💡 Tip: Test different materials at home — cling film, paper, thick cloth, a glass of water — and sort them together.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </article>
+        </section>
+
+        <!-- ─── 5. TRY AT HOME ───────────────────────── -->
+        <section id="activities" class="section">
+            <article class="card">
+                <div class="section-header">
+                    <div class="section-heading-row">
+                        <div class="section-title-group">
+                            <h2 class="section-title">Try It at Home</h2>
+                        </div>
+                    </div>
+                    <p class="section-sub">Two parent-and-child activities that bring the classroom science to life. No special equipment needed.</p>
+                </div>
+
+            <div class="activities-list">
+
+                <!-- Activity 2 -->
+                <div class="act-card">
+                    <div class="act-body">
+                        <div class="act-hero">
+                            <div>
+                                <div class="act-top">
+                                    <div class="act-kicker">Activity 01</div>
+                                    <div class="act-session-link">Connected to Session 2</div>
+                                </div>
+                                <div class="act-badges">
+                                    <span class="act-badge dur">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        15–20 mins
+                                    </span>
+                                    <span class="act-badge diff">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/></svg>
+                                        Easy
+                                    </span>
+                                    <span class="act-badge sess">Session 2 — Shadow Tracing</span>
+                                </div>
+                                <div class="act-title">Shadow Tracing</div>
+                                <p class="act-desc">Trace the same object’s shadow at different times of the day to help arjun see how sunlight changes shadow length and direction.</p>
+                            </div>
+                        </div>
+                        <section class="act-section">
+                                <div class="act-section-head">Steps</div>
+                                <ol class="activity-steps">
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">1</div></div>
+                                        <div class="activity-step-copy">Choose a sunny spot and tape the paper down.</div>
+                                    </li>
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">2</div></div>
+                                        <div class="activity-step-copy">Place the object on the paper and trace its shadow in the morning.</div>
+                                    </li>
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">3</div></div>
+                                        <div class="activity-step-copy">Trace it again at noon and once more in the late afternoon.</div>
+                                    </li>
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">4</div></div>
+                                        <div class="activity-step-copy">Compare the three outlines and ask which one is longest and why.</div>
+                                    </li>
+                                </ol>
+                        </section>
+                        <section class="act-section">
+                            <div class="act-why">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                                <p><strong>Why This Matters:</strong> The changing outlines make sunlight feel observable, not theoretical, so the pattern becomes easier to notice and explain.</p>
+                            </div>
+                        </section>
+                        <section class="act-section act-support">
+                            <div>
+                                <div class="materials-eyebrow">You'll Need</div>
+                                <div class="materials-chips">
+                                    <span class="mat-chip">Large sheet of paper</span>
+                                    <span class="mat-chip">Pencil or chalk</span>
+                                    <span class="mat-chip">Small toy or object</span>
+                                    <span class="mat-chip">Tape</span>
+                                    <span class="mat-chip">Sunny day</span>
+                                </div>
+                            </div>
+
+                            <div class="parent-note">
+                                <div class="parent-note-eyebrow">Parent Tip</div>
+                                <p>Write the time beside each tracing and ask arjun to notice both the size and the direction of the shadow.</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Activity 1 -->
+                <div class="act-card">
+                    <div class="act-body">
+                        <div class="act-hero">
+                            <div>
+                                <div class="act-top">
+                                    <div class="act-kicker">Activity 02</div>
+                                    <div class="act-session-link">Connected to Session 7</div>
+                                </div>
+                                <div class="act-badges">
+                                    <span class="act-badge dur">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        20–30 mins
+                                    </span>
+                                    <span class="act-badge diff">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/></svg>
+                                        Easy
+                                    </span>
+                                    <span class="act-badge sess">Session 7 — Day & Night</span>
+                                </div>
+                                <div class="act-title">Make an Earth–Sun Model</div>
+                                <p class="act-desc">Use a torch and a ball to model how Earth’s rotation causes day and night. Arjun can see which side faces the light and which side stays dark.</p>
+                            </div>
+                        </div>
+                        <section class="act-section">
+                                <div class="act-section-head">Steps</div>
+                                <ol class="activity-steps">
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">1</div></div>
+                                        <div class="activity-step-copy">Mark a dot on the ball to show “your city.”</div>
+                                    </li>
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">2</div></div>
+                                        <div class="activity-step-copy">Switch off the lights and hold the torch steady as the Sun.</div>
+                                    </li>
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">3</div></div>
+                                        <div class="activity-step-copy">Let arjun slowly spin the ball and identify when your city is in day or night.</div>
+                                    </li>
+                                    <li class="activity-step">
+                                        <div class="activity-step-marker"><div class="activity-step-num">4</div></div>
+                                        <div class="activity-step-copy">Tilt the ball slightly and repeat to show how changing angles affect daylight.</div>
+                                    </li>
+                                </ol>
+                        </section>
+                        <section class="act-section">
+                            <div class="act-why">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                                <p><strong>Why This Matters:</strong> It turns an abstract astronomy idea into something arjun can hold, rotate, and remember with confidence.</p>
+                            </div>
+                        </section>
+                        <section class="act-section act-support">
+                            <div>
+                                <div class="materials-eyebrow">You'll Need</div>
+                                <div class="materials-chips">
+                                    <span class="mat-chip">Torch or lamp</span>
+                                    <span class="mat-chip">Any round ball</span>
+                                    <span class="mat-chip">Marker pen</span>
+                                    <span class="mat-chip">Dark room</span>
+                                    <span class="mat-chip">Small sticker</span>
+                                </div>
+                            </div>
+
+                            <div class="parent-note">
+                                <div class="parent-note-eyebrow">Parent Tip</div>
+                                <p>Keep the torch still and let arjun do the turning. Ask, “Is our city in day or night now?” and let them explain before you help.</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+            </div>
+            </article>
+        </section>
+
+            </div><!-- /lesson-content -->
+
+            <aside class="section-rail" aria-label="Lesson section navigation">
+                <div class="section-nav-card">
+                    <div class="section-nav-title">
+                        <span>Sections</span>
+                    </div>
+                    <nav class="section-nav-list">
+                        <a class="section-nav-link active" href="#about" aria-current="true">About This Block</a>
+                        <a class="section-nav-link" href="#ideas">The Big Ideas</a>
+                        <a class="section-nav-link" href="#sessions">Sessions</a>
+                        <a class="section-nav-link" href="#growth">Growth Insights</a>
+                        <a class="section-nav-link" href="#questions">Ask Arjun</a>
+                        <a class="section-nav-link" href="#activities">Try at Home</a>
+                    </nav>
+                    <div class="section-nav-progress" aria-hidden="true"><span></span></div>
+                </div>
+            </aside>
+
+        </div><!-- /lesson-layout -->
+    </main>
+
+    <nav class="mobile-quick-bar" aria-label="Mobile quick actions">
+        <a class="mobile-quick-link" href="#questions">
+            <i data-lucide="message-circle"></i>
+            <span>Ask Child</span>
+        </a>
+        <a class="mobile-quick-link" href="#activities">
+            <i data-lucide="flask-conical"></i>
+            <span>Activity</span>
+        </a>
+        <a class="mobile-quick-link" href="#growth">
+            <i data-lucide="notebook-pen"></i>
+            <span>Notes</span>
+        </a>
+        <a class="mobile-quick-link" href="#about">
+            <i data-lucide="bookmark"></i>
+            <span>Overview</span>
+        </a>
+    </nav>
+
+    <!-- ═════════════════════════════════ SCRIPTS ═════ -->
+    <script>
+        // Profile menu
+        const profileToggle = document.getElementById("profileToggle");
+        const profileMenu = document.getElementById("profileMenu");
+        if (profileToggle && profileMenu) {
+            profileToggle.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const isOpen = !profileMenu.classList.contains("hidden");
+                profileMenu.classList.toggle("hidden", isOpen);
+                profileToggle.setAttribute("aria-expanded", String(!isOpen));
+            });
+            document.addEventListener("click", () => {
+                profileMenu.classList.add("hidden");
+                profileToggle.setAttribute("aria-expanded", "false");
+            });
+        }
+
+        // Mobile menu
+        const menuToggle = document.getElementById("menuToggle");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener("click", () => {
+                const isOpen = !mobileMenu.classList.contains("hidden");
+                mobileMenu.classList.toggle("hidden", isOpen);
+                menuToggle.setAttribute("aria-expanded", String(!isOpen));
+            });
+        }
+
+        const sectionIds = ["about", "ideas", "sessions", "questions", "activities"];
+        const navLinks = Array.from(document.querySelectorAll(".section-nav-link"));
+        const sections = sectionIds
+            .map((id) => document.getElementById(id))
+            .filter(Boolean);
+        const lessonTabs = document.querySelector(".lesson-tabs");
+        const lessonTabsSentinel = document.querySelector(".lesson-tabs-sentinel");
+        const siteHeader = document.getElementById("siteHeader");
+        const progressBars = Array.from(document.querySelectorAll(".lesson-progress-fill, .section-nav-progress span"));
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function getStickyOffset() {
+            const siteHeaderHeight = siteHeader && !siteHeader.classList.contains("is-hidden")
+                ? siteHeader.offsetHeight
+                : 0;
+            const lessonTabsHeight = lessonTabs && lessonTabs.classList.contains("is-stuck")
+                ? lessonTabs.offsetHeight
+                : 0;
+            return siteHeaderHeight + lessonTabsHeight + 12;
+        }
+
+        function getScrollProgress() {
+            if (!sections.length) return 0;
+            const firstSection = sections[0];
+            const lastSection = sections[sections.length - 1];
+            const start = firstSection.offsetTop - getStickyOffset();
+            const end = lastSection.offsetTop + lastSection.offsetHeight - window.innerHeight;
+
+            if (window.scrollY <= start) return 0;
+            if (window.scrollY >= end) return 100;
+            return ((window.scrollY - start) / Math.max(end - start, 1)) * 100;
+        }
+
+        function updateNavActive() {
+            let current = sectionIds[0];
+            const triggerY = window.scrollY + getStickyOffset() + 1;
+
+            sections.forEach((section) => {
+                if (section.offsetTop <= triggerY) {
+                    current = section.id;
+                }
+            });
+
+            navLinks.forEach((link) => {
+                const isActive = link.getAttribute("href") === "#" + current;
+                link.classList.toggle("active", isActive);
+                link.toggleAttribute("aria-current", isActive);
+            });
+
+            const progress = Math.max(0, Math.min(getScrollProgress(), 100));
+            progressBars.forEach((bar) => {
+                bar.style.width = progress + "%";
+            });
+        }
+
+        let scrollFrame = 0;
+
+        function updateScrollState() {
+            scrollFrame = 0;
+            if (siteHeader && lessonTabsSentinel) {
+                siteHeader.classList.toggle("is-hidden", window.scrollY >= lessonTabsSentinel.offsetTop);
+            }
+            if (lessonTabs && lessonTabsSentinel) {
+                const hasScrolledToLesson = window.scrollY >= lessonTabsSentinel.offsetTop - 1;
+                lessonTabs.classList.toggle("is-stuck", hasScrolledToLesson);
+            }
+
+            const sectionRail = document.querySelector(".section-rail");
+            if (sectionRail) {
+                if (window.matchMedia("(max-width: 980px)").matches) {
+                    sectionRail.style.removeProperty("--section-rail-top");
+                } else {
+                    const navCard = sectionRail.querySelector(".section-nav-card");
+                    const navHeight = navCard?.offsetHeight || 0;
+                    const centeredTop = Math.max(86, Math.round((window.innerHeight - navHeight) / 2));
+                    sectionRail.style.setProperty("--section-rail-top", `${centeredTop}px`);
+                }
+            }
+
+            updateNavActive();
+        }
+
+        function requestScrollUpdate() {
+            if (scrollFrame) return;
+            scrollFrame = window.requestAnimationFrame(updateScrollState);
+        }
+
+        window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+        window.addEventListener("resize", requestScrollUpdate);
+
+        navLinks.forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const target = document.querySelector(link.getAttribute("href"));
+                if (!target) return;
+                event.preventDefault();
+                const targetTop = target.getBoundingClientRect().top + window.scrollY - getStickyOffset();
+                window.scrollTo({
+                    top: Math.max(targetTop, 0),
+                    behavior: prefersReducedMotion ? "auto" : "smooth"
+                });
+            });
+        });
+
+        updateScrollState();
+
+        // Accordion questions
+        document.querySelectorAll(".q-trigger").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const qNum = btn.dataset.q;
+                const item = document.getElementById("q" + qNum);
+                const body = document.getElementById("qb" + qNum);
+                const isOpen = item.classList.contains("is-open");
+
+                // Close all
+                document.querySelectorAll(".q-item").forEach(i => i.classList.remove("is-open"));
+                document.querySelectorAll(".q-body").forEach(b => b.classList.remove("open"));
+                document.querySelectorAll(".q-trigger").forEach(b => b.setAttribute("aria-expanded", "false"));
+
+                // Toggle clicked
+                if (!isOpen) {
+                    item.classList.add("is-open");
+                    body.classList.add("open");
+                    btn.setAttribute("aria-expanded", "true");
+                }
+            });
+        });
+
+        // Lucide icons
+        if (window.lucide) {
+            window.lucide.createIcons();
+        } else {
+            window.addEventListener("load", () => window.lucide?.createIcons());
+        }
+
+        // Scroll reveal
+        const revealEls = document.querySelectorAll(".reveal");
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    revealObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+        revealEls.forEach(el => revealObs.observe(el));
+
+        // Session parent-guide toggles
+        const timelineGuideButtons = Array.from(document.querySelectorAll(".tl-parent-toggle"));
+        function syncTimelineGuideHeight(panel) {
+            if (!panel || !panel.classList.contains("open")) return;
+            panel.style.height = "auto";
+            panel.style.height = `${panel.scrollHeight}px`;
+        }
+
+        function closeTimelineGuide(btn) {
+            const panel = document.getElementById(btn.dataset.panel);
+            const item = btn.closest(".tl-item");
+            const card = item?.querySelector(".tl-card");
+            if (!panel || !item || !card) return;
+            panel.style.height = `${panel.scrollHeight}px`;
+            panel.getBoundingClientRect();
+            panel.classList.remove("open");
+            panel.style.height = "0px";
+            btn.classList.remove("is-open");
+            btn.setAttribute("aria-expanded", "false");
+            item.classList.remove("is-expanded");
+            card.classList.remove("is-expanded");
+        }
+
+        function openTimelineGuide(btn) {
+            const panel = document.getElementById(btn.dataset.panel);
+            const item = btn.closest(".tl-item");
+            const card = item?.querySelector(".tl-card");
+            if (!panel || !item || !card) return;
+            panel.style.height = "0px";
+            panel.classList.add("open");
+            panel.getBoundingClientRect();
+            panel.style.height = `${panel.scrollHeight}px`;
+            btn.classList.add("is-open");
+            btn.setAttribute("aria-expanded", "true");
+            item.classList.add("is-expanded");
+            card.classList.add("is-expanded");
+        }
+
+        timelineGuideButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const isOpen = btn.classList.contains("is-open");
+                timelineGuideButtons.forEach(closeTimelineGuide);
+                if (!isOpen) {
+                    openTimelineGuide(btn);
+                }
+            });
+        });
+
+        timelineGuideButtons.forEach((btn) => {
+            const panel = document.getElementById(btn.dataset.panel);
+            if (!panel) return;
+            if (panel.classList.contains("open")) {
+                panel.style.height = "auto";
+            }
+            panel.addEventListener("transitionend", (event) => {
+                if (event.propertyName !== "height") return;
+                if (panel.classList.contains("open")) {
+                    panel.style.height = "auto";
+                }
+            });
+        });
+
+        window.addEventListener("resize", () => {
+            timelineGuideButtons.forEach((btn) => {
+                syncTimelineGuideHeight(document.getElementById(btn.dataset.panel));
+            });
+        });
+
+        // Session summary clamp
+        const timelineSummaries = Array.from(document.querySelectorAll(".tl-card-body .tl-summary"));
+        function updateTimelineSummary(summary) {
+            const wrap = summary.closest(".tl-summary-wrap");
+            const toggle = wrap?.querySelector(".tl-summary-toggle");
+            if (!wrap || !toggle) return;
+            const isExpanded = summary.classList.contains("is-expanded");
+            summary.classList.add("is-clamped");
+            toggle.classList.remove("is-visible");
+            toggle.textContent = isExpanded ? "View less" : "View more";
+            if (isExpanded) {
+                summary.classList.remove("is-clamped");
+                toggle.classList.add("is-visible");
+                return;
+            }
+            const isOverflowing = summary.scrollHeight > summary.clientHeight + 1;
+            toggle.classList.toggle("is-visible", isOverflowing);
+        }
+
+        timelineSummaries.forEach((summary) => {
+            const wrap = summary.closest(".tl-summary-wrap");
+            const toggle = wrap?.querySelector(".tl-summary-toggle");
+            if (!wrap || !toggle) return;
+            summary.classList.add("is-clamped");
+            toggle.addEventListener("click", () => {
+                const isExpanded = summary.classList.toggle("is-expanded");
+                summary.classList.toggle("is-clamped", !isExpanded);
+                toggle.textContent = isExpanded ? "View less" : "View more";
+            });
+        });
+
+        function refreshTimelineSummaries() {
+            timelineSummaries.forEach(updateTimelineSummary);
+        }
+
+        window.requestAnimationFrame(refreshTimelineSummaries);
+        window.addEventListener("resize", refreshTimelineSummaries);
+
+        // Add reveal class to section cards that should animate in
+        document.querySelectorAll(".tl-card, .idea-card, .q-item").forEach((el, i) => {
+            el.classList.add("reveal");
+            el.style.transitionDelay = Math.min(i * 40, 200) + "ms";
+            revealObs.observe(el);
+        });
+    </script>
+    <footer class="xseed-site-footer" aria-label="Site footer">
+        <div class="xseed-site-footer__inner">
+            <div class="xseed-site-footer__brand">
+                <img src="assets/XSEED_white_logo.png" alt="XSEED">
+            </div>
+            <div class="xseed-site-footer__copy">
+                <p class="xseed-site-footer__title">A research-driven learning methodology that builds real-world problem-solving skills, critical thinking, and reasoning.</p>
+                <p class="xseed-site-footer__meta">Built on the XSEED Methodology • &copy; 2026 MASTEREDGE H.I.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

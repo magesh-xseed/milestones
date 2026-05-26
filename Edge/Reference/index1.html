@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XSEED Academic Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="tailwindcss.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
@@ -110,10 +110,10 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: #A41034;
+      background: #a51034;
       cursor: pointer;
       border: 2px solid white;
-      box-shadow: 0 0 0 2px #A41034;
+      box-shadow: 0 0 0 2px #a51034;
       appearance: none;
       -webkit-appearance: none;
     }
@@ -122,17 +122,17 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: #A41034;
+      background: #a51034;
       cursor: pointer;
       border: 2px solid white;
-      box-shadow: 0 0 0 2px #A41034;
+      box-shadow: 0 0 0 2px #a51034;
     }
   </style>
 </head>
 
-<body class="antialiased selection:bg-[#A41034]/10">
+<body class="antialiased selection:bg-[#a51034]/10">
   <div class="orb top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#f59138]"></div>
-  <div class="orb bottom-[-5%] left-[-5%] w-[300px] h-[300px] bg-[#A41034]"></div>
+  <div class="orb bottom-[-5%] left-[-5%] w-[300px] h-[300px] bg-[#a51034]"></div>
   <div id="root"></div>
 
   <script type="text/babel">
@@ -320,7 +320,7 @@
 
     function SubjectCard({ subject }) {
       return (
-        <div className="group relative bg-white rounded-[2.5rem] border border-[#E7E5E4] hover:border-[#A41034]/20 p-8 flex flex-col justify-between min-h-[260px] transition-all duration-500">
+        <div className="group relative bg-white rounded-[2.5rem] border border-[#E7E5E4] hover:border-[#a51034]/20 p-8 flex flex-col justify-between min-h-[260px] transition-all duration-500">
           <div className="flex justify-between items-start gap-5">
             <div className="flex flex-col">
               <h4 className="font-black text-2xl tracking-tight text-[#1C1917] mb-1">{subject.name}</h4>
@@ -334,13 +334,13 @@
             <div className="mb-6">
               <div className="flex justify-between items-end mb-2.5">
                 <span className="text-[10px] font-black text-[#1C1917] tracking-wider">Progress</span>
-                <span className="text-[11px] font-black text-[#A41034]">{subject.progress}%</span>
+                <span className="text-[11px] font-black text-[#a51034]">{subject.progress}%</span>
               </div>
               <div className="h-2 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
-                <div className="h-full bg-[#A41034] rounded-full transition-all" style={{ width: `${subject.progress}%` }}></div>
+                <div className="h-full bg-[#a51034] rounded-full transition-all" style={{ width: `${subject.progress}%` }}></div>
               </div>
             </div>
-            <button className="cursor-pointer w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-[11px] tracking-[0.15em] bg-[#A41034] text-white transition-all hover:bg-[#7a0c26] active:scale-95">
+            <button className="cursor-pointer w-full flex items-center justify-between px-6 py-4 rounded-2xl font-black text-[11px] tracking-[0.15em] bg-[#a51034] text-white transition-all hover:bg-[#7a0c26] active:scale-95">
               <span>View Blocks</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></svg>
             </button>
@@ -354,10 +354,10 @@
         <section className="space-y-8">
           <div className="flex items-center justify-between border-b border-[#E7E5E4] pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+              <div className="w-1.5 h-6 bg-[#a51034] rounded-full"></div>
               <h2 className="text-sm font-black tracking-[0.2em] text-[#78716C]">{grade.title} Subjects</h2>
             </div>
-            <button className="text-[10px] font-black text-[#A41034] tracking-widest hover:underline decoration-2 underline-offset-4">View All</button>
+            <button className="text-[10px] font-black text-[#a51034] tracking-widest hover:underline decoration-2 underline-offset-4">View All</button>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {grade.subjects.map((s, i) => <SubjectCard key={i} subject={s} />)}
@@ -434,7 +434,7 @@
               <img src={media.thumbnail} alt={media.alt} className="w-full object-cover" style={{ height: '200px' }} />
               <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                 <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform group-hover:scale-110">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#A41034"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#a51034"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                 </div>
               </div>
             </div>
@@ -443,9 +443,9 @@
       }
       if (media.type === 'pdf') {
         return (
-          <div className="mt-5 flex items-center gap-4 px-5 py-4 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] cursor-pointer hover:border-[#A41034]/20 transition-all group"
+          <div className="mt-5 flex items-center gap-4 px-5 py-4 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] cursor-pointer hover:border-[#a51034]/20 transition-all group"
             onClick={() => window.open('about:blank', '_blank')}>
-            <div className="w-10 h-10 rounded-xl bg-[#A41034] flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-[#a51034] flex items-center justify-center shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
                 <line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
@@ -455,7 +455,7 @@
               <p className="font-black text-[13px] text-[#1C1917] truncate">{media.name}</p>
               {media.size && <p className="text-[10px] font-bold text-[#A8A29E] mt-0.5">{media.size} · Click to open</p>}
             </div>
-            <div className="ml-auto shrink-0 text-[#A41034] opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="ml-auto shrink-0 text-[#a51034] opacity-0 group-hover:opacity-100 transition-opacity">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
               </svg>
@@ -478,8 +478,8 @@
                 key={emoji}
                 onClick={() => onReact(emoji)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-bold border transition-all active:scale-95 ${active ?
-                    'bg-[#A41034]/8 border-[#A41034]/25 text-[#A41034]' :
-                    'bg-[#F5F5F4] border-[#E7E5E4] text-[#78716C] hover:border-[#A41034]/20 hover:bg-[#A41034]/5'}`
+                    'bg-[#a51034]/8 border-[#a51034]/25 text-[#a51034]' :
+                    'bg-[#F5F5F4] border-[#E7E5E4] text-[#78716C] hover:border-[#a51034]/20 hover:bg-[#a51034]/5'}`
                 }>
 
                 <span>{emoji}</span>
@@ -496,7 +496,7 @@
       const letters = name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
       return (
         <div className={`rounded-2xl flex items-center justify-center font-black text-white shrink-0 ${className}`}
-          style={{ background: '#A41034', fontSize: '13px', letterSpacing: '0.05em' }}>
+          style={{ background: '#a51034', fontSize: '13px', letterSpacing: '0.05em' }}>
           {letters}
         </div>);
 
@@ -509,7 +509,7 @@
       const hasMore = lines.length > 1;
 
       return (
-        <article className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-8 transition-all hover:border-[#A41034]/10 slide-up">
+        <article className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-8 transition-all hover:border-[#a51034]/10 slide-up">
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-5">
             <div className="flex items-center gap-3">
@@ -533,7 +533,7 @@
             }
             {hasMore &&
               <button onClick={() => setExpanded(!expanded)}
-                className="mt-2 text-[#A41034] font-black text-[12px] tracking-wider hover:underline underline-offset-2">
+                className="mt-2 text-[#a51034] font-black text-[12px] tracking-wider hover:underline underline-offset-2">
                 {expanded ? 'Show less' : 'Read more'}
               </button>
             }
@@ -586,7 +586,7 @@
             {/* Header */}
             <div className="flex items-center justify-between px-8 pt-8 pb-5 border-b border-[#F5F5F4] shrink-0">
               <div className="flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+                <div className="w-1.5 h-6 bg-[#a51034] rounded-full"></div>
                 <h3 className="font-black text-sm tracking-[0.15em] text-[#1C1917]">New Group</h3>
               </div>
               <button onClick={onClose} className="w-8 h-8 rounded-xl bg-[#F5F5F4] flex items-center justify-center hover:bg-[#E7E5E4] transition-colors">
@@ -624,7 +624,7 @@
                   <div key={grade} className="mb-4">
                     <button onClick={() => toggleGrade(grade)}
                       className="flex items-center gap-2 w-full mb-2 group">
-                      <div className={`w-4 h-4 rounded-md border-2 flex items-center justify-center transition-all ${allGradeSelected ? 'bg-[#A41034] border-[#A41034]' : 'border-[#D6D3D1]'}`}>
+                      <div className={`w-4 h-4 rounded-md border-2 flex items-center justify-center transition-all ${allGradeSelected ? 'bg-[#a51034] border-[#a51034]' : 'border-[#D6D3D1]'}`}>
                         {allGradeSelected && <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
                       </div>
                       <span className="text-[10px] font-black text-[#A8A29E] tracking-widest">{grade}</span>
@@ -633,13 +633,13 @@
                       {gradeStudents.map((s) =>
                         <button key={s.id} onClick={() => toggle(s.id)}
                           className={`flex items-center gap-3 w-full px-4 py-3 rounded-2xl border transition-all text-left ${selected.has(s.id) ?
-                              'bg-[#A41034]/5 border-[#A41034]/20' :
+                              'bg-[#a51034]/5 border-[#a51034]/20' :
                               'bg-[#F5F5F4] border-transparent hover:border-[#E7E5E4]'}`
                           }>
-                          <div className={`w-4 h-4 rounded-md border-2 shrink-0 flex items-center justify-center transition-all ${selected.has(s.id) ? 'bg-[#A41034] border-[#A41034]' : 'border-[#D6D3D1]'}`}>
+                          <div className={`w-4 h-4 rounded-md border-2 shrink-0 flex items-center justify-center transition-all ${selected.has(s.id) ? 'bg-[#a51034] border-[#a51034]' : 'border-[#D6D3D1]'}`}>
                             {selected.has(s.id) && <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
                           </div>
-                          <div className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-white text-[11px] shrink-0" style={{ background: '#A41034' }}>
+                          <div className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-white text-[11px] shrink-0" style={{ background: '#a51034' }}>
                             {s.name.split(' ').map((w) => w[0]).join('').toUpperCase()}
                           </div>
                           <div>
@@ -661,7 +661,7 @@
                 <button onClick={onClose} className="px-5 py-2.5 rounded-2xl font-black text-[11px] tracking-wider text-[#78716C] hover:bg-[#F5F5F4] transition-colors">Cancel</button>
                 <button onClick={handleCreate}
                   disabled={!groupName.trim() || selected.size === 0}
-                  className={`px-6 py-2.5 rounded-2xl font-black text-[11px] tracking-wider text-white transition-all active:scale-95 ${groupName.trim() && selected.size > 0 ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'bg-[#A8A29E] cursor-not-allowed'}`
+                  className={`px-6 py-2.5 rounded-2xl font-black text-[11px] tracking-wider text-white transition-all active:scale-95 ${groupName.trim() && selected.size > 0 ? 'bg-[#a51034] hover:bg-[#7a0c26]' : 'bg-[#A8A29E] cursor-not-allowed'}`
                   }>
                   Create Group
                 </button>
@@ -696,7 +696,7 @@
           onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
-          className={`w-full rounded-2xl border-2 border-dashed cursor-pointer transition-all flex flex-col items-center justify-center gap-2 py-6 ${dragging ? 'border-[#A41034] bg-[#A41034]/5' : file ? 'border-[#A41034]/30 bg-[#A41034]/3' : 'border-[#D6D3D1] bg-[#F5F5F4] hover:border-[#A41034]/30 hover:bg-[#A41034]/3'}`
+          className={`w-full rounded-2xl border-2 border-dashed cursor-pointer transition-all flex flex-col items-center justify-center gap-2 py-6 ${dragging ? 'border-[#a51034] bg-[#a51034]/5' : file ? 'border-[#a51034]/30 bg-[#a51034]/3' : 'border-[#D6D3D1] bg-[#F5F5F4] hover:border-[#a51034]/30 hover:bg-[#a51034]/3'}`
           }>
           <input ref={inputRef} type="file" accept="image/*,video/*,.pdf" className="hidden" onChange={handleChange} />
           {file ?
@@ -710,7 +710,7 @@
               <div className="w-10 h-10 rounded-2xl bg-white border border-[#E7E5E4] flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8A29E" strokeWidth="2" strokeLinecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
               </div>
-              <p className="text-[12px] font-black text-[#78716C]">Drag & drop or <span className="text-[#A41034]">browse</span></p>
+              <p className="text-[12px] font-black text-[#78716C]">Drag & drop or <span className="text-[#a51034]">browse</span></p>
               <p className="text-[10px] font-bold text-[#A8A29E]">Images, Videos, PDFs</p>
             </>
           }
@@ -739,11 +739,11 @@
       }
 
       return (
-        <div className="bg-white rounded-[2.5rem] border border-[#A41034]/20 p-8 compose-enter">
+        <div className="bg-white rounded-[2.5rem] border border-[#a51034]/20 p-8 compose-enter">
           {/* Top */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+              <div className="w-1.5 h-6 bg-[#a51034] rounded-full"></div>
               <h3 className="font-black text-sm tracking-[0.15em] text-[#1C1917]">New Announcement</h3>
             </div>
             <button onClick={onClose} className="w-8 h-8 rounded-xl bg-[#F5F5F4] flex items-center justify-center hover:bg-[#E7E5E4] transition-colors">
@@ -756,7 +756,7 @@
             <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Group</label>
             <div className="flex items-center gap-2">
               <select value={group} onChange={(e) => setGroup(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[13px] font-bold text-[#1C1917] cursor-pointer hover:border-[#A41034]/20 transition-colors appearance-none">
+                className="flex-1 px-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[13px] font-bold text-[#1C1917] cursor-pointer hover:border-[#a51034]/20 transition-colors appearance-none">
                 <optgroup label="Default">
                   {AUDIENCES.map((a) => <option key={a}>{a}</option>)}
                 </optgroup>
@@ -767,7 +767,7 @@
                 }
               </select>
               <button onClick={onOpenGroupModal}
-                className="w-11 h-11 rounded-2xl bg-[#A41034] text-white flex items-center justify-center hover:bg-[#7a0c26] transition-colors shrink-0">
+                className="w-11 h-11 rounded-2xl bg-[#a51034] text-white flex items-center justify-center hover:bg-[#7a0c26] transition-colors shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
               </button>
             </div>
@@ -781,7 +781,7 @@
               onChange={(e) => setText(e.target.value)}
               placeholder="Write your announcement here…"
               rows={4}
-              className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] text-[#1C1917] placeholder-[#A8A29E] resize-none focus:border-[#A41034]/30 transition-colors font-medium" />
+              className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] text-[#1C1917] placeholder-[#A8A29E] resize-none focus:border-[#a51034]/30 transition-colors font-medium" />
 
           </div>
 
@@ -796,7 +796,7 @@
             <button onClick={onClose} className="px-6 py-3 rounded-2xl font-black text-[11px] tracking-wider text-[#78716C] hover:bg-[#F5F5F4] transition-colors">Discard</button>
             <button onClick={handlePublish}
               disabled={!text.trim()}
-              className={`px-8 py-3 rounded-2xl font-black text-[11px] tracking-wider text-white transition-all active:scale-95 ${text.trim() ? 'bg-[#A41034] hover:bg-[#7a0c26]' : 'bg-[#A8A29E] cursor-not-allowed'}`
+              className={`px-8 py-3 rounded-2xl font-black text-[11px] tracking-wider text-white transition-all active:scale-95 ${text.trim() ? 'bg-[#a51034] hover:bg-[#7a0c26]' : 'bg-[#A8A29E] cursor-not-allowed'}`
               }>
               Publish Announcement
             </button>
@@ -815,12 +815,12 @@
             {/* Header */}
             <div className="flex items-center justify-between px-8 pt-8 pb-5 border-b border-[#F5F5F4] shrink-0">
               <div className="flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-[#A41034] rounded-full"></div>
+                <div className="w-1.5 h-6 bg-[#a51034] rounded-full"></div>
                 <h3 className="font-black text-sm tracking-[0.15em] text-[#1C1917]">Manage Groups</h3>
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={onNewGroup}
-                  className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#A41034] text-white font-black text-[10px] tracking-wider hover:bg-[#7a0c26] transition-colors">
+                  className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#a51034] text-white font-black text-[10px] tracking-wider hover:bg-[#7a0c26] transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                   New Group
                 </button>
@@ -848,7 +848,7 @@
                       <div className="flex items-center justify-between px-5 py-4">
                         <button onClick={() => setExpanded(expanded === group.name ? null : group.name)}
                           className="flex items-center gap-3 flex-1 text-left">
-                          <div className="w-9 h-9 rounded-xl bg-[#A41034] flex items-center justify-center shrink-0">
+                          <div className="w-9 h-9 rounded-xl bg-[#a51034] flex items-center justify-center shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                           </div>
                           <div>
@@ -878,7 +878,7 @@
                           <div className="space-y-2">
                             {group.members.map((m) =>
                               <div key={m.id} className="flex items-center gap-3">
-                                <div className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-white text-[10px] shrink-0" style={{ background: '#A41034' }}>
+                                <div className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-white text-[10px] shrink-0" style={{ background: '#a51034' }}>
                                   {m.name.split(' ').map((w) => w[0]).join('').toUpperCase()}
                                 </div>
                                 <span className="text-[12px] font-bold text-[#1C1917]">{m.name}</span>
@@ -957,12 +957,12 @@
               {!composing &&
                 <div className="flex items-center gap-3">
                   <button onClick={() => setShowManageGroups(true)}
-                    className="flex items-center gap-3 px-7 py-4 bg-white border border-[#E7E5E4] text-[#1C1917] rounded-2xl font-black text-[11px] tracking-wider hover:border-[#A41034]/20 transition-all active:scale-95">
+                    className="flex items-center gap-3 px-7 py-4 bg-white border border-[#E7E5E4] text-[#1C1917] rounded-2xl font-black text-[11px] tracking-wider hover:border-[#a51034]/20 transition-all active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                     Manage Groups
                   </button>
                   <button onClick={() => setComposing(true)}
-                    className="flex items-center gap-3 px-7 py-4 bg-[#A41034] text-white rounded-2xl font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                    className="flex items-center gap-3 px-7 py-4 bg-[#a51034] text-white rounded-2xl font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                     New Announcement
                   </button>
@@ -1307,17 +1307,17 @@
             <div className="mb-8">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-[10px] font-black text-[#A8A29E] tracking-widest">Question {currentQ + 1} of {questions.length}</span>
-                <span className="text-[10px] font-black text-[#A41034] tracking-widest">{difficulty.toUpperCase()}</span>
+                <span className="text-[10px] font-black text-[#a51034] tracking-widest">{difficulty.toUpperCase()}</span>
               </div>
               <div className="h-1.5 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
-                <div className="h-full bg-[#A41034] rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
+                <div className="h-full bg-[#a51034] rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
               </div>
             </div>
             <div className="max-w-2xl mx-auto">
               <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-10 mb-6 fade-in">
                 {/* Question header */}
                 <div className="flex items-start gap-4 mb-8">
-                  <div className="w-10 h-10 rounded-2xl bg-[#A41034] text-white flex items-center justify-center font-black text-[13px] shrink-0">{currentQ + 1}</div>
+                  <div className="w-10 h-10 rounded-2xl bg-[#a51034] text-white flex items-center justify-center font-black text-[13px] shrink-0">{currentQ + 1}</div>
                   <div className="flex-1">
                     <p className="text-[16px] font-bold text-[#1C1917] leading-relaxed">{q.text}</p>
                     {q.type === 'multi' && <p className="text-[11px] font-bold text-[#A8A29E] mt-1">Select all that apply</p>}
@@ -1331,9 +1331,9 @@
                   <div className="space-y-3">
                     {q.options.map((opt, i) => (
                       <button key={i} onClick={() => setSelected(i)}
-                        className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${selected === i ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                        className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${selected === i ? 'bg-[#a51034]/8 border-[#a51034] text-[#a51034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
                         <span className="inline-flex items-center gap-3">
-                          <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[10px] font-black shrink-0 transition-all ${selected === i ? 'bg-[#A41034] border-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}`}>{String.fromCharCode(65 + i)}</span>
+                          <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[10px] font-black shrink-0 transition-all ${selected === i ? 'bg-[#a51034] border-[#a51034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}`}>{String.fromCharCode(65 + i)}</span>
                           {opt}
                         </span>
                       </button>
@@ -1346,7 +1346,7 @@
                   <div className="grid grid-cols-2 gap-4">
                     {['True', 'False'].map((label, i) => (
                       <button key={i} onClick={() => setSelected(i)}
-                        className={`py-7 rounded-2xl border-2 font-black text-[15px] transition-all active:scale-95 ${selected === i ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                        className={`py-7 rounded-2xl border-2 font-black text-[15px] transition-all active:scale-95 ${selected === i ? 'bg-[#a51034]/8 border-[#a51034] text-[#a51034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
                         {label}
                       </button>
                     ))}
@@ -1358,7 +1358,7 @@
                   <div>
                     <input type="text" value={selected || ''} onChange={e => setSelected(e.target.value)}
                       placeholder="Type your answer…"
-                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-medium text-[#1C1917] placeholder-[#A8A29E] focus:border-[#A41034]/30 transition-colors" />
+                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-medium text-[#1C1917] placeholder-[#A8A29E] focus:border-[#a51034]/30 transition-colors" />
                     {q.hint && <p className="mt-2 text-[11px] font-bold text-[#A8A29E]">{q.hint}</p>}
                   </div>
                 )}
@@ -1374,9 +1374,9 @@
                           checked ? next.delete(i) : next.add(i);
                           setSelected(next);
                         }}
-                          className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${checked ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                          className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${checked ? 'bg-[#a51034]/8 border-[#a51034] text-[#a51034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
                           <span className="inline-flex items-center gap-3">
-                            <span className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${checked ? 'bg-[#A41034] border-[#A41034]' : 'border-[#D6D3D1]'}`}>
+                            <span className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${checked ? 'bg-[#a51034] border-[#a51034]' : 'border-[#D6D3D1]'}`}>
                               {checked && <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>}
                             </span>
                             {opt}
@@ -1396,9 +1396,9 @@
                         const isActive = matchPending === li;
                         return (
                           <button key={li} onClick={() => setMatchPending(isActive ? null : li)}
-                            className={`w-full text-left px-4 py-3.5 rounded-2xl border-2 font-bold text-[13px] transition-all ${isActive ? 'bg-[#A41034] border-[#A41034] text-white' : isPaired ? 'bg-[#A41034]/8 border-[#A41034]/30 text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4]'}`}>
+                            className={`w-full text-left px-4 py-3.5 rounded-2xl border-2 font-bold text-[13px] transition-all ${isActive ? 'bg-[#a51034] border-[#a51034] text-white' : isPaired ? 'bg-[#a51034]/8 border-[#a51034]/30 text-[#a51034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4]'}`}>
                             <span className="flex items-center gap-2">
-                              <span className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 ${isActive ? 'bg-white text-[#A41034]' : isPaired ? 'bg-[#A41034] text-white' : 'bg-white border border-[#E7E5E4] text-[#A8A29E]'}`}>{String.fromCharCode(65 + li)}</span>
+                              <span className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 ${isActive ? 'bg-white text-[#a51034]' : isPaired ? 'bg-[#a51034] text-white' : 'bg-white border border-[#E7E5E4] text-[#A8A29E]'}`}>{String.fromCharCode(65 + li)}</span>
                               {item}
                             </span>
                           </button>
@@ -1421,9 +1421,9 @@
                             setSelected(next);
                             setMatchPending(null);
                           }}
-                            className={`w-full text-left px-4 py-3.5 rounded-2xl border-2 font-bold text-[13px] transition-all ${isPaired ? 'bg-[#A41034]/8 border-[#A41034]/30 text-[#A41034]' : matchPending !== null ? 'bg-[#F5F5F4] border-[#E7E5E4] text-[#44403C] hover:border-[#A41034]/30 hover:bg-[#A41034]/5' : 'bg-[#F5F5F4] border-transparent text-[#44403C]'}`}>
+                            className={`w-full text-left px-4 py-3.5 rounded-2xl border-2 font-bold text-[13px] transition-all ${isPaired ? 'bg-[#a51034]/8 border-[#a51034]/30 text-[#a51034]' : matchPending !== null ? 'bg-[#F5F5F4] border-[#E7E5E4] text-[#44403C] hover:border-[#a51034]/30 hover:bg-[#a51034]/5' : 'bg-[#F5F5F4] border-transparent text-[#44403C]'}`}>
                             <span className="flex items-center gap-2">
-                              <span className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 ${isPaired ? 'bg-[#A41034] text-white' : 'bg-white border border-[#E7E5E4] text-[#A8A29E]'}`}>
+                              <span className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 ${isPaired ? 'bg-[#a51034] text-white' : 'bg-white border border-[#E7E5E4] text-[#A8A29E]'}`}>
                                 {isPaired ? String.fromCharCode(65 + Number(pairedWith)) : ri + 1}
                               </span>
                               {item}
@@ -1446,11 +1446,11 @@
                         <div className="space-y-2">
                           {arranged.map((itemIdx, pos) => (
                             <div key={pos} className="flex items-center gap-3">
-                              <span className="w-7 h-7 rounded-xl bg-[#A41034] text-white flex items-center justify-center font-black text-[11px] shrink-0">{pos + 1}</span>
-                              <div className="flex-1 flex items-center justify-between px-5 py-3.5 rounded-2xl bg-[#A41034]/8 border-2 border-[#A41034]/20 font-bold text-[13px] text-[#A41034]">
+                              <span className="w-7 h-7 rounded-xl bg-[#a51034] text-white flex items-center justify-center font-black text-[11px] shrink-0">{pos + 1}</span>
+                              <div className="flex-1 flex items-center justify-between px-5 py-3.5 rounded-2xl bg-[#a51034]/8 border-2 border-[#a51034]/20 font-bold text-[13px] text-[#a51034]">
                                 {q.items[itemIdx]}
                                 <button onClick={() => setSelected(arranged.filter((_, i) => i !== pos))}
-                                  className="ml-3 w-6 h-6 rounded-lg bg-[#A41034]/15 flex items-center justify-center hover:bg-[#A41034]/30 transition-colors shrink-0">
+                                  className="ml-3 w-6 h-6 rounded-lg bg-[#a51034]/15 flex items-center justify-center hover:bg-[#a51034]/30 transition-colors shrink-0">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                                 </button>
                               </div>
@@ -1477,7 +1477,7 @@
 
               <div className="flex justify-end">
                 <button onClick={handleNext} disabled={!isAnswered(q, selected)}
-                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[11px] transition-all active:scale-95 ${isAnswered(q, selected) ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#E7E5E4] text-[#A8A29E] cursor-not-allowed'}`}>
+                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[11px] transition-all active:scale-95 ${isAnswered(q, selected) ? 'bg-[#a51034] text-white hover:bg-[#7a0c26]' : 'bg-[#E7E5E4] text-[#A8A29E] cursor-not-allowed'}`}>
                   {currentQ + 1 === questions.length ? 'Submit Test' : 'Next Question'}
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
                 </button>
@@ -1501,7 +1501,7 @@
                   <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
                     <circle cx="60" cy="60" r="52" fill="none" stroke="#F5F5F4" strokeWidth="10" />
                     <circle cx="60" cy="60" r="52" fill="none"
-                      stroke={passed ? '#A41034' : '#f59138'} strokeWidth="10"
+                      stroke={passed ? '#a51034' : '#f59138'} strokeWidth="10"
                       strokeDasharray={circumference}
                       strokeDashoffset={circumference * (1 - pct / 100)}
                       strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1.2s ease' }} />
@@ -1530,7 +1530,7 @@
                   <button onClick={handleReset} className="px-8 py-4 rounded-2xl bg-[#F5F5F4] border border-[#E7E5E4] font-black text-[11px] tracking-wider text-[#78716C] hover:bg-[#E7E5E4] transition-colors">
                     Back to Gym
                   </button>
-                  <button onClick={startTest} className="px-8 py-4 rounded-2xl bg-[#A41034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                  <button onClick={startTest} className="px-8 py-4 rounded-2xl bg-[#a51034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
                     Try Again
                   </button>
                 </div>
@@ -1541,7 +1541,7 @@
       }
 
       // ── Selection screen ─────────────────────────────────────────────────────────
-      const selectCls = 'w-full px-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[13px] font-bold text-[#1C1917] cursor-pointer appearance-none hover:border-[#A41034]/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed';
+      const selectCls = 'w-full px-4 py-3 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[13px] font-bold text-[#1C1917] cursor-pointer appearance-none hover:border-[#a51034]/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed';
 
       return (
         <main className="gym max-w-[1280px] mx-auto px-6 py-6 tab-content">
@@ -1551,7 +1551,7 @@
             <div className="flex items-center gap-1 bg-[#F5F5F4] p-1 rounded-2xl border border-[#E7E5E4]">
               {[['teacher', 'Teacher'], ['parent', 'Parent']].map(([key, label]) => (
                 <button key={key} onClick={() => { setMode(key); handleReset(); }}
-                  className={`px-5 py-2.5 rounded-xl font-bold text-[10px] tracking-wider transition-all ${mode === key ? 'bg-white text-[#A41034] shadow-sm' : 'text-[#78716C] hover:text-[#1C1917]'}`}>
+                  className={`px-5 py-2.5 rounded-xl font-bold text-[10px] tracking-wider transition-all ${mode === key ? 'bg-white text-[#a51034] shadow-sm' : 'text-[#78716C] hover:text-[#1C1917]'}`}>
                   {label.toUpperCase()}
                 </button>
               ))}
@@ -1595,7 +1595,7 @@
               </div>
               <div>
                 <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">
-                  Time Limit <span className="ml-1 font-black text-[#A41034]">{timeLimit} min</span>
+                  Time Limit <span className="ml-1 font-black text-[#a51034]">{timeLimit} min</span>
                 </label>
                 <div>
                   <div className="relative pt-1 pb-4">
@@ -1604,11 +1604,11 @@
                       value={TIME_OPTIONS.indexOf(timeLimit) === -1 ? 2 : TIME_OPTIONS.indexOf(timeLimit)}
                       onChange={e => setTimeLimit(TIME_OPTIONS[Number(e.target.value)])}
                       className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                      style={{ accentColor: '#A41034', background: `linear-gradient(to right, #A41034 ${(TIME_OPTIONS.indexOf(timeLimit) / (TIME_OPTIONS.length - 1)) * 100}%, #E7E5E4 ${(TIME_OPTIONS.indexOf(timeLimit) / (TIME_OPTIONS.length - 1)) * 100}%)` }} />
+                      style={{ accentColor: '#a51034', background: `linear-gradient(to right, #a51034 ${(TIME_OPTIONS.indexOf(timeLimit) / (TIME_OPTIONS.length - 1)) * 100}%, #E7E5E4 ${(TIME_OPTIONS.indexOf(timeLimit) / (TIME_OPTIONS.length - 1)) * 100}%)` }} />
                     <div className="flex justify-between mt-2">
                       {TIME_OPTIONS.map(t => (
                         <button key={t} onClick={() => setTimeLimit(t)}
-                          className={`text-[9px] font-black transition-colors ${timeLimit === t ? 'text-[#A41034]' : 'text-[#A8A29E] hover:text-[#78716C]'}`}>
+                          className={`text-[9px] font-black transition-colors ${timeLimit === t ? 'text-[#a51034]' : 'text-[#A8A29E] hover:text-[#78716C]'}`}>
                           {t}m
                         </button>
                       ))}
@@ -1623,12 +1623,12 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
                       <div className="flex-1 min-w-0">
                         <p className="font-black text-[12px] text-[#1C1917]">PDF Ready!</p>
-                        <button onClick={() => setPdfGenerated(false)} className="text-[10px] font-bold text-[#A8A29E] hover:text-[#A41034] transition-colors">Generate another</button>
+                        <button onClick={() => setPdfGenerated(false)} className="text-[10px] font-bold text-[#A8A29E] hover:text-[#a51034] transition-colors">Generate another</button>
                       </div>
                     </div>
                   ) : (
                     <button disabled={!allSelected} onClick={() => setPdfGenerated(true)}
-                      className={`w-full py-3 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2 ${allSelected ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'
+                      className={`w-full py-3 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2 ${allSelected ? 'bg-[#a51034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'
                         }`}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
                       Download PDF
@@ -1636,7 +1636,7 @@
                   )
                 ) : (
                   <button disabled={!allSelected} onClick={startTest}
-                    className={`w-full py-3 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2 ${allSelected ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'
+                    className={`w-full py-3 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2 ${allSelected ? 'bg-[#a51034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'
                       }`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                     Start Test
@@ -1752,7 +1752,7 @@
             <div className="w-full max-w-md">
               {/* Logo mark */}
               <div className="flex flex-col items-center mb-10 fade-in">
-                <div className="w-14 h-14 bg-[#A41034] rounded-[1.25rem] flex items-center justify-center shadow-lg shadow-[#A41034]/20 mb-4 transform -rotate-2">
+                <div className="w-14 h-14 bg-[#a51034] rounded-[1.25rem] flex items-center justify-center shadow-lg shadow-[#a51034]/20 mb-4 transform -rotate-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
                 </div>
                 <h1 className="text-3xl font-black tracking-tight text-[#1C1917]">Learnometer</h1>
@@ -1767,14 +1767,14 @@
                     <input
                       type="text" value={studentId} onChange={e => { setStudentId(e.target.value); setLoginError(''); }}
                       placeholder="e.g. XS-2026-04821"
-                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-bold text-[#1C1917] placeholder-[#D6D3D1] focus:border-[#A41034]/30 transition-colors" />
+                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-bold text-[#1C1917] placeholder-[#D6D3D1] focus:border-[#a51034]/30 transition-colors" />
                   </div>
                   <div>
                     <label className="block text-[10px] font-black text-[#A8A29E] tracking-widest mb-2">Teacher Code</label>
                     <input
                       type="text" value={teacherCode} onChange={e => { setTeacherCode(e.target.value); setLoginError(''); }}
                       placeholder="e.g. TCH-8842"
-                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-bold text-[#1C1917] placeholder-[#D6D3D1] focus:border-[#A41034]/30 transition-colors" />
+                      className="w-full px-5 py-4 rounded-2xl border border-[#E7E5E4] bg-[#F5F5F4] text-[14px] font-bold text-[#1C1917] placeholder-[#D6D3D1] focus:border-[#a51034]/30 transition-colors" />
                   </div>
                 </div>
 
@@ -1786,7 +1786,7 @@
                 )}
 
                 <button type="submit"
-                  className={`w-full py-4 rounded-2xl font-black text-[12px] tracking-wider transition-all active:scale-95 ${ready ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'}`}>
+                  className={`w-full py-4 rounded-2xl font-black text-[12px] tracking-wider transition-all active:scale-95 ${ready ? 'bg-[#a51034] text-white hover:bg-[#7a0c26]' : 'bg-[#F5F5F4] text-[#D6D3D1] cursor-not-allowed'}`}>
                   Sign In
                 </button>
               </form>
@@ -1802,7 +1802,7 @@
             <div className="w-full max-w-lg">
               <div className="fade-in mb-8 text-center">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#fff7ed] border border-amber-100 mb-4">
-                  <div className="w-5 h-5 rounded-lg bg-[#A41034] flex items-center justify-center">
+                  <div className="w-5 h-5 rounded-lg bg-[#a51034] flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
                   </div>
                   <span className="text-[11px] font-black text-amber-600">Student ID: {studentId}</span>
@@ -1813,7 +1813,7 @@
 
               <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] overflow-hidden slide-up">
                 {/* Test header stripe */}
-                <div className="px-8 py-6" style={{ background: '#A41034' }}>
+                <div className="px-8 py-6" style={{ background: '#a51034' }}>
                   <p className="text-[10px] font-black tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>ASSIGNED TEST</p>
                   <h2 className="text-xl font-black text-white leading-snug">{LEARNOMETER_TEST.name}</h2>
                   <p className="text-[12px] font-bold mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>{LEARNOMETER_TEST.grade} · {LEARNOMETER_TEST.subject}</p>
@@ -1839,7 +1839,7 @@
                 {/* Actions */}
                 <div className="px-8 py-6 flex flex-col gap-3">
                   <button onClick={() => startTest('test')}
-                    className="w-full py-4 rounded-2xl bg-[#A41034] text-white font-black text-[12px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95 flex items-center justify-center gap-2">
+                    className="w-full py-4 rounded-2xl bg-[#a51034] text-white font-black text-[12px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95 flex items-center justify-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                     Start Test
                   </button>
@@ -1869,7 +1869,7 @@
             <div className="flex items-center justify-between mb-8 fade-in">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest ${testType === 'practice' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-[#A41034]/8 text-[#A41034] border border-[#A41034]/15'}`}>
+                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest ${testType === 'practice' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-[#a51034]/8 text-[#a51034] border border-[#a51034]/15'}`}>
                     {testType === 'practice' ? 'PRACTICE TEST' : 'OFFICIAL TEST'}
                   </span>
                 </div>
@@ -1887,25 +1887,25 @@
             <div className="mb-8">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-[10px] font-black text-[#A8A29E] tracking-widest">Question {currentQ + 1} of {LEARNOMETER_QUESTIONS.length}</span>
-                <span className="text-[10px] font-black text-[#A41034] tracking-widest">{LEARNOMETER_TEST.grade} · {LEARNOMETER_TEST.subject}</span>
+                <span className="text-[10px] font-black text-[#a51034] tracking-widest">{LEARNOMETER_TEST.grade} · {LEARNOMETER_TEST.subject}</span>
               </div>
               <div className="h-1.5 w-full bg-[#F5F5F4] rounded-full overflow-hidden">
-                <div className="h-full bg-[#A41034] rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
+                <div className="h-full bg-[#a51034] rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
               </div>
             </div>
 
             <div className="max-w-2xl mx-auto">
               <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-10 mb-6 fade-in">
                 <div className="flex items-start gap-4 mb-8">
-                  <div className="w-10 h-10 rounded-2xl bg-[#A41034] text-white flex items-center justify-center font-black text-[13px] shrink-0">{currentQ + 1}</div>
+                  <div className="w-10 h-10 rounded-2xl bg-[#a51034] text-white flex items-center justify-center font-black text-[13px] shrink-0">{currentQ + 1}</div>
                   <p className="text-[16px] font-bold text-[#1C1917] leading-relaxed pt-1">{q.text}</p>
                 </div>
                 <div className="space-y-3">
                   {q.options.map((opt, i) => (
                     <button key={i} onClick={() => setSelected(i)}
-                      className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${selected === i ? 'bg-[#A41034]/8 border-[#A41034] text-[#A41034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
+                      className={`w-full text-left px-6 py-4 rounded-2xl border-2 font-bold text-[13px] transition-all active:scale-[0.99] ${selected === i ? 'bg-[#a51034]/8 border-[#a51034] text-[#a51034]' : 'bg-[#F5F5F4] border-transparent text-[#44403C] hover:border-[#E7E5E4] hover:bg-white'}`}>
                       <span className="inline-flex items-center gap-3">
-                        <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[10px] font-black shrink-0 transition-all ${selected === i ? 'bg-[#A41034] border-[#A41034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}`}>{String.fromCharCode(65 + i)}</span>
+                        <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center text-[10px] font-black shrink-0 transition-all ${selected === i ? 'bg-[#a51034] border-[#a51034] text-white' : 'border-[#D6D3D1] text-[#A8A29E]'}`}>{String.fromCharCode(65 + i)}</span>
                         {opt}
                       </span>
                     </button>
@@ -1914,7 +1914,7 @@
               </div>
               <div className="flex justify-end">
                 <button onClick={handleNext} disabled={selected === null}
-                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 ${selected !== null ? 'bg-[#A41034] text-white hover:bg-[#7a0c26]' : 'bg-[#E7E5E4] text-[#A8A29E] cursor-not-allowed'}`}>
+                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[11px] tracking-wider transition-all active:scale-95 ${selected !== null ? 'bg-[#a51034] text-white hover:bg-[#7a0c26]' : 'bg-[#E7E5E4] text-[#A8A29E] cursor-not-allowed'}`}>
                   {currentQ + 1 === LEARNOMETER_QUESTIONS.length ? 'Submit Test' : 'Next Question'}
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
                 </button>
@@ -1935,7 +1935,7 @@
             <div className="max-w-2xl mx-auto">
               <div className="bg-white rounded-[2.5rem] border border-[#E7E5E4] p-12 text-center fade-in">
                 <div className="flex justify-center mb-2">
-                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest ${testType === 'practice' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-[#A41034]/8 text-[#A41034] border border-[#A41034]/15'}`}>
+                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest ${testType === 'practice' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-[#a51034]/8 text-[#a51034] border border-[#a51034]/15'}`}>
                     {testType === 'practice' ? 'PRACTICE TEST RESULTS' : 'TEST RESULTS'}
                   </span>
                 </div>
@@ -1943,7 +1943,7 @@
                   <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
                     <circle cx="60" cy="60" r="52" fill="none" stroke="#F5F5F4" strokeWidth="10" />
                     <circle cx="60" cy="60" r="52" fill="none"
-                      stroke={passed ? '#A41034' : '#f59138'} strokeWidth="10"
+                      stroke={passed ? '#a51034' : '#f59138'} strokeWidth="10"
                       strokeDasharray={circumference}
                       strokeDashoffset={circumference * (1 - pct / 100)}
                       strokeLinecap="round" style={{ transition: 'stroke-dashoffset 1.2s ease' }} />
@@ -1975,12 +1975,12 @@
                     Back to Test
                   </button>
                   {testType === 'practice' && (
-                    <button onClick={() => startTest('test')} className="px-8 py-4 rounded-2xl bg-[#A41034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                    <button onClick={() => startTest('test')} className="px-8 py-4 rounded-2xl bg-[#a51034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
                       Start Official Test
                     </button>
                   )}
                   {testType === 'test' && (
-                    <button onClick={() => startTest('practice')} className="px-8 py-4 rounded-2xl bg-[#A41034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
+                    <button onClick={() => startTest('practice')} className="px-8 py-4 rounded-2xl bg-[#a51034] text-white font-black text-[11px] tracking-wider hover:bg-[#7a0c26] transition-all active:scale-95">
                       Try Practice Again
                     </button>
                   )}
@@ -2010,11 +2010,11 @@
           <div className="max-w-[1440px] mx-auto h-20 px-6 flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-4 shrink-0">
-              <div className="w-11 h-11 bg-[#A41034] rounded-2xl flex items-center justify-center shadow-lg shadow-[#A41034]/20 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+              <div className="w-11 h-11 bg-[#a51034] rounded-2xl flex items-center justify-center shadow-lg shadow-[#a51034]/20 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#f59138" stroke="#f59138" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
               </div>
               <div className="flex flex-col">
-                <span className="font-black text-xl tracking-tight leading-none text-[#A41034]">XSEED</span>
+                <span className="font-black text-xl tracking-tight leading-none text-[#a51034]">XSEED</span>
                 <span className="text-[10px] font-bold tracking-[0.2em] text-[#A8A29E] uppercase mt-0.5">Academic Lead</span>
               </div>
             </div>
@@ -2024,7 +2024,7 @@
               {NAV_TABS.map((tab) =>
                 <button key={tab.id} onClick={() => setActiveTab(tab.id)}
                   className={`px-4 py-2.5 rounded-xl font-bold text-[9px] tracking-wider whitespace-nowrap transition-all ${activeTab === tab.id ?
-                      'bg-white text-[#A41034] shadow-sm' :
+                      'bg-white text-[#a51034] shadow-sm' :
                       'text-[#78716C] hover:text-[#1C1917]'}`
                   }>
                   {tab.label.toUpperCase()}
