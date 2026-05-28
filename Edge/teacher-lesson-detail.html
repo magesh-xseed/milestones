@@ -1848,7 +1848,7 @@
             --lp-type-display-size: clamp(24px, 2.8vw, 30px);
             --lp-type-display-line: 1.22;
             --lp-type-display-weight: 700;
-            --lp-type-body-size: 15px;
+            --lp-type-body-size: 16px;
             --lp-type-body-line: 1.7;
             --lp-type-body-weight: 600;
             --lp-type-body-strong-size: 17px;
@@ -2195,12 +2195,13 @@
             display: grid;
             grid-template-columns: 38px 1fr;
             gap: 14px;
-            align-items: start;
+            align-items: center;
             border-radius: 18px;
             background: rgba(255, 255, 255, 0.62);
             padding: 6px;
             color: #453d38;
             font-weight: 600;
+            font-size: var(--lp-type-body-size);
         }
 
         .steps li::before {
@@ -2240,6 +2241,7 @@
 
         .media-card img {
             margin: 0 auto;
+            border-radius: 10px;
         }
 
         .media-card:hover img,
@@ -2370,7 +2372,7 @@
             display: block;
             margin-bottom: 6px;
             color: #7b1730;
-            font-size: var(--lp-type-chip-size);
+            font-size: var(--lp-type-body-size);
             line-height: var(--lp-type-chip-line);
             font-weight: var(--lp-type-chip-weight);
         }
@@ -2408,61 +2410,98 @@
 
         .resources-grid {
             display: grid;
-            gap: 1.6rem;
+            gap: 10px;
         }
 
         .premium-resource-card {
+            margin-top: 1rem;
             display: grid;
-            grid-template-columns: 118px 1fr auto;
-            gap: 16px;
+            grid-template-columns: 40px 1fr;
+            gap: 14px;
             align-items: center;
-            border-radius: 16px;
-            /* background: linear-gradient(269deg, #fffaf5, #fffaf5); */
-            padding: 12px;
-            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+            border-radius: 14px;
+            border: 1.5px solid rgb(216 121 36 / 5%);
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
         }
 
+        .premium-resource-card:hover {
+            border-color: rgb(216 121 36 / 10%);
+        }
 
-        .resource-preview {
+        .premium-resource-card:has(.resource-check:checked) {
+            background: #fffaf5;
+        }
+
+        .resource-checkbox-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .resource-check {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(216, 121, 36, 0.35);
+            border-radius: 7px;
+            background: #fff;
+            cursor: pointer;
+            transition: background 160ms ease, border-color 160ms ease;
             position: relative;
-            height: 86px;
-            overflow: hidden;
-            border-radius: 12px;
-            background: var(--soft);
+            flex-shrink: 0;
         }
 
-        .resource-preview img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .resource-check:checked {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .resource-check:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 6px;
+            height: 11px;
+            border: 2.5px solid #fff;
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg);
+        }
+
+        .resource-title-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
         }
 
         .resource-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
             border-radius: 999px;
-            background: rgba(33, 28, 25, 0.78);
-            padding: 4px 8px;
-            color: #fff;
+            background: var(--soft);
+            padding: 3px 9px;
+            color: var(--accent);
             font-size: var(--lp-type-tag-size);
             line-height: var(--lp-type-tag-line);
             font-weight: var(--lp-type-tag-weight);
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
+            flex-shrink: 0;
         }
 
         .resource-body h3 {
             margin: 0;
             color: #2f2823;
             font-family: "Poppins", "Inter", sans-serif;
-            font-size: var(--lp-type-heading-size);
             font-weight: var(--lp-type-heading-weight);
             line-height: var(--lp-type-heading-line);
         }
 
         .resource-body p {
-            margin: 5px 0 0;
+            margin: 3px 0 0;
             color: #6f625b;
             font-size: var(--lp-type-body-size);
             line-height: var(--lp-type-body-line);
@@ -2479,7 +2518,7 @@
         .resource-meta span {
             border-radius: 999px;
             background: #fff7ed;
-            padding: 5px 9px;
+            padding: 4px 10px;
             color: #7c4a1d;
             font-size: var(--lp-type-chip-size);
             line-height: var(--lp-type-chip-line);
@@ -2842,7 +2881,7 @@
         }
 
         .classwork-panel .label {
-            color: #6b625c;
+            color: #7a1830;
         }
 
         .classwork-title {
@@ -3224,8 +3263,7 @@
             background: #fff;
             border-radius: 18px;
             padding: 22px 24px;
-            box-shadow: 0 0px 5px rgba(16, 16, 12, 0.1);
-            border: 1px solid rgba(28, 25, 23, 0.05);
+            border: 1px solid #1c19170a;
         }
 
         .hq-card-head {
@@ -3558,7 +3596,6 @@
             display: inline-flex;
             align-items: center;
             width: fit-content;
-            margin-bottom: 12px;
             color: var(--level-accent);
             font-size: 12px;
             font-weight: 800;
@@ -3575,7 +3612,7 @@
 
         .level-row span {
             max-width: 760px;
-            font-size: 16px;
+            font-size: var(--lp-type-section-title-weight);
             font-weight: 700;
             line-height: 1.36;
         }
@@ -3584,7 +3621,7 @@
             max-width: 700px;
             margin-top: 10px;
             color: #6b625c;
-            font-size: 15px;
+            font-size: var(--lp-type-body-size);
             font-weight: 500;
             line-height: 1.7;
         }
@@ -3961,7 +3998,7 @@
             }
 
             .level-row span {
-                font-size: 18px;
+                font-size: var(--lp-type-section-title-weight);
             }
 
             .level-row p {
@@ -3986,9 +4023,6 @@
             font-size: 14px;
             font-weight: 900;
             letter-spacing: 0.01em;
-            box-shadow:
-                0 16px 34px rgba(164, 16, 52, 0.24),
-                inset 0 1px 0 rgba(255, 255, 255, 0.18);
             transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, color 180ms ease, background 180ms ease;
         }
 
@@ -4285,7 +4319,7 @@
             }
 
             .premium-resource-card {
-                grid-template-columns: 104px 1fr;
+                grid-template-columns: 40px 1fr;
             }
 
             .resource-actions,
@@ -4378,16 +4412,13 @@
             }
 
             .premium-resource-card {
-                grid-template-columns: 1fr;
-            }
-
-            .resource-preview {
-                height: 150px;
+                grid-template-columns: 40px 1fr;
             }
 
             .resource-actions,
             .resource-status {
-                grid-column: auto;
+                grid-column: 2;
+                justify-self: start;
             }
 
             .section {
@@ -4544,8 +4575,8 @@
         }
 
         .audio-chip svg {
-            width: 13px;
-            height: 13px;
+            width: 16px;
+            height: 16px;
             flex: 0 0 auto;
             stroke-width: 2.2;
         }
@@ -5127,6 +5158,16 @@
         .audio-text-btn.replay:hover { background: #d8f0db; }
 
         .audio-text-btn svg { width: 12px; height: 12px; stroke-width: 2.3; }
+        
+        h3.subtitle {
+            margin: 0 0 8px;
+            color: #28211e;
+            font-family: "Poppins", "Inter", sans-serif;
+            font-size: var(--lp-type-heading-size);
+            font-weight: var(--lp-type-heading-weight);
+            line-height: var(--lp-type-heading-line);
+            letter-spacing: 0;
+        }
     </style>
 </head>
 
@@ -5311,7 +5352,7 @@
                                     <span class="time-badge"><i data-lucide="clock-3" aria-hidden="true"></i>5 min</span>
                                 </div>
                                 <div class="section-meta-actions">
-                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span>Audio</span></button>
+                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"/><path d="M18.5 7a8 8 0 0 1 0 10"/></svg><span>Audio</span></button>
                                     <!-- <button class="tip-chip" type="button"><span class="tip-chip-icon"
                                             aria-hidden="true">💡</span><span>Tip</span></button> -->
                                 </div>
@@ -5353,16 +5394,10 @@
                                 today.</p>
                         </div>
                         <div class="story-card" style="padding-top: 4px;">
-                            <p class="lead">You already know that the Sun rises in the east and sets in the west. You
-                                have
-                                seen the sky shift from soft morning light to bright midday, and then to warm evening
-                                colors.
-                                But why does the Sun seem to travel across the sky?</p>
+                            <p class="lead">Students come in knowing that the Sun rises in the east and sets in the west. They have seen the sky shift from soft morning light to bright midday, and then to warm evening colors. Open the lesson with the question: why does the Sun seem to travel across the sky?</p>
                             <div class="idea-box">
                                 <p class="label">Core Learning Idea</p>
-                                <p>Today we will learn that the Sun appears to move because Earth rotates from west to
-                                    east.
-                                </p>
+                                <p>Guide students to understand that the Sun appears to move because Earth rotates from west to east.</p>
                             </div>
                         </div>
                         <div class="media-card" data-lightbox>
@@ -5387,7 +5422,7 @@
                                     <span class="time-badge"><i data-lucide="clock-3" aria-hidden="true"></i>5 min</span>
                                 </div>
                                 <div class="section-meta-actions">
-                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span>Audio</span></button>
+                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"/><path d="M18.5 7a8 8 0 0 1 0 10"/></svg><span>Audio</span></button>
                                     <!-- <button class="tip-chip" type="button"><span class="tip-chip-icon"
                                             aria-hidden="true">💡</span><span>Tip</span></button> -->
                                 </div>
@@ -5433,7 +5468,7 @@
                         </div>
 
                         <div class="aim-group">
-                            <p class="label">New Words</p>
+                            <h3 class="subtitle">New Words</h3>
                             <div class="aim-words">
                                 <button class="aim-word-chip is-active" type="button" data-word="appears"
                                     data-meaning="Looks like, or seems to be, even when the real reason is different.">appears</button>
@@ -5450,64 +5485,60 @@
                         <div class="aim-group">
                             <section class="resources-showcase" aria-labelledby="resourcesTitle">
                                 <div class="resources-head">
-                                    <h3 class="label" id="resourcesTitle">Resources We Will Need</h3>
+                                    <h3 class="subtitle">Resources We Will Need</h3>
                                     <p class="resources-copy">Keep these ready before class starts.</p>
                                 </div>
 
                                 <div class="resources-grid">
-                                    <article class="premium-resource-card">
-                                        <div class="resource-preview">
-                                            <span class="resource-badge">PDF</span>
-                                            <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=420&q=80"
-                                                alt="Stack of books on a table">
+                                    <label class="premium-resource-card">
+                                        <div class="resource-checkbox-wrap">
+                                            <input type="checkbox" class="resource-check">
                                         </div>
                                         <div class="resource-body">
-                                            <h3>Content Book</h3>
+                                            <div class="resource-title-row">
+                                                <h3>Content Book</h3>
+                                                <span class="resource-badge">PDF</span>
+                                            </div>
                                             <p>Lesson reading for the sky and day activity.</p>
                                             <div class="resource-meta">
                                                 <span>Teacher copy</span>
                                                 <span>Digital</span>
                                             </div>
                                         </div>
-                                        <!-- <div class="resource-actions">
-                                    <button class="resource-btn primary" type="button">Open Book</button>
-                                </div> -->
-                                    </article>
+                                    </label>
 
-                                    <article class="premium-resource-card">
-                                        <div class="resource-preview">
-                                            <span class="resource-badge">PDF</span>
-                                            <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=420&q=80"
-                                                alt="Worksheet and pencil on a desk">
+                                    <label class="premium-resource-card">
+                                        <div class="resource-checkbox-wrap">
+                                            <input type="checkbox" class="resource-check">
                                         </div>
                                         <div class="resource-body">
-                                            <h3>Worksheet</h3>
+                                            <div class="resource-title-row">
+                                                <h3>Worksheet</h3>
+                                                <span class="resource-badge">PDF</span>
+                                            </div>
                                             <p>Activity sheet students will complete in class.</p>
                                             <div class="resource-meta">
                                                 <span>Print one per student</span>
                                                 <span>Activity</span>
                                             </div>
                                         </div>
-                                        <!-- <div class="resource-actions">
-                                    <button class="resource-btn primary" type="button">Download</button>
-                                </div> -->
-                                    </article>
+                                    </label>
 
-                                    <article class="premium-resource-card">
-                                        <div class="resource-preview">
-                                            <span class="resource-badge">ITEM</span>
-                                            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=420&q=80"
-                                                alt="Open notebook on a desk">
+                                    <label class="premium-resource-card">
+                                        <div class="resource-checkbox-wrap">
+                                            <input type="checkbox" class="resource-check">
                                         </div>
                                         <div class="resource-body">
-                                            <h3>Notebook</h3>
+                                            <div class="resource-title-row">
+                                                <h3>Notebook</h3>
+                                                <span class="resource-badge">ITEM</span>
+                                            </div>
                                             <p>Students use it for observations and quick notes.</p>
                                             <div class="resource-meta">
                                                 <span>Class essential</span>
                                             </div>
                                         </div>
-                                        <!-- <div class="resource-status">Keep ready</div> -->
-                                    </article>
+                                    </label>
                                 </div>
                             </section>
                         </div>
@@ -5528,7 +5559,7 @@
                                     <span class="time-badge"><i data-lucide="clock-3" aria-hidden="true"></i>10 min</span>
                                 </div>
                                 <div class="section-meta-actions">
-                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span>Audio</span></button>
+                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"/><path d="M18.5 7a8 8 0 0 1 0 10"/></svg><span>Audio</span></button>
                                     <button class="notes-chip" type="button" data-notes-chip data-notes-section="action" aria-expanded="false" aria-controls="notes-panel-action"><span class="notes-chip-dot" aria-hidden="true"></span><span>My Notes</span></button>
                                     <!-- <button class="tip-chip" type="button"><span class="tip-chip-icon"
                                             aria-hidden="true">💡</span><span>Tip</span></button> -->
@@ -5589,14 +5620,12 @@
                             <p class="section-sub">A quiet, concrete model that lets students observe before naming the
                                 idea.</p>
                         </div>
-                        <p class="lead">Use a flashlight as the Sun and a ball as Earth. Keep the light still while
-                            students
-                            slowly rotate the ball and observe how light reaches the marked place.</p>
+                        <p class="lead">Set up a flashlight as the Sun and a ball as Earth. Keep the light still while slowly rotating the ball — invite a student to turn it — and guide the class to observe how light reaches the marked place.</p>
                         <ol class="steps">
-                            <li>Put a sticker on the ball to mark your place on Earth.</li>
-                            <li>Hold the flashlight completely still. It represents the Sun.</li>
-                            <li>Slowly rotate the ball from west to east.</li>
-                            <li>Observe how light falls on the sticker as the ball turns.</li>
+                            <li>Ask a student to place a sticker on the ball to mark a location on Earth.</li>
+                            <li>Hold the flashlight completely still and tell students it represents the Sun.</li>
+                            <li>Slowly rotate the ball from west to east, or invite a student to do it.</li>
+                            <li>Prompt students to observe how light falls on the sticker as the ball turns.</li>
                         </ol>
 
                         <div class="media-card" data-lightbox style="margin-top:24px;">
@@ -5613,8 +5642,7 @@
                         </div>
                         <div class="think-box">
                             <span class="think-icon">💡</span>
-                            <p class="think-text"><strong>Think about it:</strong> The flashlight stays still, so any
-                                change students see must come from the ball rotating.</p>
+                            <p class="think-text"><strong>Teacher note:</strong> The flashlight stays still, so any change students see must come from the ball rotating — use this to reinforce the concept before naming it.</p>
                         </div>
                     </article>
                 </section>
@@ -5628,7 +5656,7 @@
                                     <span class="time-badge"><i data-lucide="clock-3" aria-hidden="true"></i>8 min</span>
                                 </div>
                                 <div class="section-meta-actions">
-                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span>Audio</span></button>
+                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"/><path d="M18.5 7a8 8 0 0 1 0 10"/></svg><span>Audio</span></button>
                                     <button class="notes-chip" type="button" data-notes-chip data-notes-section="analysis" aria-expanded="false" aria-controls="notes-panel-analysis"><span class="notes-chip-dot" aria-hidden="true"></span><span>My Notes</span></button>
                                     <!-- <button class="tip-chip" type="button"><span class="tip-chip-icon"
                                             aria-hidden="true">💡</span><span>Tip</span></button> -->
@@ -5888,7 +5916,7 @@
                                     <span class="time-badge"><i data-lucide="clock-3" aria-hidden="true"></i>7 min</span>
                                 </div>
                                 <div class="section-meta-actions">
-                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span>Audio</span></button>
+                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"/><path d="M18.5 7a8 8 0 0 1 0 10"/></svg><span>Audio</span></button>
                                     <button class="notes-chip" type="button" data-notes-chip data-notes-section="application" aria-expanded="false" aria-controls="notes-panel-application"><span class="notes-chip-dot" aria-hidden="true"></span><span>My Notes</span></button>
                                     <!-- <button class="tip-chip" type="button"><span class="tip-chip-icon"
                                             aria-hidden="true">💡</span><span>Tip</span></button> -->
@@ -6208,7 +6236,7 @@
                                     <span class="time-badge"><i data-lucide="clock-3" aria-hidden="true"></i>5 min</span>
                                 </div>
                                 <div class="section-meta-actions">
-                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg><span>Audio</span></button>
+                                    <button class="audio-chip" type="button" aria-label="Listen to this section"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"/><path d="M18.5 7a8 8 0 0 1 0 10"/></svg><span>Audio</span></button>
                                     <!-- <button class="tip-chip" type="button"><span class="tip-chip-icon"
                                             aria-hidden="true">💡</span><span>Tip</span></button> -->
                                 </div>
@@ -6329,34 +6357,29 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h2 class="summary-heading">Today you discovered how the <span class="hl">Sun</span>
-                                    appears to move across the sky.</h2>
-                                <p class="summary-subtitle">It appears to move because Earth rotates. This rotation
-                                    changes our view of the Sun through the day.</p>
+                                <h2 class="summary-heading">In this lesson, students discovered how the <span class="hl">Sun</span> appears to move across the sky.</h2>
+                                <p class="summary-subtitle">It appears to move because Earth rotates. Close the lesson by reviewing how Earth's rotation changes students' view of the Sun through the day.</p>
                                 <div class="takeaway-header">
-                                    <span class="takeaway-header-label">Remember the Sun's Position</span>
+                                    <span class="takeaway-header-label">Review the Sun's Position with Students</span>
                                 </div>
                                 <div class="takeaway-list">
                                     <div class="takeaway-row morning">
                                         <div class="takeaway-chip morning">
                                             <span>Morning</span>
                                         </div>
-                                        <p class="takeaway-desc">Look for the Sun low in the <span
-                                                class="hl-orange">east</span>.</p>
+                                        <p class="takeaway-desc">Ask: where is the Sun in the morning? Students should say low in the <span class="hl-orange">east</span>.</p>
                                     </div>
                                     <div class="takeaway-row noon">
                                         <div class="takeaway-chip noon">
                                             <span>Noon</span>
                                         </div>
-                                        <p class="takeaway-desc">Look for the Sun at its <span
-                                                class="hl-blue">highest</span> point in the sky.</p>
+                                        <p class="takeaway-desc">Ask: where is the Sun at midday? Students should say at its <span class="hl-blue">highest</span> point in the sky.</p>
                                     </div>
                                     <div class="takeaway-row evening">
                                         <div class="takeaway-chip evening">
                                             <span>Evening</span>
                                         </div>
-                                        <p class="takeaway-desc">Look for the Sun low in the <span
-                                                class="hl-purple">west</span>.</p>
+                                        <p class="takeaway-desc">Ask: where does the Sun go in the evening? Students should say low in the <span class="hl-purple">west</span>.</p>
                                     </div>
                                 </div>
                             </div>
@@ -6364,9 +6387,7 @@
                         <div class="summary-footer">
                             <div class="think-box">
                                 <span class="think-icon">💡</span>
-                                <p class="think-text"><strong>Think about it:</strong> Earth rotates from <span
-                                        class="hl-green">west to east</span>, making the Sun seem to move across the
-                                    sky.</p>
+                                <p class="think-text"><strong>Teacher note:</strong> Reinforce that Earth rotates from <span class="hl-green">west to east</span>, which makes the Sun seem to move across the sky — this is the key causal link students must leave with.</p>
                             </div>
                             <button class="complete-btn" type="button" id="completeLesson">Complete Lesson</button>
                         </div>

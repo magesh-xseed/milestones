@@ -5630,15 +5630,17 @@
             const isNotesOpen = activeLessonNotesSection === sectionKey;
             const showAudioChip = Boolean(options.showAudioChip);
             const notesLabel = options.notesLabel || 'Notes';
-            const audioLabel = options.audioLabel || 'Audio';
 
             return `
                 <div class="lp-sec-meta-actions">
                     <div class="lp-sec-meta">${minutes}</div>
                     ${showAudioChip ? `
-                        <button type="button" class="focus-ring lp-section-chip lp-audio-trigger" data-audio-section="${sectionId}">
-                            <i data-lucide="volume-2" class="h-3.5 w-3.5"></i>
-                            <span>${audioLabel}</span>
+                        <button type="button" class="focus-ring lp-section-chip lp-audio-trigger" data-audio-section="${sectionId}" aria-label="Play audio">
+                            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
+                                <path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"></path>
+                                <path d="M18.5 7a8 8 0 0 1 0 10"></path>
+                            </svg>
                         </button>
                     ` : ''}
                     <button

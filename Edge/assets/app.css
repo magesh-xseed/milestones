@@ -803,6 +803,10 @@
         }
 
         .lp-audio-trigger {
+            justify-content: center;
+            width: 34px;
+            min-width: 34px;
+            padding: 0;
             color: #5f5854;
         }
 
