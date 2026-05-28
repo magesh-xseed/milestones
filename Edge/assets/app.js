@@ -48,6 +48,16 @@
             `;
         }
 
+        function shouldHideAppFooter() {
+            return activeAppTab === 'Learnometer' && learnometerState.step === 'test' && !learnometerState.testDone;
+        }
+
+        function updateAppFooter() {
+            const footerRoot = document.getElementById('appFooterRoot');
+            if (!footerRoot) return;
+            footerRoot.innerHTML = shouldHideAppFooter() ? '' : renderXseedFooter();
+        }
+
         function renderAppShell() {
             document.title = APP_BOOT.pageTitle;
             document.body.className = 'overflow-x-hidden antialiased selection:bg-[#a51034]/10';
@@ -180,7 +190,7 @@
         class="pointer-events-none fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 rounded-2xl border border-[#a51034]/10 bg-white px-4 py-3 text-sm font-semibold text-[#1C1917] opacity-0 shadow-[0_18px_45px_rgba(123,3,35,0.16)] transition-all duration-300"
         role="status" aria-live="polite"></div>
     <div id="practiceGymGlobalFabRoot"></div>
-    ${renderXseedFooter()}
+    <div id="appFooterRoot">${renderXseedFooter()}</div>
             `;
         }
 
@@ -2105,6 +2115,7 @@
             skipped: [],
             timeLeft: 0,
             testDone: false,
+            submitModalOpen: false,
             timer: null
         };
         const LEARNOMETER_STORAGE_KEY = 'learnometerState';
@@ -2271,7 +2282,7 @@
 
                 learnometerState.timeLeft -= 1;
                 const timerNode = document.getElementById('learnometerTimer');
-                if (timerNode) timerNode.textContent = formatLearnometerTime(learnometerState.timeLeft);
+                if (timerNode) timerNode.textContent = `${formatLearnometerTime(learnometerState.timeLeft)} mins`;
                 persistLearnometerState();
             }, 1000);
         }
@@ -2285,6 +2296,7 @@
             learnometerState.skipped = Array.from({ length: LEARNOMETER_QUESTIONS.length }, () => false);
             learnometerState.timeLeft = selectedTest.duration * 60;
             learnometerState.testDone = false;
+            learnometerState.submitModalOpen = false;
             learnometerState.step = 'test';
             renderLearnometer();
             startLearnometerTimer();
@@ -2320,7 +2332,28 @@
             learnometerState.skipped = [];
             learnometerState.timeLeft = 0;
             learnometerState.testDone = false;
+            learnometerState.submitModalOpen = false;
             clearPersistedLearnometerState();
+            renderLearnometer();
+        }
+
+        function openLearnometerSubmitModal() {
+            stopLearnometerTimer();
+            learnometerState.submitModalOpen = true;
+            renderLearnometer();
+        }
+
+        function completeLearnometerSubmission() {
+            stopLearnometerTimer();
+            learnometerState.submitModalOpen = false;
+            learnometerState.step = 'select';
+            learnometerState.testType = null;
+            learnometerState.currentQ = 0;
+            learnometerState.selected = null;
+            learnometerState.answers = [];
+            learnometerState.skipped = [];
+            learnometerState.timeLeft = 0;
+            learnometerState.testDone = false;
             renderLearnometer();
         }
 
@@ -2717,31 +2750,47 @@
         }
 
         function renderLearnometerTest() {
+            const selectedTest = getSelectedLearnometerTest();
             const question = LEARNOMETER_QUESTIONS[learnometerState.currentQ];
             const answeredCount = learnometerState.answers.filter((answer) => answer !== null && answer !== undefined).length;
             const progress = LEARNOMETER_QUESTIONS.length ? (answeredCount / LEARNOMETER_QUESTIONS.length) * 100 : 0;
+            const questionProgress = LEARNOMETER_QUESTIONS.length ? ((learnometerState.currentQ + 1) / LEARNOMETER_QUESTIONS.length) * 100 : 0;
             const warn = learnometerState.timeLeft < 60;
             const canAdvance = learnometerState.currentQ < LEARNOMETER_QUESTIONS.length - 1;
-            const nextLabel = learnometerState.currentQ + 1 === LEARNOMETER_QUESTIONS.length
+            const isLastQ = learnometerState.currentQ + 1 === LEARNOMETER_QUESTIONS.length;
+            const nextLabel = isLastQ
                 ? 'Submit Test'
                 : learnometerState.selected === null
-                    ? 'Skip for now'
+                    ? 'Skip'
                     : 'Next';
+
             const options = question.options.map((option, index) => {
                 const selected = learnometerState.selected === index;
+                const letter = String.fromCharCode(65 + index);
                 return `
-                    <button type="button" class="learnometer-option focus-ring w-full rounded-[1.4rem] border px-4 py-3.5 text-left text-[14px] font-medium leading-relaxed transition-all duration-300 active:scale-[0.995] sm:px-5 sm:py-4 sm:text-[15px] ${selected ? 'border-[#FFB168] bg-[#FFF8F1] text-[#182B52]' : 'border-[#ECE7E2] bg-white text-[#182B52] hover:border-[#FFD4AC] hover:bg-[#FFFDFC]'}" data-option-index="${index}">
-                        <span class="flex items-center gap-4">
-                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[16px] font-bold transition-all ${selected ? 'bg-[#FF8A1F] text-white' : 'bg-[#FFF5F1] text-[#B83D2A]'}">${String.fromCharCode(65 + index)}</span>
-                            <span class="min-w-0 flex-1">${escapeHtml(option)}</span>
-                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-all ${selected ? 'border-[#FF8A1F] text-[#FF8A1F]' : 'border-transparent text-transparent'}">
-                                <i data-lucide="check" class="h-[18px] w-[18px]"></i>
+                    <button type="button" class="learnometer-option focus-ring group relative w-full overflow-hidden rounded-2xl border-[1px] text-left active:scale-[0.99]
+                        ${selected
+                            ? 'border-[#F0A14A] bg-white'
+                            : 'border-[#EDE8E2] bg-white hover:border-[#F0A14A]/35'
+                        }" data-option-index="${index}">
+                        <span class="flex items-center gap-4 px-5 py-4 sm:py-4">
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[13px] font-black transition-all duration-200
+                                ${selected ? 'bg-[#ffa534] text-white' : 'bg-[#fdf2ec] text-[#666666] group-hover:bg-[#ffe1d1]'}">
+                                ${letter}
+                            </span>
+                            <span class="flex-1 text-[18px] font-${selected ? 'bold' : 'semibold'} leading-relaxed ${selected ? 'text-[#1A1A1A]' : 'text-[#444444]'} sm:text-[18px]">
+                                ${escapeHtml(option)}
+                            </span>
+                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-all duration-200
+                                ${selected ? 'bg-[#ffa534] text-white' : 'border-2 border-[#EDE8E2] text-transparent group-hover:border-[#F0A14A]/35'}">
+                                <i data-lucide="check" class="h-3.5 w-3.5"></i>
                             </span>
                         </span>
                     </button>
                 `;
             }).join('');
-            const questionNav = LEARNOMETER_QUESTIONS.map((_, index) => {
+
+            const questionNavItems = LEARNOMETER_QUESTIONS.map((_, index) => {
                 const isCurrent = index === learnometerState.currentQ;
                 const isAnswered = learnometerState.answers[index] !== null && learnometerState.answers[index] !== undefined;
                 const isSkipped = Boolean(learnometerState.skipped[index]) && !isAnswered;
@@ -2753,129 +2802,209 @@
                 if (!shouldShow) {
                     const prevIndex = index - 1;
                     const prevShown = prevIndex >= 0 && (prevIndex < 8 || prevIndex >= LEARNOMETER_QUESTIONS.length - 3 || Math.abs(prevIndex - learnometerState.currentQ) <= 1);
-                    return prevShown ? `<span class="px-2 text-[22px] leading-none text-[#A8A29E]">…</span>` : '';
+                    return prevShown ? { type: 'ellipsis', html: `<span class="px-1 text-lg leading-none text-[#CCBFB8]">…</span>` } : null;
                 }
 
-                return `
-                    <button
-                        type="button"
-                        class="learnometer-question-nav focus-ring group relative flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border text-[14px] font-semibold transition-all duration-300 ${
-                            isCurrent
-                                ? 'border-[#FFD8AE] bg-[#FFF6EB] text-[#FF8A1F] shadow-[0_10px_22px_rgba(255,138,31,0.10)]'
+                const visualState = isCurrent ? 'current' : isAnswered ? 'answered' : isSkipped ? 'skipped' : 'upcoming';
+
+                return {
+                    type: 'item',
+                    index,
+                    state: visualState,
+                    html: `
+                        <button type="button" class="learnometer-question-nav focus-ring relative z-[1] flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[14px] font-bold tracking-[-0.01em] transition-all duration-200
+                            ${isCurrent
+                                ? 'border border-[#FFD7A8] bg-[radial-gradient(circle_at_30%_30%,#FFD8A4_0%,#FFAA3D_45%,#D96A10_100%)] text-white'
                                 : isAnswered
-                                    ? 'border-[#BFEFD0] bg-[#F5FFF8] text-[#2CC56F]'
+                                    ? 'border border-[#BFE4CD] bg-[linear-gradient(180deg,#F7FDF9_0%,#EEF9F2_100%)] text-[#1F8A4C] hover:text-[#166534]'
                                     : isSkipped
-                                        ? 'border-[#F8E1BC] bg-[#FFF8EF] text-[#D48C2F]'
-                                        : 'border-[#E9E4DE] bg-white text-[#26324B] hover:border-[#D9D3CC]'
-                        }"
-                        data-question-index="${index}"
-                    >
-                        <span>${String(index + 1).padStart(2, '0')}</span>
-                        ${isAnswered
-                            ? '<span class="absolute -bottom-1.5 flex h-[3.5] w-[3.5] items-center justify-center rounded-full bg-[#2CC56F] text-white shadow-[0_8px_16px_rgba(44,197,111,0.24)]"><i data-lucide="check" class="h-3.5 w-3.5"></i></span>'
-                            : isCurrent
-                                ? '<span class="absolute -bottom-1 h-2.5 w-2.5 rounded-full bg-[#FF8A1F]"></span>'
-                                : ''
-                        }
-                    </button>
-                `;
-            }).join('');
+                                        ? 'border border-[#ECE4DE] bg-[linear-gradient(180deg,#FCFAF8_0%,#F7F1EC_100%)] text-[#B5A79B] hover:border-[#DCC8BB] hover:text-[#8C7564]'
+                                        : 'border border-[#F2ECE6] bg-white/84 text-[#C1B3A8] backdrop-blur-sm hover:border-[#E7D5C5] hover:text-[#A88B75]'
+                            }" data-question-index="${index}">
+                            ${String(index + 1).padStart(2, '0')}
+                        </button>
+                    `
+                };
+            });
+            const questionNav = [];
+            let navGroup = [];
+
+            const flushQuestionNavGroup = () => {
+                if (!navGroup.length) return;
+                if (navGroup.length >= 2) {
+                    questionNav.push(`
+                        <span class="relative inline-flex items-center px-1 py-1.5">
+                            ${navGroup.map((item, itemIndex) => {
+                                const nextItem = navGroup[itemIndex + 1];
+
+                                const connectorTone = (state) => {
+                                    if (state === 'current') return 'bg-[#F0A14A]/70';
+                                    if (state === 'answered') return 'bg-[#33C06B]/65';
+                                    if (state === 'skipped') return 'bg-[#D8CCC2]/70';
+                                    return 'bg-[#E7DDD4]/75';
+                                };
+
+                                return `
+                                    <span class="relative z-[1] inline-flex items-center">
+                                        ${item.html}
+                                        ${nextItem
+                                            ? `<span class="pointer-events-none -mx-px h-px w-6 ${connectorTone(nextItem.state)}"></span>`
+                                            : ''}
+                                    </span>
+                                `;
+                            }).join('')}
+                        </span>
+                    `);
+                } else {
+                    questionNav.push(...navGroup.map((item) => item.html));
+                }
+                navGroup = [];
+            };
+
+            questionNavItems.forEach((item) => {
+                if (!item) return;
+
+                if (item.type === 'ellipsis') {
+                    flushQuestionNavGroup();
+                    questionNav.push(item.html);
+                    return;
+                }
+
+                navGroup.push(item);
+            });
+
+            flushQuestionNavGroup();
+
+            const submitModal = learnometerState.submitModalOpen ? `
+                <div class="fixed inset-0 z-50 flex items-center justify-center bg-[#1C1917]/30 px-4 backdrop-blur-sm">
+                    <section class="w-full max-w-md rounded-[2rem] border border-[#F0E6DD] bg-white p-6 shadow-[0_24px_70px_rgba(28,25,23,0.18)] sm:p-7">
+                        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#FFF3E5] text-[#F08A24]">
+                            <i data-lucide="check-check" class="h-7 w-7"></i>
+                        </div>
+                        <h2 class="mt-5 text-center text-[1.5rem] font-black tracking-[-0.03em] text-[#1C1917]">Test submitted</h2>
+                        <p class="mt-2 text-center text-[14px] leading-6 text-[#6B625B]">
+                            Your Learnometer test has been submitted successfully.
+                        </p>
+                        <div class="mt-6 flex justify-center">
+                            <button type="button" id="learnometerSubmitModalConfirm" class="focus-ring inline-flex h-12 items-center justify-center rounded-full bg-[#a51034] px-6 text-[14px] font-semibold text-white transition-colors hover:bg-[#8d0d2d]">
+                                Back to tests
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            ` : '';
 
             return `
-                <section class="tab-content pt-4 sm:pt-5 lg:pt-6">
-                    <div class="relative overflow-hidden rounded-[2.5rem] px-4 py-2 sm:px-6 sm:py-2 lg:px-8 lg:py-2">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-40"></div>
-                        <div class="pointer-events-none absolute bottom-12 right-6 hidden h-40 w-40 rounded-full bg-[radial-gradient(circle,_rgba(255,161,84,0.15)_0,_rgba(255,161,84,0.03)_42%,_transparent_72%)] lg:block"></div>
+                <section class="tab-content pt-0 pb-24">
+                    <div class="relative">
 
-                        <div class="fade-in">
-                            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                                <div class="flex items-center gap-3 sm:gap-4">
-                                    <button
-                                        type="button"
-                                        class="learnometer-question-nav focus-ring flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
-                                        data-question-index="${learnometerState.currentQ - 1}"
-                                        ${learnometerState.currentQ === 0 ? 'disabled' : ''}
-                                    >
-                                        <i data-lucide="chevron-left" class="h-6 w-6"></i>
-                                    </button>
-
-                                    <div class="min-w-0 overflow-x-auto pb-2">
-                                        <div class="flex min-w-max items-center gap-3">
-                                            ${questionNav}
-                                        </div>
+                        <div class="fade-in relative overflow-hidden">
+                            <div class="pointer-events-none absolute inset-0"></div>
+                            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg, transparent, #a51034, transparent)]"></div>
+                            <div class="relative mx-auto flex max-w-[1160px] items-center justify-between gap-4 px-4 py-4 sm:px-5 sm:py-5">
+                                <div class="min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2.5">
+                                        <h1 class="min-w-0 text-[1.5rem] font-black tracking-[-0.04em] text-[#8F1430] sm:text-[1.5rem]">
+                                            ${escapeHtml(selectedTest.name)}
+                                        </h1>
+                                        <span class="inline-flex items-center rounded-full border border-[#ffdbe1] bg-white/76 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a51034] shadow-[inset_0_1px_0_rgba(255,255,255,0.96),0_6px_16px_rgba(143,76,24,0.06)] backdrop-blur-sm">
+                                            ${learnometerState.testType === 'practice' ? 'Practice Test' : 'Official Test'}
+                                        </span>
                                     </div>
                                 </div>
-
-                                <div class="flex flex-wrap items-center gap-3 pl-[66px] sm:pl-[70px] lg:pl-0">
-                                    <button
-                                        type="button"
-                                        class="learnometer-question-nav focus-ring flex h-[40px] w-[40px] items-center justify-center rounded-full border border-[#ECE7E2] bg-white text-[#26324B] shadow-[0_10px_24px_rgba(28,25,23,0.05)] transition-colors hover:border-[#D9D3CC] disabled:cursor-not-allowed disabled:opacity-45"
-                                        data-question-index="${learnometerState.currentQ + 1}"
-                                        ${canAdvance ? '' : 'disabled'}
-                                    >
-                                        <i data-lucide="chevron-right" class="h-6 w-6"></i>
-                                    </button>
-                                    <div class="h-8 w-px bg-[#EFE8E2]"></div>
-                                    <div class="flex items-center gap-2 text-[12px] font-medium ${warn ? 'text-red-500' : 'text-[#4B5563]'} sm:text-[13px]">
-                                        <i data-lucide="clock-3" class="h-[18px] w-[18px]"></i>
-                                        <span id="learnometerTimer" class="font-semibold tracking-[-0.01em]">${formatLearnometerTime(learnometerState.timeLeft)}</span>
-                                    </div>
-                                    <button type="button" id="learnometerExitTest" class="focus-ring text-[13px] font-medium text-[#5E6678] transition-colors hover:text-[#26324B]">Exit</button>
+                                <div class="shrink-0 inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[13px] font-black tabular-nums shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_8px_20px_rgba(143,76,24,0.08)] backdrop-blur-sm transition-colors
+                                    ${warn
+                                        ? 'border-[#F5C2CC] bg-[#FFF0F2]/92 text-[#a51034]'
+                                        : 'border-white/85 bg-white/82 text-[#8F1430]'}">
+                                    <i data-lucide="clock" class="h-[14px] w-[14px] ${warn ? 'text-[#a51034]' : 'text-[#B06A2D]'}"></i>
+                                    <span id="learnometerTimer" class="tabular-nums">${formatLearnometerTime(learnometerState.timeLeft)} mins</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mx-auto mt-7 max-w-[1160px] sm:mt-8">
-                            <div class="fade-in rounded-[2rem] border border-[#F1EAE4] bg-white p-5 backdrop-blur-md sm:p-6 lg:p-7 bg:white shadow-[0_12px_28px_rgba(255,138,31,0.10)]">
-                                <div class="flex items-start justify-between gap-5">
-                                    <div>
-                                        <div class="flex items-center gap-2 text-[15px] font-semibold tracking-[-0.02em]">
-                                            <span class="text-[#FF8A1F]">${learnometerState.currentQ + 1}</span>
-                                            <span class="text-[#5B6477]">/ ${LEARNOMETER_QUESTIONS.length}</span>
-                                        </div>
-                                        <div class="mt-2 h-1 w-14 rounded-full bg-[#F3ECE6]">
-                                            <div class="h-full w-4 rounded-full bg-[#FF8A1F]"></div>
+                        <!-- Question card -->
+                        <div class="mx-auto max-w-[1160px] fade-in mt-2">
+                            <div class="rounded-[1.5rem] border border-[#EDE8E2] bg-white p-6 shadow-[0_2px_10px_rgba(0,0,0,0.06)] lg:p-8">
+                                <div class="sticky top-3 rounded-t-[1.5rem] z-20 -mx-6 -mt-6 mb-4 border-b border-[#F1E7DE] bg-[white] px-4 py-2 backdrop-blur-sm sm:-mx-4 sm:-mt-4 sm:px-4 sm:py-3 lg:-mx-8 lg:-mt-8 lg:px-6">
+                                    <div class="pointer-events-none absolute -right-10 top-0 h-24 w-24 rounded-full bg-[radial-gradient(circle,_rgba(196,18,48,0.10)_0%,_rgba(196,18,48,0.03)_42%,_transparent_74%)] blur-2xl"></div>
+                                    <div class="pointer-events-none absolute left-10 top-0 h-16 w-28 rounded-full bg-[radial-gradient(circle,_rgba(228,167,109,0.16)_0%,_rgba(228,167,109,0.05)_48%,_transparent_76%)] blur-xl"></div>
+                                    <div class="relative">
+                                        <div class="flex items-center gap-3">
+                                           
+                                            <div class="min-w-0 flex-1 overflow-x-auto overflow-y-hidden pb-0 pt-1 [scrollbar-gutter:stable]">
+                                                <div class="flex min-w-max items-center gap-2 pr-1">
+                                                    ${questionNav.join('')}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="mt-6 sm:mt-8">
-                                    <p class="max-w-[860px] text-[21px] font-semibold leading-[1.4] tracking-[-0.03em] text-[#182B52] sm:text-[25px] lg:text-[30px]">
-                                        ${escapeHtml(question.text)}
-                                    </p>
-                                </div>
-
-                                <div class="mt-6 space-y-3.5 sm:mt-8 sm:space-y-4">${options}</div>
-                            </div>
-                        </div>
-
-                        <div class="mx-auto mt-7 max-w-[1160px] sm:mt-8">
-                            <div class="rounded-[2rem] border border-white/85 bg-white/92 px-5 py-4 shadow-[0_16px_40px_rgba(28,25,23,0.05)] backdrop-blur-md sm:px-6 sm:py-5 lg:px-8">
-                                <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                                    <button type="button" id="learnometerPrevious" class="focus-ring flex h-[54px] items-center gap-3 rounded-[1.1rem] px-4 text-[14px] font-medium text-[#4A5568] transition-colors hover:bg-[#FAF7F4] disabled:cursor-not-allowed disabled:opacity-45" ${learnometerState.currentQ === 0 ? 'disabled' : ''}>
-                                        <i data-lucide="arrow-left" class="h-5 w-5"></i>
-                                        Previous
-                                    </button>
-
-                                    <div class="min-w-0 flex-1 px-0 lg:px-8">
-                                        <p class="text-center text-[14px] font-medium text-[#4B5563] sm:text-[15px]">
-                                            ${answeredCount} of ${LEARNOMETER_QUESTIONS.length} answered
+                                <!-- Question meta bar -->
+                                <div class="mb-2 flex items-center justify-between gap-4">
+                                    <div class="flex items-center gap-3">
+                                        <p class="text-[16px] font-bold tracking-[-0.02em] text-[#a51034]">
+                                            Question ${learnometerState.currentQ + 1}
                                         </p>
-                                        <div class="mx-auto mt-3 h-[5px] max-w-[320px] overflow-hidden rounded-full bg-[#E9E5E1]">
-                                            <div class="h-full rounded-full bg-[#32C667] transition-all duration-300" style="width:${progress}%"></div>
-                                        </div>
                                     </div>
+                                 
+                                </div>
 
-                                    <div class="flex justify-end">
-                                        <button type="button" id="learnometerNext" ${!canAdvance && learnometerState.selected === null ? 'disabled' : ''} class="focus-ring flex h-[54px] min-w-[154px] items-center justify-center gap-3 rounded-[1.1rem] px-6 text-[15px] font-semibold transition-all duration-300 active:scale-[0.99] ${!canAdvance && learnometerState.selected === null ? 'cursor-not-allowed bg-[#E7E5E4] text-[#A8A29E]' : 'bg-[linear-gradient(180deg,#FFF8F1_0%,#FFF4E8_100%)] text-[#FF8A1F] shadow-[0_12px_28px_rgba(255,138,31,0.10)] hover:shadow-[0_16px_34px_rgba(255,138,31,0.14)]'}">
-                                            ${nextLabel}
-                                            <i data-lucide="arrow-right" class="h-5 w-5"></i>
-                                        </button>
-                                    </div>
+                                <!-- Question text -->
+                                <p class="mb-7 text-[1.4rem] font-bold leading-[1.55] tracking-[-0.01em] text-[#1A1A1A] sm:text-[1.35rem] lg:text-[1.4rem]">
+                                    ${escapeHtml(question.text)}
+                                </p>
+
+                                <!-- Options grid -->
+                                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 mb-6">
+                                    ${options}
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Bottom navigation bar -->
+                    <div class="pointer-events-none fixed inset-x-0 bottom-0 z-40">
+                        <div class="pointer-events-auto border-t border-[#EDE8E2] bg-white px-3 py-3 shadow-[0_7px_24px_rgba(0,0,0,0.06)] sm:px-4 lg:px-6">
+                            <div class="mx-auto flex max-w-[1160px] items-center justify-between gap-3">
+
+                                <button type="button" id="learnometerPrevious"
+                                    class="focus-ring inline-flex h-10 shrink-0 items-center gap-2 rounded-xl px-4 text-[13px] font-semibold text-[#666666] transition-all hover:bg-[#F5F0EE] hover:text-[#1A1A1A] disabled:cursor-not-allowed disabled:opacity-40 sm:h-11"
+                                    ${learnometerState.currentQ === 0 ? 'disabled' : ''}>
+                                    <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                                    <span class="hidden sm:inline">Previous</span>
+                                </button>
+
+                                <div class="flex min-w-0 flex-1 flex-col items-center gap-1.5 px-2">
+                                    <div class="flex items-center gap-2.5 w-full max-w-[240px]">
+                                        <div class="flex-1 h-1.5 overflow-hidden rounded-full bg-[#F5F0EE]">
+                                            <div class="h-full rounded-full bg-[#2E9E5B] transition-all duration-500" style="width:${progress}%"></div>
+                                        </div>
+                                        <span class="text-[12px] font-bold text-[#1A1A1A] tabular-nums whitespace-nowrap">
+                                            ${answeredCount}<span class="font-medium text-[#999999]">/${LEARNOMETER_QUESTIONS.length}</span>
+                                        </span>
+                                    </div>
+                                    <p class="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#AAAAAA]">answered</p>
+                                </div>
+
+                                <button type="button" id="learnometerNext"
+                                    ${!canAdvance && learnometerState.selected === null ? 'disabled' : ''}
+                                    class="focus-ring inline-flex h-10 shrink-0 items-center gap-2 rounded-xl px-5 text-[13px] font-bold transition-all duration-200 active:scale-[0.98] sm:h-11 sm:min-w-[120px] sm:px-6
+                                    ${!canAdvance && learnometerState.selected === null
+                                        ? 'cursor-not-allowed bg-[#F5F0EE] text-[#BBBBBB]'
+                                        : isLastQ
+                                            ? 'bg-[#a51034] text-white shadow-[0_4px_16px_rgba(196,18,48,0.30)] hover:bg-[#A50E28]'
+                                            : learnometerState.selected === null
+                                                ? 'border-2 border-[#EDE8E2] bg-white text-[#666666] hover:border-[#a51034]/30 hover:text-[#1A1A1A]'
+                                                : 'bg-[#a51034] text-white shadow-[0_4px_16px_rgba(196,18,48,0.25)] hover:bg-[#A50E28]'
+                                    }">
+                                    ${nextLabel}
+                                    <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    ${submitModal}
                 </section>
             `;
         }
@@ -2947,6 +3076,7 @@
 
             updateLearnometerHash();
             persistLearnometerState();
+            updateAppFooter();
             bindLearnometerEvents();
             lucide.createIcons();
         }
@@ -3017,6 +3147,12 @@
                 });
             });
             panel.querySelector('#learnometerNext')?.addEventListener('click', () => {
+                if (learnometerState.currentQ + 1 === LEARNOMETER_QUESTIONS.length && learnometerState.selected !== null) {
+                    learnometerState.answers[learnometerState.currentQ] = learnometerState.selected;
+                    learnometerState.skipped[learnometerState.currentQ] = false;
+                    openLearnometerSubmitModal();
+                    return;
+                }
                 if (learnometerState.selected !== null) {
                     completeLearnometerQuestion();
                     return;
@@ -3034,6 +3170,7 @@
             panel.querySelector('#learnometerRetry')?.addEventListener('click', () => {
                 startLearnometerTest(learnometerState.testType === 'practice' ? 'test' : 'practice');
             });
+            panel.querySelector('#learnometerSubmitModalConfirm')?.addEventListener('click', completeLearnometerSubmission);
         }
 
         const GYM_GRADES = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8'];
@@ -7234,6 +7371,8 @@
                 updateToolbarVisibility();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+
+            updateAppFooter();
         }
 
         function setActiveNavTitle(title) {
