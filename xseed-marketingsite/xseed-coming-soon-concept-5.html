@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf7f2">
+  <title>XSEED Education — Something new is taking shape</title>
+  <meta name="description" content="Something new is taking shape at XSEED Education.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    :root{--red:#ba1a24;--ink:#171717;--muted:#e4dfd8;--paper:#faf7f2;--line:#ded8d1;--shadow:0 20px 55px rgba(60,42,31,.10)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:#fff;background:var(--ink);font-family:"Poppins",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+
+    .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 24px;gap:36px;overflow:hidden}
+
+    .hero-photo{position:absolute;inset:0;z-index:0;overflow:hidden}
+    .hero-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(.5) saturate(.9) brightness(.42) contrast(1) blur(3px);animation:photo-settle 2.4s cubic-bezier(.22,1,.36,1) both}
+    @keyframes photo-settle{from{transform:scale(1.18)}to{transform:scale(1)}}
+    .hero-photo:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 65% at 50% 48%,rgba(8,6,5,.75) 0%,rgba(8,6,5,.55) 55%,rgba(8,6,5,.35) 100%)}
+
+    .brand{position:absolute;z-index:1;top:calc(4% + 40px);left:50%;transform:translateX(-50%);width:420px;display:block;filter:drop-shadow(0 18px 30px rgba(0,0,0,.55));animation:rise-in-x .8s cubic-bezier(.22,1,.36,1) both}.brand img{display:block;width:100%}
+
+    .hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;max-width:680px;margin-top:190px}
+
+    .badge{display:inline-flex;align-items:center;gap:10px;margin:0 0 32px;padding:11px 26px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:var(--red);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 14px 34px rgba(0,0,0,.4),0 8px 28px rgba(186,26,36,.45),0 0 0 6px rgba(186,26,36,.12);color:#fff;font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;animation:rise-in .8s cubic-bezier(.22,1,.36,1) .15s both,badge-pulse 2.4s ease-in-out 1s infinite}
+    .badge:before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35);animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+    @keyframes badge-pulse{0%,100%{box-shadow:0 14px 34px rgba(0,0,0,.4),0 8px 28px rgba(186,26,36,.45),0 0 0 6px rgba(186,26,36,.12)}50%{box-shadow:0 14px 34px rgba(0,0,0,.4),0 8px 32px rgba(186,26,36,.6),0 0 0 10px rgba(186,26,36,.06)}}
+    @keyframes rise-in{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes rise-in-x{from{opacity:0;transform:translate(-50%,22px)}to{opacity:1;transform:translate(-50%,0)}}
+
+    .hero-title{margin:0;font-family:"Poppins",Arial,sans-serif;font-weight:600;font-size:clamp(28px,4vw,44px);line-height:1.18;letter-spacing:0;color:#fff;text-shadow:0 12px 26px rgba(0,0,0,.5);animation:rise-in .85s cubic-bezier(.22,1,.36,1) .3s both}
+    .hero-title strong{color:var(--red);font:inherit}
+    .rule{width:44px;height:2px;background:var(--red);margin:28px 0 24px;box-shadow:0 4px 14px rgba(186,26,36,.5);animation:rise-in .8s cubic-bezier(.22,1,.36,1) .45s both}
+    .contact-line{position:absolute;z-index:1;left:24px;right:24px;bottom:36px;margin:0;font-size:14px;font-weight:500;line-height:1.75;color:var(--muted);text-shadow:0 2px 4px rgba(0,0,0,.65),0 6px 16px rgba(0,0,0,.5);animation:rise-in .8s cubic-bezier(.22,1,.36,1) .6s both}.contact-line a{color:#fff;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.4)}.contact-line a:hover{border-color:#fff}
+
+    @media(max-width:560px){.hero{padding:48px 20px;gap:28px}.brand{width:150px}.hero-copy{margin-top:130px}.contact-line{bottom:24px}}
+    @media(prefers-reduced-motion:reduce){.brand,.badge,.hero-title,.rule,.contact-line{animation:none;opacity:1}.badge{animation:none}.hero-photo img{animation:none}}
+  </style>
+</head>
+<body>
+<main class="hero">
+  <div class="hero-photo" aria-hidden="true">
+    <img src="assets/hero-classroom.png" alt="">
+  </div>
+
+  <a class="brand" href="https://xseededucation.com/" aria-label="XSEED Education">
+    <img src="assets/xseed-whiteline-logo.png" alt="XSEED — Foundation for Life">
+  </a>
+
+  <div class="hero-copy">
+    <span class="badge">Coming Soon</span>
+    <p class="hero-title">Something new is taking shape at <strong>XSEED</strong>.</p>
+    <div class="rule"></div>
+  </div>
+
+  <p class="contact-line">
+    You may email <a href="mailto:contact@xseededucation.com">contact@xseededucation.com</a> or WhatsApp <a href="https://wa.me/919560300571" target="_blank" rel="noopener">+91 95603 00571</a>.
+  </p>
+</main>
+</body>
+</html>
