@@ -47,6 +47,8 @@
     }
 
     body {
+      min-height: 100dvh;
+      overflow: hidden;
       background:
         radial-gradient(circle at 12% 24%, rgba(220, 151, 60, 0.24), transparent 22%),
         radial-gradient(circle at 85% 82%, rgba(0, 0, 0, 0.48), transparent 24%),
@@ -90,14 +92,14 @@
     }
 
     .hero-stack {
-      transform: translateY(-5vh);
+      transform: translateY(-2dvh);
       animation: riseIn 1.15s var(--ease-luxury) both;
       animation-delay: 120ms;
       will-change: transform, opacity;
     }
 
     .brand-lockup {
-      margin-bottom: clamp(4.5rem, 7vw, 5.6rem);
+      margin-bottom: clamp(2.2rem, 4vw, 3.25rem);
       animation: riseIn 1.05s var(--ease-luxury) both;
       animation-delay: 220ms;
     }
@@ -203,13 +205,38 @@
       transition:
         color 280ms var(--ease-soft),
         transform 280ms var(--ease-soft),
-        opacity 280ms var(--ease-soft);
+        opacity 280ms var(--ease-soft),
+        text-decoration-color 280ms var(--ease-soft);
+    }
+
+    .footer-contact a[href^="mailto:"] {
+      text-decoration-line: underline;
+      text-decoration-color: rgb(255 255 255 / 0.34);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.18em;
+    }
+
+    .footer-contact .wa-number {
+      text-decoration-line: underline;
+      text-decoration-color: rgb(255 255 255 / 0.34);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.18em;
     }
 
     .footer-contact a:hover,
     .footer-contact a:focus-visible {
       color: rgb(255 255 255 / 78%);
       transform: translateY(-1px);
+    }
+
+    .footer-contact a:hover .wa-number,
+    .footer-contact a:focus-visible .wa-number {
+      text-decoration-color: rgb(255 255 255 / 0.62);
+    }
+
+    .footer-contact a[href^="mailto:"]:hover,
+    .footer-contact a[href^="mailto:"]:focus-visible {
+      text-decoration-color: rgb(255 255 255 / 0.62);
     }
 
     @keyframes bodyFadeIn {
@@ -225,12 +252,12 @@
     @keyframes riseIn {
       from {
         opacity: 0;
-        transform: translateY(calc(-5vh + 30px));
+        transform: translateY(calc(-2dvh + 30px));
       }
 
       to {
         opacity: 1;
-        transform: translateY(-5vh);
+        transform: translateY(-2dvh);
       }
     }
 
@@ -327,12 +354,12 @@
 
     @media (max-width: 640px) {
       .hero-stack {
-        transform: translateY(-2vh);
+        transform: none;
         animation-name: riseInMobile;
       }
 
       .brand-lockup {
-        margin-bottom: 3.4rem;
+        margin-bottom: 1.8rem;
       }
 
       .brand-tagline {
@@ -361,21 +388,21 @@
     @keyframes riseInMobile {
       from {
         opacity: 0;
-        transform: translateY(calc(-2vh + 24px));
+        transform: translateY(24px);
       }
 
       to {
         opacity: 1;
-        transform: translateY(-2vh);
+        transform: translateY(0);
       }
     }
   </style>
 </head>
 
-<body class="min-h-screen overflow-x-hidden font-sans text-xseed-cream">
-  <main class="min-h-screen">
-    <section class="hero-shell relative min-h-screen overflow-hidden">
-      <div class="relative z-10 flex min-h-screen flex-col px-6 py-8 md:px-12 md:py-10 lg:px-14 lg:py-12">
+<body class="h-dvh overflow-hidden font-sans text-xseed-cream">
+  <main class="h-dvh">
+    <section class="hero-shell relative h-dvh overflow-hidden">
+      <div class="relative z-10 flex h-dvh flex-col px-6 py-5 md:px-12 md:py-6 lg:px-14 lg:py-8">
         <div class="flex flex-1 items-center justify-center">
           <div class="hero-stack mx-auto max-w-6xl text-center">
             <div class="brand-lockup">
@@ -403,7 +430,7 @@
             <a href="mailto:contact@xseededucation.com">contact@xseededucation.com</a>
             <span class="footer-divider" aria-hidden="true"></span>
             <a href="https://wa.me/919560300571?text=Hi%2C%20I%20am%20interested%20to%20know%20more%20about%20XSEED%20Education."
-              target="_blank" rel="noreferrer">WhatsApp us: +91 95603 00571</a>
+              target="_blank" rel="noreferrer"><span class="wa-label">WhatsApp us:</span> <span class="wa-number">+91 95603 00571</span></a>
           </div>
         </footer>
 
