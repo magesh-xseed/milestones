@@ -1,2 +1,7 @@
 /ollama-backend/node_modules
 .DS_Store
+.worktrees/
+Confiidence/
+Edge-marketing-site/
+projectC-marketingsite-old/
+report-ollama-poc/
