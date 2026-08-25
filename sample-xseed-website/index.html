@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSEED Education Landing Page</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Load Atkinson Hyperlegible Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: white;
+            transition: all 0.4s ease;
+        }
+
+        header img {
+            margin-top: 8rem;
+            height: 15rem;
+            transition: all 0.4s ease;
+            transform: translateY(20px);
+        }
+
+        /* When the logo becomes small — remove margin and translate */
+        header img.logo-small {
+            margin-top: 0 !important;
+            height: 60px !important;
+            transform: translateY(0);
+        }
+
+        /* Optional: when header is scrolled, add shadow */
+        header.header-scrolled {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom font setup using Atkinson Hyperlegible */
+        body {
+            font-family: "Atkinson Hyperlegible", sans-serif !important;
+            color: #1a202c;
+            /* Default dark text */
+        }
+
+        /* XSEED Custom Color Palette */
+        .color-xseed-red {
+            color: #bc1e26;
+        }
+
+        .bg-xseed-red {
+            background-color: #bc1e26;
+        }
+
+        /* Keeping off-white background from the original design for good text contrast */
+        .bg-off-white {
+            background-color: #f8f8fa;
+        }
+
+        /* Custom height calculation to account for fixed header (h-20 is 80px) */
+        .h-screen-minus-header {
+            height: calc(100vh - 80px);
+        }
+
+        /* Content Text Style */
+        .content-text {
+            line-height: 1.8;
+            /* 1.8em */
+            letter-spacing: 0.04em;
+        }
+
+        /* Custom arrow style for better visibility and touch target */
+        .carousel-arrow {
+            /* Positioned on the sides, but control vertical movement */
+            padding: 0.75rem;
+            /* p-3 */
+            background: #fff;
+            /* bg-white */
+            color: #1f2937;
+            /* text-gray-800 */
+            border-radius: 9999px;
+            /* rounded-full */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            /* shadow-lg */
+            transition: background 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+            /* transition duration-300 */
+            z-index: 40;
+            /* z-40 */
+            opacity: 0.8;
+            /* opacity-80 */
+            outline: none;
+            /* focus:outline-none */
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .carousel-arrow:hover {
+            background: #f3f4f6;
+        }
+
+        .carousel-arrow.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Styling for the circular dot pagination */
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #d1d5db;
+            /* Light gray for inactive */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+        }
+
+        .carousel-dot.active {
+            background-color: #bc1e26;
+            /* XSEED Red for active dot */
+            transform: scale(1.25);
+            border: 2px solid #f8f8fa;
+            /* Slight border for contrast */
+        }
+
+        .carousel-dot:hover:not(.active) {
+            background-color: #a1a1aa;
+            /* Darker gray on hover */
+        }
+
+        /* Styling for the floating chat icon (retained for context) */
+        .open-chat-button {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 50;
+            padding: 1rem;
+            border-radius: 9999px;
+            background-color: #bc1e26;
+            color: #fff;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+            transform: translateZ(0);
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+        }
+
+        .open-chat-button:hover {
+            transform: scale(1.1);
+            background-color: #b91c1c;
+        }
+
+        .open-chat-button:active {
+            transform: scale(0.95);
+        }
+
+        .open-chat-button i {
+            width: 28px;
+            height: 28px;
+        }
+
+        /* NEW: Vertical Floating Subscribe Button (FIXED POSITIONING) */
+        .floating-subscribe-button {
+            position: fixed;
+            top: 50%;
+            /* Center vertically */
+            right: -92px;
+            transform-origin: center center;
+            transform: translateY(-50%) rotate(-90deg);
+            padding: 0.5rem 1.5rem;
+            background-color: #bc1e26;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 55;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .floating-subscribe-button:hover {
+            right: 0px;
+            background-color: #b91c1c;
+        }
+
+        /* Hide the chat button on smaller screens to prevent clutter */
+        @media (max-width: 640px) {
+
+            /* Tailwind's 'sm' breakpoint */
+            .open-chat-button {
+                display: none;
+            }
+
+            /* UPDATED: Adjust subscribe button margin for mobile to fit tighter */
+            .floating-subscribe-button {
+                right: -40px;
+            }
+
+            .floating-subscribe-button:hover {
+                right: 0px;
+            }
+        }
+
+        /* Custom styles for the dark promotional banner */
+        .promo-banner {
+            position: relative;
+            background-image: url('https://cdn-igjlb.nitrocdn.com/EXTVWscdRUObVEkANNyRfVXPJkRRYGrl/assets/images/optimized/rev-ce2c2e1/xseededucation.com/wp-content/uploads/2025/10/image3.jpg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .promo-overlay {
+            /* Deep indigo/dark blue overlay, similar to the provided design */
+            background-color: rgb(0 0 0 / 72%);
+            backdrop-filter: blur(6px);
+            /* Subtle blur effect on background image */
+        }
+
+        .promo-play-button {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 9999px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: absolute;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            top: 50%;
+            right: 15%;
+            transform: translate(0, -50%);
+        }
+
+        .promo-play-button:hover {
+            transform: translate(0, -50%) scale(1.1);
+        }
+
+        .promo-play-button i {
+            color: #7f52ff;
+            width: 32px;
+            height: 32px;
+            fill: #7f52ff;
+        }
+
+        /* Frosted glass effect for the news card - IMPROVED CONTRAST */
+        .frosted-glass-effect {
+            background-color: rgba(255, 255, 255, 0.75);
+            /* Increased opacity from 0.65 to 0.75 for better contrast */
+            backdrop-filter: blur(10px);
+            /* Frosted glass blur */
+            -webkit-backdrop-filter: blur(10px);
+            /* For Safari support */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Subtle border for effect */
+        }
+
+        /* Custom styles for the Subscription Panel and Chat Panel */
+        .side-panel {
+            /* Fixed position, full height, right side */
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            /* Default width for mobile */
+            max-width: 400px;
+            /* Max width for desktop */
+            height: 100vh;
+            background-color: #fff;
+            /* bg-white */
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+            /* shadow on the left edge */
+            z-index: 60;
+            transform: translateX(100%);
+            /* Start off-screen */
+            transition: transform 0.4s ease-out;
+            /* Smooth slide transition */
+            overflow-y: auto;
+            display: flex;
+            /* Added for chat layout */
+            flex-direction: column;
+            /* Added for chat layout */
+        }
+
+        .side-panel.open {
+            transform: translateX(0);
+            /* Slide into view */
+        }
+
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 59;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Specific Chat Panel Styling */
+        #chat-panel {
+            z-index: 65;
+            /* Higher than subscription panel (60) */
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: #f7f7f7;
+            /* Light background for chat area */
+        }
+
+        .chat-message {
+            margin-bottom: 0.75rem;
+            display: flex;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+
+        .chat-bubble {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 1.25rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .chat-message.user .chat-bubble {
+            background-color: #bc1e26;
+            color: white;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .chat-message.bot .chat-bubble {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .chat-source-link {
+            font-size: 0.75rem;
+            /* text-xs */
+            color: #4b5563;
+            /* text-gray-600 */
+            display: block;
+            margin-top: 0.25rem;
+            text-decoration: underline;
+        }
+
+        /* NEW: Styles for feedback capsule buttons */
+        .feedback-capsule {
+            padding: 0.5rem 1.5rem;
+            /* py-2 px-6 */
+            border-radius: 9999px;
+            /* rounded-full */
+            font-weight: 600;
+            /* font-semibold */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            /* tracking-wider */
+            background-color: #e5e7eb;
+            /* bg-gray-200 */
+            color: #374151;
+            /* text-gray-700 */
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            outline: none;
+            /* Remove default focus outline */
+        }
+
+        .feedback-capsule:hover {
+            background-color: #d1d5db;
+            /* bg-gray-300 */
+        }
+
+        .feedback-capsule.active {
+            background-color: #bc1e26;
+            /* bg-xseed-red */
+            color: #ffffff;
+            /* text-white */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            /* shadow-md */
+        }
+
+        .feedback-capsule:focus-visible {
+            /* Add a visible focus ring for accessibility that matches the brand */
+            border-color: #bc1e26;
+            box-shadow: 0 0 0 2px #f8f8fa, 0 0 0 4px #bc1e26;
+        }
+
+
+        /* Adjust mobile width for the panel */
+        @media (max-width: 640px) {
+
+            /* Tailwinds 'sm' breakpoint */
+            .side-panel {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+
+    <!-- 1. Header/Navigation Bar - Z-INDEX FIXED -->
+    <header style="background-color: #f8f8fa;"
+        class="h-20 flex items-center sticky top-0  z-50 border-b border-gray-100">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center w-full">
+
+            <!-- Logo (Increased size and highlighted) -->
+            <div>
+                <img src="https://cdn-igjlb.nitrocdn.com/EXTVWscdRUObVEkANNyRfVXPJkRRYGrl/assets/images/optimized/rev-ce2c2e1/xseededucation.com/wp-content/uploads/2025/10/XSEED_Logo-1.png"
+                    alt="XSEED Logo"
+                    onerror="this.onerror=null;this.src='https://placehold.co/180x60/ffffff/bc1e26?text=XSEED+Logo';">
+            </div>
+
+            <!-- Combined Right-Side Group: Navigation Links + Action Button (Aligns Right) -->
+            <div class="flex items-center space-x-4 md:space-x-8">
+
+                <!-- START: Updated Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-6 text-gray-700 text-base font-medium">
+
+                    <!-- Single Link: Home --><a href="#"
+                        class="hover:text-[#bc1e26] transition hover:scale-105 px-2 py-2">Home</a>
+
+                    <!-- Single Link: How XSEED Works --><a href="#"
+                        class="hover:text-[#bc1e26] transition hover:scale-105 px-2 py-2">How XSEED Works</a>
+
+                    <!-- Dropdown Parent: Products -->
+                    <div class="group relative">
+                        <button
+                            class="cursor-pointer flex items-center hover:text-[#bc1e26] transition hover:scale-105 px-2 py-2">
+                            Products
+                            <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+                        </button>
+                        <!-- Dropdown Menu: Products -->
+                        <div
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto invisible group-hover:visible">
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">SuperTeacher</a>
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">ParentApp</a>
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Learnometer</a>
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Computer
+                                Science</a>
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Test
+                                Maker</a>
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Book
+                                Pack</a>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown Parent: About Us -->
+                    <div class="group relative">
+                        <button
+                            class="cursor-pointer flex items-center hover:text-[#bc1e26] transition hover:scale-105 px-2 py-2">
+                            About Us
+                            <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+                        </button>
+                        <!-- Dropdown Menu: About Us -->
+                        <div
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto invisible group-hover:visible">
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Our
+                                Story</a>
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Careers</a>
+                            <a href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Contact</a>
+                            <a href="#" href="#"
+                                class="block px-5 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#bc1e26]">Terms
+                                & Conditions</a>
+                        </div>
+                    </div>
+
+                    <!-- Single Link: News --><a href="#"
+                        class="hover:text-[#bc1e26] transition hover:scale-105 px-2 py-2">News</a>
+                </div>
+                <!-- END: Updated Navigation Links -->
+
+                <!-- PRIMARY CTA BUTTON REMOVED IN PREVIOUS STEP (Request a Demo) -->
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Hero/Banner Carousel Section - Manual Control and FULL SCREEN HEIGHT (Horizontal Scroll) --><!-- Wrapper must have fixed height and hidden overflow -->
+    <section id="slider-wrapper" class="relative overflow-hidden h-screen-minus-header">
+
+        <!-- Navigation Arrows (Positioned on the side, controlling horizontal movement) --><button id="prev-arrow"
+            class="carousel-arrow absolute left-4 lg:left-10 top-1/2 transform -translate-y-1/2 hidden md:flex"
+            onclick="prevSlide()">
+            <i data-lucide="chevron-left" class="w-6 h-6"></i> <!-- Changed to LEFT arrow --></button>
+        <button id="next-arrow"
+            class="carousel-arrow absolute right-4 lg:right-10 top-1/2 transform -translate-y-1/2 hidden md:flex"
+            onclick="nextSlide()">
+            <i data-lucide="chevron-right" class="w-6 h-6"></i> <!-- Changed to RIGHT arrow --></button>
+
+        <!-- Inner track holding all slides. Now uses flex-row and is 300% of the wrapper width (horizontal) -->
+        <div id="carousel-track" class="flex flex-row transition-transform duration-700 ease-in-out h-full w-[300%]">
+
+            <!-- START SLIDE TEMPLATE (Duplicated 3 times) --><!-- Slide 1 --><!-- Each slide takes 1/3 of the horizontal track (which is 300% width) -->
+            <div class="carousel-slide w-1/3 h-full flex-shrink-0 flex flex-col lg:flex-row bg-off-white relative">
+
+                <!-- Left Content Area -->
+                <div class="lg:w-1/2 p-14 lg:p-24 flex flex-col justify-center relative z-10">
+                    <div class="space-y-4 lg:space-y-6 max-w-lg">
+                        <!-- Pre-heading - Now standard case, smaller, and bold -->
+                        <p class="text-3xl lg:text-4xl font-extrabold leading-snug color-xseed-red">
+                            THE UNAFRAID CHILD
+                        </p>
+                        <!-- Main Heading - Larger and XSEED red for high impact -->
+                        <h2 class="text-xl lg:text-3xl font-extrabold tracking-widest uppercase text-gray-800">
+                            will compete in the 21st century
+                        </h2>
+
+                        <!-- Main Text Block - Applied new content styles -->
+                        <p class="text-base text-gray-700 max-w-md mb-3 content-text">
+                            <span class="font-bold color-xseed-red">XSEED is a proven and research based academic program for
+                                schools</span> that builds thinking skills & problem solving confidence in children.
+                            XSEED children ask more questions, can write in their own words, like doing word problems in
+                            mathematics, can complete their homework on their own, are not afraid to speak-up in
+                            English, persist longer in solving problems, and score well on tests.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Image Area -->   
+                <div class="lg:w-1/2 relative min-h-[400px] lg:min-h-full">
+                    <img src="https://cdn.jsdelivr.net/gh/xseededucation/xseed-website-poc@master/unafraid_child.png"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1000x800/e0e0e0/333?text=XSEED+Student+1';"
+                        alt="The unafraid child - a smiling young student looking confident."
+                        class="absolute inset-0 w-full h-full object-cover">
+                </div>
+            </div>
+            <!-- End Slide 1 --><!-- Slide 2 (UPDATED CONTENT) -->
+            <div class="carousel-slide w-1/3 h-full flex-shrink-0 flex flex-col lg:flex-row bg-off-white relative">
+
+                <!-- Left Content Area -->
+                <div class="lg:w-1/2 p-14 lg:p-24 flex flex-col justify-center relative z-10">
+                    <div class="space-y-4 lg:space-y-6 max-w-lg">
+                        <!-- Pre-heading - Updated -->
+                        <p class="text-4xl lg:text-5xl font-extrabold leading-snug color-xseed-red">
+                            ACADEMIC PARTNER
+                        </p>
+                        <!-- Main Heading - Updated -->
+                        <h2 class="text-xl lg:text-4xl font-extrabold tracking-widest uppercase text-gray-800">
+                            beyond books, boards & promises: a complete solution
+                        </h2>
+                        <!-- Main Text Block - Updated -->
+                        <p class="text-base text-gray-700 max-w-md mb-3 content-text">
+                            In XSEED schools teachers are better resourced and regularly trained, children have
+                            application practice workbooks for every subject in addition to textbook, assessment is on
+                            skills in addition to concepts, and the school leadership has a highly skilled education
+                            coach to consult with.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Image Area - Updated -->
+                <div class="lg:w-1/2 relative min-h-[400px] lg:min-h-full">
+                    <img src="https://cdn-igjlb.nitrocdn.com/EXTVWscdRUObVEkANNyRfVXPJkRRYGrl/assets/images/optimized/rev-ce2c2e1/xseededucation.com/wp-content/uploads/2015/01/DSC_0346-1_Fotor-740x494.jpg"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1000x800/e0e0e0/333?text=XSEED+Teacher+Training';"
+                        alt="A classroom setting showing a teacher and happy students actively engaged in a lesson."
+                        class="absolute inset-0 w-full h-full object-cover">
+                </div>
+            </div>
+            <!-- End Slide 2 --><!-- Slide 3 -->
+            <div class="carousel-slide w-1/3 h-full flex-shrink-0 flex flex-col lg:flex-row bg-off-white relative">
+
+
+                <!-- Left Content Area - UPDATED -->
+                <div class="lg:w-1/2 p-14 lg:p-24 flex flex-col justify-center relative z-10">
+                    <div class="space-y-4 lg:space-y-6 max-w-lg">
+                        <!-- Pre-heading - Updated -->
+                        <p class="text-4xl lg:text-5xl font-extrabold leading-snug color-xseed-red">
+                            XSEED SUPERTEACHER
+                        </p>
+                        <!-- Main Heading - Updated -->
+                        <h2 class="text-xl lg:text-4xl font-extrabold tracking-widest uppercase text-gray-800">
+                            The World’s Best Teaching & Learning App
+                        </h2>
+                        <!-- Main Text Block - Updated -->
+                        <p class="text-base text-gray-700 max-w-md mb-3 content-text">
+                            XSEED’s groundbreaking SuperTeacher app is a powerful first-of-its-kind tool that puts
+                            everything needed to teach an excellent class at every teacher’s fingertips. XSEED
+                            SuperTeacher comes fully loaded with all the content and XSEED Method pedagogy needed to
+                            prepare for and teach over 10,000 lessons, so anyone can be a Super Teacher.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Image Area - UPDATED with Link and Play Icon -->
+                <div class="lg:w-1/2 relative min-h-[400px] lg:min-h-full">
+                    <a href="https://www.youtube.com/watch?v=82AFRSBB4lY" target="_blank"
+                        class="block w-full h-full cursor-pointer relative group">
+                        <img src="https://cdn-igjlb.nitrocdn.com/EXTVWscdRUObVEkANNyRfVXPJkRRYGrl/assets/images/optimized/rev-ce2c2e1/xseededucation.com/wp-content/uploads/2022/10/XSEED-SUPER-TEACHER-15-1-740x740.png"
+                            onerror="this.onerror=null;this.src='https://placehold.co/1000x800/e0e0e0/333?text=XSEED+SuperTeacher+App';"
+                            alt="The XSEED SuperTeacher App interface on a tablet device."
+                            class="absolute inset-0 w-full h-full object-cover">
+                        <!-- Video Play Icon (New) -->
+                        <div
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 group-hover:bg-opacity-50 transition-all duration-300">
+                            <i data-lucide="play-circle"
+                                class="w-20 h-20 text-white drop-shadow-lg transform group-hover:scale-110 transition-transform duration-300"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- End Slide 3 -->
+        </div>
+        <!-- End Carousel Track --><!-- Horizontal Dot Pagination -->
+        <div id="dot-pagination"
+            class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-40 flex flex-row space-x-4">
+            <div class="carousel-dot active" data-slide-index="0" onclick="goToSlide(0)"></div>
+            <div class="carousel-dot" data-slide-index="1" onclick="goToSlide(1)"></div>
+            <div class="carousel-dot" data-slide-index="2" onclick="goToSlide(2)"></div>
+        </div>
+    </section>
+
+    <!-- 3. A LEARNING CLASSROOM SECTION (PREVIOUSLY ADDED) -->
+    <section class="py-16 lg:py-24 bg-white">
+        <div class="container mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            <!-- Left Column: Content (Text) -->
+            <div class="lg:order-1 order-2">
+                <!-- Pre-Title (Uppercase, Spaced, XSEED Red) -->
+                <p class="text-lg font-bold tracking-widest uppercase color-xseed-red mb-3">
+                    A LEARNING CLASSROOM
+                </p>
+                <!-- Main Title (Large, Bold, Dark) -->
+                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    The 5-Step Teaching Method
+                </h3>
+
+                <!-- Detailed Description (Styled with content-text class for readability) -->
+                <p class="text-xl text-gray-700 content-text mb-8">
+                    XSEED teachers ensure every lesson is effective and engaging. They begin a class by clearly stating
+                    the learning goal, ask children what they know already, demonstrate an experiment or conduct a group
+                    activity, let children speak before they do, ensure the "application questions" are done
+                    independently, fiercely believe in practice, assess daily, and support each child individually. This
+                    is how we build thinkers, not just memorizers.
+                </p>
+
+                <!-- Call to Action Button --><button
+                    class="px-8 py-3 bg-xseed-red text-white text-lg font-semibold rounded-xl shadow-lg hover:bg-red-700 transition transform hover:scale-[1.03] active:scale-95">
+                    Explore the XSEED Method
+                    <i data-lucide="book-open" class="w-5 h-5 ml-2 inline-block"></i>
+                </button>
+            </div>
+
+            <!-- Right Column: Visual (GIF) -->
+            <div
+                class="lg:order-2 order-1 relative rounded-3xl overflow-hidden transform transition-transform duration-500 hover:scale-[1.02]">
+                <img src="https://cdn-igjlb.nitrocdn.com/EXTVWscdRUObVEkANNyRfVXPJkRRYGrl/assets/images/optimized/rev-ce2c2e1/xseededucation.com/wp-content/uploads/2021/09/Five-step_500x500px.gif"
+                    onerror="this.onerror=null;this.src='https://placehold.co/800x600/f8f8fa/bc1e26?text=5-Step+Method+GIF';"
+                    alt="Animated illustration showing the 5 steps of the XSEED teaching method."
+                    class="w-full h-full object-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. PROMOTIONAL FULL-WIDTH BANNER SECTION (NEWS / COVER CARD) -->
+
+    <section class="promo-banner py-16">
+        <div class="promo-overlay absolute inset-0">
+            <!-- Decorative SVG Shapes (Simplified from design, centered on the right) -->
+
+        </div>
+
+        <div class="container mx-auto px-6 lg:px-12 relative z-10 text-white flex items-center justify-between">
+            <div class="max-w-xl">
+                <!-- Pre-heading - Updated for contest context -->
+                <p class="text-sm font-semibold tracking-widest uppercase text-teal-300 flex items-center mb-2"
+                    style="color:rgb(175 29 36)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        data-lucide="mic" class="lucide lucide-mic w-4 h-4 mr-2">
+                        <path d="M12 19v3"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <rect x="9" y="2" width="6" height="13" rx="3"></rect>
+                    </svg> NAGALAND STUDENT EVENT
+                </p>
+                <!-- Main Title - Updated per user request -->
+                <h2 class="text-4xl lg:text-5xl font-extrabold mb-4 leading-snug">
+                    XSEED Hosts Online Elocution Contest in Nagaland for Students in Grades 5-8
+                </h2>
+                <!-- Description - Updated to be relevant -->
+                <p class="text-lg font-light mb-8 opacity-85">
+                    A unique opportunity for students to showcase their public speaking and communication skills.
+                    Participants will compete online in various categories focused on critical thinking and confident
+                    expression.
+                </p>
+                <!-- Action Buttons - Reduced to a single "View More" button -->
+                <div class="flex space-x-4">
+                    <!-- Single Button: "View More" (using the original contrasting teal style) -->
+                    <button
+                        class="px-8 py-3 bg-teal-400 text-white-900 text-lg font-semibold rounded-xl shadow-lg hover:bg-teal-300 transition transform hover:scale-[1.03] active:scale-95"
+                        style="background-color:rgb(175 29 36)">
+                        View More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            data-lucide="chevrons-right" class="lucide lucide-chevrons-right w-5 h-5 ml-2 inline-block">
+                            <path d="m6 17 5-5-5-5"></path>
+                            <path d="m13 17 5-5-5-5"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. CUSTOMER FEEDBACK SECTION (UPDATED) -->
+    <section class="py-16 lg:py-24 bg-off-white">
+        <div class="container mx-auto px-6 lg:px-12">
+
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+                <h3 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    What Our Community Says
+                </h3>
+                <p class="text-xl text-gray-600 content-text">
+                    Feedback from Parents, Teachers, and School Owners who believe in the XSEED Method.
+                </p>
+
+                <!-- Capsule Buttons -->
+                <div class="flex justify-center space-x-2 md:space-x-4 mt-8 mb-12">
+                    <button id="btn-parent" class="feedback-capsule active" onclick="filterFeedback('parent')">
+                        Parents
+                    </button>
+                    <button id="btn-teacher" class="feedback-capsule" onclick="filterFeedback('teacher')">
+                        Teachers
+                    </button>
+                    <button id="btn-owner" class="feedback-capsule" onclick="filterFeedback('owner')">
+                        School Owners
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feedback Grid – horizontal scroll on overflow -->
+            <div class="overflow-x-auto pb-4 -mx-6 px-6 lg:mx-0 lg:px-0">
+                <div class="flex space-x-8 min-w-max">
+
+                    <!-- ==================== PARENT REVIEWS ==================== -->
+                    <!-- 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0"
+                        data-category="parent">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "My daughter is no longer afraid of math. She actually enjoys solving problems and asks so
+                            many questions now. Her confidence has grown immensely since her school adopted XSEED."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Ananya Sharma</p>
+                                <p class="text-gray-500 font-medium">XSEED Parent</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0"
+                        data-category="parent">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "The XSEED ParentApp is fantastic. I can finally see what my son is learning in class and
+                            track his progress. It makes parent-teacher meetings so much more productive."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Rajesh Kumar</p>
+                                <p class="text-gray-500 font-medium">XSEED Parent</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0"
+                        data-category="parent">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "My child used to rush through homework. With XSEED workbooks he now takes time to think and
+                            explain his answers. The improvement in writing is remarkable."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Priya Mehta</p>
+                                <p class="text-gray-500 font-medium">XSEED Parent</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 (hidden – scroll to see) -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0"
+                        data-category="parent">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "XSEED has turned my shy daughter into a confident speaker. She volunteers to present in
+                            class and even helps her younger brother with studies at home."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Sonia Verma</p>
+                                <p class="text-gray-500 font-medium">XSEED Parent</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star-half" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ==================== TEACHER REVIEWS ==================== -->
+                    <!-- 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="teacher">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "The SuperTeacher app has revolutionized my classroom. Lesson planning is seamless, and the
+                            5-step method ensures every child is engaged."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Rohan Gupta</p>
+                                <p class="text-gray-500 font-medium">Grade 4 Teacher</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="teacher">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "Learnometer and Test Maker are lifesavers. I can create skill-based assessments quickly and
+                            get real data on where my students need help."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Sarah Chen</p>
+                                <p class="text-gray-500 font-medium">Grade 5 Teacher</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star-half" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="teacher">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "The training sessions are practical and immediately applicable. I feel more confident
+                            handling diverse learners thanks to XSEED’s methodology."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Neha Patel</p>
+                                <p class="text-gray-500 font-medium">Grade 3 Teacher</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 (scroll to see) -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="teacher">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "With XSEED I spend less time on admin and more on teaching. The digital resources are a
+                            game-changer for both me and my students."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Amit Singh</p>
+                                <p class="text-gray-500 font-medium">Science Teacher</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ==================== SCHOOL OWNER REVIEWS ==================== -->
+                    <!-- 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="owner">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "Implementing XSEED was the best decision for our school. Student outcomes have improved,
+                            teacher retention is higher, and parents are thrilled."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Mrs. Priya Kapoor</p>
+                                <p class="text-gray-500 font-medium">School Owner & Principal</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star-half" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="owner">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "The XSEED education coach has been an invaluable partner. They provide regular training and
+                            actionable feedback for leadership."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Mr. Alok Desai</p>
+                                <p class="text-gray-500 font-medium">School Director</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="owner">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "Enrollment has grown 25% after parents saw the difference XSEED makes. The structured
+                            curriculum and teacher support are unmatched."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Dr. Vikram Rao</p>
+                                <p class="text-gray-500 font-medium">Chairman, Sunrise Academy</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 (scroll to see) -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg flex flex-col transform transition-transform duration-300 hover:scale-[1.03] feedback-card w-80 flex-shrink-0 hidden"
+                        data-category="owner">
+                        <i data-lucide="quote" class="w-12 h-12 color-xseed-red opacity-30 mb-4"></i>
+                        <p class="text-gray-700 content-text text-lg mb-6 flex-grow">
+                            "XSEED’s data-driven insights help us showcase real academic growth to prospective parents.
+                            It’s a powerful marketing tool as well."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-bold text-gray-900 text-lg">Ms. Lakshmi Iyer</p>
+                                <p class="text-gray-500 font-medium">Managing Trustee</p>
+                            </div>
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                <i data-lucide="star-half" class="w-5 h-5 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Scroll hint (desktop only) -->
+            <div class="hidden lg:flex justify-end mt-4 text-gray-500 text-sm">
+                <span class="flex items-center">
+                    Scroll horizontally to see more
+                    <i data-lucide="arrow-right" class="w-5 h-5 ml-1"></i>
+                </span>
+            </div>
+        </div>
+    </section>
+    <!-- END: CUSTOMER FEEDBACK SECTION -->
+
+
+    <!-- NEW: Vertical Floating Subscribe Button (FIXED) -->
+    <button onclick="toggleSubscriptionPanel()" class="floating-subscribe-button" aria-label="Subscribe to News Feed">
+        Subscribe to News
+    </button>
+
+    <!-- NEW: Floating Chat Icon (retained, positioned lower right) -->
+    <button class="open-chat-button" aria-label="Chat with us" onclick="toggleChatPanel()">
+        <i data-lucide="message-circle"></i>
+    </button>
+
+    <!-- START: Subscription Side Panel (Drawer) -->
+    <div id="subscription-backdrop" class="backdrop" onclick="toggleSubscriptionPanel()"></div>
+
+    <aside id="subscription-panel" class="side-panel">
+        <!-- Panel Header -->
+        <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100 bg-off-white">
+            <h4 class="text-xl font-bold text-gray-900">Subscribe to our News Feed</h4>
+            <button onclick="toggleSubscriptionPanel()" aria-label="Close subscription panel"
+                class="text-gray-500 hover:text-xseed-red transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Panel Body/Form -->
+        <div class="p-6 md:p-8 space-y-6 flex-grow overflow-y-auto">
+            <p class="text-gray-600 content-text">
+                Stay updated with the latest in educational research, XSEED programs, and school events. We promise no
+                spam!
+            </p>
+            <form id="subscribe-form" class="space-y-4">
+                <input type="email" id="email-input" placeholder="Enter your email address" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bc1e26] focus:border-[#bc1e26] text-gray-800">
+                <button type="submit"
+                    class="w-full px-6 py-3 bg-[#bc1e26] text-white text-lg font-semibold rounded-xl shadow-lg hover:bg-red-700 transition transform active:scale-95 flex items-center justify-center">
+                    Subscribe Now
+                    <i data-lucide="mail-check" class="w-5 h-5 ml-2"></i>
+                </button>
+            </form>
+
+            <!-- Message Area (for success/error) -->
+            <div id="form-message" class="text-center font-medium h-6"></div>
+        </div>
+
+    </aside>
+    <!-- END: Subscription Side Panel (Drawer) -->
+
+    <!-- START: Chat Bot Side Panel (Drawer) -->
+    <div id="chat-backdrop" class="backdrop" onclick="toggleChatPanel()"></div>
+
+    <aside id="chat-panel" class="side-panel">
+        <!-- Panel Header -->
+        <div class="p-4 flex justify-between items-center border-b border-gray-100 bg-xseed-red text-white">
+            <h4 class="text-lg font-bold flex items-center">
+                <i data-lucide="bot" class="w-5 h-5 mr-2"></i> XSEED Product Assistant
+            </h4>
+            <button onclick="toggleChatPanel()" aria-label="Close chat panel"
+                class="text-white opacity-90 hover:opacity-100 transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Chat Message Area -->
+        <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-3">
+            <!-- Initial Bot Message -->
+            <div class="chat-message bot">
+                <div class="chat-bubble shadow-md">
+                    Hello! I'm here to help you with questions about XSEED products like **SuperTeacher**,
+                    **Learnometer**, and **Test Maker**. How can I assist you today?
+                </div>
+            </div>
+            <!-- Dynamic messages will be appended here -->
+        </div>
+
+        <!-- Chat Input/Form -->
+        <div class="p-4 border-t border-gray-200 bg-white">
+            <form id="chat-form" class="flex space-x-2">
+                <input type="text" id="chat-input" placeholder="Ask about SuperTeacher, Learnometer, or Test Maker..."
+                    required
+                    class="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bc1e26] focus:border-[#bc1e26] text-gray-800">
+                <button type="submit" id="send-button"
+                    class="flex-shrink-0 px-4 py-2 bg-[#bc1e26] text-white font-semibold rounded-lg shadow-md hover:bg-red-700 transition transform active:scale-95">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                </button>
+            </form>
+        </div>
+    </aside>
+    <!-- END: Chat Bot Side Panel (Drawer) -->
+
+
+    <!-- Initialize Lucide icons and Carousel Logic -->
+    <script>
+        lucide.createIcons();
+
+        // --- GEMINI API Configuration and Helpers ---
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent';
+        const apiKey = ""; // API Key is automatically provided by the Canvas environment
+
+        // Helper function for exponential backoff
+        const MAX_RETRIES = 3;
+        const RETRY_DELAY_MS = 1000;
+        window.addEventListener('scroll', () => {
+            const logo = document.querySelector('header img');
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                logo.classList.add('logo-small');
+                header.classList.add('header-scrolled');
+            } else {
+                logo.classList.remove('logo-small');
+                header.classList.remove('header-scrolled');
+            }
+        });
+        async function fetchWithBackoff(url, options, retries = 0) {
+            try {
+                const response = await fetch(url, options);
+                if (response.status === 429 && retries < MAX_RETRIES) {
+                    const delay = RETRY_DELAY_MS * Math.pow(2, retries);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithBackoff(url, options, retries + 1);
+                }
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response;
+            } catch (error) {
+                if (retries < MAX_RETRIES) {
+                    const delay = RETRY_DELAY_MS * Math.pow(2, retries);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithBackoff(url, options, retries + 1);
+                }
+                throw error;
+            }
+        }
+
+        // --- Chat Bot Logic ---
+        const chatPanel = document.getElementById('chat-panel');
+        const chatBackdrop = document.getElementById('chat-backdrop');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+
+        const systemInstruction = {
+            parts: [{
+                text: "You are the XSEED Product Assistant. Your role is to provide clear, helpful, and concise information specifically about XSEED's core products: SuperTeacher, Learnometer, and Test Maker. Use Google Search to find the latest and most accurate details. If the user asks about a topic outside these products (like general history, science facts, or non-XSEED services), politely redirect them back to the XSEED products and offer to answer questions about them. Maintain a professional, knowledgeable, and helpful tone."
+            }]
+        };
+
+        let chatHistory = [];
+
+        const toggleChatPanel = () => {
+            const isOpen = chatPanel.classList.toggle('open');
+            chatBackdrop.classList.toggle('open');
+
+            if (isOpen) {
+                // Scroll to bottom and focus input when opened
+                scrollToBottom();
+                chatInput.focus();
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        };
+
+        const displayMessage = (role, text, sources = []) => {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', role);
+
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.classList.add('chat-bubble', 'shadow-md');
+
+            // Convert Markdown to HTML for basic formatting (like bold/links)
+            const htmlText = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+                .replace(/\n/g, '<br>'); // Newlines
+
+            bubbleDiv.innerHTML = htmlText;
+
+            if (role === 'bot' && sources.length > 0) {
+                const sourcesDiv = document.createElement('div');
+                sourcesDiv.classList.add('mt-2', 'pt-2', 'border-t', 'border-gray-300', 'text-xs', 'text-gray-700', 'opacity-75');
+                sourcesDiv.innerHTML = '<strong>Sources:</strong> ' + sources.map((source, index) =>
+                    `<a href="${source.uri}" target="_blank" class="chat-source-link">${index + 1}. ${source.title}</a>`
+                ).join('');
+                bubbleDiv.appendChild(sourcesDiv);
+            }
+
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        };
+
+        const scrollToBottom = () => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        const setChatLoading = (isLoading) => {
+            sendButton.disabled = isLoading;
+            const iconElement = sendButton.querySelector('i');
+
+            if (isLoading) {
+                iconElement.setAttribute('data-lucide', 'loader-circle');
+                iconElement.classList.add('animate-spin');
+            } else {
+                iconElement.setAttribute('data-lucide', 'send');
+                iconElement.classList.remove('animate-spin');
+            }
+            lucide.createIcons(); // Re-render the icon
+        };
+
+        const sendMessage = async (event) => {
+            event.preventDefault();
+            const userQuery = chatInput.value.trim();
+            if (!userQuery) return;
+
+            displayMessage('user', userQuery);
+            chatInput.value = '';
+            setChatLoading(true);
+
+            // Add user message to history
+            chatHistory.push({ role: "user", parts: [{ text: userQuery }] });
+
+            const payload = {
+                contents: chatHistory,
+                tools: [{ "google_search": {} }],
+                systemInstruction: systemInstruction,
+            };
+
+            try {
+                const response = await fetchWithBackoff(`${API_URL}?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                let botText = "Sorry, I encountered an error and couldn't process your request. Please try again.";
+                let sources = [];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    botText = candidate.content.parts[0].text;
+
+                    // Extract grounding sources
+                    const groundingMetadata = candidate.groundingMetadata;
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        sources = groundingMetadata.groundingAttributions
+                            .map(attribution => ({
+                                uri: attribution.web?.uri,
+                                title: attribution.web?.title,
+                            }))
+                            .filter(source => source.uri && source.title);
+                    }
+                }
+
+                // Add bot response to history
+                chatHistory.push({ role: "model", parts: [{ text: botText }] });
+
+                displayMessage('bot', botText, sources);
+
+            } catch (error) {
+                console.error('Gemini API Error:', error);
+                displayMessage('bot', "I'm having trouble connecting right now. Please check your network or try again later.");
+            } finally {
+                setChatLoading(false);
+                chatInput.focus();
+            }
+        };
+
+        // --- Subscription Panel Logic (Retained and slightly modified to use side-panel class) ---
+        const subscriptionPanel = document.getElementById('subscription-panel');
+        const subscriptionBackdrop = document.getElementById('subscription-backdrop');
+        const subscribeForm = document.getElementById('subscribe-form');
+        const formMessage = document.getElementById('form-message');
+
+        const toggleSubscriptionPanel = () => {
+            const isOpen = subscriptionPanel.classList.toggle('open');
+            subscriptionBackdrop.classList.toggle('open');
+
+            // Clear any message when toggling the panel
+            formMessage.innerHTML = '';
+
+            // Accessibility focus management:
+            if (isOpen) {
+                // Focus on the email input when opened
+                document.getElementById('email-input').focus();
+                // Optionally disable page scrolling while panel is open
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+            // Ensure only one panel is open at a time
+            if (isOpen && chatPanel.classList.contains('open')) {
+                toggleChatPanel();
+            }
+        };
+
+        // Handle form submission (client-side simulation)
+        subscribeForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const emailInput = document.getElementById('email-input');
+            const email = emailInput.value;
+
+            const submitButton = subscribeForm.querySelector('button[type="submit"]');
+            const originalButtonContent = submitButton.innerHTML;
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<i data-lucide="loader-circle" class="w-5 h-5 mr-2 animate-spin"></i> Processing...`;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                submitButton.disabled = false;
+
+                if (email && email.includes('@') && email.includes('.')) {
+                    formMessage.innerHTML = `<span class="text-green-600 flex items-center justify-center"><i data-lucide="check-circle" class="w-5 h-5 mr-1"></i> Subscribed successfully!</span>`;
+                    submitButton.innerHTML = originalButtonContent;
+                    emailInput.value = '';
+                    lucide.createIcons();
+
+                    setTimeout(() => {
+                        toggleSubscriptionPanel();
+                        formMessage.innerHTML = '';
+                    }, 3000);
+
+                } else {
+                    formMessage.innerHTML = `<span class="text-red-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-5 h-5 mr-1"></i> Please enter a valid email.</span>`;
+                    submitButton.innerHTML = originalButtonContent;
+                    lucide.createIcons();
+                }
+            }, 1500);
+        });
+
+        // --- Event Listeners and Global Exposure ---
+        chatForm.addEventListener('submit', sendMessage);
+
+        window.toggleSubscriptionPanel = toggleSubscriptionPanel;
+        window.toggleChatPanel = toggleChatPanel;
+
+        // --- NEW: Feedback Filter Logic ---
+        const filterFeedback = (category) => {
+            // Update buttons
+            const buttons = document.querySelectorAll('.feedback-capsule');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`btn-${category}`).classList.add('active');
+
+            // Filter cards
+            const cards = document.querySelectorAll('.feedback-card');
+            cards.forEach(card => {
+                if (card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        };
+        // Expose to window to be accessible from onclick
+        window.filterFeedback = filterFeedback;
+
+        // --- Carousel Logic (Retained) ---
+        const carouselTrack = document.getElementById('carousel-track');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const sliderWrapper = document.getElementById('slider-wrapper');
+        const totalSlides = slides.length;
+        const transitionDuration = 700;
+        let currentSlide = 0;
+        let isScrolling = false;
+
+        let startX = 0;
+        let startY = 0;
+        const swipeThreshold = 50;
+
+        const prevArrow = document.getElementById('prev-arrow');
+        const nextArrow = document.getElementById('next-arrow');
+
+        const updatePagination = () => {
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            prevArrow.classList.toggle('disabled', currentSlide === 0);
+            nextArrow.classList.toggle('disabled', currentSlide === totalSlides - 1);
+        };
+
+        const goToSlide = (index) => {
+            if (index < 0 || index >= totalSlides) {
+                return;
+            }
+
+            currentSlide = index;
+            const offset = -currentSlide * (100 / totalSlides);
+            carouselTrack.style.transform = `translateX(${offset}%)`;
+
+            updatePagination();
+        };
+
+        const nextSlide = () => {
+            goToSlide(currentSlide + 1);
+        };
+
+        const prevSlide = () => {
+            goToSlide(currentSlide - 1);
+        };
+
+        sliderWrapper.addEventListener('wheel', (event) => {
+            if (isScrolling) return;
+
+            const absX = Math.abs(event.deltaX);
+            const absY = Math.abs(event.deltaY);
+            const HORIZONTAL_INTENT = (absX > absY && absX > 8) || (event.shiftKey && absY > 8);
+
+            if (!HORIZONTAL_INTENT) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const movingNext = event.deltaX > 0 || (event.shiftKey && event.deltaY > 0);
+            if (movingNext) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+
+            isScrolling = true;
+            setTimeout(() => { isScrolling = false; }, transitionDuration);
+        }, { passive: false });
+
+        sliderWrapper.addEventListener('touchstart', (event) => {
+            startX = event.touches[0].clientX;
+            startY = event.touches[0].clientY;
+        });
+
+        sliderWrapper.addEventListener('touchend', (event) => {
+            if (isScrolling) {
+                return;
+            }
+
+            const touchEndX = event.changedTouches[0].clientX;
+            const touchEndY = event.changedTouches[0].clientY;
+
+            const diffX = touchEndX - startX;
+            const diffY = touchEndY - startY;
+
+            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > Math.abs(diffY)) {
+                isScrolling = true;
+
+                if (diffX > 0) {
+                    prevSlide();
+                } else {
+                    nextSlide();
+                }
+
+                setTimeout(() => {
+                    isScrolling = false;
+                }, transitionDuration);
+            }
+        });
+
+        window.goToSlide = goToSlide;
+        window.nextSlide = nextSlide;
+        window.prevSlide = prevSlide;
+
+        window.onload = function () {
+            updatePagination();
+            lucide.createIcons();
+        };
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

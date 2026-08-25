@@ -1,0 +1,25 @@
+<svg viewBox="0 0 300 200" fill="none" class="absolute w-[280px] h-[180px] bottom-16 left-1/2 -ml-[180px] transform -rotate-6 z-10 hidden lg:block">
+  <!-- Define the arrowhead marker -->
+  <defs>
+    <marker
+      id="arrowhead"
+      markerWidth="10"
+      markerHeight="7"
+      refX="8"
+      refY="3.5"
+      orient="auto"
+      fill="#bc1e26">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
+
+  <!-- Path with a smooth S-curve and attached arrowhead -->
+  <path
+    d="M 10 180 C 40 100, 100 180, 140 100 S 210 20, 280 20"
+    stroke="#bc1e26"
+    stroke-dasharray="8 8"
+    stroke-width="2"
+    fill="none"
+    marker-end="url(#arrowhead)"
+  />
+</svg>
