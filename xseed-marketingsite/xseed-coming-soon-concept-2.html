@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XSEED Education | Coming Soon</title>
+  <link rel="icon" type="image/jpeg" href="./xseed-favicon.jpg" />
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -99,6 +100,13 @@
       margin-bottom: clamp(4.5rem, 7vw, 5.6rem);
       animation: riseIn 1.05s var(--ease-luxury) both;
       animation-delay: 220ms;
+    }
+
+    .brand-logo {
+      width: min(76vw, 34rem);
+      margin-inline: auto;
+      display: block;
+      filter: drop-shadow(0 18px 40px rgb(0 0 0 / 0.28));
     }
 
     .brand-title {
@@ -372,12 +380,7 @@
         <div class="flex flex-1 items-center justify-center">
           <div class="hero-stack mx-auto max-w-6xl text-center">
             <div class="brand-lockup">
-              <div class="brand-title">
-                XSEED
-              </div>
-              <p class="brand-tagline">
-                Foundation For Life
-              </p>
+              <img class="brand-logo" src="xseed-whiteline-logo.png" alt="XSEED Foundation For Life">
             </div>
 
             <h1 class="coming-soon-title">
@@ -385,7 +388,7 @@
             </h1>
 
             <!-- <p class="support-copy"> -->
-            <p class="hero-pill inline-block mt-4 px-4 py-1 border border-white/30 rounded-full text-white/80 text-[10px] sm:text-xs md:text-sm lg:text-[0.9rem] font-medium md:font-bold tracking-[0.2em] uppercase">
+            <p class="hero-pill inline-block mt-4 px-4 py-1 border border-white/30 rounded-full text-white/80 text-[10px] sm:text-xs md:text-sm lg:text-[0.9rem] font-medium md:font-semibold tracking-[0.2em] uppercase">
               A new learning experience is on the way.
             </p>
           </div>
