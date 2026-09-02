@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XSEED Method Coming Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-family: "Lato", Arial, Helvetica, sans-serif;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.82);
+      --overlay-left: rgba(7, 30, 58, 0.54);
+      --overlay-mid: rgba(7, 30, 58, 0.16);
+      --panel-bg: rgba(255, 255, 255, 0.94);
+      --panel-text: #10253e;
+      --panel-muted: #556578;
+      --panel-border: rgba(16, 37, 62, 0.12);
+      --button-bg: #12385d;
+      --button-hover: #0d2a46;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: #0d2238;
+      color: var(--text-primary);
+    }
+
+    a,
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: stretch;
+      background-image: linear-gradient(119deg, rgb(7 30 58 / 0%) 0%, rgb(7 30 58 / 0%) 30%, rgb(7 30 58 / 0%) 50%, rgba(7, 30, 58, 0) 67%), url(./background.png);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    .hero__copy {
+      position: absolute;
+      top: 50%;
+      left: 48px;
+      max-width: 520px;
+    }
+
+    .hero__title {
+      margin: 0;
+      font-size: clamp(1.5rem, 5.7vw, 5.75rem);
+      font-weight: 900;
+      line-height: 0.94;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      text-align: left;
+    }
+
+    .hero__subtitle {
+      margin: 22px 0 0;
+      font-size: clamp(0.95rem, 1.55vw, 1.2rem);
+      font-weight: 300;
+      line-height: 1.5;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .hero__link {
+      position: absolute;
+      top: 56px;
+      right: 48px;
+      color: var(--text-primary);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: opacity 0.2s ease;
+    }
+
+    .hero__link:hover,
+    .hero__link:focus-visible {
+      opacity: 0.8;
+    }
+
+    .contact {
+      padding: 72px 24px 88px;
+      background:
+        linear-gradient(180deg, rgba(10, 31, 52, 0.04) 0%, rgba(10, 31, 52, 0.1) 100%),
+        #f2f6fa;
+    }
+
+    .contact__panel {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: 36px;
+      border-radius: 24px;
+      background: var(--panel-bg);
+      color: var(--panel-text);
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 20px 60px rgba(7, 30, 58, 0.08);
+    }
+
+    .contact__title {
+      margin: 0;
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .contact__intro {
+      margin: 14px 0 0;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--panel-muted);
+    }
+
+    .contact__form {
+      margin-top: 28px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .contact__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--panel-text);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--panel-text);
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: 2px solid rgba(18, 56, 93, 0.18);
+      border-color: rgba(18, 56, 93, 0.32);
+    }
+
+    textarea {
+      min-height: 144px;
+      resize: vertical;
+    }
+
+    .contact__submit {
+      justify-self: start;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 24px;
+      background: var(--button-bg);
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .contact__submit:hover,
+    .contact__submit:focus-visible {
+      background: var(--button-hover);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        background-position: 62% center;
+      }
+
+      .hero__content {
+        width: 100%;
+      }
+
+      .hero__copy {
+        left: 32px;
+      }
+
+      .hero__link {
+        top: 40px;
+        right: 32px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        background-position: 68% center;
+        background-image:
+          linear-gradient(180deg, rgba(7, 30, 58, 0.62) 0%, rgba(7, 30, 58, 0.28) 48%, rgba(7, 30, 58, 0.1) 100%),
+          url("./background.png");
+      }
+
+      .hero__content {
+        width: 100%;
+      }
+
+      .hero__copy {
+        left: 20px;
+      }
+
+      .hero__title {
+        letter-spacing: 0.03em;
+      }
+
+      .hero__subtitle,
+      .hero__link {
+        letter-spacing: 0.14em;
+      }
+
+      .hero__link {
+        top: 24px;
+        right: 20px;
+      }
+
+      .contact {
+        padding: 48px 16px 64px;
+      }
+
+      .contact__panel {
+        padding: 24px 20px;
+        border-radius: 20px;
+      }
+
+      .contact__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" aria-label="Coming soon">
+      <div class="hero__content">
+        <div class="hero__copy">
+          <h1 class="hero__title">THE XSEED METHOD<br>IS COMING SOON!</h1>
+          <p class="hero__subtitle">WE ARE IMPROVING OUR WEBSITE</p>
+        </div>
+        <a class="hero__link" href="#contact">CONTACT US</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
