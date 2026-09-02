@@ -14,12 +14,13 @@
       --text-secondary: rgba(255, 255, 255, 0.82);
       --overlay-left: rgba(7, 30, 58, 0.54);
       --overlay-mid: rgba(7, 30, 58, 0.16);
-      --panel-bg: rgba(255, 255, 255, 0.94);
-      --panel-text: #10253e;
-      --panel-muted: #556578;
-      --panel-border: rgba(16, 37, 62, 0.12);
-      --button-bg: #12385d;
-      --button-hover: #0d2a46;
+      --accent: #bc2026;
+      --panel-bg: #ffffff;
+      --panel-text: #2d2626;
+      --panel-muted: #6c5c5d;
+      --panel-border: rgba(188, 32, 38, 0.2);
+      --button-bg: var(--accent);
+      --button-hover: #97191f;
     }
 
     * {
@@ -96,12 +97,16 @@
       position: absolute;
       top: 56px;
       right: 48px;
+      padding: 0;
+      border: 0;
+      background: transparent;
       color: var(--text-primary);
       text-decoration: none;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       font-size: 0.9rem;
       font-weight: 700;
+      cursor: pointer;
       transition: opacity 0.2s ease;
     }
 
@@ -110,22 +115,45 @@
       opacity: 0.8;
     }
 
-    .contact {
-      padding: 72px 24px 88px;
-      background:
-        linear-gradient(180deg, rgba(10, 31, 52, 0.04) 0%, rgba(10, 31, 52, 0.1) 100%),
-        #f2f6fa;
+    .contact-modal {
+      width: min(calc(100% - 48px), 980px);
+      max-height: calc(100vh - 48px);
+      padding: 0;
+      border: 0;
+      border-radius: 28px;
+      background: transparent;
+      overflow: auto;
+      box-shadow: 0 32px 90px rgba(48, 18, 20, 0.3);
     }
 
-    .contact__panel {
-      width: min(100%, 720px);
-      margin: 0 auto;
-      padding: 36px;
-      border-radius: 24px;
-      background: var(--panel-bg);
+    .contact-modal::backdrop {
+      background: rgba(43, 24, 25, 0.62);
+    }
+
+    .contact__content {
+      padding: 0 48px 48px;
+      background: #ffffff;
       color: var(--panel-text);
-      border: 1px solid var(--panel-border);
-      box-shadow: 0 20px 60px rgba(7, 30, 58, 0.08);
+    }
+
+    .contact__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 0 -48px;
+      padding: 28px 48px 0px;
+    }
+
+    .contact__close {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      cursor: pointer;
     }
 
     .contact__title {
@@ -135,19 +163,34 @@
       line-height: 1.05;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      color: var(--accent);
     }
 
-    .contact__intro {
-      margin: 14px 0 0;
+    .contact__description {
+      margin: 28px 0 0;
       font-size: 1rem;
-      line-height: 1.65;
+      line-height: 1.75;
       color: var(--panel-muted);
     }
 
+    .contact__description + .contact__description {
+      margin-top: 18px;
+    }
+
+    .contact__description a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
     .contact__form {
-      margin-top: 28px;
+      margin-top: 42px;
+      padding: 36px;
       display: grid;
       gap: 18px;
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      background: #fffafa;
+      box-shadow: 0 16px 40px rgba(68, 30, 31, 0.08);
     }
 
     .contact__grid {
@@ -168,28 +211,49 @@
     textarea {
       width: 100%;
       border: 1px solid var(--panel-border);
-      border-radius: 14px;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.92);
+      border-radius: 12px;
+      padding: 13px 15px;
+      background: #ffffff;
       color: var(--panel-text);
     }
 
     input:focus,
     textarea:focus {
-      outline: 2px solid rgba(18, 56, 93, 0.18);
-      border-color: rgba(18, 56, 93, 0.32);
+      outline: 2px solid rgba(188, 32, 38, 0.16);
+      border-color: rgba(188, 32, 38, 0.52);
     }
 
     textarea {
-      min-height: 144px;
+      min-height: 112px;
       resize: vertical;
+    }
+
+    .phone-field {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .phone-field span {
+      display: grid;
+      place-items: center;
+      min-width: 54px;
+      border: 1px solid var(--panel-border);
+      border-right: 0;
+      border-radius: 12px 0 0 12px;
+      background: #fdf4f4;
+      color: var(--panel-muted);
+      font-weight: 700;
+    }
+
+    .phone-field input {
+      border-radius: 0 12px 12px 0;
     }
 
     .contact__submit {
       justify-self: start;
       border: 0;
       border-radius: 999px;
-      padding: 14px 24px;
+      padding: 15px 28px;
       background: var(--button-bg);
       color: #ffffff;
       font-size: 0.9rem;
@@ -254,13 +318,23 @@
         right: 20px;
       }
 
-      .contact {
-        padding: 48px 16px 64px;
+      .contact-modal {
+        width: min(calc(100% - 32px), 980px);
+        max-height: calc(100vh - 32px);
+        border-radius: 22px;
       }
 
-      .contact__panel {
+      .contact__content {
+        padding: 0 20px 28px;
+      }
+
+      .contact__header {
+        margin: 0 -20px;
+        padding: 22px 20px 18px;
+      }
+
+      .contact__form {
         padding: 24px 20px;
-        border-radius: 20px;
       }
 
       .contact__grid {
@@ -277,9 +351,63 @@
           <h1 class="hero__title">THE XSEED METHOD<br>IS COMING SOON!</h1>
           <p class="hero__subtitle">WE ARE IMPROVING OUR WEBSITE</p>
         </div>
-        <a class="hero__link" href="#contact">CONTACT US</a>
+        <button class="hero__link" type="button" data-contact-open>CONTACT US</button>
       </div>
     </section>
+
+    <dialog class="contact-modal" id="contact" aria-labelledby="contact-title">
+      <div class="contact__content">
+        <div class="contact__header">
+          <h2 class="contact__title" id="contact-title">Contact Us</h2>
+          <button class="contact__close" type="button" data-contact-close>Close</button>
+        </div>
+        <p class="contact__description">
+          The XSEED Method is a proven and research based learning teaching methodology that builds thinking skills and problem solving confidence in children. XSEED children ask more questions, can write in their own words, like doing word problems in mathematics, can complete their homework on their own, are not afraid to speak up in English, persist longer in solving problems, and score well on tests. Headquartered in Singapore, XSEED has reached two million children and upskilled and certified over 100,000 teachers in several regions including South Asia, South-East Asia, the Middle East, and Central Asia.
+        </p>
+        <p class="contact__description">
+          Several different programs, for schools or at home learning, utilize the XSEED Method. They align with most major standards, International including US Common Core, Cambridge, Singapore, PH Dep. Ed, and Indian standards including CBSE, ICSE, and State-specific.
+        </p>
+        <p class="contact__description">
+          To know more, you may email us at <a href="mailto:contact@xseededucation.com">contact@xseededucation.com</a> or WhatsApp <a href="https://wa.me/6567320164">+65 6732 0164 (International)</a> or <a href="https://wa.me/919560300571">+91 95603 00571 (India)</a>. Or simply fill the form below.
+        </p>
+
+        <form class="contact__form">
+          <div class="contact__grid">
+            <label>
+              Name
+              <input name="name" type="text" autocomplete="name" required>
+            </label>
+            <label>
+              Mobile number
+              <span class="phone-field">
+                <span aria-hidden="true">+91</span>
+                <input name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="Mobile number" required>
+              </span>
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" autocomplete="email" required>
+            </label>
+            <label>
+              Your interest
+              <input name="interest" type="text" placeholder="Tell us what you are interested in" required>
+            </label>
+          </div>
+          <button class="contact__submit" type="submit">Submit</button>
+        </form>
+      </div>
+    </dialog>
   </main>
+  <script>
+    const contactDialog = document.querySelector("#contact");
+    const openContactButton = document.querySelector("[data-contact-open]");
+    const closeContactButton = document.querySelector("[data-contact-close]");
+
+    openContactButton.addEventListener("click", () => contactDialog.showModal());
+    closeContactButton.addEventListener("click", () => contactDialog.close());
+    contactDialog.addEventListener("click", (event) => {
+      if (event.target === contactDialog) contactDialog.close();
+    });
+  </script>
 </body>
 </html>
