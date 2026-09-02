@@ -19,6 +19,7 @@
       --panel-text: #2d2626;
       --panel-muted: #6c5c5d;
       --panel-border: rgba(188, 32, 38, 0.2);
+      --field-border: #d9d9d9;
       --button-bg: var(--accent);
       --button-hover: #97191f;
     }
@@ -41,7 +42,8 @@
     a,
     button,
     input,
-    textarea {
+    textarea,
+    select {
       font: inherit;
     }
 
@@ -51,7 +53,7 @@
       width: 100%;
       display: flex;
       align-items: stretch;
-      background-image: linear-gradient(119deg, rgb(7 30 58 / 0%) 0%, rgb(7 30 58 / 0%) 30%, rgb(7 30 58 / 0%) 50%, rgba(7, 30, 58, 0) 67%), url(./background-v1.png);
+      background-image: linear-gradient(119deg, rgb(7 30 58 / 0%) 0%, rgb(7 30 58 / 0%) 30%, rgb(7 30 58 / 0%) 50%, rgba(7, 30, 58, 0) 67%), url(./background-v4.png);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -86,7 +88,7 @@
     .hero__subtitle {
       margin: 22px 0 0;
       font-size: clamp(0.95rem, 1.55vw, 1.2rem);
-      font-weight: 300;
+      font-weight: 600;
       line-height: 1.5;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -123,7 +125,14 @@
       border-radius: 28px;
       background: transparent;
       overflow: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
       box-shadow: 0 32px 90px rgba(48, 18, 20, 0.3);
+    }
+
+    .contact-modal::-webkit-scrollbar {
+      width: 0;
+      height: 0;
     }
 
     .contact-modal::backdrop {
@@ -137,23 +146,55 @@
     }
 
     .contact__header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 24px;
       margin: 0 -48px;
-      padding: 28px 48px 0px;
+      padding: 22px 42px 0px;
     }
 
     .contact__close {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
       padding: 0;
-      border: 0;
-      background: transparent;
+      border: 1px solid rgba(188, 32, 38, 0.16);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7efef 100%);
       color: var(--accent);
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
       cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .contact__close:hover,
+    .contact__close:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(188, 32, 38, 0.3);
+      box-shadow: 0 12px 24px rgba(68, 30, 31, 0.12);
+    }
+
+    .contact__close::before,
+    .contact__close::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .contact__close::before {
+      transform: rotate(45deg);
+    }
+
+    .contact__close::after {
+      transform: rotate(-45deg);
     }
 
     .contact__title {
@@ -163,18 +204,13 @@
       line-height: 1.05;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: #000000;
     }
 
     .contact__description {
-      margin: 28px 0 0;
       font-size: 1rem;
       line-height: 1.75;
       color: var(--panel-muted);
-    }
-
-    .contact__description + .contact__description {
-      margin-top: 18px;
     }
 
     .contact__description a {
@@ -183,26 +219,34 @@
     }
 
     .contact__form {
-      margin-top: 42px;
-      padding: 36px;
+      margin-top: 34px;
+      padding: 28px 30px 20px;
       display: grid;
-      gap: 18px;
-      border: 1px solid var(--panel-border);
+      gap: 12px;
+      border: 0;
       border-radius: 18px;
-      background: #fffafa;
-      box-shadow: 0 16px 40px rgba(68, 30, 31, 0.08);
+      background: #ffffff;
+      box-shadow:
+        0 18px 46px rgba(21, 24, 39, 0.08),
+        0 3px 8px rgba(21, 24, 39, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.92);
     }
 
     .contact__grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+      gap: 16px;
+    }
+
+    .contact__email,
+    .contact__interest {
+      grid-column: 1 / -1;
     }
 
     label {
       display: grid;
-      gap: 8px;
-      font-size: 0.92rem;
+      gap: 7px;
+      font-size: 0.86rem;
       font-weight: 700;
       color: var(--panel-text);
     }
@@ -210,53 +254,90 @@
     input,
     textarea {
       width: 100%;
-      border: 1px solid var(--panel-border);
-      border-radius: 12px;
-      padding: 13px 15px;
-      background: #ffffff;
+      min-height: 58px;
+      border: 1px solid var(--field-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: #fcfcfc;
       color: var(--panel-text);
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #aaaaaa;
+      font-size: 0.84rem;
+      font-weight: 400;
+      opacity: 1;
     }
 
     input:focus,
-    textarea:focus {
+    textarea:focus,
+    .phone-field select:focus {
       outline: 2px solid rgba(188, 32, 38, 0.16);
       border-color: rgba(188, 32, 38, 0.52);
+      background: #ffffff;
     }
 
     textarea {
-      min-height: 112px;
+      min-height: 120px;
+      line-height: 1.45;
       resize: vertical;
     }
 
     .phone-field {
-      display: flex;
-      align-items: stretch;
+      position: relative;
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      border-radius: 10px;
     }
 
-    .phone-field span {
-      display: grid;
-      place-items: center;
-      min-width: 54px;
-      border: 1px solid var(--panel-border);
+    .phone-field:focus-within {
+      outline: 2px solid rgba(188, 32, 38, 0.16);
+    }
+
+    .phone-field:focus-within select,
+    .phone-field:focus-within input {
+      border-color: rgba(188, 32, 38, 0.52);
+      background: #ffffff;
+    }
+
+    .phone-field select:focus,
+    .phone-field input:focus {
+      outline: 0;
+    }
+
+    .phone-field select {
+      min-width: 0;
+      min-height: 58px;
+      border: 1px solid var(--field-border);
       border-right: 0;
-      border-radius: 12px 0 0 12px;
-      background: #fdf4f4;
+      border-radius: 10px 0 0 10px;
+      background: #f8f8f8;
       color: var(--panel-muted);
       font-weight: 700;
+      padding: 0 26px 0 10px;
+    }
+
+    .phone-field select:focus {
+      position: relative;
+      z-index: 1;
+      border-right: 1px solid rgba(188, 32, 38, 0.52);
     }
 
     .phone-field input {
-      border-radius: 0 12px 12px 0;
+      min-width: 0;
+      border-radius: 0 10px 10px 0;
     }
 
     .contact__submit {
-      justify-self: start;
+      justify-self: end;
       border: 0;
       border-radius: 999px;
-      padding: 15px 28px;
+      padding: 13px 24px;
       background: var(--button-bg);
       color: #ffffff;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 900;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -293,7 +374,7 @@
         background-position: 68% center;
         background-image:
           linear-gradient(180deg, rgba(7, 30, 58, 0.62) 0%, rgba(7, 30, 58, 0.28) 48%, rgba(7, 30, 58, 0.1) 100%),
-          url("./background.png");
+          url("./background-v4.png");
       }
 
       .hero__content {
@@ -334,7 +415,7 @@
       }
 
       .contact__form {
-        padding: 24px 20px;
+        padding: 22px 20px 18px;
       }
 
       .contact__grid {
@@ -359,7 +440,7 @@
       <div class="contact__content">
         <div class="contact__header">
           <h2 class="contact__title" id="contact-title">Contact Us</h2>
-          <button class="contact__close" type="button" data-contact-close>Close</button>
+          <button class="contact__close" type="button" data-contact-close aria-label="Close contact form"></button>
         </div>
         <p class="contact__description">
           The XSEED Method is a proven and research based learning teaching methodology that builds thinking skills and problem solving confidence in children. XSEED children ask more questions, can write in their own words, like doing word problems in mathematics, can complete their homework on their own, are not afraid to speak up in English, persist longer in solving problems, and score well on tests. Headquartered in Singapore, XSEED has reached two million children and upskilled and certified over 100,000 teachers in several regions including South Asia, South-East Asia, the Middle East, and Central Asia.
@@ -375,22 +456,28 @@
           <div class="contact__grid">
             <label>
               Name
-              <input name="name" type="text" autocomplete="name" required>
+              <input name="name" type="text" autocomplete="name" placeholder="Enter your name" minlength="2" maxlength="100" required>
             </label>
             <label>
               Mobile number
               <span class="phone-field">
-                <span aria-hidden="true">+91</span>
-                <input name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="Mobile number" required>
+                <select name="country-code" aria-label="Country code">
+                  <option value="+91" selected>+91</option>
+                  <option value="+65">+65</option>
+                  <option value="+1">+1</option>
+                  <option value="+44">+44</option>
+                  <option value="+971">+971</option>
+                </select>
+                <input name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="Mobile number" pattern="[0-9 ()-]{7,20}" title="Enter your mobile number" required>
               </span>
             </label>
-            <label>
+            <label class="contact__email">
               Email
-              <input name="email" type="email" autocomplete="email" required>
+              <input name="email" type="email" autocomplete="email" placeholder="Enter your email" maxlength="254" required>
             </label>
-            <label>
+            <label class="contact__interest">
               Your interest
-              <input name="interest" type="text" placeholder="Tell us what you are interested in" required>
+              <textarea name="interest" placeholder="Tell us what you are interested in" minlength="10" maxlength="1000" required></textarea>
             </label>
           </div>
           <button class="contact__submit" type="submit">Submit</button>
@@ -398,15 +485,70 @@
       </div>
     </dialog>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.13.12/bundle/libphonenumber-max.js"></script>
   <script>
     const contactDialog = document.querySelector("#contact");
     const openContactButton = document.querySelector("[data-contact-open]");
     const closeContactButton = document.querySelector("[data-contact-close]");
+    const contactForm = document.querySelector(".contact__form");
+    const nameInput = contactForm.elements.name;
+    const mobileInput = contactForm.elements.mobile;
+    const countryCodeSelect = contactForm.elements["country-code"];
+    const emailInput = contactForm.elements.email;
+    const interestInput = contactForm.elements.interest;
+
+    function validateName() {
+      const isTooShort = nameInput.value && nameInput.value.trim().length < 2;
+      nameInput.setCustomValidity(isTooShort ? "Enter at least 2 characters for your name." : "");
+    }
+
+    function validateMobileNumber() {
+      const localNumber = mobileInput.value.replace(/\D/g, "");
+
+      if (!localNumber || !window.libphonenumber) {
+        mobileInput.setCustomValidity("");
+        return;
+      }
+
+      const phoneNumber = window.libphonenumber.parsePhoneNumberFromString(
+        `${countryCodeSelect.value}${localNumber}`
+      );
+      const isValid = phoneNumber && phoneNumber.isValid();
+      mobileInput.setCustomValidity(
+        isValid ? "" : "Enter a valid mobile number for the selected country code."
+      );
+    }
+
+    function validateEmail() {
+      emailInput.setCustomValidity("");
+      if (emailInput.value && emailInput.validity.typeMismatch) {
+        emailInput.setCustomValidity("Enter a valid email address.");
+      }
+    }
+
+    function validateInterest() {
+      const isTooShort = interestInput.value && interestInput.value.trim().length < 10;
+      interestInput.setCustomValidity(
+        isTooShort ? "Please enter at least 10 characters." : ""
+      );
+    }
 
     openContactButton.addEventListener("click", () => contactDialog.showModal());
     closeContactButton.addEventListener("click", () => contactDialog.close());
     contactDialog.addEventListener("click", (event) => {
       if (event.target === contactDialog) contactDialog.close();
+    });
+
+    nameInput.addEventListener("input", validateName);
+    mobileInput.addEventListener("input", validateMobileNumber);
+    countryCodeSelect.addEventListener("change", validateMobileNumber);
+    emailInput.addEventListener("input", validateEmail);
+    interestInput.addEventListener("input", validateInterest);
+    contactForm.addEventListener("submit", () => {
+      validateName();
+      validateMobileNumber();
+      validateEmail();
+      validateInterest();
     });
   </script>
 </body>
