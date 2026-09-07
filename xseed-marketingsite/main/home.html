@@ -2083,6 +2083,8 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="assets/hero-video-modal.css">
+  <script src="assets/hero-video-modal.js" defer></script>
 </head>
 
 <body>
@@ -2169,9 +2171,9 @@
             alt="XSEED classroom video preview">
         </div>
         <button id="hero-video-play" type="button" aria-label="Play XSEED classroom video"><span>PLAY</span></button>
-        <video id="hero-video-player" controls playsinline preload="none" hidden aria-label="XSEED classroom video"
+        <video id="hero-video-player" poster="assets/xseed-story.png" controls playsinline preload="none" hidden aria-label="XSEED classroom video"
           tabindex="0">
-          <source src="Children_learning_robotics.mp4" type="video/mp4">
+          <source src="Children_learning_robotics1.mp4" type="video/mp4">
         </video>
       </div>
     </section>
@@ -2424,17 +2426,7 @@
       };
       window.addEventListener('scroll', syncHeader, { passive: true }); syncHeader();
 
-      const heroVideoPlay = document.getElementById('hero-video-play');
-      const heroVideoPlayer = document.getElementById('hero-video-player');
-      heroVideoPlay?.addEventListener('click', () => {
-        document.getElementById('hero-video-thumbnail-wrapper').hidden = true;
-        heroVideoPlay.hidden = true;
-        heroVideoPlayer.hidden = false;
-        heroVideoPlayer.focus();
-        heroVideoPlayer.play().catch(() => {
-          // Native controls remain available if automatic playback is blocked.
-        });
-      });
+
 
       // Keep semantic headings intact while giving each original line a reveal mask.
       document.querySelectorAll('main > section h2').forEach(heading => {
