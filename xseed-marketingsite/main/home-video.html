@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XSEED Education: XSEED Builds Fearless Thinkers</title>
+  <meta name="description" content="XSEED Builds Fearless Thinkers.">
+  <meta name="theme-color" content="#f8f3ea">
+  <!-- DEPLOY STEP -->
+  <meta property="og:title" content="XSEED Education: XSEED Builds Fearless Thinkers">
+  <meta property="og:description" content="Curious. Capable. Independent.">
+  <meta property="og:image" content="../assets/homebanner.png">
+  <meta property="og:url" content="https://xseededucation.com/">
+  <!-- END DEPLOY STEP -->
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23b3283a'/%3E%3Ctext x='50' y='66' font-size='56' font-family='Georgia,serif' fill='%23fff8f0' text-anchor='middle'%3EX%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,650&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --canvas: #f8f3ea;
+      --canvas-2: #f2eadf;
+      --canvas-3: #fffdf8;
+      --ink: #1f1a16;
+      --ink-soft: #655c51;
+      --ink-faint: #9f9387;
+      --line: rgba(31, 26, 22, .08);
+      --panel: rgba(255, 255, 255, .78);
+      --dusk: #1a1721;
+      --dusk-soft: #bdb6ac;
+      --brand: #b3283a;
+      --brand-2: #dd8263;
+      --gold: #d7ab58;
+      --shadow: 0 30px 80px -40px rgba(34, 24, 18, .28);
+      --shadow-soft: 0 16px 40px -28px rgba(34, 24, 18, .22);
+      --ease: cubic-bezier(.22, .68, .2, 1);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --nav-h: 188px;
+      --nav-h-scrolled: 98px;
+      --logo-h: 10rem;
+      --logo-h-scrolled: 5rem;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    html,
+    body {
+      margin: 0;
+      overflow-x: clip;
+      background: var(--canvas);
+      color: var(--ink)
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 500;
+      letter-spacing: -.03em
+    }
+
+    p {
+      margin: 0
+    }
+
+    img {
+      display: block;
+      max-width: 100%
+    }
+
+    a {
+      color: inherit
+    }
+
+    button {
+      font: inherit
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--brand);
+      outline-offset: 3px
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 0;
+      z-index: 100;
+      background: var(--brand);
+      color: #fff;
+      padding: .9rem 1.15rem;
+      border-radius: 0 0 12px 0
+    }
+
+    .skip-link:focus {
+      left: 0
+    }
+
+    .wrap {
+      width: min(1240px, calc(100% - 40px));
+      margin: 0 auto
+    }
+
+    .section {
+      position: relative;
+      padding: clamp(72px, 9vw, 132px) 0
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .76rem;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--brand)
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 1px;
+      background: currentColor;
+      opacity: .55
+    }
+
+    .lede {
+      color: var(--ink-soft);
+      font-size: clamp(1rem, 1.3vw, 1.08rem);
+      line-height: 1.72
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: .95rem 1.45rem;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      background: var(--brand);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease)
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #971f31;
+      box-shadow: 0 16px 30px -18px rgba(179, 40, 58, .45)
+    }
+
+    .btn--soft {
+      background: transparent;
+      color: var(--brand);
+      border: 1px solid rgba(179, 40, 58, .18)
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px)
+    }
+
+    .reveal.is-in {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity .85s var(--ease), transform .85s var(--ease)
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      transition: background .45s var(--ease), border-color .45s var(--ease), box-shadow .45s var(--ease), padding .45s var(--ease)
+    }
+
+    .nav.is-solid {
+      background: rgba(248, 243, 234, .82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(31, 26, 22, .07);
+      box-shadow: 0 1px 0 rgba(31, 26, 22, .03)
+    }
+
+    .nav__inner {
+      width: min(1450px, calc(100% - 32px));
+      height: var(--nav-h);
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 12px;
+      transition: height .45s var(--ease), gap .45s var(--ease), width .45s var(--ease), padding-top .45s var(--ease), align-items .45s var(--ease)
+    }
+
+    .nav__brand {
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+      transition: transform .45s var(--ease)
+    }
+
+    .nav__brand img {
+      height: var(--logo-h);
+      width: auto;
+      transition: height .45s var(--ease), filter .45s var(--ease)
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+      transition: gap .45s var(--ease), margin-top .45s var(--ease)
+    }
+
+    .nav__links a {
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 600;
+      color: rgba(31, 26, 22, .82);
+      transition: color .25s var(--ease), transform .45s var(--ease), font-size .45s var(--ease)
+    }
+
+    .nav__links a:hover,
+    .nav__links a.is-active {
+      color: var(--brand)
+    }
+
+    .nav__menu {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .72);
+      align-items: center;
+      justify-content: center;
+      color: var(--ink)
+    }
+
+    .nav.is-solid .nav__inner {
+      height: var(--nav-h-scrolled);
+      gap: 20px;
+      padding-top: 0;
+      align-items: center
+    }
+
+    .nav.is-solid .nav__brand img {
+      height: var(--logo-h-scrolled)
+    }
+
+    .nav.is-solid .nav__links {
+      gap: 24px;
+      margin-top: 0
+    }
+
+    .nav.is-solid .nav__links a {
+      font-size: .82rem
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      padding: calc(var(--nav-h) + 28px) 0 28px;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      isolation: isolate
+    }
+
+    .hero__bg,
+    .hero__bg::after {
+      position: absolute;
+      inset: 0
+    }
+
+    .hero__bg {
+      z-index: -3;
+      overflow: hidden;
+      background: #d7c1a0
+    }
+
+    .hero__bg video {
+      position: absolute;
+      inset: -4%;
+      width: calc(100% + 8%);
+      height: calc(100% + 8%);
+      object-fit: cover;
+      object-position: center 32%;
+      animation: heroDrift 28s ease-in-out infinite alternate
+    }
+
+    .hero__bg::after {
+      /* content:""; */
+    }
+
+
+    @keyframes heroDrift {
+      from {
+        transform: scale(1.03) translate3d(0, 0, 0)
+      }
+
+      to {
+        transform: scale(1.08) translate3d(-1.2%, -1.8%, 0)
+      }
+    }
+
+    .hero__dust {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 14% 22%, rgba(255, 255, 255, .34) 0 2px, transparent 3px),
+        radial-gradient(circle at 74% 34%, rgba(255, 255, 255, .26) 0 2px, transparent 3px),
+        radial-gradient(circle at 66% 18%, rgba(255, 255, 255, .22) 0 1px, transparent 2px),
+        radial-gradient(circle at 18% 64%, rgba(255, 255, 255, .14) 0 2px, transparent 3px);
+      animation: dustFloat 32s linear infinite
+    }
+
+    @keyframes dustFloat {
+      from {
+        transform: translateY(0)
+      }
+
+      to {
+        transform: translateY(-28px)
+      }
+    }
+
+    .hero__inner {
+      width: min(1450px, calc(100% - 40px));
+      margin: auto auto auto auto;
+      display: grid;
+      grid-template-columns: minmax(0, 520px) 1fr;
+      gap: 40px;
+      align-items: end
+    }
+
+    .hero__copy {
+      padding: 0 0 clamp(36px, 7vw, 72px)
+    }
+
+    .hero__copy h1 {
+      font-family: inherit;
+      font-size: clamp(3.1rem, 7vw, 6.2rem);
+      line-height: 1.08;
+      font-weight: 700;
+      /* letter-spacing: 0em; */
+      /* max-width: 8ch; */
+    }
+
+    .hero__copy h1 span {
+      display: block
+    }
+
+    .hero__copy h1 .nowrap {
+      white-space: nowrap
+    }
+
+    .hero__copy h1 .accent {
+      color: var(--brand)
+    }
+
+    .hero__copy .lede {
+      margin-top: 26px;
+      max-width: 24ch;
+      color: rgba(31, 26, 22, .84);
+      font-size: clamp(1.04rem, 1.45vw, 1.28rem);
+      font-weight: 900;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 32px
+    }
+
+    .hero__watch {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--ink)
+    }
+
+    .hero__watch-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(179, 40, 58, .24);
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .8);
+      box-shadow: var(--shadow-soft);
+      color: var(--brand)
+    }
+
+    .hero__scroll {
+      position: absolute;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #fff7f0;
+      font-size: .84rem
+    }
+
+    .hero__scroll span:last-child {
+      width: 24px;
+      height: 40px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .6);
+      position: relative
+    }
+
+    .hero__scroll span:last-child::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 7px;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .8);
+      animation: scrollDot 2s ease-in-out infinite
+    }
+
+    @keyframes scrollDot {
+
+      0%,
+      100% {
+        opacity: 1;
+        top: 7px
+      }
+
+      50% {
+        opacity: .28;
+        top: 18px
+      }
+    }
+
+    .experience {
+      background: linear-gradient(180deg, var(--canvas) 0%, var(--canvas-3) 20%, var(--canvas) 100%)
+    }
+
+    .experience__intro {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 56px
+    }
+
+    .experience__intro h2 {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.06;
+      font-weight: 500
+    }
+
+    .experience__intro h2 em {
+      font-style: normal;
+      color: var(--brand)
+    }
+
+    .experience__rail {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      gap: 28px;
+      align-items: start
+    }
+
+    .method-copy {
+      position: relative;
+      padding: 18px 0 18px 18px
+    }
+
+    .method-copy::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(179, 40, 58, .08), rgba(179, 40, 58, .22), rgba(179, 40, 58, .08))
+    }
+
+    .method-timeline {
+      position: sticky;
+      top: calc(var(--nav-h) + 18px);
+      z-index: 2;
+      margin-bottom: 26px;
+      padding: 16px;
+      background: rgba(255, 255, 255, .65);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(31, 26, 22, .06);
+      border-radius: 999px;
+      box-shadow: var(--shadow-soft)
+    }
+
+    .method-timeline__inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .method-timeline__line {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      top: 50%;
+      height: 2px;
+      background: rgba(31, 26, 22, .08);
+      transform: translateY(-50%)
+    }
+
+    .method-timeline__progress {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(90deg, var(--brand), var(--gold));
+      transform: translateY(-50%)
+    }
+
+    .method-dot {
+      position: relative;
+      z-index: 1;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(179, 40, 58, .16);
+      background: #fff;
+      color: var(--ink-faint);
+      display: grid;
+      place-items: center;
+      transition: transform .3s var(--ease), background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease)
+    }
+
+    .method-dot span {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .76rem
+    }
+
+    .method-dot.is-active,
+    .method-dot.is-done {
+      color: #fff;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 14px 24px -18px rgba(179, 40, 58, .48)
+    }
+
+    .method-dot.is-active {
+      transform: scale(1.08)
+    }
+
+    .method-step {
+      min-height: 86vh;
+      display: flex;
+      align-items: center;
+      padding: 38px 0
+    }
+
+    .method-step__card {
+      width: min(520px, 100%);
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, .6);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(31, 26, 22, .06);
+      box-shadow: var(--shadow-soft)
+    }
+
+    .method-step__index {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: .84rem;
+      color: var(--brand);
+      letter-spacing: .06em
+    }
+
+    .method-step__title {
+      margin-top: 12px;
+      font-size: clamp(2rem, 3vw, 2.9rem);
+      line-height: 1
+    }
+
+    .method-step__question {
+      margin-top: 10px;
+      font-size: clamp(1.4rem, 2.2vw, 2rem);
+      line-height: 1.08
+    }
+
+    .method-step__body {
+      margin-top: 18px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+      font-size: 1rem;
+      max-width: 38ch
+    }
+
+    .method-step__cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      padding: .8rem 1rem;
+      border-radius: 999px;
+      background: rgba(179, 40, 58, .08);
+      color: var(--brand);
+      font-weight: 700;
+      font-size: .9rem
+    }
+
+    .method-media {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: #f6efe4;
+      border: 1px solid rgba(31, 26, 22, .06);
+      box-shadow: var(--shadow)
+    }
+
+    .method-media__frame {
+      position: relative;
+      aspect-ratio: 1.18/1
+    }
+
+    .method-media__bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #fffdf8 0%, #f1ebdf 100%)
+    }
+
+    .method-media__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.02);
+      transition: opacity .55s var(--ease), transform .85s var(--ease)
+    }
+
+    .method-media__image.is-active {
+      opacity: 1;
+      transform: scale(1)
+    }
+
+    .method-media__overlay {
+      position: absolute;
+      inset: auto 24px 24px 24px;
+      display: grid;
+      gap: 14px
+    }
+
+    .method-media__meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(31, 26, 22, .06)
+    }
+
+    .method-media__meta strong {
+      display: block;
+      font-size: 1rem
+    }
+
+    .method-media__meta span {
+      display: block;
+      color: var(--ink-soft);
+      font-size: .84rem;
+      margin-top: 4px
+    }
+
+    .method-media__nav {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .method-media__chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: .75rem .9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(31, 26, 22, .08);
+      background: rgba(255, 255, 255, .92);
+      cursor: pointer;
+      transition: transform .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease)
+    }
+
+    .method-media__chip:hover {
+      transform: translateY(-1px);
+      border-color: rgba(179, 40, 58, .22);
+      color: var(--brand)
+    }
+
+    .method-media__path {
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      bottom: 24%;
+      height: 90px;
+      pointer-events: none
+    }
+
+    .method-media__path svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible
+    }
+
+    .method-media__path path {
+      fill: none;
+      stroke: url(#methodGradient);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000
+    }
+
+    .method-media__marker {
+      position: absolute;
+      left: 8%;
+      bottom: 22%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--brand);
+      box-shadow: 0 0 0 8px rgba(179, 40, 58, .12), 0 10px 24px -12px rgba(179, 40, 58, .55);
+      transition: left .6s var(--ease), bottom .6s var(--ease), transform .6s var(--ease)
+    }
+
+    .method-summary {
+      margin-top: 48px;
+      padding: 32px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, .7);
+      border: 1px solid rgba(31, 26, 22, .06);
+      box-shadow: var(--shadow-soft)
+    }
+
+    .method-summary h3 {
+      font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+      text-align: center
+    }
+
+    .method-summary p {
+      margin-top: 8px;
+      text-align: center;
+      color: var(--ink-soft)
+    }
+
+    .method-icons {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 18px
+    }
+
+    .method-icons article {
+      padding: 18px 16px;
+      border-radius: 20px;
+      background: rgba(248, 243, 234, .72);
+      text-align: center
+    }
+
+    .method-icons .icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.8rem;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .92), rgba(255, 255, 255, .15)), var(--icon-bg, #fdeaea)
+    }
+
+    .method-icons h4 {
+      font-size: 1.16rem;
+      color: var(--icon-fg, var(--brand));
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      letter-spacing: -.02em
+    }
+
+    .method-icons p {
+      margin-top: 6px;
+      font-size: .92rem;
+      line-height: 1.55;
+      text-align: center
+    }
+
+    .classroom {
+      background: linear-gradient(180deg, var(--canvas) 0%, var(--canvas-2) 100%)
+    }
+
+    .classroom__grid {
+      display: grid;
+      grid-template-columns: minmax(280px, .76fr) minmax(0, 1.24fr);
+      gap: 28px;
+      align-items: center
+    }
+
+    .classroom__copy h2 {
+      margin-top: 12px;
+      font-size: clamp(2rem, 3.4vw, 3rem);
+      line-height: 1.03
+    }
+
+    .classroom__copy .lede {
+      margin-top: 18px;
+      max-width: 32ch
+    }
+
+    .classroom__player {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #0f0e13;
+      color: #fff
+    }
+
+    .classroom__player img {
+      width: 100%;
+      aspect-ratio: 1.42/1;
+      object-fit: cover
+    }
+
+    .classroom__scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 11, 15, .08), rgba(12, 11, 15, .22) 40%, rgba(12, 11, 15, .54) 100%)
+    }
+
+    .classroom__play {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(179, 40, 58, .9);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 50px -24px rgba(0, 0, 0, .6)
+    }
+
+    .classroom__caption {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      display: grid;
+      gap: 14px
+    }
+
+    .classroom__badge {
+      width: fit-content;
+      padding: .55rem .85rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .14);
+      border: 1px solid rgba(255, 255, 255, .24);
+      backdrop-filter: blur(10px);
+      font-size: .82rem
+    }
+
+    .classroom__chapters {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px
+    }
+
+    .classroom__chapter {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .94);
+      color: var(--ink);
+      font-size: .84rem
+    }
+
+    .classroom__chapter strong {
+      display: block;
+      color: var(--brand);
+      font-size: .74rem;
+      font-family: "IBM Plex Mono", monospace
+    }
+
+    .founder {
+      background: linear-gradient(180deg, #f7f0e5 0%, #fdfbf6 26%, #1a1721 26%, #1a1721 100%);
+      color: #fff
+    }
+
+    .founder__panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      padding: clamp(28px, 4vw, 44px);
+      background: linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03));
+      border: 1px solid rgba(255, 255, 255, .09);
+      box-shadow: 0 26px 70px -38px rgba(0, 0, 0, .5)
+    }
+
+    .founder__panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(215, 171, 88, .16), transparent 34%),
+        radial-gradient(circle at 85% 80%, rgba(179, 40, 58, .18), transparent 32%);
+      pointer-events: none
+    }
+
+    .founder__grid {
+      display: grid;
+      grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr);
+      gap: 32px;
+      align-items: center
+    }
+
+    .founder__portrait {
+      position: relative;
+      min-height: 420px;
+      border-radius: 26px;
+      overflow: hidden;
+      background:
+        linear-gradient(160deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .03)),
+        radial-gradient(circle at 45% 28%, rgba(255, 255, 255, .18), transparent 26%),
+        linear-gradient(180deg, #302a39 0%, #1d1926 100%)
+    }
+
+    .founder__portrait::before {
+      content: "AR";
+      position: absolute;
+      left: 28px;
+      bottom: 28px;
+      font-family: "Fraunces", serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: rgba(255, 255, 255, .14)
+    }
+
+    .founder__portrait::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("assets/unafraid-child.jpg") center 18%/cover no-repeat;
+      mix-blend-mode: screen;
+      opacity: .2;
+      filter: saturate(.7) contrast(1.02)
+    }
+
+    .founder__copy .eyebrow {
+      color: #f1c27d
+    }
+
+    .founder__copy h2 {
+      margin-top: 12px;
+      font-size: clamp(2rem, 3.2vw, 2.9rem);
+      line-height: 1.03
+    }
+
+    .founder__quote {
+      margin-top: 18px;
+      font-size: clamp(1.42rem, 2.4vw, 2.2rem);
+      line-height: 1.22;
+      max-width: 18ch;
+      font-family: "Fraunces", serif
+    }
+
+    .founder__byline {
+      margin-top: 20px;
+      color: var(--dusk-soft);
+      line-height: 1.7
+    }
+
+    .audio {
+      margin-top: 28px;
+      padding: 18px 18px 14px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .09)
+    }
+
+    .audio__top {
+      display: flex;
+      align-items: center;
+      gap: 16px
+    }
+
+    .audio__button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 1px solid rgba(241, 194, 125, .3);
+      background: rgba(241, 194, 125, .08);
+      color: #f1c27d;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto
+    }
+
+    .audio__meta strong {
+      display: block
+    }
+
+    .audio__meta span {
+      display: block;
+      margin-top: 4px;
+      color: var(--dusk-soft);
+      font-size: .9rem
+    }
+
+    .audio__track {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      display: grid;
+      gap: 10px
+    }
+
+    .audio__wave {
+      display: grid;
+      grid-template-columns: repeat(48, 1fr);
+      gap: 4px;
+      align-items: end;
+      height: 58px
+    }
+
+    .audio__wave span {
+      display: block;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(241, 194, 125, .95), rgba(179, 40, 58, .55));
+      height: calc(16px + (var(--h) * 1px));
+      opacity: .86
+    }
+
+    .audio__bar {
+      position: relative;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .14);
+      overflow: hidden
+    }
+
+    .audio__bar::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 38%;
+      background: linear-gradient(90deg, #f1c27d, var(--brand));
+      border-radius: inherit
+    }
+
+    .audio__foot {
+      display: flex;
+      justify-content: space-between;
+      color: var(--dusk-soft);
+      font-size: .82rem
+    }
+
+    .impact__head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 34px
+    }
+
+    .impact__head h2 {
+      margin-top: 12px;
+      font-size: clamp(2rem, 3vw, 2.8rem)
+    }
+
+    .impact__stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px
+    }
+
+    .impact__stat {
+      padding: 26px 18px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .75);
+      border: 1px solid rgba(31, 26, 22, .06);
+      box-shadow: var(--shadow-soft);
+      text-align: center
+    }
+
+    .impact__num {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--brand)
+    }
+
+    .impact__label {
+      margin-top: 8px;
+      color: var(--ink-soft);
+      line-height: 1.55
+    }
+
+    .cta {
+      position: relative;
+      padding: 0 0 40px;
+      background: var(--canvas)
+    }
+
+    .cta__panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      min-height: 460px;
+      box-shadow: var(--shadow)
+    }
+
+    .cta__panel img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%
+    }
+
+    .cta__panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(251, 246, 238, .95) 0%, rgba(251, 246, 238, .74) 40%, rgba(251, 246, 238, .08) 100%)
+    }
+
+    .cta__body {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      padding: clamp(34px, 7vw, 68px)
+    }
+
+    .cta__body h2 {
+      font-size: clamp(2.6rem, 5vw, 4.5rem);
+      line-height: .96
+    }
+
+    .cta__body h2 .accent {
+      color: var(--brand)
+    }
+
+    .cta__body .lede {
+      margin-top: 18px;
+      max-width: 34ch
+    }
+
+    .footer {
+      background: #fbf7f0;
+      padding: 30px 0 46px
+    }
+
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 1.5fr repeat(4, 1fr) 1.25fr;
+      gap: 24px;
+      align-items: start
+    }
+
+    .footer__brand img {
+      height: 44px
+    }
+
+    .footer__brand p {
+      margin-top: 14px;
+      color: var(--ink-soft);
+      max-width: 30ch;
+      line-height: 1.72;
+      font-size: .92rem
+    }
+
+    .footer__col h3 {
+      font-family: "Inter", sans-serif;
+      font-size: .88rem;
+      font-weight: 800;
+      letter-spacing: .02em;
+      margin-bottom: 12px
+    }
+
+    .footer__col a,
+    .footer__col p {
+      display: block;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: .9rem;
+      line-height: 1.9
+    }
+
+    .footer__col a:hover {
+      color: var(--brand)
+    }
+
+    .footer__subscribe {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 6px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .footer__subscribe input {
+      border: 0;
+      background: transparent;
+      min-width: 0;
+      flex: 1;
+      padding: 0 10px;
+      color: var(--ink);
+      outline: none
+    }
+
+    .footer__subscribe button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--brand);
+      color: #fff;
+      display: grid;
+      place-items: center
+    }
+
+    .footer__base {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(31, 26, 22, .08);
+      color: var(--ink-faint);
+      font-size: .85rem
+    }
+
+    @media (max-width: 1080px) {
+      .hero__inner {
+        grid-template-columns: 1fr
+      }
+
+      .hero__copy {
+        max-width: 680px
+      }
+
+      .experience__rail,
+      .classroom__grid,
+      .founder__grid,
+      .footer__grid {
+        grid-template-columns: 1fr
+      }
+
+      .method-media {
+        order: -1;
+        top: calc(var(--nav-h) + 12px)
+      }
+
+      .impact__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+    }
+
+    @media (max-width: 860px) {
+      :root {
+        --nav-h: 88px;
+        --nav-h-scrolled: 74px;
+        --logo-h: 4.25rem;
+        --logo-h-scrolled: 3.5rem;
+      }
+
+      .nav__menu {
+        display: grid
+      }
+
+      .nav__links {
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        top: calc(var(--nav-h) - 4px);
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+        background: rgba(251, 247, 240, .96);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(31, 26, 22, .08);
+        border-radius: 22px;
+        box-shadow: var(--shadow-soft);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity .25s var(--ease), transform .25s var(--ease)
+      }
+
+      .nav__links.is-open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0)
+      }
+
+      .nav__links li:last-child {
+        margin-top: 4px
+      }
+
+      .nav.is-solid .nav__links {
+        gap: 12px
+      }
+
+      .nav__inner {
+        align-items: center;
+        padding-top: 0
+      }
+
+      .nav__links {
+        margin-top: 0
+      }
+
+      .method-timeline {
+        position: relative;
+        top: auto;
+        overflow: auto;
+        padding: 12px 14px;
+        border-radius: 20px
+      }
+
+      .method-timeline__inner {
+        width: max-content;
+        min-width: 100%
+      }
+
+      .method-copy {
+        padding-left: 0
+      }
+
+      .method-copy::before {
+        display: none
+      }
+
+      .method-step {
+        min-height: auto;
+        padding: 16px 0
+      }
+
+      .method-step__card {
+        width: 100%
+      }
+
+      .method-media {
+        position: relative;
+        top: auto
+      }
+
+      .method-icons {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .classroom__chapters {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: min(100%, calc(100% - 24px))
+      }
+
+      .section {
+        padding: 56px 0
+      }
+
+      .hero {
+        padding-top: calc(var(--nav-h) + 18px)
+      }
+
+      .hero__copy h1 {
+        font-size: clamp(2.6rem, 14vw, 4rem)
+      }
+
+      .hero__scroll {
+        display: none
+      }
+
+      .method-icons,
+      .impact__stats,
+      .classroom__chapters {
+        grid-template-columns: 1fr
+      }
+
+      .classroom__play {
+        width: 72px;
+        height: 72px
+      }
+
+      .footer__base {
+        font-size: .8rem
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important
+      }
+
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important
+      }
+
+      .method-media__image {
+        opacity: 0 !important
+      }
+
+      .method-media__image.is-active {
+        opacity: 1 !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <nav class="nav" id="siteNav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="#main" aria-label="XSEED Education home">
+        <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+      </a>
+      <button class="nav__menu" id="navMenu" aria-expanded="false" aria-controls="navLinks"
+        aria-label="Toggle navigation">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#why">Why XSEED</a></li>
+        <!-- <li><a href="#method">XSEED Method</a></li> -->
+        <!-- <li><a href="#classroom">Real Stories</a></li> -->
+        <!-- <li><a href="#impact">Schools</a></li> -->
+        <li><a href="#impact">Products</a></li>
+        <li><a href="#footer">About Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero" id="why">
+      <div class="hero__bg" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata" poster="../assets/homebanner.png">
+          <!-- <source src="../Children_learning_robotics_outdoors_202608292333.mp4" type="video/mp4"> -->
+          <source src="xseed-homebanner.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero__dust" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <!-- <div class="eyebrow reveal">XSEED Education</div> -->
+          <!-- <h1 class="reveal"><span class="nowrap">XSEED Builds</span><span>Fearless</span><span class="accent">Thinkers.</span></h1>
+          <p class="lede reveal">XSEED Builds Fearless Thinkers.</p> -->
+
+          <h1 class="reveal"><span>XSEED Builds</span><span class="accent">Thinkers.</span></h1>
+          <p class="lede reveal">Curious. Capable. Independent.</p>
+          <div class="hero__actions reveal">
+            <a class="hero__watch" href="#classroom">
+              <span class="hero__watch-mark" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 6.5v11l9-5.5z" />
+                </svg>
+              </span>
+              <span>Watch Real Classroom in Action</span>
+            </a>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      <a class="hero__scroll" href="#method">
+        <span>Scroll to grow an idea</span>
+        <span aria-hidden="true"></span>
+      </a>
+    </header>
+
+    <section class="section experience" id="method">
+      <div class="wrap">
+        <div class="experience__intro reveal">
+          <div class="eyebrow">XSEED Method</div>
+          <h2>Don’t just read about the XSEED METHOD. <em>Experience it.</em></h2>
+        </div>
+
+        <div class="experience__rail">
+          <div class="method-copy">
+            <div class="method-timeline reveal" aria-label="XSEED Method stages">
+              <div class="method-timeline__inner" id="methodTimeline">
+                <div class="method-timeline__line" aria-hidden="true"></div>
+                <div class="method-timeline__progress" id="timelineProgress" aria-hidden="true"></div>
+                <button class="method-dot is-active" data-stage="0" aria-label="Aim"><span>01</span></button>
+                <button class="method-dot" data-stage="1" aria-label="Action"><span>02</span></button>
+                <button class="method-dot" data-stage="2" aria-label="Analysis"><span>03</span></button>
+                <button class="method-dot" data-stage="3" aria-label="Application"><span>04</span></button>
+                <button class="method-dot" data-stage="4" aria-label="Assessment"><span>05</span></button>
+              </div>
+            </div>
+
+            <article class="method-step" data-stage="0" id="stage-aim">
+              <div class="method-step__card reveal">
+                <div class="method-step__index">01 / Aim</div>
+                <h3 class="method-step__title">Aim</h3>
+                <p class="method-step__question">Where are we going?</p>
+                <p class="method-step__body">Every learning journey begins with a clear goal. Students know what they
+                  are trying to understand, build, or solve before the lesson starts moving.</p>
+                <div class="method-step__cue">Set the goal</div>
+              </div>
+            </article>
+
+            <article class="method-step" data-stage="1" id="stage-action">
+              <div class="method-step__card reveal">
+                <div class="method-step__index">02 / Action</div>
+                <h3 class="method-step__title">Action</h3>
+                <p class="method-step__question">Try it with your hands and mind.</p>
+                <p class="method-step__body">Children do the work of learning. They explore materials, test ideas, and
+                  make decisions in the moment instead of only receiving information.</p>
+                <div class="method-step__cue">Learn by doing</div>
+              </div>
+            </article>
+
+            <article class="method-step" data-stage="2" id="stage-analysis">
+              <div class="method-step__card reveal">
+                <div class="method-step__index">03 / Analysis</div>
+                <h3 class="method-step__title">Analysis</h3>
+                <p class="method-step__question">What happened, and why?</p>
+                <p class="method-step__body">Reflection turns activity into understanding. Students discuss what they
+                  observed, compare outcomes, and connect experience to the concept behind it.</p>
+                <div class="method-step__cue">Make meaning</div>
+              </div>
+            </article>
+
+            <article class="method-step" data-stage="3" id="stage-application">
+              <div class="method-step__card reveal">
+                <div class="method-step__index">04 / Application</div>
+                <h3 class="method-step__title">Application</h3>
+                <p class="method-step__question">Now use it somewhere new.</p>
+                <p class="method-step__body">Learning becomes portable when students apply it in a fresh context. They
+                  solve differently, transfer confidently, and prove that the idea now belongs to them.</p>
+                <div class="method-step__cue">Use it beyond the lesson</div>
+              </div>
+            </article>
+
+            <article class="method-step" data-stage="4" id="stage-assessment">
+              <div class="method-step__card reveal">
+                <div class="method-step__index">05 / Assessment</div>
+                <h3 class="method-step__title">Assessment</h3>
+                <p class="method-step__question">Measure progress. Strengthen what comes next.</p>
+                <p class="method-step__body">Assessment is not the end card. It shows how deeply a child understands,
+                  what needs support, and how the next learning move should respond.</p>
+                <div class="method-step__cue">Close the loop</div>
+              </div>
+            </article>
+          </div>
+
+          <aside class="method-media reveal" aria-live="polite">
+            <div class="method-media__frame">
+              <div class="method-media__bg" aria-hidden="true"></div>
+              <img class="method-media__image is-active" data-image="0" src="../assets/section2-aim.png"
+                alt="Aim stage visual with a route leading to a target marker">
+              <img class="method-media__image" data-image="1" src="../assets/section2-Action.png"
+                alt="Action stage visual of children actively engaging with the learning path">
+              <img class="method-media__image" data-image="2" src="../assets/section2-Analysis.png"
+                alt="Analysis stage visual focused on observation and reflection">
+              <img class="method-media__image" data-image="3" src="../assets/section2-Application.png"
+                alt="Application stage visual showing transfer to a new situation">
+              <img class="method-media__image" data-image="4" src="../assets/section2-Assessment.png"
+                alt="Assessment stage visual with the final target reached">
+
+              <div class="method-media__path" aria-hidden="true">
+                <svg viewBox="0 0 1000 140" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="methodGradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                      <stop offset="0%" stop-color="#b3283a" />
+                      <stop offset="100%" stop-color="#d7ab58" />
+                    </linearGradient>
+                  </defs>
+                  <path id="methodPath" d="M18 96 C 110 50, 196 112, 296 76 S 492 42, 604 86 S 786 116, 982 48"></path>
+                </svg>
+              </div>
+              <div class="method-media__marker" id="methodMarker" aria-hidden="true"></div>
+
+              <div class="method-media__overlay">
+                <div class="method-media__meta">
+                  <div>
+                    <strong id="methodMetaTitle">Aim</strong>
+                    <span id="methodMetaBody">Define the goal and the purpose.</span>
+                  </div>
+                  <div class="method-media__nav">
+                    <button class="method-media__chip" data-jump="-1" aria-label="Previous stage">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M15 18l-6-6 6-6" />
+                      </svg>
+                    </button>
+                    <button class="method-media__chip" data-jump="1" aria-label="Next stage">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M9 18l6-6-6-6" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="method-summary reveal">
+          <h3>The XSEED METHOD</h3>
+          <p>A better way to learn.</p>
+          <div class="method-icons">
+            <article style="--icon-bg:#fce3df;--icon-fg:#cb4f46">
+              <div class="icon">◎</div>
+              <h4>Aim</h4>
+              <p>Define the goal and the purpose.</p>
+            </article>
+            <article style="--icon-bg:#f8edd7;--icon-fg:#d98d19">
+              <div class="icon">✋</div>
+              <h4>Action</h4>
+              <p>Learn by doing and exploring.</p>
+            </article>
+            <article style="--icon-bg:#ecf5dd;--icon-fg:#7fa52c">
+              <div class="icon">◌</div>
+              <h4>Analysis</h4>
+              <p>Reflect, discuss, and make sense.</p>
+            </article>
+            <article style="--icon-bg:#e4f1fa;--icon-fg:#4b93c8">
+              <div class="icon">✈</div>
+              <h4>Application</h4>
+              <p>Apply learning in new situations.</p>
+            </article>
+            <article style="--icon-bg:#eee6f8;--icon-fg:#8f59c8">
+              <div class="icon">◉</div>
+              <h4>Assessment</h4>
+              <p>Measure progress and improve.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section classroom" id="classroom">
+      <div class="wrap classroom__grid">
+        <div class="classroom__copy reveal">
+          <div class="eyebrow">Real Classroom</div>
+          <h2>See the Method in Action</h2>
+          <p class="lede">Watch how teachers bring the XSEED METHOD to life every day. The classroom story stays
+            grounded in one real moment: a clear learning aim, visible student participation, and thoughtful
+            follow-through.</p>
+          <a class="btn btn--soft" href="#footer">Explore the Story</a>
+        </div>
+
+        <div class="classroom__player reveal">
+          <img src="assets/classroom.jpg" alt="Real XSEED classroom with a teacher leading students through a lesson">
+          <div class="classroom__scrim" aria-hidden="true"></div>
+          <a class="classroom__play" href="#founder" aria-label="Continue to founder audio section">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 6.5v11l9-5.5z" />
+            </svg>
+          </a>
+          <div class="classroom__caption">
+            <div class="classroom__badge">Real classroom footage section, ready for video</div>
+            <div class="classroom__chapters">
+              <div class="classroom__chapter"><strong>01</strong> Aim</div>
+              <div class="classroom__chapter"><strong>02</strong> Action</div>
+              <div class="classroom__chapter"><strong>03</strong> Analysis</div>
+              <div class="classroom__chapter"><strong>04</strong> Application</div>
+              <div class="classroom__chapter"><strong>05</strong> Assessment</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section founder" id="founder">
+      <div class="wrap">
+        <div class="founder__panel reveal">
+          <div class="founder__grid">
+            <div class="founder__portrait" aria-hidden="true"></div>
+            <div class="founder__copy">
+              <div class="eyebrow">Founder Audio</div>
+              <h2>Why XSEED Exists</h2>
+              <p class="founder__quote">“Children don’t need more information. They need a better way to learn.”</p>
+              <p class="founder__byline"><strong>Ashish Rajpal</strong><br>Founder, XSEED Education</p>
+              <div class="audio" aria-label="Founder audio player placeholder">
+                <div class="audio__top">
+                  <div class="audio__button" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 6.5v11l9-5.5z" />
+                    </svg>
+                  </div>
+                  <div class="audio__meta">
+                    <strong>Founder message</strong>
+                    <span>Elegant player surface, ready for the real audio file</span>
+                  </div>
+                </div>
+                <div class="audio__track">
+                  <div class="audio__wave" aria-hidden="true">
+                    <span style="--h:10"></span><span style="--h:16"></span><span style="--h:9"></span><span
+                      style="--h:22"></span><span style="--h:14"></span><span style="--h:28"></span><span
+                      style="--h:18"></span><span style="--h:12"></span><span style="--h:24"></span><span
+                      style="--h:17"></span><span style="--h:30"></span><span style="--h:20"></span><span
+                      style="--h:12"></span><span style="--h:26"></span><span style="--h:14"></span><span
+                      style="--h:21"></span><span style="--h:33"></span><span style="--h:18"></span><span
+                      style="--h:25"></span><span style="--h:12"></span><span style="--h:20"></span><span
+                      style="--h:28"></span><span style="--h:14"></span><span style="--h:17"></span><span
+                      style="--h:22"></span><span style="--h:30"></span><span style="--h:13"></span><span
+                      style="--h:18"></span><span style="--h:26"></span><span style="--h:16"></span><span
+                      style="--h:31"></span><span style="--h:21"></span><span style="--h:12"></span><span
+                      style="--h:24"></span><span style="--h:18"></span><span style="--h:29"></span><span
+                      style="--h:12"></span><span style="--h:20"></span><span style="--h:27"></span><span
+                      style="--h:15"></span><span style="--h:24"></span><span style="--h:14"></span><span
+                      style="--h:19"></span><span style="--h:25"></span><span style="--h:16"></span><span
+                      style="--h:21"></span><span style="--h:12"></span><span style="--h:18"></span>
+                  </div>
+                  <div class="audio__bar"></div>
+                  <div class="audio__foot"><span>00:00</span><span>01:22</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section impact" id="impact">
+      <div class="wrap">
+        <div class="impact__head reveal">
+          <div class="eyebrow">Impact</div>
+          <h2>Creating impact, every day</h2>
+        </div>
+        <div class="impact__stats">
+          <article class="impact__stat reveal">
+            <div class="impact__num">750+</div>
+            <div class="impact__label">Schools</div>
+          </article>
+          <article class="impact__stat reveal">
+            <div class="impact__num">2.5L+</div>
+            <div class="impact__label">Children</div>
+          </article>
+          <article class="impact__stat reveal">
+            <div class="impact__num">25+</div>
+            <div class="impact__label">Cities</div>
+          </article>
+          <article class="impact__stat reveal">
+            <div class="impact__num">3</div>
+            <div class="impact__label">Countries</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="cta__panel reveal">
+          <img src="../assets/Build-thinkers.png" alt="A child looking upward with curiosity in warm evening light">
+          <div class="cta__body">
+            <h2 id="cta-title">Build thinkers. <span class="accent">Not memorizers.</span></h2>
+            <p class="lede">The page tells the story, but the method becomes real only when children do the learning.
+            </p>
+            <a class="btn" href="mailto:hello@xseededucation.com">Explore XSEED</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="wrap">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+          <p>XSEED Education is a research-driven learning system that helps children become confident thinkers and
+            lifelong learners.</p>
+        </div>
+        <div class="footer__col">
+          <h3>Why XSEED</h3>
+          <a href="#why">Our Approach</a>
+          <a href="#method">XSEED Method</a>
+          <a href="#impact">Impact</a>
+        </div>
+        <div class="footer__col">
+          <h3>Programs</h3>
+          <a href="#classroom">For Schools</a>
+          <a href="#classroom">For Teachers</a>
+          <a href="#classroom">For Parents</a>
+        </div>
+        <div class="footer__col">
+          <h3>Company</h3>
+          <a href="#founder">Our Founder</a>
+          <a href="mailto:hello@xseededucation.com">Contact Us</a>
+          <a href="#footer">About Us</a>
+        </div>
+        <div class="footer__col">
+          <h3>Real Stories</h3>
+          <a href="#classroom">Classroom</a>
+          <a href="#founder">Founder Audio</a>
+          <a href="#impact">Schools</a>
+        </div>
+        <div class="footer__col">
+          <h3>Stay Updated</h3>
+          <p>Get updates on stories, events, and new resources.</p>
+          <form class="footer__subscribe" action="mailto:hello@xseededucation.com" method="post" enctype="text/plain">
+            <input type="email" name="email" placeholder="Your email" aria-label="Your email">
+            <button type="submit" aria-label="Submit email">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="footer__base">
+        <span>© 2026 XSEED Education. All rights reserved.</span>
+        <span>Privacy Policy</span>
+        <span>Terms of Use</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    const stages = [
+      { title: "Aim", summary: "Define the goal and the purpose.", marker: { left: "8%", bottom: "22%" } },
+      { title: "Action", summary: "Learn by doing and exploring.", marker: { left: "27%", bottom: "31%" } },
+      { title: "Analysis", summary: "Reflect, discuss, and make sense.", marker: { left: "48%", bottom: "26%" } },
+      { title: "Application", summary: "Apply learning in new situations.", marker: { left: "68%", bottom: "34%" } },
+      { title: "Assessment", summary: "Measure progress and improve.", marker: { left: "88%", bottom: "44%" } }
+    ];
+
+    const nav = document.getElementById("siteNav");
+    const navMenu = document.getElementById("navMenu");
+    const navLinks = document.getElementById("navLinks");
+    const dots = [...document.querySelectorAll(".method-dot")];
+    const images = [...document.querySelectorAll(".method-media__image")];
+    const progress = document.getElementById("timelineProgress");
+    const marker = document.getElementById("methodMarker");
+    const path = document.getElementById("methodPath");
+    const metaTitle = document.getElementById("methodMetaTitle");
+    const metaBody = document.getElementById("methodMetaBody");
+    const jumpButtons = [...document.querySelectorAll("[data-jump]")];
+    let activeStage = 0;
+
+    function setNavState() {
+      nav.classList.toggle("is-solid", window.scrollY > 24);
+    }
+
+    function closeMenu() {
+      navLinks.classList.remove("is-open");
+      navMenu.setAttribute("aria-expanded", "false");
+    }
+
+    function updateStage(index, withScroll) {
+      const safeIndex = Math.max(0, Math.min(stages.length - 1, index));
+      activeStage = safeIndex;
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle("is-active", dotIndex === safeIndex);
+        dot.classList.toggle("is-done", dotIndex < safeIndex);
+      });
+      images.forEach((image, imageIndex) => image.classList.toggle("is-active", imageIndex === safeIndex));
+      metaTitle.textContent = stages[safeIndex].title;
+      metaBody.textContent = stages[safeIndex].summary;
+      progress.style.width = safeIndex === 0 ? "0" : `calc(${(safeIndex / (stages.length - 1)) * 100}% - 20px)`;
+      marker.style.left = stages[safeIndex].marker.left;
+      marker.style.bottom = stages[safeIndex].marker.bottom;
+      if (path) {
+        const length = path.getTotalLength();
+        path.style.strokeDashoffset = length - (length * safeIndex / (stages.length - 1 || 1));
+      }
+      if (withScroll) {
+        const target = document.getElementById(`stage-${stages[safeIndex].title.toLowerCase()}`);
+        if (target) {
+          target.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+        }
+      }
+    }
+
+    setNavState();
+    window.addEventListener("scroll", setNavState, { passive: true });
+
+    navMenu.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("is-open");
+      navMenu.setAttribute("aria-expanded", String(open));
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    dots.forEach((dot) => dot.addEventListener("click", () => updateStage(Number(dot.dataset.stage), true)));
+    jumpButtons.forEach((button) => button.addEventListener("click", () => updateStage(activeStage + Number(button.dataset.jump), true)));
+
+    if (path) {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+    }
+    updateStage(0, false);
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+
+    document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    if (window.gsap && window.ScrollTrigger && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.to(".hero__bg video", {
+        yPercent: 8,
+        ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.8 }
+      });
+
+      gsap.utils.toArray(".method-step").forEach((step) => {
+        const stageIndex = Number(step.dataset.stage);
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => updateStage(stageIndex, false),
+          onEnterBack: () => updateStage(stageIndex, false)
+        });
+      });
+
+      gsap.from(".method-media", {
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: ".experience__rail", start: "top 72%" }
+      });
+
+      gsap.from(".classroom__player img", {
+        scale: 1.06,
+        ease: "none",
+        scrollTrigger: { trigger: ".classroom__player", start: "top bottom", end: "bottom top", scrub: 0.8 }
+      });
+
+      gsap.from(".cta__panel img", {
+        scale: 1.08,
+        xPercent: 4,
+        ease: "none",
+        scrollTrigger: { trigger: ".cta__panel", start: "top bottom", end: "bottom top", scrub: 0.9 }
+      });
+    }
+  </script>
+</body>
+
+</html>

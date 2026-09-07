@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XSEED Education: Every Child Can Learn Better</title>
+<meta name="description" content="XSEED Education empowers schools with a research-backed learning methodology that develops thinking, creativity and real-world problem solving.">
+<meta name="theme-color" content="#FCFAF6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23C1392B'/%3E%3Ctext x='50' y='68' font-size='60' font-family='Georgia,serif' fill='%23fff' text-anchor='middle'%3EX%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,480;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FCFAF6;
+  --bg-alt:#F2EDE3;
+  --panel:#FFFFFF;
+  --ink:#221E19;
+  --ink-soft:#6B6459;
+  --red:#C1392B;
+  --red-dark:#9E2E22;
+  --red-tint:#C1392B14;
+  --gold:#D9A441;
+  --dark:#17130F;
+  --dark-soft:#B7AFA2;
+  --line:rgba(34,30,25,.1);
+  --ease:cubic-bezier(.22,.68,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;font-weight:400;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-optical-sizing:auto;letter-spacing:-.01em;margin:0}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit}
+.skip-link{position:absolute;left:-999px;top:0;background:var(--red);color:#fff;padding:.8em 1.2em;z-index:999;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+:focus-visible{outline:2.5px solid var(--red);outline-offset:3px}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+.section{padding:clamp(56px,9vh,110px) 0}
+.section-alt{background:var(--bg-alt)}
+.eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin:0 0 12px}
+.lede{color:var(--ink-soft);font-size:1.02rem;max-width:46ch}
+.link-arrow{display:inline-flex;align-items:center;gap:8px;color:var(--red);text-decoration:none;font-weight:600;font-size:.95rem;margin-top:18px}
+.link-arrow svg{transition:transform .25s var(--ease)}
+.link-arrow:hover svg{transform:translateX(4px)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--red);color:#fff;text-decoration:none;
+  padding:.95em 1.7em;border-radius:999px;font-weight:600;font-size:.95rem;
+  border:0;cursor:pointer;transition:background .3s var(--ease),transform .3s var(--ease);
+}
+.btn:hover{background:var(--red-dark);transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.5);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.btn.on-dark{background:#fff;color:var(--ink)}
+.btn.on-dark:hover{background:#eee}
+@media(pointer:coarse){.btn{min-height:44px}}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.stagger .reveal:nth-child(1){transition-delay:0s}
+.stagger .reveal:nth-child(2){transition-delay:.08s}
+.stagger .reveal:nth-child(3){transition-delay:.16s}
+.stagger .reveal:nth-child(4){transition-delay:.24s}
+.stagger .reveal:nth-child(5){transition-delay:.32s}
+.stagger.in .reveal{transition-delay:0s!important}
+
+/* ---------- nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px clamp(20px,5vw,64px);
+  background:rgba(252,250,246,.82);backdrop-filter:blur(10px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+.nav.solid{border-color:var(--line);box-shadow:0 1px 0 rgba(34,30,25,.03)}
+.logo{display:flex;flex-direction:column;line-height:1;text-decoration:none;gap:3px}
+.logo__mark{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem;color:var(--red);letter-spacing:-.01em}
+.logo__sub{font-size:.58rem;font-weight:600;letter-spacing:.18em;color:var(--ink-soft)}
+.nav__links{display:flex;gap:30px;align-items:center;list-style:none;margin:0;padding:0}
+.nav__links a{font-size:.85rem;font-weight:500;text-decoration:none;color:var(--ink);transition:color .25s var(--ease)}
+.nav__links a:hover{color:var(--red)}
+.nav__toggle{display:none;background:none;border:0;font-size:1.5rem;color:var(--ink);cursor:pointer;line-height:1}
+@media(max-width:900px){
+  .nav__links{position:fixed;inset:64px 0 auto 0;background:var(--bg);flex-direction:column;align-items:flex-start;padding:20px clamp(20px,5vw,64px) 28px;
+    border-bottom:1px solid var(--line);transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+  .nav__links.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+  .nav__toggle{display:block}
+  .nav__links .btn{margin-top:6px}
+}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(96px,16vh,150px) 0 40px}
+.hero__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero h1{font-size:clamp(2.3rem,4.6vw,3.6rem);font-weight:480;line-height:1.08}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero__sub{margin-top:20px;color:var(--ink-soft);font-size:1.05rem;max-width:42ch}
+.hero__row{display:flex;align-items:center;gap:26px;margin-top:32px;flex-wrap:wrap}
+.watch{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:600;font-size:.92rem}
+.watch__dot{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .25s var(--ease),border-color .25s var(--ease)}
+.watch:hover .watch__dot{background:var(--red);border-color:var(--red);color:#fff}
+.hero__stats{display:flex;gap:clamp(14px,3vw,34px);margin-top:44px;flex-wrap:wrap}
+.stat{padding-right:clamp(14px,3vw,34px);border-right:1px solid var(--line)}
+.stat:last-child{border-right:0;padding-right:0}
+.stat__num{font-family:'Fraunces',serif;font-weight:600;font-size:1.4rem}
+.stat__label{color:var(--ink-soft);font-size:.72rem;margin-top:2px}
+.hero__media{position:relative;border-radius:26px 0 0 26px;overflow:hidden;aspect-ratio:16/13;margin-right:calc(-1*clamp(20px,5vw,64px))}
+.hero__media img{width:100%;height:100%;object-fit:cover}
+.scrolldown{display:flex;flex-direction:column;align-items:center;gap:8px;margin:44px auto 0;color:var(--ink-soft);font-size:.72rem;text-decoration:none;width:fit-content}
+.scrolldown__mouse{width:20px;height:32px;border:1.5px solid var(--line);border-radius:12px;position:relative}
+.scrolldown__mouse::after{content:"";position:absolute;left:50%;top:6px;width:3px;height:6px;background:var(--ink-soft);border-radius:2px;transform:translateX(-50%);animation:scrollpulse 1.8s ease-in-out infinite}
+@keyframes scrollpulse{0%,100%{opacity:1;top:6px}50%{opacity:.3;top:14px}}
+@media(max-width:860px){
+  .hero__grid{grid-template-columns:1fr}
+  .hero__media{order:-1;border-radius:22px;margin-right:0;aspect-ratio:16/10}
+}
+
+/* ---------- method ---------- */
+.method__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(28px,5vw,72px);align-items:start}
+.method__head h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600}
+.method__head .lede{margin-top:10px}
+.steps{list-style:none;margin:36px 0 0;padding:0;border-top:1px solid var(--line)}
+.step{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--line);cursor:pointer;position:relative}
+.step::before{content:"";position:absolute;left:-20px;top:0;bottom:0;width:2px;background:var(--red);opacity:0;transition:opacity .25s var(--ease)}
+.step.active::before{opacity:1}
+.step__num{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--ink-soft);min-width:26px;transition:color .25s var(--ease)}
+.step.active .step__num{color:var(--red)}
+.step__body h3{font-family:'Inter',sans-serif;font-size:1rem;font-weight:600;transition:color .25s var(--ease)}
+.step.active .step__body h3{color:var(--red)}
+.step__body p{margin:5px 0 0;color:var(--ink-soft);font-size:.9rem;max-width:40ch}
+
+.panel{background:var(--panel);border-radius:22px;overflow:hidden;box-shadow:0 1px 3px rgba(34,30,25,.05),0 20px 46px -22px rgba(34,30,25,.18)}
+.panel__dots{display:flex;align-items:center;gap:6px;padding:22px 24px 0}
+.panel__dots span{width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .3s var(--ease),width .3s var(--ease)}
+.panel__dots span.active{background:var(--red);width:20px;border-radius:3px}
+.panel__head{padding:14px 24px 20px}
+.panel__head .eyebrow{margin-bottom:8px;font-size:1.6rem;font-family:'Fraunces',serif;font-weight:600;text-transform:none;letter-spacing:-.01em;color:var(--red)}
+.panel__head p{color:var(--ink-soft);max-width:44ch;font-size:.95rem}
+.panel__media{position:relative;aspect-ratio:16/9.5}
+.panel__media img{width:100%;height:100%;object-fit:cover;transition:opacity .4s var(--ease)}
+.panel__card{
+  position:absolute;left:24px;bottom:24px;right:24px;max-width:340px;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-radius:14px;padding:16px 18px;
+  box-shadow:0 12px 30px -14px rgba(0,0,0,.35);
+}
+.panel__card b{color:var(--red)}
+.panel__card p{margin:0;font-size:.88rem;color:var(--ink)}
+@media(max-width:860px){.method__grid{grid-template-columns:1fr}}
+
+/* ---------- curriculum ---------- */
+.curr__top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.curr__top h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600;max-width:14ch}
+.curr__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{border-radius:18px;overflow:hidden;background:var(--panel);text-decoration:none;color:var(--ink);display:block;box-shadow:0 1px 2px rgba(34,30,25,.04);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(34,30,25,.25)}
+.card__media{aspect-ratio:4/5;overflow:hidden}
+.card__media img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.card:hover .card__media img{transform:scale(1.05)}
+.card__body{padding:16px 18px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card__body h3{font-family:'Inter',sans-serif;font-weight:600;font-size:1rem}
+.card__body span{display:block;color:var(--ink-soft);font-size:.8rem;margin-top:3px}
+.card__go{width:34px;height:34px;border-radius:50%;background:var(--bg-alt);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .25s var(--ease),color .25s var(--ease)}
+.card:hover .card__go{background:var(--red);color:#fff}
+@media(max-width:760px){.curr__grid{grid-template-columns:1fr}}
+
+/* ---------- classroom ---------- */
+.classroom__head{max-width:56ch}
+.classroom__head h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600;margin-top:8px}
+.timeline{display:flex;justify-content:space-between;align-items:flex-start;margin:52px 0 44px;position:relative;gap:8px}
+.timeline::before{content:"";position:absolute;top:23px;left:5%;right:5%;height:0;border-top:2px dashed var(--line);z-index:0}
+.tl-step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;gap:12px}
+.tl-step__icon{width:46px;height:46px;border-radius:50%;background:var(--panel);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--red)}
+.tl-step__label{font-size:.82rem;font-weight:600;max-width:11ch}
+.classroom__media{border-radius:22px;overflow:hidden;aspect-ratio:21/9}
+.classroom__media img{width:100%;height:100%;object-fit:cover}
+@media(max-width:760px){
+  .timeline{flex-wrap:wrap;row-gap:26px}
+  .timeline::before{display:none}
+  .tl-step{flex-basis:40%}
+  .classroom__media{aspect-ratio:4/3}
+}
+
+/* ---------- proof ---------- */
+.proof__grid{display:grid;grid-template-columns:.9fr 1.4fr;gap:clamp(28px,5vw,64px);align-items:center}
+.proof__head h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600}
+.proof__cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.proof-card{background:var(--panel);border-radius:16px;padding:22px 16px;text-align:center;box-shadow:0 1px 2px rgba(34,30,25,.04)}
+.proof-card svg{color:var(--red);margin:0 auto 12px}
+.proof-card .num{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem}
+.proof-card .lbl{color:var(--ink-soft);font-size:.78rem;margin-top:4px}
+@media(max-width:900px){.proof__grid{grid-template-columns:1fr}}
+@media(max-width:560px){.proof__cards{grid-template-columns:1fr 1fr}}
+
+/* ---------- teaching ---------- */
+.teach__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+.teach__head h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600}
+.teach__visual{position:relative}
+.teach__photo{border-radius:22px;overflow:hidden;aspect-ratio:4/5}
+.teach__photo img{width:100%;height:100%;object-fit:cover}
+.teach__list{position:absolute;left:-26px;top:14%;display:flex;flex-direction:column;gap:10px;width:min(240px,60%)}
+.teach__list li{list-style:none;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.97);border-radius:12px;padding:10px 14px;box-shadow:0 10px 26px -14px rgba(34,30,25,.3);font-size:.82rem;font-weight:600}
+.teach__list li svg{color:var(--red);flex-shrink:0}
+.teach__device{position:absolute;right:-8%;bottom:-8%;width:62%;border-radius:12px;overflow:hidden;box-shadow:0 24px 50px -20px rgba(0,0,0,.45);border:6px solid var(--dark)}
+.mock{background:#fff;padding:12px}
+.mock__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.mock__title{font-size:.6rem;font-weight:700;color:var(--ink)}
+.mock__dot{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.mock__row{display:flex;gap:10px}
+.mock__bars{flex:1;display:flex;flex-direction:column;gap:6px}
+.mock__bar{height:7px;border-radius:4px;background:var(--bg-alt);overflow:hidden}
+.mock__bar i{display:block;height:100%;background:var(--red);border-radius:4px}
+.mock__donut{width:56px;height:56px;border-radius:50%;background:conic-gradient(var(--red) 0 55%,var(--gold) 55% 78%,var(--bg-alt) 78% 100%);flex-shrink:0;position:relative}
+.mock__donut::after{content:"";position:absolute;inset:12px;border-radius:50%;background:#fff}
+@media(max-width:900px){
+  .teach__grid{grid-template-columns:1fr}
+  .teach__list{position:static;width:100%;margin-top:18px}
+  .teach__device{display:none}
+}
+
+/* ---------- stories ---------- */
+.stories__top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.stories__top h2{font-size:clamp(1.7rem,3vw,2.2rem);font-weight:600;max-width:16ch}
+.stories__row{display:flex;gap:12px;align-items:center;flex-shrink:0}
+.arrow-btn{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease)}
+.arrow-btn:hover{background:var(--red);border-color:var(--red);color:#fff}
+.testis{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.testi{background:var(--panel);border-radius:18px;padding:26px 26px 0;box-shadow:0 1px 2px rgba(34,30,25,.04);display:flex;flex-direction:column}
+.testi__quote{color:var(--red);font-family:'Fraunces',serif;font-size:2.4rem;line-height:1;font-weight:600}
+.testi p{font-size:.95rem;color:var(--ink);margin:6px 0 18px}
+.testi__by{color:var(--ink-soft);font-size:.82rem;margin-bottom:18px}
+.testi__by strong{color:var(--ink);font-weight:600;display:block;font-size:.85rem}
+.testi__bldg{border-radius:14px 14px 0 0;overflow:hidden;aspect-ratio:16/9;margin-top:auto}
+@media(max-width:900px){.testis{grid-template-columns:1fr}}
+
+/* ---------- final CTA ---------- */
+.final{position:relative;overflow:hidden;background:var(--dark);color:#fff}
+.final__bg{position:absolute;inset:0;z-index:0}
+.final__bg img{width:100%;height:100%;object-fit:cover;opacity:.55}
+.final__bg::after{content:"";position:absolute;inset:0}
+.final__scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(23,19,15,.96) 0%,rgba(23,19,15,.75) 42%,rgba(23,19,15,.15) 100%)}
+.final__body{position:relative;z-index:2;padding:clamp(70px,12vh,130px) 0;max-width:34ch}
+.final h2{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:480;line-height:1.1}
+.final p{color:var(--dark-soft);margin-top:16px;max-width:42ch}
+.final__row{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap}
+
+/* ---------- footer ---------- */
+footer{background:var(--dark);color:var(--dark-soft);padding-top:clamp(48px,8vh,80px)}
+.footer__top{display:grid;grid-template-columns:1.4fr repeat(5,1fr);gap:32px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer__brand img{height:40px;filter:brightness(0) invert(1)}
+.footer__brand p{margin-top:16px;font-size:.85rem;max-width:32ch;color:var(--dark-soft)}
+.social{display:flex;gap:10px;margin-top:20px}
+.social a{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;transition:background .25s var(--ease),border-color .25s var(--ease)}
+.social a:hover{background:var(--red);border-color:var(--red)}
+.footer__col h4{color:#fff;font-size:.82rem;font-weight:600;margin-bottom:16px}
+.footer__col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.footer__col a{color:var(--dark-soft);text-decoration:none;font-size:.85rem;transition:color .25s var(--ease)}
+.footer__col a:hover{color:#fff}
+.footer__bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:26px 0;font-size:.78rem}
+.footer__bottom a{color:var(--dark-soft);text-decoration:none;margin-left:22px}
+.footer__bottom a:hover{color:#fff}
+@media(max-width:900px){.footer__top{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.footer__top{grid-template-columns:1fr}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.001ms!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav" id="nav">
+  <a class="logo" href="#main" aria-label="XSEED Education, home">
+    <span class="logo__mark">XSEED</span>
+    <span class="logo__sub">EDUCATION</span>
+  </a>
+  <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">☰</button>
+  <ul class="nav__links" id="navLinks">
+    <li><a href="#method">The XSEED Method</a></li>
+    <li><a href="#curriculum">Curriculum</a></li>
+    <li><a href="#teach">For Teachers</a></li>
+    <li><a href="#classroom">For Schools</a></li>
+    <li><a href="#stories">Resources</a></li>
+    <li><a href="#footer">About Us</a></li>
+    <li><a class="btn" href="mailto:hello@xseededucation.com?subject=Talk%20to%20Us">Talk to Us</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <h1 class="reveal in">Every Child<br>Can <em>Learn Better.</em></h1>
+          <p class="hero__sub reveal in" style="transition-delay:.1s">XSEED Education empowers schools with a research-backed learning methodology that develops thinking, creativity and real-world problem solving.</p>
+          <div class="hero__row reveal in" style="transition-delay:.2s">
+            <a class="btn" href="#method">Explore the XSEED Method →</a>
+            <a class="watch" href="#classroom"><span class="watch__dot">▶</span> Watch Video</a>
+          </div>
+          <div class="hero__stats reveal in" style="transition-delay:.3s">
+            <div class="stat"><p class="stat__num">2M+</p><p class="stat__label">Students</p></div>
+            <div class="stat"><p class="stat__num">10,000+</p><p class="stat__label">Schools</p></div>
+            <div class="stat"><p class="stat__num">20+</p><p class="stat__label">Countries</p></div>
+            <div class="stat"><p class="stat__num">25+</p><p class="stat__label">Years of Impact</p></div>
+          </div>
+        </div>
+        <div class="hero__media reveal in" style="transition-delay:.15s">
+          <img src="../assets/homebanner.png" alt="Children gathered on a school lawn at sunrise, guiding a small robot along a course they built together">
+        </div>
+      </div>
+      <a class="scrolldown" href="#method"><span class="scrolldown__mouse" aria-hidden="true"></span>Scroll Down</a>
+    </div>
+  </header>
+
+  <section class="section" id="method">
+    <div class="wrap method__grid">
+      <div class="method__head reveal">
+        <h2>The XSEED Method</h2>
+        <p class="lede">A learning cycle that turns curiosity into competence.</p>
+        <ul class="steps" id="steps"></ul>
+      </div>
+
+      <div class="panel reveal" style="transition-delay:.1s">
+        <div class="panel__dots" id="panelDots"></div>
+        <div class="panel__head">
+          <p class="eyebrow" id="panelTitle">Aim</p>
+          <p id="panelText">Every great learning journey begins with a goal worth working towards.</p>
+        </div>
+        <div class="panel__media">
+          <img id="panelImg" src="../assets/section2-aim.png" alt="">
+          <div class="panel__card">
+            <p><b id="panelCardLabel">Challenge</b><br><span id="panelCardText">How can we make this robot reach the target?</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="curriculum">
+    <div class="wrap">
+      <div class="curr__top">
+        <div class="reveal">
+          <p class="eyebrow">Curriculum</p>
+          <h2>A Curriculum Built for Every Stage.</h2>
+          <p class="lede" style="margin-top:10px">From Early Years to Middle School, our curriculum nurtures curiosity, builds strong concepts and develops future-ready skills.</p>
+          <a class="link-arrow" href="#curriculum">Explore Curriculum <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="curr__grid stagger" id="currGrid">
+        <a class="card reveal" href="#curriculum">
+          <div class="card__media"><img src="../assets/section2-aim.png" alt="Early Years learning, ages 3 to 6"></div>
+          <div class="card__body">
+            <div><h3>Early Years</h3><span>(3–6 Years) · Play. Observe. Wonder.</span></div>
+            <span class="card__go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="card reveal" href="#curriculum">
+          <div class="card__media"><img src="../assets/hero-classroom.png" alt="Primary learning, ages 6 to 11"></div>
+          <div class="card__body">
+            <div><h3>Primary</h3><span>(6–11 Years) · Explore. Build. Understand.</span></div>
+            <span class="card__go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="card reveal" href="#curriculum">
+          <div class="card__media"><img src="../assets/homebanner.png" alt="Middle School learning, ages 11 to 14"></div>
+          <div class="card__body">
+            <div><h3>Middle School</h3><span>(11–14 Years) · Think. Apply. Innovate.</span></div>
+            <span class="card__go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="classroom">
+    <div class="wrap">
+      <div class="classroom__head reveal">
+        <p class="eyebrow">Inside an XSEED Classroom</p>
+        <h2>Collaborative. Engaging. Purposeful.</h2>
+        <p class="lede" style="margin-top:10px">See how learning comes alive every day.</p>
+        <a class="link-arrow" href="#classroom">Watch Classroom in Action <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+
+      <div class="timeline stagger">
+        <div class="tl-step reveal">
+          <span class="tl-step__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17a5 5 0 100-10 5 5 0 000 10z"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+          <p class="tl-step__label">Teacher Asks</p>
+        </div>
+        <div class="tl-step reveal">
+          <span class="tl-step__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+          <p class="tl-step__label">Students Explore</p>
+        </div>
+        <div class="tl-step reveal">
+          <span class="tl-step__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></span>
+          <p class="tl-step__label">Students Discuss</p>
+        </div>
+        <div class="tl-step reveal">
+          <span class="tl-step__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></span>
+          <p class="tl-step__label">Students Apply</p>
+        </div>
+        <div class="tl-step reveal">
+          <span class="tl-step__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l3.5-4.5 3 3L21 6"/></svg></span>
+          <p class="tl-step__label">Teacher Assesses</p>
+        </div>
+      </div>
+
+      <div class="classroom__media reveal">
+        <img src="../assets/hero-classroom.png" alt="A real XSEED classroom: the teacher has written AIM on the chalkboard and asked a question, children raise their hands, a poster on the wall lists the five XSEED stages">
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="proof">
+    <div class="wrap proof__grid">
+      <div class="proof__head reveal">
+        <p class="eyebrow">Impact</p>
+        <h2>Learning You Can See.</h2>
+        <p class="lede" style="margin-top:10px">Our impact is measured not just in numbers, but in the lives we transform.</p>
+        <a class="link-arrow" href="#proof">View Impact Report <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="proof__cards stagger">
+        <div class="proof-card reveal">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <p class="num" data-count="2000000" data-suffix="+">0</p><p class="lbl">Students Impacted</p>
+        </div>
+        <div class="proof-card reveal">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V9l7-6 7 6v12M9 21v-6h6v6"/></svg>
+          <p class="num" data-count="10000" data-suffix="+">0</p><p class="lbl">Schools Empowered</p>
+        </div>
+        <div class="proof-card reveal">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.6 7-12a7 7 0 10-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+          <p class="num" data-count="20" data-suffix="+">0</p><p class="lbl">Countries Reached</p>
+        </div>
+        <div class="proof-card reveal">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.4 6.9L21 9l-5.5 4.3L17 21l-5-3.7L7 21l1.5-7.7L3 9l6.6-.1L12 2z"/></svg>
+          <p class="num" data-count="25" data-suffix="+">0</p><p class="lbl">Years of Excellence</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="teach">
+    <div class="wrap teach__grid">
+      <div class="teach__visual reveal">
+        <div class="teach__photo"><img src="../assets/hero-classroom.png" alt="An XSEED teacher preparing a lesson"></div>
+        <ul class="teach__list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Lesson Planning</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Teaching Resources</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>Classroom Activities</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Assessment Tools</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l3.5-4.5 3 3L21 6"/></svg>Student Insights</li>
+        </ul>
+        <div class="teach__device">
+          <div class="mock">
+            <div class="mock__top"><span class="mock__title">Hello, Teacher!</span><span class="mock__dot"></span></div>
+            <div class="mock__row">
+              <div class="mock__bars">
+                <div class="mock__bar"><i style="width:70%"></i></div>
+                <div class="mock__bar"><i style="width:45%"></i></div>
+                <div class="mock__bar"><i style="width:85%"></i></div>
+              </div>
+              <div class="mock__donut"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="teach__head reveal" style="transition-delay:.1s">
+        <p class="eyebrow">For Teachers</p>
+        <h2>Great Teaching. Greater Impact.</h2>
+        <p class="lede" style="margin-top:10px">We empower teachers with everything they need to create extraordinary learning experiences.</p>
+        <a class="link-arrow" href="#teach">Explore Teacher Resources <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="stories">
+    <div class="wrap">
+      <div class="stories__top">
+        <div class="reveal">
+          <p class="eyebrow">Community</p>
+          <h2>Stories from Our Community</h2>
+          <p class="lede" style="margin-top:10px">Real stories from educators and schools making a real difference.</p>
+          <a class="link-arrow" href="#stories">Read More Stories <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="stories__row">
+          <button class="arrow-btn" id="storyPrev" aria-label="Previous stories">←</button>
+          <button class="arrow-btn" id="storyNext" aria-label="Next stories">→</button>
+        </div>
+      </div>
+      <div class="testis stagger" id="testiGrid"></div>
+    </div>
+  </section>
+
+  <section class="final" id="final">
+    <div class="final__bg" aria-hidden="true"><img src="../assets/Build-thinkers.png" alt=""></div>
+    <div class="final__scrim" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="final__body reveal in">
+        <h2>Change How Children Learn.</h2>
+        <p>Bring the XSEED Method to your classrooms and give every student a real reason to think.</p>
+        <div class="final__row">
+          <a class="btn" href="mailto:hello@xseededucation.com?subject=Talk%20to%20the%20XSEED%20team">Talk to Our Team →</a>
+          <a class="btn ghost" href="#method">Explore the Program →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="footer">
+  <div class="wrap footer__top">
+    <div class="footer__brand">
+      <img src="../assets/xseed-whiteline-logo.png" alt="XSEED, Foundation for Life">
+      <p>XSEED Education is a research-backed learning solutions company committed to transforming education.</p>
+      <div class="social">
+        <a href="#" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3c-.3-1-1.1-1.8-2.1-2C18.6 4.2 12 4.2 12 4.2s-6.6 0-8.4.5c-1 .2-1.8 1-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3c.3 1 1 1.8 2 2 1.9.5 8.5.5 8.5.5s6.6 0 8.4-.5c1-.2 1.8-1 2.1-2 .5-1.7.5-5.3.5-5.3zM9.7 15.5v-7l6 3.5-6 3.5z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11.02 5 2.5 2.5 0 01-.02-5zM3 8.98h4v12H3v-12zm7 0h3.8v1.7h.05c.53-1 1.83-2.1 3.77-2.1 4.03 0 4.78 2.6 4.78 6v6.4h-4v-5.7c0-1.4 0-3.1-1.9-3.1-1.9 0-2.2 1.5-2.2 3v5.8h-4v-12z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer__col">
+      <h4>The XSEED Method</h4>
+      <ul><li><a href="#method">Aim</a></li><li><a href="#method">Action</a></li><li><a href="#method">Analysis</a></li><li><a href="#method">Application</a></li><li><a href="#method">Assessment</a></li></ul>
+    </div>
+    <div class="footer__col">
+      <h4>Curriculum</h4>
+      <ul><li><a href="#curriculum">Early Years</a></li><li><a href="#curriculum">Primary</a></li><li><a href="#curriculum">Middle School</a></li></ul>
+    </div>
+    <div class="footer__col">
+      <h4>For Teachers</h4>
+      <ul><li><a href="#teach">Resources</a></li><li><a href="#teach">Training</a></li><li><a href="#teach">Support</a></li></ul>
+    </div>
+    <div class="footer__col">
+      <h4>For Schools</h4>
+      <ul><li><a href="#classroom">Our Approach</a></li><li><a href="#classroom">Implementation</a></li><li><a href="#proof">Impact</a></li></ul>
+    </div>
+    <div class="footer__col">
+      <h4>About Us</h4>
+      <ul><li><a href="#stories">Our Story</a></li><li><a href="#stories">Leadership</a></li><li><a href="#stories">Careers</a></li><li><a href="mailto:hello@xseededucation.com">Contact Us</a></li></ul>
+    </div>
+  </div>
+  <div class="wrap footer__bottom">
+    <span>© 2024 XSEED Education. All Rights Reserved.</span>
+    <span><a href="#footer">Privacy Policy</a><a href="#footer">Terms of Use</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var nav=document.getElementById('nav');
+  var onNavScroll=function(){ nav.classList.toggle('solid', window.scrollY>10); };
+  addEventListener('scroll', onNavScroll, {passive:true}); onNavScroll();
+  var navToggle=document.getElementById('navToggle'), navLinks=document.getElementById('navLinks');
+  navToggle.addEventListener('click', function(){
+    var open=navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open?'true':'false');
+  });
+  navLinks.querySelectorAll('a').forEach(function(a){a.addEventListener('click', function(){navLinks.classList.remove('open');});});
+
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  /* ---- The XSEED Method step switcher ---- */
+  var STAGES=[
+    {name:'Aim', text:'Every great learning journey begins with a goal worth working towards.', desc:'We begin with a meaningful goal that sparks curiosity.', img:'../assets/section2-aim.png', cardLabel:'Challenge', cardText:'How can we make this robot reach the target?'},
+    {name:'Action', text:'Students learn by doing, testing ideas instead of just hearing about them.', desc:'Students learn by doing and exploring possibilities.', img:'../assets/section2-Action.png', cardLabel:'In Motion', cardText:'Students steer the robot, one careful step at a time.'},
+    {name:'Analysis', text:'Every attempt becomes a question worth digging into together.', desc:'They reflect, discuss and derive meaning from their actions.', img:'../assets/section2-Analysis.png', cardLabel:'Reflect', cardText:'What happened, and why did the robot take that path?'},
+    {name:'Application', text:'The same idea, tried again on a new problem, until it sticks.', desc:'They apply their learning to new situations and real-world problems.', img:'../assets/section2-Application.png', cardLabel:'Try Again', cardText:'Now find a different route to the same target.'},
+    {name:'Assessment', text:'Understanding is measured by what a child can now do, not recite.', desc:'Learning is measured through understanding and outcomes.', img:'../assets/section2-Assessment.png', cardLabel:'Checkpoint', cardText:'Did every child reach the target on their own?'}
+  ];
+  var stepsEl=document.getElementById('steps');
+  var dotsEl=document.getElementById('panelDots');
+  var panelTitle=document.getElementById('panelTitle');
+  var panelText=document.getElementById('panelText');
+  var panelImg=document.getElementById('panelImg');
+  var panelCardLabel=document.getElementById('panelCardLabel');
+  var panelCardText=document.getElementById('panelCardText');
+
+  STAGES.forEach(function(s,i){
+    var li=document.createElement('li');
+    li.className='step'+(i===0?' active':'');
+    li.innerHTML='<span class="step__num">0'+(i+1)+'</span><div class="step__body"><h3>'+s.name+'</h3><p>'+s.desc+'</p></div>';
+    li.addEventListener('click', function(){ setStage(i); });
+    stepsEl.appendChild(li);
+
+    var dot=document.createElement('span');
+    if(i===0) dot.className='active';
+    dotsEl.appendChild(dot);
+  });
+  var stepEls=stepsEl.querySelectorAll('.step');
+  var dotEls=dotsEl.querySelectorAll('span');
+
+  function setStage(i){
+    var s=STAGES[i];
+    stepEls.forEach(function(el,j){ el.classList.toggle('active', j===i); });
+    dotEls.forEach(function(el,j){ el.classList.toggle('active', j===i); });
+    panelImg.style.opacity=0;
+    setTimeout(function(){
+      panelTitle.textContent=s.name;
+      panelText.textContent=s.text;
+      panelImg.src=s.img;
+      panelImg.alt=s.name+' stage of the XSEED Method';
+      panelCardLabel.textContent=s.cardLabel;
+      panelCardText.textContent=s.cardText;
+      panelImg.style.opacity=1;
+    }, 180);
+  }
+
+  var stageTimer=setInterval(function(){
+    var active=[].indexOf.call(stepEls, stepsEl.querySelector('.step.active'));
+    setStage((active+1)%STAGES.length);
+  }, 6000);
+  stepsEl.addEventListener('click', function(){ clearInterval(stageTimer); });
+
+  /* ---- proof counters ---- */
+  var counted=false;
+  var proofSection=document.getElementById('proof');
+  var countIO=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !counted){
+        counted=true;
+        document.querySelectorAll('.proof-card .num').forEach(function(el){
+          var target=parseInt(el.getAttribute('data-count'),10);
+          var suffix=el.getAttribute('data-suffix')||'';
+          var start=performance.now(), dur=1400;
+          function step(now){
+            var t=Math.min(1,(now-start)/dur);
+            var eased=1-Math.pow(1-t,3);
+            var val=Math.round(target*eased);
+            el.textContent=(val>=1000?val.toLocaleString():val)+suffix;
+            if(t<1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+        countIO.unobserve(proofSection);
+      }
+    });
+  },{threshold:.4});
+  if(proofSection) countIO.observe(proofSection);
+
+  /* ---- testimonials ---- */
+  var TESTIMONIALS=[
+    {q:'XSEED has transformed the way our students think and learn. The curiosity in our classrooms has never been higher.', by:'Principal', school:'Delhi Public School, Pune', hue:'#C1392B'},
+    {q:'The XSEED Method makes learning practical, joyful and meaningful for every child.', by:'Teacher', school:'Sunbeam School, Varanasi', hue:'#D9A441'},
+    {q:'Our students are more confident, creative and ready to solve real-world problems.', by:'Principal', school:'Oakridge International School', hue:'#8A9A5B'},
+    {q:'What used to be rote memorization is now genuine curiosity. XSEED changed our staffroom conversations too.', by:'Vice Principal', school:'Ryan International, Nagpur', hue:'#5B7DA6'},
+    {q:'Parents notice the difference within a term: children come home asking better questions.', by:'Principal', school:'Vidya Valley School, Pune', hue:'#B5654A'},
+    {q:'Assessment stopped being a scramble before the AIM in the room got that clear.', by:'Coordinator', school:'Greenwood High, Bengaluru', hue:'#6E8B7A'}
+  ];
+  var testiGrid=document.getElementById('testiGrid');
+  var testiIndex=0;
+  function bldgSvg(hue){
+    return '<svg viewBox="0 0 200 100" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" role="presentation">'+
+      '<rect width="200" height="100" fill="'+hue+'22"/>'+
+      '<rect x="20" y="30" width="50" height="70" fill="'+hue+'55"/>'+
+      '<rect x="78" y="10" width="46" height="90" fill="'+hue+'88"/>'+
+      '<rect x="132" y="45" width="50" height="55" fill="'+hue+'44"/>'+
+      '</svg>';
+  }
+  function renderTestis(){
+    testiGrid.innerHTML='';
+    for(var i=0;i<3;i++){
+      var t=TESTIMONIALS[(testiIndex+i)%TESTIMONIALS.length];
+      var div=document.createElement('div');
+      div.className='testi reveal in';
+      div.innerHTML='<span class="testi__quote">&ldquo;</span><p>'+t.q+'</p>'+
+        '<p class="testi__by"><strong>'+t.by+'</strong>'+t.school+'</p>'+
+        '<div class="testi__bldg">'+bldgSvg(t.hue)+'</div>';
+      testiGrid.appendChild(div);
+    }
+  }
+  renderTestis();
+  document.getElementById('storyNext').addEventListener('click', function(){
+    testiIndex=(testiIndex+1)%TESTIMONIALS.length; renderTestis();
+  });
+  document.getElementById('storyPrev').addEventListener('click', function(){
+    testiIndex=(testiIndex-1+TESTIMONIALS.length)%TESTIMONIALS.length; renderTestis();
+  });
+})();
+</script>
+</body>
+</html>

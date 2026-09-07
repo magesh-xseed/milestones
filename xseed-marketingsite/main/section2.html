@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XSEED Method Canvas</title>
+  <meta name="description" content="A premium interactive showcase of the XSEED Method.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,650&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6efe4;
+      --bg-soft: #fdf9f2;
+      --panel: rgba(255, 255, 255, 0.72);
+      --panel-strong: rgba(255, 255, 255, 0.86);
+      --ink: #1f1a16;
+      --ink-soft: #645a50;
+      --ink-faint: #9e9286;
+      --line: rgba(31, 26, 22, 0.08);
+      --brand: #b3283a;
+      --brand-2: #dd8263;
+      --gold: #d7ab58;
+      --shadow: 0 40px 110px -48px rgba(35, 26, 18, 0.28);
+      --shadow-soft: 0 20px 55px -34px rgba(35, 26, 18, 0.18);
+      --ease: cubic-bezier(.22, .68, .2, 1);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.72), transparent 24%),
+        radial-gradient(circle at 84% 16%, rgba(215, 171, 88, 0.18), transparent 24%),
+        linear-gradient(180deg, #f9f4eb 0%, #f4ebdf 40%, #f7f0e7 100%);
+      color: var(--ink);
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(179, 40, 58, 0.55);
+      outline-offset: 4px;
+    }
+
+    .page-shell {
+      position: relative;
+      min-height: 100vh;
+      padding: clamp(32px, 5vw, 56px);
+    }
+
+    .page-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(179, 40, 58, 0.05), transparent 32%),
+        linear-gradient(225deg, rgba(215, 171, 88, 0.08), transparent 28%);
+      pointer-events: none;
+    }
+
+    .hero-bar {
+      position: sticky;
+      top: 18px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      width: min(1280px, 100%);
+      margin: 0 auto 28px;
+      padding: 16px 20px;
+      border-radius: 999px;
+      background: rgba(255, 252, 247, 0.74);
+      border: 1px solid rgba(31, 26, 22, 0.06);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-bar__brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-bar__brand img {
+      height: 40px;
+      width: auto;
+    }
+
+    .hero-bar__pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(31, 26, 22, 0.07);
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+    }
+
+    .hero-bar__pill strong {
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .method-showcase {
+      position: relative;
+      width: min(1280px, 100%);
+      margin: 0 auto;
+      padding: clamp(32px, 4vw, 48px);
+      border-radius: 40px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.18)),
+        rgba(255, 250, 244, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .method-showcase::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.68), transparent 26%),
+        radial-gradient(circle at 88% 80%, rgba(179, 40, 58, 0.08), transparent 30%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .method-header {
+      display: grid;
+      gap: 14px;
+      max-width: 760px;
+      margin-bottom: clamp(30px, 5vw, 48px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .method-header h1 {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.8rem, 6vw, 5.4rem);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+      font-weight: 500;
+      max-width: 11ch;
+    }
+
+    .method-header h1 em {
+      font-style: normal;
+      color: var(--brand);
+    }
+
+    .method-header p {
+      max-width: 56ch;
+      font-size: clamp(1rem, 1.3vw, 1.08rem);
+      line-height: 1.8;
+      color: var(--ink-soft);
+    }
+
+    .method-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+      gap: clamp(24px, 3vw, 36px);
+      align-items: start;
+    }
+
+    .method-copy {
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .method-copy::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(179, 40, 58, 0.08), rgba(179, 40, 58, 0.24), rgba(179, 40, 58, 0.08));
+    }
+
+    .method-step {
+      min-height: 78vh;
+      display: flex;
+      align-items: center;
+      padding: 32px 0;
+    }
+
+    .method-step__card {
+      width: min(520px, 100%);
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(31, 26, 22, 0.06);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.45s var(--ease), background 0.45s var(--ease), border-color 0.45s var(--ease), box-shadow 0.45s var(--ease);
+    }
+
+    .method-step__card.is-active {
+      transform: translateX(10px);
+      background: var(--panel-strong);
+      border-color: rgba(179, 40, 58, 0.16);
+      box-shadow: 0 26px 60px -36px rgba(179, 40, 58, 0.34);
+    }
+
+    .method-step__index {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand);
+    }
+
+    .method-step__title {
+      margin-top: 14px;
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.1rem, 3.1vw, 3.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+
+    .method-step__question {
+      margin-top: 12px;
+      font-size: clamp(1.3rem, 2vw, 1.9rem);
+      line-height: 1.12;
+    }
+
+    .method-step__body {
+      margin-top: 18px;
+      max-width: 38ch;
+      color: var(--ink-soft);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .method-step__cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 0.84rem 1rem;
+      border-radius: 999px;
+      background: rgba(179, 40, 58, 0.08);
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .method-visual {
+      position: sticky;
+      top: 80px;
+      min-width: 0;
+    }
+
+    .method-visual__frame {
+      position: relative;
+      height: calc(100vh - 120px);
+      min-height: 680px;
+      overflow: hidden;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.24), transparent 28%),
+        radial-gradient(circle at 82% 14%, rgba(215, 171, 88, 0.18), transparent 26%),
+        linear-gradient(180deg, #f4eadc 0%, #ebddce 100%);
+      border: 1px solid rgba(31, 26, 22, 0.06);
+      box-shadow: var(--shadow);
+    }
+
+    .method-visual__background {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 252, 247, 0.64), rgba(255, 252, 247, 0.18)),
+        linear-gradient(145deg, rgba(179, 40, 58, 0.08), transparent 40%);
+    }
+
+    .method-scenes {
+      position: absolute;
+      inset: 0;
+    }
+
+    .method-scene {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.06);
+      filter: saturate(0.94) contrast(0.98);
+      will-change: opacity, transform;
+      transition: opacity 0.65s var(--ease), transform 0.95s var(--ease), filter 0.65s var(--ease);
+    }
+
+    .method-scene.is-active {
+      opacity: 1;
+      transform: scale(1);
+      filter: saturate(1.02) contrast(1.02);
+    }
+
+    .learning-path {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      bottom: 24%;
+      height: 24%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .learning-path .path-base {
+      fill: none;
+      stroke: rgba(31, 26, 22, 0.12);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+    }
+
+    .learning-path .path-progress {
+      fill: none;
+      stroke: url(#learningGradient);
+      stroke-width: 4.5;
+      stroke-linecap: round;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+    }
+
+    .learning-marker {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+
+    .learning-marker span {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 34% 34%, #fff, #ffd3c7 42%, var(--brand) 74%);
+      box-shadow: 0 0 0 10px rgba(179, 40, 58, 0.11), 0 18px 34px -18px rgba(179, 40, 58, 0.58);
+    }
+
+    .learning-marker::after {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.68);
+    }
+
+    .learning-hotspot {
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: transform 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+
+    .learning-hotspot::before,
+    .learning-hotspot::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .learning-hotspot::before {
+      width: 14px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 0 0 8px rgba(179, 40, 58, 0.16);
+    }
+
+    .learning-hotspot::after {
+      width: calc(100% - 18px);
+      height: calc(100% - 18px);
+      border: 1px dashed rgba(255, 255, 255, 0.42);
+    }
+
+    .learning-hotspot:hover,
+    .learning-hotspot.is-active {
+      transform: scale(1.06);
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 20px 34px -22px rgba(23, 20, 16, 0.5);
+    }
+
+    .hotspot-goal {
+      left: 10%;
+      top: 60%;
+    }
+
+    .hotspot-action {
+      left: 27%;
+      top: 53%;
+    }
+
+    .hotspot-observe {
+      left: 46%;
+      top: 58%;
+    }
+
+    .hotspot-apply {
+      left: 64%;
+      top: 48%;
+    }
+
+    .hotspot-assess {
+      left: 84%;
+      top: 34%;
+    }
+
+    .learning-cursor,
+    .learning-tooltip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .learning-cursor {
+      opacity: 0;
+      transition: opacity 0.25s var(--ease);
+    }
+
+    .learning-cursor span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 100px;
+      padding: 0.84rem 1rem;
+      border-radius: 999px;
+      background: rgba(26, 23, 33, 0.86);
+      color: #fff;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transform: translate(-50%, -50%);
+    }
+
+    .learning-tooltip {
+      opacity: 0;
+      transition: opacity 0.25s var(--ease);
+    }
+
+    .learning-tooltip span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.7rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(31, 26, 22, 0.08);
+      box-shadow: 0 14px 32px -24px rgba(31, 26, 22, 0.28);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 700;
+      transform: translate(-50%, calc(-100% - 14px));
+    }
+
+    .learning-tooltip span::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand), var(--gold));
+    }
+
+    .method-visual__overlay {
+      position: absolute;
+      inset: 24px;
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      gap: 18px;
+      pointer-events: none;
+    }
+
+    .method-visual__meta {
+      display: grid;
+      gap: 8px;
+      width: min(340px, 100%);
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(31, 26, 22, 0.06);
+      backdrop-filter: blur(14px);
+    }
+
+    .method-visual__meta-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand);
+    }
+
+    .method-visual__meta strong {
+      font-size: 1.18rem;
+    }
+
+    .method-visual__meta span {
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    .method-progress {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    .method-progress button {
+      padding: 12px 12px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--ink-soft);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.28s var(--ease), background 0.28s var(--ease), border-color 0.28s var(--ease), color 0.28s var(--ease), box-shadow 0.28s var(--ease);
+    }
+
+    .method-progress button span {
+      display: block;
+      margin-bottom: 6px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--ink-faint);
+    }
+
+    .method-progress button:hover,
+    .method-progress button.is-active {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.92);
+      border-color: rgba(179, 40, 58, 0.18);
+      color: var(--ink);
+      box-shadow: 0 22px 34px -28px rgba(31, 26, 22, 0.42);
+    }
+
+    .method-progress button.is-active span {
+      color: var(--brand);
+    }
+
+    .method-final-message {
+      display: grid;
+      gap: 4px;
+      width: fit-content;
+      max-width: min(320px, 100%);
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: rgba(26, 23, 33, 0.88);
+      color: #fff;
+      box-shadow: 0 24px 50px -34px rgba(0, 0, 0, 0.48);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+    }
+
+    .method-final-message.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .method-final-message strong {
+      color: #f1c27d;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .summary-strip article {
+      padding: 18px 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(31, 26, 22, 0.05);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .summary-strip strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      color: var(--brand);
+    }
+
+    .summary-strip p {
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1100px) {
+      .method-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .method-visual {
+        position: relative;
+        top: auto;
+        order: -1;
+      }
+
+      .method-visual__frame {
+        height: auto;
+        min-height: 620px;
+      }
+
+      .summary-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 780px) {
+      .page-shell {
+        padding: 18px;
+      }
+
+      .hero-bar {
+        position: relative;
+        top: auto;
+        border-radius: 26px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .method-showcase {
+        padding: 22px;
+        border-radius: 28px;
+      }
+
+      .method-copy {
+        padding-left: 0;
+      }
+
+      .method-copy::before {
+        display: none;
+      }
+
+      .method-step {
+        min-height: auto;
+        padding: 14px 0;
+      }
+
+      .method-visual__frame {
+        min-height: 560px;
+      }
+
+      .method-visual__overlay {
+        inset: 18px;
+      }
+
+      .method-progress {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .summary-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .learning-hotspot,
+      .learning-cursor,
+      .learning-tooltip {
+        display: none;
+      }
+
+      .method-visual__meta {
+        width: 100%;
+      }
+
+      .method-progress {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-shell">
+    <div class="hero-bar">
+      <div class="hero-bar__brand">
+        <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+        <span>Interactive Method Preview</span>
+      </div>
+      <div class="hero-bar__pill">
+        Right-side visual owns the interaction.
+        <strong>Premium canvas mode</strong>
+      </div>
+    </div>
+
+    <section class="method-showcase">
+      <header class="method-header">
+        <div class="eyebrow">XSEED Method</div>
+        <h1>Don’t just read the method. <em>Experience the learning journey.</em></h1>
+        <p>
+          The left side stays calm and narrative. The right side behaves like a living product canvas:
+          motion, pathfinding, hotspots, context labels, and stage controls all stay inside one polished visual surface.
+        </p>
+      </header>
+
+      <div class="method-layout">
+        <div class="method-copy">
+          <article class="method-step" data-stage="0" id="stage-aim">
+            <div class="method-step__card is-active">
+              <div class="method-step__index">01 / Aim</div>
+              <h2 class="method-step__title">Aim</h2>
+              <p class="method-step__question">Where are we going?</p>
+              <p class="method-step__body">
+                Every learning journey begins with a goal worth reaching. Students know what they are solving before the
+                activity starts, so the lesson has direction from the first minute.
+              </p>
+              <div class="method-step__cue">Set the goal</div>
+            </div>
+          </article>
+
+          <article class="method-step" data-stage="1" id="stage-action">
+            <div class="method-step__card">
+              <div class="method-step__index">02 / Action</div>
+              <h2 class="method-step__title">Action</h2>
+              <p class="method-step__question">Try it with your hands and mind.</p>
+              <p class="method-step__body">
+                Children learn by doing. They move, test, adjust, and explore possibilities instead of waiting for the
+                teacher to complete the thinking on their behalf.
+              </p>
+              <div class="method-step__cue">Learn by doing</div>
+            </div>
+          </article>
+
+          <article class="method-step" data-stage="2" id="stage-analysis">
+            <div class="method-step__card">
+              <div class="method-step__index">03 / Analysis</div>
+              <h2 class="method-step__title">Analysis</h2>
+              <p class="method-step__question">What happened, and why?</p>
+              <p class="method-step__body">
+                Reflection converts activity into understanding. Students discuss observations, compare outcomes, and
+                derive the underlying idea with clarity.
+              </p>
+              <div class="method-step__cue">Make meaning</div>
+            </div>
+          </article>
+
+          <article class="method-step" data-stage="3" id="stage-application">
+            <div class="method-step__card">
+              <div class="method-step__index">04 / Application</div>
+              <h2 class="method-step__title">Application</h2>
+              <p class="method-step__question">Now use it somewhere new.</p>
+              <p class="method-step__body">
+                Real learning travels. Students carry the idea into a new problem and prove that knowledge has become a
+                usable skill rather than a one-time classroom answer.
+              </p>
+              <div class="method-step__cue">Use it beyond the lesson</div>
+            </div>
+          </article>
+
+          <article class="method-step" data-stage="4" id="stage-assessment">
+            <div class="method-step__card">
+              <div class="method-step__index">05 / Assessment</div>
+              <h2 class="method-step__title">Assessment</h2>
+              <p class="method-step__question">Measure progress. Strengthen what comes next.</p>
+              <p class="method-step__body">
+                Assessment shows what a child can now do. It closes the loop, surfaces understanding, and informs the
+                next move in the learning journey.
+              </p>
+              <div class="method-step__cue">Close the loop</div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="method-visual" aria-live="polite">
+          <div class="method-visual__frame" id="methodVisualFrame">
+            <div class="method-visual__background"></div>
+
+            <div class="method-scenes">
+              <img class="method-scene is-active" data-stage="0" src="../assets/section2-aim.png" alt="Aim">
+              <img class="method-scene" data-stage="1" src="../assets/section2-Action.png" alt="Action">
+              <img class="method-scene" data-stage="2" src="../assets/section2-Analysis.png" alt="Analysis">
+              <img class="method-scene" data-stage="3" src="../assets/section2-Application.png" alt="Application">
+              <img class="method-scene" data-stage="4" src="../assets/section2-Assessment.png" alt="Assessment">
+            </div>
+
+            <svg class="learning-path" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="learningGradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                  <stop offset="0%" stop-color="#b3283a"></stop>
+                  <stop offset="100%" stop-color="#d7ab58"></stop>
+                </linearGradient>
+              </defs>
+              <path class="path-base"
+                d="M80 480 C180 420 250 440 340 350 S520 280 610 330 S760 390 900 150"></path>
+              <path id="learningPath" class="path-progress"
+                d="M80 480 C180 420 250 440 340 350 S520 280 610 330 S760 390 900 150"></path>
+            </svg>
+
+            <div class="learning-marker" id="learningMarker" aria-hidden="true"><span></span></div>
+
+            <button class="learning-hotspot hotspot-goal is-active" data-stage="0" data-label="Goal"
+              aria-label="Jump to Aim"></button>
+            <button class="learning-hotspot hotspot-action" data-stage="1" data-label="Try"
+              aria-label="Jump to Action"></button>
+            <button class="learning-hotspot hotspot-observe" data-stage="2" data-label="Observe"
+              aria-label="Jump to Analysis"></button>
+            <button class="learning-hotspot hotspot-apply" data-stage="3" data-label="Apply"
+              aria-label="Jump to Application"></button>
+            <button class="learning-hotspot hotspot-assess" data-stage="4" data-label="Assess"
+              aria-label="Jump to Assessment"></button>
+
+            <div class="learning-cursor" id="learningCursor" aria-hidden="true"><span>Explore</span></div>
+            <div class="learning-tooltip" id="learningTooltip" aria-hidden="true"><span id="learningTooltipText">Goal</span></div>
+
+            <div class="method-visual__overlay">
+              <div class="method-visual__meta">
+                <div class="method-visual__meta-label">Learning canvas</div>
+                <strong id="canvasTitle">Aim</strong>
+                <span id="canvasSummary">Define the goal and the purpose.</span>
+              </div>
+              <div></div>
+              <div class="method-progress">
+                <button class="is-active" data-stage-control="0"><span>01</span>Aim</button>
+                <button data-stage-control="1"><span>02</span>Action</button>
+                <button data-stage-control="2"><span>03</span>Analysis</button>
+                <button data-stage-control="3"><span>04</span>Application</button>
+                <button data-stage-control="4"><span>05</span>Assessment</button>
+              </div>
+              <div class="method-final-message" id="methodFinalMessage">
+                <div>Learning moves from</div>
+                <div>knowing to <strong>doing.</strong></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="summary-strip">
+        <article>
+          <strong>Aim</strong>
+          <p>Give the learner a clear target before the activity begins.</p>
+        </article>
+        <article>
+          <strong>Action</strong>
+          <p>Let students think through doing, not only through listening.</p>
+        </article>
+        <article>
+          <strong>Analysis</strong>
+          <p>Turn observation into explanation and explanation into understanding.</p>
+        </article>
+        <article>
+          <strong>Application</strong>
+          <p>Move the idea into a new context so it becomes portable.</p>
+        </article>
+        <article>
+          <strong>Assessment</strong>
+          <p>Evaluate by what the learner can now do independently.</p>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    const stages = [
+      { title: "Aim", summary: "Define the goal and the purpose.", tooltip: "Goal" },
+      { title: "Action", summary: "Learn by doing and exploring.", tooltip: "Try" },
+      { title: "Analysis", summary: "Reflect, discuss, and make sense.", tooltip: "Observe" },
+      { title: "Application", summary: "Apply learning in new situations.", tooltip: "Apply" },
+      { title: "Assessment", summary: "Measure progress and improve.", tooltip: "Assess" }
+    ];
+
+    const frame = document.getElementById("methodVisualFrame");
+    const path = document.getElementById("learningPath");
+    const marker = document.getElementById("learningMarker");
+    const tooltip = document.getElementById("learningTooltip");
+    const tooltipText = document.getElementById("learningTooltipText");
+    const cursor = document.getElementById("learningCursor");
+    const title = document.getElementById("canvasTitle");
+    const summary = document.getElementById("canvasSummary");
+    const finalMessage = document.getElementById("methodFinalMessage");
+    const steps = [...document.querySelectorAll(".method-step")];
+    const cards = [...document.querySelectorAll(".method-step__card")];
+    const scenes = [...document.querySelectorAll(".method-scene")];
+    const hotspots = [...document.querySelectorAll(".learning-hotspot")];
+    const controls = [...document.querySelectorAll("[data-stage-control]")];
+    let activeStage = 0;
+
+    function positionTooltip(index) {
+      const target = hotspots[index];
+      if (!tooltip || !target || !frame) {
+        return;
+      }
+
+      const frameRect = frame.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const x = targetRect.left - frameRect.left + targetRect.width / 2;
+      const y = targetRect.top - frameRect.top;
+
+      tooltip.style.left = x + "px";
+      tooltip.style.top = y + "px";
+      tooltip.style.opacity = "1";
+    }
+
+    function positionMarker(index) {
+      if (!path || !marker || !frame) {
+        return;
+      }
+
+      const total = path.getTotalLength();
+      const ratio = stages.length === 1 ? 1 : index / (stages.length - 1);
+      const point = path.getPointAtLength(total * ratio);
+      const frameRect = frame.getBoundingClientRect();
+      const pathRect = path.getBoundingClientRect();
+      const x = pathRect.left - frameRect.left + (point.x / 1000) * pathRect.width;
+      const y = pathRect.top - frameRect.top + (point.y / 600) * pathRect.height;
+
+      marker.style.transform = "translate(" + x + "px, " + y + "px) translate(-50%, -50%)";
+      path.style.strokeDashoffset = total - (total * ratio);
+    }
+
+    function updateStage(index, shouldScroll) {
+      const safeIndex = Math.max(0, Math.min(stages.length - 1, index));
+      activeStage = safeIndex;
+
+      cards.forEach((card, cardIndex) => card.classList.toggle("is-active", cardIndex === safeIndex));
+      scenes.forEach((scene, sceneIndex) => scene.classList.toggle("is-active", sceneIndex === safeIndex));
+      hotspots.forEach((hotspot, hotspotIndex) => hotspot.classList.toggle("is-active", hotspotIndex === safeIndex));
+      controls.forEach((control, controlIndex) => control.classList.toggle("is-active", controlIndex === safeIndex));
+
+      title.textContent = stages[safeIndex].title;
+      summary.textContent = stages[safeIndex].summary;
+      tooltipText.textContent = stages[safeIndex].tooltip;
+      finalMessage.classList.toggle("is-visible", safeIndex === stages.length - 1);
+
+      positionTooltip(safeIndex);
+      positionMarker(safeIndex);
+
+      if (shouldScroll) {
+        const target = document.getElementById("stage-" + stages[safeIndex].title.toLowerCase());
+        if (target) {
+          target.scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+            block: "center"
+          });
+        }
+      }
+    }
+
+    hotspots.forEach((hotspot) => {
+      hotspot.addEventListener("click", () => updateStage(Number(hotspot.dataset.stage), true));
+      hotspot.addEventListener("mouseenter", () => {
+        tooltipText.textContent = hotspot.dataset.label || stages[Number(hotspot.dataset.stage)].tooltip;
+        positionTooltip(Number(hotspot.dataset.stage));
+      });
+      hotspot.addEventListener("focus", () => {
+        tooltipText.textContent = hotspot.dataset.label || stages[Number(hotspot.dataset.stage)].tooltip;
+        positionTooltip(Number(hotspot.dataset.stage));
+      });
+    });
+
+    controls.forEach((button) => {
+      button.addEventListener("click", () => updateStage(Number(button.dataset.stageControl), true));
+    });
+
+    if (frame && cursor && !window.matchMedia("(pointer: coarse)").matches) {
+      frame.addEventListener("mouseenter", () => {
+        cursor.style.opacity = "1";
+      });
+
+      frame.addEventListener("mouseleave", () => {
+        cursor.style.opacity = "0";
+        tooltipText.textContent = stages[activeStage].tooltip;
+        positionTooltip(activeStage);
+      });
+
+      frame.addEventListener("mousemove", (event) => {
+        const rect = frame.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        cursor.style.transform = "translate(" + x + "px, " + y + "px)";
+      });
+    }
+
+    window.addEventListener("resize", () => {
+      positionTooltip(activeStage);
+      positionMarker(activeStage);
+    });
+
+    if (path) {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+    }
+
+    updateStage(0, false);
+
+    if (window.gsap && window.ScrollTrigger && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      steps.forEach((step) => {
+        const stageIndex = Number(step.dataset.stage);
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => updateStage(stageIndex, false),
+          onEnterBack: () => updateStage(stageIndex, false)
+        });
+      });
+
+      gsap.to(marker, {
+        scale: 1.14,
+        repeat: -1,
+        yoyo: true,
+        duration: 1.35,
+        ease: "sine.inOut"
+      });
+
+      gsap.from(".method-visual__frame", {
+        y: 28,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".method-layout",
+          start: "top 75%"
+        }
+      });
+
+      gsap.from(".method-header", {
+        y: 22,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out"
+      });
+    }
+  </script>
+</body>
+
+</html>
