@@ -35,27 +35,41 @@
   const home = document.createComment('Hero video original location');
   video.before(home);
   let closing = false;
+  let openedWithKeyboard = false;
   let previousOverflow;
   let animations = [];
-  const duration = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
+  const duration = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 750;
   const thumbnailTransform = () => {
     const origin = thumbnail.getBoundingClientRect();
     const target = frame.getBoundingClientRect();
     return `translate(${origin.x + origin.width / 2 - target.x - target.width / 2}px, ${origin.y + origin.height / 2 - target.y - target.height / 2}px) scale(${origin.width / target.width}, ${origin.height / target.height})`;
   };
   const animate = (from, to, opening) => {
+    const shadeOpacity = opening ? 0 : getComputedStyle(shade).opacity;
     animations.forEach(animation => animation.cancel());
-    const options = { duration: duration(), easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' };
+    const options = {
+      duration: duration(),
+      easing: opening ? 'cubic-bezier(.22, 1, .36, 1)' : 'cubic-bezier(.4, 0, .2, 1)',
+      fill: 'both'
+    };
     animations = [
-      frame.animate([{ transform: from }, { transform: to }], options),
-      shade.animate([{ opacity: opening ? 0 : 1 }, { opacity: opening ? 1 : 0 }], options)
+      frame.animate(opening ? [{ transform: from, opacity: 1 }, { transform: to, opacity: 1 }] : [
+        { transform: from, opacity: 1, offset: 0 },
+        { opacity: 1, offset: .65 },
+        { transform: to, opacity: 0, offset: 1 }
+      ], options),
+      shade.animate([{ opacity: shadeOpacity }, { opacity: opening ? 1 : 0 }], options),
+      closeButton.animate([{ opacity: opening ? 0 : 1 }, { opacity: opening ? 1 : 0 }], {
+        ...options, duration: opening ? duration() : duration() * .25
+      })
     ];
     return Promise.all(animations.map(animation => animation.finished.catch(() => {})));
   };
 
   trigger.setAttribute('aria-haspopup', 'dialog');
-  trigger.addEventListener('click', () => {
+  trigger.addEventListener('click', event => {
     if (dialog.open) return;
+    openedWithKeyboard = event.detail === 0;
     previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     frame.prepend(video);
@@ -75,7 +89,8 @@
     video.pause();
     // Clear the opening transform before measuring the final destination.
     const currentTransform = getComputedStyle(frame).transform;
-    animations.forEach(animation => animation.cancel());
+    // Only cancel the frame here so the backdrop keeps its current opacity.
+    animations[0]?.cancel();
     await animate(currentTransform, thumbnailTransform(), false);
     dialog.close();
     animations.forEach(animation => animation.cancel());
@@ -83,6 +98,9 @@
     home.after(video);
     document.body.style.overflow = previousOverflow;
     trigger.focus({ preventScroll: true });
+    // Pointer activation should return to the idle thumbnail; keyboard users
+    // retain their visible focus and their place in the tab order.
+    if (!openedWithKeyboard) trigger.blur();
     closing = false;
   };
   closeButton.addEventListener('click', close);
