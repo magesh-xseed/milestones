@@ -2155,7 +2155,6 @@
     main>section {
       min-height: 100vh;
       min-height: 100svh;
-      min-height: 100dvh;
       height: auto;
       max-height: none;
       scroll-margin-top: 0
@@ -2170,6 +2169,7 @@
       height: auto
     }
 
+    html.lenis,
     html.lenis-smooth {
       scroll-behavior: auto !important
     }
@@ -2222,7 +2222,6 @@
       main>section {
         height: 100vh;
         height: 100svh;
-        height: 100dvh;
         min-height: 0;
         max-height: none;
         overflow: clip
@@ -3118,24 +3117,50 @@
           window.ScrollTrigger?.refresh();
         });
       });
-      window.addEventListener('load', fitScenes);
+      window.addEventListener('load', () => {
+        fitScenes();
+        window.ScrollTrigger?.refresh();
+      });
       document.fonts?.ready.then(() => { fitScenes(); window.ScrollTrigger?.refresh(); });
 
       const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
       let context, lenis;
+      let reveals = [];
+      const settleRestoredReveals = () => {
+        // Restored positions should show completed content without replaying entrances.
+        // Complete every entrance above a restored position, including cards
+        // whose stagger delay has not elapsed yet.
+        reveals.forEach(({ animation, trigger }) => {
+          if (trigger.start <= window.scrollY) {
+            animation.totalProgress(1).pause();
+          }
+        });
+      };
       const setupMotion = () => {
         context?.revert(); context = undefined;
+        reveals = [];
         lenis?.destroy(); lenis = undefined;
         if (motion.matches || !window.gsap || !window.ScrollTrigger) return;
         gsap.registerPlugin(ScrollTrigger);
         if (window.Lenis) {
           lenis = new Lenis({
-            lerp: .055, wheelMultiplier: .7, smoothWheel: true,
+            lerp: .1, wheelMultiplier: 1, smoothWheel: true,
             anchors: true
           });
           lenis.on('scroll', ScrollTrigger.update);
         }
         context = gsap.context(() => {
+          const attachReveal = (animation, element, start) => {
+            // Attach only after every tween has been added. An already-passed
+            // trigger must never complete an empty or partially built timeline.
+            const trigger = ScrollTrigger.create({
+              animation, trigger: element, start,
+              // Keep completed triggers through refresh; removing them during
+              // restored-position setup can interrupt ScrollTrigger's refresh.
+              toggleActions: 'play none none none'
+            });
+            reveals.push({ animation, trigger });
+          };
           const writeNote = (timeline, section, position) => {
             const lines = section.querySelectorAll('.pencil-line > span');
             const strokes = section.querySelectorAll(section.matches('.note') ? 'svg' : '.pencil-underline');
@@ -3155,14 +3180,16 @@
           heroTimeline.fromTo('.hero-description, .hero-actions', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1.15, stagger: .15 }, '-=.85');
           writeNote(heroTimeline, hero, '-=.35');
 
+          // Prepare entrances before content enters the viewport so it never
+          // flashes visible and then disappears when its animation starts.
           // Each step tells its story, then settles so the copy stays easy to read.
           gsap.utils.toArray('.steps .step').forEach((step, index) => {
             const disc = step.querySelector('.icon-disc');
             const svg = disc.querySelector('svg');
             const sequence = gsap.timeline({
+              paused: true,
               defaults: { ease: 'power3.out' },
-              delay: window.innerWidth >= 768 ? index * .16 : 0,
-              scrollTrigger: { trigger: step, start: 'top 88%', once: true }
+              delay: window.innerWidth >= 768 ? index * .16 : 0
             });
             sequence.fromTo(step.querySelectorAll('.step-number, h3'),
               { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .75, stagger: .08 }, 0);
@@ -3193,12 +3220,13 @@
                 { strokeDasharray: 18, strokeDashoffset: 18 },
                 { strokeDashoffset: 0, duration: .4, stagger: .22, ease: 'power1.inOut' }, .75);
             }
+            attachReveal(sequence, step, 'top 88%');
           });
 
           gsap.utils.toArray('main > section:not(.hero)').forEach(section => {
             const timeline = gsap.timeline({
-              defaults: { ease: 'power3.out' },
-              scrollTrigger: { trigger: section, start: 'top 78%', once: true }
+              paused: true,
+              defaults: { ease: 'power3.out' }
             });
             timeline.fromTo(section.querySelectorAll('.eyebrow'), { opacity: 0, y: 18 },
               { opacity: 1, y: 0, duration: 1, clearProps: 'opacity,transform' }, 0);
@@ -3207,32 +3235,42 @@
             timeline.fromTo(section.querySelectorAll('.reveal .copy, .reveal .button, .reveal .text-link, .stats'),
               { opacity: 0, y: 30 },
               { opacity: 1, y: 0, duration: 1.3, stagger: .12, clearProps: 'opacity,transform' }, .4);
+            attachReveal(timeline, section, 'top 78%');
             section.querySelectorAll('.note').forEach(note => {
-              const noteTimeline = gsap.timeline({
-                scrollTrigger: { trigger: note, start: 'top 85%', once: true }
-              });
+              const noteTimeline = gsap.timeline({ paused: true });
               writeNote(noteTimeline, note, 0);
+              attachReveal(noteTimeline, note, 'top 85%');
             });
 
             // Reveal lower content at its own position, including on tall mobile layouts.
             section.querySelectorAll('.product, .ai-strip, .eco-grid > li').forEach((item, index) => {
-              gsap.fromTo(item, { opacity: 0, y: 36 }, {
+              const entrance = gsap.fromTo(item, { opacity: 0, y: 36 }, {
+                paused: true,
                 opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08,
-                ease: 'power3.out', clearProps: 'opacity,transform',
-                scrollTrigger: { trigger: item, start: 'top 94%', once: true }
+                ease: 'power3.out', clearProps: 'opacity,transform'
               });
+              attachReveal(entrance, item, 'top 94%');
             });
           });
         });
         window.ScrollTrigger.refresh();
+        settleRestoredReveals();
       };
-      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      if (window.gsap) {
+        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.add(time => lenis?.raf(time * 1000));
+      }
       setupMotion();
       motion.addEventListener('change', setupMotion);
-      window.addEventListener('pageshow', event => {
-        if (!event.persisted) return;
-        lenis?.resize();
-        window.ScrollTrigger?.refresh(true);
+      window.addEventListener('pageshow', () => {
+        // Runs for normal refreshes as well as back/forward cache restores.
+        requestAnimationFrame(() => {
+          fitScenes();
+          lenis?.resize();
+          window.ScrollTrigger?.refresh();
+          window.ScrollTrigger?.update();
+          settleRestoredReveals();
+        });
       });
 
     })();
