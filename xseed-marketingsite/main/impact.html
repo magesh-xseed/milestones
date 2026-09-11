@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impact — XSEED Education</title>
+  <meta name="description"
+    content="Learning that creates measurable change. Evidence from the XSEED Learnometer Skills Test: 61,000+ students, 21 states, and gains that show up in thinking.">
+  <link rel="icon" href="assets/xseed-blackline-logo.png">
+  <link rel="preload" as="image" href="https://placehold.co/1920x1100/f8f3ea/b3283a?text=Classroom">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,700&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/philosophy.css">
+  <style>
+    /* ---------- 1. HERO ---------- */
+    #impact-hero .hero-photo {
+      background: linear-gradient(90deg, rgba(255, 255, 255, .98), rgba(255, 255, 255, .83) 23%, rgba(255, 255, 255, .38) 45%, transparent 70%),
+        url(assets/impact-section1.png) center / cover no-repeat;
+    }
+
+    /* ---------- WHERE XSEED WORKS ---------- */
+    #where-we-work {
+      padding: clamp(72px, 8vw, 112px) var(--page-x);
+      background: #ffffff;
+    }
+
+    #where-we-work .section-inner {
+      max-width: 1140px;
+      margin-inline: auto;
+    }
+
+    #where-we-work .where-intro {
+      max-width: 768px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    #where-we-work .eyebrow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      font: 700 10px Inter, sans-serif;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b3283a;
+    }
+
+    #where-we-work h2 {
+      max-width: 780px;
+      font: 900 clamp(32px, 3.7vw, 52px)/1.12 Lato, sans-serif;
+      letter-spacing: -.035em;
+      color: #1f1a16;
+      text-wrap: balance;
+    }
+
+    #where-we-work .italic-phrase {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      color: #b3283a;
+    }
+
+    #where-we-work .where-lead {
+      max-width: 540px;
+      margin: 22px auto 38px;
+      font-size: clamp(16px, 1.4vw, 18px);
+      line-height: 1.75;
+      color: #655c51;
+    }
+
+    #where-we-work .reach-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0 0 38px;
+      padding: 28px 0;
+      border-block: 1px solid #e9e2d9;
+      list-style: none;
+    }
+
+    #where-we-work .reach-row li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      padding-inline: 32px;
+    }
+
+    #where-we-work .reach-row li+li {
+      border-left: 1px solid #e9e2d9;
+    }
+
+    #where-we-work .reach-row strong {
+      font: 900 clamp(32px, 3.3vw, 46px)/1 Lato, sans-serif;
+      letter-spacing: -.045em;
+      color: #1f1a16;
+    }
+
+    #where-we-work .reach-row strong em {
+      font-size: .65em;
+      vertical-align: top;
+      line-height: 1.3;
+      margin-left: 3px;
+    }
+
+    #where-we-work .reach-row span {
+      font: 700 10px/1.5 Inter, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #756b60;
+    }
+
+    #where-we-work .map-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+    }
+
+    #where-we-work .map-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 4px 22px;
+      font: 500 10px/1.5 Inter, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #756b60;
+    }
+
+    #where-we-work .map-key {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: .04em;
+      text-transform: none;
+    }
+
+    #where-we-work .map-key::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #b3283a;
+      box-shadow: 0 0 0 4px rgba(179, 40, 58, .08);
+    }
+
+    #where-we-work .where-map {
+      display: block;
+      height: auto;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    #where-we-work .map-label {
+      font: 500 16px Inter, sans-serif;
+      letter-spacing: 1.2px;
+      fill: #54483d;
+      paint-order: stroke;
+      stroke: #faf6ef;
+      stroke-width: 5px;
+      stroke-linejoin: round;
+    }
+
+    #where-we-work .map-dot {
+      r: 5px;
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: scale(1);
+    }
+
+    #where-we-work .map-dot[style="--i:5"] {
+      r: 8px;
+    }
+
+    #where-we-work .map-leaders line {
+      stroke: #bbaa97;
+      stroke-width: 1;
+      stroke-dasharray: none;
+    }
+
+    #where-we-work .map-dot,
+    #where-we-work .map-label,
+    #where-we-work .map-leaders {
+      opacity: 1;
+    }
+
+    #where-we-work .map-ring {
+      opacity: .28;
+    }
+
+    #where-we-work .country-list {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    #where-we-work .region-grid {
+      display: none;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 28px 20px;
+      margin-top: 8px;
+    }
+
+    #where-we-work .region-grid h3 {
+      display: block;
+      padding-top: 16px;
+      border-top: 1px solid #d9cbbd;
+      font: 600 10px/1.5 Inter, sans-serif;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #b3283a;
+    }
+
+    #where-we-work .region-grid ul {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #where-we-work .region-grid li {
+      padding: 4px 0;
+      font: 400 16px/1.55 Lato, sans-serif;
+      color: #463d34;
+    }
+
+    #where-we-work .where-note {
+      margin-top: 18px;
+      max-width: 620px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: #756b60;
+    }
+
+    #where-we-work :focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 5px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+
+      #where-we-work .map-ready:not(.map-visible) .map-dot,
+      #where-we-work .map-ready:not(.map-visible) .map-label,
+      #where-we-work .map-ready:not(.map-visible) .map-leaders,
+      #where-we-work .map-ready:not(.map-visible) .map-ring {
+        opacity: 0;
+      }
+
+      #where-we-work .map-visible .map-dot {
+        animation: where-dot 420ms cubic-bezier(.22, .68, .2, 1) calc(100ms + var(--i) * 90ms) both;
+      }
+
+      #where-we-work .map-visible .map-label,
+      #where-we-work .map-visible .map-leaders {
+        animation: where-label 300ms ease calc(240ms + var(--i) * 90ms) both;
+      }
+
+      /* Finish at 1.59s while retaining the ring's 1.1s start. */
+      #where-we-work .map-visible .map-ring {
+        animation: where-ring 490ms ease 1100ms both;
+      }
+
+      @keyframes where-dot {
+        from {
+          opacity: 0;
+          transform: scale(.4);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes where-label {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes where-ring {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: .28;
+        }
+      }
+    }
+
+    @media (max-width: 767px) {
+      #where-we-work {
+        --page-x: 24px;
+      }
+
+      #where-we-work .where-map,
+      #where-we-work .country-list {
+        display: none;
+      }
+
+      #where-we-work .region-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      #where-we-work .reach-row {
+        gap: 0;
+        padding: 24px 0;
+        margin-bottom: 28px;
+      }
+
+      #where-we-work .reach-row li {
+        padding-inline: 14px;
+        gap: 8px;
+      }
+
+      #where-we-work .reach-row strong {
+        font-size: clamp(27px, 6vw, 38px);
+      }
+
+      #where-we-work .reach-row span {
+        font-size: 9px;
+        letter-spacing: .08em;
+      }
+
+      #where-we-work .map-panel {
+        padding: 24px;
+        border-radius: 20px;
+      }
+
+      #where-we-work .map-caption {
+        padding: 0 0 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 479px) {
+      #where-we-work .region-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* ---------- 2. THE EVIDENCE ---------- */
+    #evidence {
+      padding: clamp(88px, 9vw, 128px) 24px;
+      background: #fcfdfd;
+      font-family: Inter, sans-serif;
+    }
+
+    #evidence .section-inner {
+      max-width: 1152px;
+      margin: auto;
+    }
+
+    #evidence .grid-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(32px, 5vw, 72px);
+    }
+
+    #evidence .split-image-col img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 22px;
+    }
+
+    #evidence .eyebrow {
+      display: block;
+      margin-bottom: 14px;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brand);
+    }
+
+    #evidence h2 {
+      margin-bottom: 22px;
+      font-family: Lato, sans-serif;
+      font-size: clamp(30px, 3.4vw, 46px);
+      font-weight: 900;
+      line-height: 1.14;
+      letter-spacing: -.035em;
+      color: #1c1917;
+    }
+
+    #evidence .italic-phrase {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      color: var(--brand);
+    }
+
+    #evidence p {
+      font-family: Lato, sans-serif;
+      font-size: clamp(16px, 1.35vw, 19px);
+      line-height: 1.7;
+      color: #655c51;
+    }
+
+    #evidence .inline-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(16px, 2.4vw, 32px);
+      margin-top: 36px;
+      list-style: none;
+      padding: 0;
+    }
+
+    #evidence .inline-facts li {
+      border-top: 1px solid #d6d3d1;
+      padding-top: 14px;
+    }
+
+    #evidence .fact-figure {
+      display: block;
+      font-family: Lato, sans-serif;
+      font-weight: 900;
+      font-size: clamp(22px, 2.1vw, 28px);
+      line-height: 1.15;
+      color: var(--brand);
+    }
+
+    #evidence .fact-meaning {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #78716c;
+    }
+
+    @media (max-width: 767px) {
+      #evidence .grid-split {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      #evidence .split-image-col {
+        order: -1;
+      }
+    }
+
+    /* ---------- 3. ONE YEAR OF PROGRESS ---------- */
+    #one-year {
+      padding: clamp(72px, 8vw, 112px) 24px;
+      background: #faf8f5;
+      font-family: Lato, sans-serif;
+    }
+
+    #one-year .progress-inner {
+      max-width: 1140px;
+      margin-inline: auto;
+    }
+
+    #one-year .progress-intro {
+      max-width: 768px;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    #one-year .progress-eyebrow {
+      display: block;
+      margin-bottom: 22px;
+      font: 700 10px/1.5 Inter, sans-serif;
+      letter-spacing: .2em;
+      color: var(--brand);
+    }
+
+    #one-year h2 {
+      font-size: clamp(32px, 3.7vw, 52px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -.035em;
+      color: #1f1a16;
+      text-wrap: balance;
+    }
+
+    #one-year .italic-phrase {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      color: var(--brand);
+    }
+
+    #one-year .progress-lead {
+      max-width: 560px;
+      margin: 22px auto 0;
+      font-size: clamp(16px, 1.4vw, 18px);
+      line-height: 1.75;
+      color: #655c51;
+    }
+
+    #one-year .progress-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 48px 0 0;
+      padding: 36px 0;
+      border-block: 1px solid #e3dbd0;
+      list-style: none;
+    }
+
+    #one-year .progress-list li {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      align-content: start;
+      gap: 16px;
+      padding: 8px clamp(20px, 2.6vw, 38px);
+      text-align: center;
+    }
+
+    #one-year .progress-list li+li {
+      border-left: 1px solid #e3dbd0;
+    }
+
+    #one-year .gain-figure {
+      grid-row: 1;
+      font-size: clamp(44px, 4.6vw, 64px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.05em;
+      color: var(--brand);
+    }
+
+    #one-year .gain-skill {
+      grid-row: 2;
+      font: 700 11px/1.5 Inter, sans-serif;
+      letter-spacing: .08em;
+      color: #655c51;
+      text-transform: uppercase;
+    }
+
+    #one-year .gain-statement {
+      grid-row: 3;
+      max-width: 260px;
+      margin-inline: auto;
+      font-size: clamp(19px, 1.7vw, 23px);
+      font-weight: 700;
+      line-height: 1.45;
+      color: #1f1a16;
+      text-wrap: balance;
+    }
+
+    #one-year .progress-subjects {
+      max-width: 800px;
+      margin: 28px auto 0;
+      text-align: center;
+    }
+
+    #one-year .subjects-label {
+      display: block;
+      margin-bottom: 10px;
+      font: 700 10px/1.5 Inter, sans-serif;
+      letter-spacing: .16em;
+      color: #756b60;
+    }
+
+    #one-year .subjects-copy {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #655c51;
+    }
+
+    #one-year .subjects-copy strong {
+      display: inline-block;
+      font-weight: 900;
+      color: #1f1a16;
+    }
+
+    #one-year .progress-note {
+      margin-top: 30px;
+      text-align: center;
+      font-family: Caveat, cursive;
+      font-size: clamp(26px, 2.4vw, 34px);
+      line-height: 1.3;
+      color: var(--brand);
+    }
+
+    @media (max-width: 767px) {
+      #one-year .progress-list {
+        grid-template-columns: minmax(0, 1fr);
+        margin-top: 36px;
+        padding-block: 0;
+      }
+
+      #one-year .progress-list li {
+        padding: 30px 16px;
+        gap: 12px;
+      }
+
+      #one-year .progress-list li+li {
+        border-left: 0;
+        border-top: 1px solid #e3dbd0;
+      }
+
+      #one-year .gain-statement {
+        max-width: 290px;
+      }
+    }
+
+    /* ---------- 4. THE LONGER VIEW ---------- */
+    #longer-view {
+      padding: clamp(72px, 8vw, 128px) 24px;
+      background: #fff;
+      font-family: Lato, sans-serif;
+    }
+
+    #longer-view .longer-inner {
+      max-width: 1100px;
+      margin-inline: auto;
+    }
+
+    #longer-view .longer-intro {
+      text-align: center;
+    }
+
+    #longer-view .longer-eyebrow {
+      display: block;
+      margin-bottom: 14px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--brand);
+    }
+
+    #longer-view h2 {
+      font-size: clamp(30px, 3.4vw, 46px);
+      font-weight: 900;
+      line-height: 1.14;
+      letter-spacing: -.035em;
+      color: #1c1917;
+    }
+
+    #longer-view .italic-phrase {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      color: var(--brand);
+    }
+
+    #longer-view .longer-intro p {
+      max-width: 720px;
+      margin: 20px auto 0;
+      font-size: clamp(17px, 1.45vw, 20px);
+      line-height: 1.7;
+      color: #655c51;
+    }
+
+    #longer-view .crossing-band {
+      --band-height: clamp(280px, 30vw, 420px);
+      position: relative;
+      margin-top: 32px;
+    }
+
+    #longer-view .crossing-horizontal {
+      display: block;
+      width: 100%;
+      height: var(--band-height);
+      overflow: visible;
+    }
+
+    #longer-view .crossing-vertical {
+      display: none;
+    }
+
+    #longer-view .comparison-label {
+      position: absolute;
+      top: calc(var(--band-height) * .55 - 26px);
+      left: 0;
+      font-family: Inter, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: .12em;
+      color: #a8a29e;
+    }
+
+    #longer-view .crossing-years {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #longer-view .crossing-years li {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+
+    #longer-view .crossing-years h3 {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: #1c1917;
+    }
+
+    #longer-view .crossing-years p {
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #78716c;
+    }
+
+    #longer-view .crossing-figure {
+      position: absolute;
+      transform: translateX(-50%);
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--brand);
+    }
+
+    #longer-view .year-one-figure {
+      left: 16.666667%;
+      top: calc(var(--band-height) * .75 + 14px);
+    }
+
+    #longer-view .year-three-figure {
+      left: 83.333333%;
+      bottom: calc(100% - var(--band-height) * .25 + 18px);
+    }
+
+    #longer-view .crossing-context {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    #longer-view .longer-support {
+      max-width: 720px;
+      margin: 56px auto 0;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #78716c;
+    }
+
+    #longer-view .longer-support::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      margin: 0 auto 20px;
+      background: var(--brand);
+    }
+
+    #longer-view .longer-note {
+      margin-top: 32px;
+      text-align: right;
+      font-family: Caveat, cursive;
+      font-size: clamp(26px, 2.4vw, 34px);
+      line-height: 1.2;
+      color: var(--brand);
+      transform: rotate(-2deg);
+      transform-origin: right center;
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      #longer-view .crossing-figure {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      #longer-view .crossing-band {
+        margin-top: 40px;
+        padding-top: 36px;
+      }
+
+      #longer-view .crossing-horizontal {
+        display: none;
+      }
+
+      #longer-view .crossing-vertical {
+        display: block;
+        position: absolute;
+        top: 36px;
+        left: 0;
+        width: 56px;
+        height: 300px;
+        overflow: visible;
+      }
+
+      #longer-view .comparison-label {
+        top: 0;
+        left: 24px;
+      }
+
+      #longer-view .crossing-years {
+        flex-direction: column;
+      }
+
+      #longer-view .crossing-years li {
+        flex: none;
+        min-height: 100px;
+        padding: 12px 0 12px 76px;
+        text-align: left;
+      }
+
+      #longer-view .crossing-years h3 {
+        display: inline;
+      }
+
+      #longer-view .crossing-figure {
+        position: static;
+        display: inline-block;
+        margin-left: 10px;
+        transform: none;
+        font-size: 28px;
+        vertical-align: baseline;
+      }
+
+      #longer-view .longer-support {
+        margin-top: 32px;
+      }
+    }
+
+    /* ---------- 5. EVERY LEARNER ---------- */
+    #every-learner .children-outcome-grid article {
+      border-top: 1px solid #d6d3d1;
+      padding-top: 18px;
+    }
+
+    #every-learner .learner-figure {
+      display: block;
+      font-family: Lato, sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 2.8vw, 38px);
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      color: var(--brand);
+    }
+
+    #every-learner .children-outcome-grid p {
+      font-size: 13px;
+    }
+
+    /* ---------- DATA NOTE ---------- */
+    #data-note {
+      background: var(--canvas);
+      padding: clamp(40px, 5vw, 64px) 24px;
+    }
+
+    #data-note p {
+      max-width: 720px;
+      margin: auto;
+      padding-top: 20px;
+      border-top: 1px solid rgba(31, 26, 22, .1);
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      line-height: 1.7;
+      color: #a8a29e;
+      text-align: center;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      #impact-hero *,
+      #evidence *,
+      #one-year *,
+      #longer-view *,
+      #every-learner * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* Closing CTA — matches the Method page. */
+    .method-cta {
+      background-color: var(--brand);
+      color: #ffffff;
+      padding: clamp(72px, 8vw, 120px) 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    .method-cta-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .method-cta .eyebrow {
+      color: #fffaf4;
+    }
+
+    .method-cta h2 {
+      color: #fff8ef;
+      font-size: clamp(30px, 3.4vw, 44px);
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 1.5rem;
+    }
+
+    .method-cta h2 span.italic-phrase {
+      color: #ffdc91;
+    }
+
+    .method-cta p {
+      font-size: 1.15rem;
+      color: #fffaf4;
+      margin-bottom: 1.75rem;
+      line-height: 1.7;
+    }
+
+    .method-cta .handwritten-cta {
+      color: #ffdc91;
+      font-size: 1.65rem;
+      display: block;
+      margin-bottom: 2.25rem;
+      transform: rotate(-1.5deg);
+    }
+
+    .method-cta .btn-cream {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff8ef;
+      color: var(--brand);
+      font-family: Inter, sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 2.25rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .method-cta .btn-cream:hover {
+      background-color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+
+    .method-cta .eyebrow {
+      display: block;
+      margin-bottom: 18px;
+      font: 700 12px Inter, sans-serif;
+      letter-spacing: .14em;
+    }
+
+    .method-cta .italic-phrase {
+      font-style: italic;
+    }
+
+    .method-cta .handwritten-cta {
+      font-family: Caveat, cursive;
+    }
+
+    .method-cta .btn-cream {
+      min-height: 52px;
+    }
+
+    .method-cta .btn-cream:focus-visible {
+      outline: 2px solid #fff8ef;
+      outline-offset: 5px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .method-cta .btn-cream {
+        transition: none;
+      }
+
+      .method-cta .btn-cream:hover {
+        transform: none;
+      }
+    }
+
+    /* Page-local motion, matching home.html. Content is visible without JavaScript. */
+    html.lenis, html.lenis body { height: auto; }
+    html.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis-stopped { overflow: hidden; }
+    main .motion-line, main .motion-inner {
+      display: block;
+      font: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      white-space: inherit;
+    }
+    main .motion-line {
+      overflow: hidden;
+      padding: 0 .12em .22em;
+      margin: 0 -.12em -.22em;
+    }
+    main .pencil-line { display: block; overflow: hidden; padding: .1em .12em; margin: -.1em -.12em; }
+    main .pencil-line > span { display: block; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      main .motion-inner, main .pencil-line > span, main [data-motion-item] {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/site-shell.css">
+  <script src="assets/site-shell.js" defer></script>
+</head>
+
+<body> <a class="skip" href="#main">Skip to content</a>
+  <header class="shell-header" id="header">
+    <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
+      <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+    </a>
+
+
+
+    <button class="shell-menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" class="shell-navigation" aria-label="Main navigation">
+      <a href="our_philosophy.html">Our Philosophy</a>
+      <a href="our_method.html">Our Method</a>
+      <a href="impact.html">Impact</a>
+
+      <a href="careers.html">Careers</a>
+    </nav>
+
+
+  </header>
+  <main id="main">
+
+    <!-- 1. HERO -->
+    <section class="hero" id="impact-hero" aria-labelledby="hero-title">
+      <div class="hero-photo"></div>
+      <div class="hero-copy">
+        <div class="philosophy-label">
+          <span class="philosophy-label-dot" aria-hidden="true"></span>
+          <span>OUR IMPACT</span>
+        </div>
+        <h1 id="hero-title" class="editorial-title">Learning that creates<br><em>measurable </em><br> <em
+            class="thinking">change.</em></h1>
+
+        <p class="description hero">The impact of education is seen in what children can understand, communicate<br
+            class="desktop-break"> and apply. Across classrooms, schools and countries, XSEED has helped make that
+          progress visible.</p>
+      </div>
+      <div class="note hero-note" aria-hidden="true">Progress you<br>can see.<svg viewBox="0 0 150 16">
+          <path d="M3 12Q70 2 147 4M29 15Q88 8 137 8" />
+        </svg></div>
+    </section>
+
+
+    <!-- 3. ONE YEAR OF PROGRESS -->
+    <section id="one-year" aria-labelledby="one-year-title">
+      <div class="progress-inner">
+        <div class="progress-intro">
+          <span class="progress-eyebrow">ONE YEAR OF PROGRESS</span>
+          <h2 id="one-year-title">One year. <span class="italic-phrase">Thirty-one percent better.</span></h2>
+          <p class="progress-lead">Across Grades 1–8 in 21 states, the same students were assessed a year
+            apart. The largest gains were not in what they could recall.</p>
+        </div>
+        <ol class="progress-list" role="list">
+          <li>
+            <p class="gain-statement">Children explain their thinking out loud.</p>
+            <span class="gain-figure">+47%</span>
+            <span class="gain-skill">Communication</span>
+          </li>
+          <li>
+            <p class="gain-statement">They can say why an answer works.</p>
+            <span class="gain-figure">+38%</span>
+            <span class="gain-skill">Conceptual understanding</span>
+          </li>
+          <li>
+            <p class="gain-statement">They stay with an unfamiliar question.</p>
+            <span class="gain-figure">+20%</span>
+            <span class="gain-skill">Problem solving</span>
+          </li>
+        </ol>
+        <div class="progress-subjects">
+          <span class="subjects-label">SUBJECTS</span>
+          <p class="subjects-copy">The same year, across the core subjects: <strong>Science +39%</strong>,
+            <strong>English +30%</strong>, <strong>Mathematics +26%</strong>.
+          </p>
+        </div>
+        <p class="progress-note">The gains are in the thinking, not the recall.</p>
+      </div>
+    </section>
+
+    <!-- 2. THE EVIDENCE -->
+    <section id="evidence" aria-labelledby="evidence-title">
+      <div class="section-inner">
+        <div class="grid-split">
+          <div class="split-image-col">
+            <img src="assets/impact-section1a.png" alt="A child working through a written assessment in a classroom"
+              loading="lazy" width="1254" height="1254">
+          </div>
+          <div class="split-text-col">
+            <span class="eyebrow">THE EVIDENCE</span>
+            <h2 id="evidence-title">When learning is measured, <span class="italic-phrase">progress becomes
+                visible.</span></h2>
+            <p>In 2022, more than 61,000 students across 21 states in India took the XSEED Learnometer Skills Test. The
+              assessment looked beyond recall — it measured whether a child could understand an idea, work through a
+              problem, and explain their thinking.</p>
+            <ul class="inline-facts">
+              <li><span class="fact-figure">61K+</span><span class="fact-meaning">students assessed</span></li>
+              <li><span class="fact-figure">21</span><span class="fact-meaning">states</span></li>
+              <li><span class="fact-figure">1–8</span><span class="fact-meaning">grades covered</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 4. THE LONGER VIEW -->
+    <section id="longer-view" aria-labelledby="longer-view-title">
+      <div class="longer-inner">
+        <div class="longer-intro">
+          <span class="longer-eyebrow">CONSISTENCY MATTERS</span>
+          <h2 id="longer-view-title">The difference <span class="italic-phrase">grows with time.</span></h2>
+          <p>Transformation is not instant. In lower-fee schools, students began behind the comparison group.
+            Three years later, the same schools were comfortably ahead.</p>
+        </div>
+        <div class="crossing-band">
+          <span class="comparison-label">Comparison group</span>
+          <svg class="crossing-horizontal" viewBox="0 0 1100 520" preserveAspectRatio="none" role="img"
+            aria-labelledby="crossing-title crossing-desc">
+            <title id="crossing-title">Three years of progress against the comparison group</title>
+            <desc id="crossing-desc">Year one: 15% below the comparison group. Year two: shown at the comparison
+              line as an illustrative transition; no measured percentage is specified. Year three: 44% above
+              the comparison group.</desc>
+            <g aria-hidden="true">
+              <path d="M0 286H1100" fill="none" stroke="#d6d3d1" stroke-width="0.5" stroke-dasharray="4 5"
+                vector-effect="non-scaling-stroke" />
+              <path d="M183.333 390 C350 390 400 355 550 286 S750 130 916.667 130" fill="none" stroke="#b3283a"
+                stroke-width="1.5" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+              <!-- Round, non-scaling strokes preserve circular markers at every band size. -->
+              <path d="M183.333 390h0.001" stroke="#b3283a" stroke-width="8" stroke-linecap="round"
+                vector-effect="non-scaling-stroke" />
+              <path d="M550 286h0.001" stroke="#b3283a" stroke-width="8" stroke-linecap="round"
+                vector-effect="non-scaling-stroke" />
+              <path d="M550 286h0.001" stroke="#fff" stroke-width="4" stroke-linecap="round"
+                vector-effect="non-scaling-stroke" />
+              <path d="M916.667 130h0.001" stroke="#b3283a" stroke-width="14" stroke-linecap="round"
+                vector-effect="non-scaling-stroke" />
+            </g>
+          </svg>
+          <svg class="crossing-vertical" viewBox="0 0 56 300" role="img"
+            aria-labelledby="crossing-mobile-title crossing-mobile-desc">
+            <title id="crossing-mobile-title">Three years of progress against the comparison group</title>
+            <desc id="crossing-mobile-desc">Year one: 15% below the comparison group. Year two: shown at the comparison
+              line as an illustrative transition; no measured percentage is specified. Year three: 44% above
+              the comparison group.</desc>
+            <g aria-hidden="true">
+              <path d="M24 0V300" fill="none" stroke="#d6d3d1" stroke-width="0.5" stroke-dasharray="4 5" />
+              <path d="M10 28 C10 85 15 95 24 128 S44 190 44 228" fill="none" stroke="#b3283a" stroke-width="1.5"
+                stroke-linecap="round" />
+              <circle cx="10" cy="28" r="4" fill="#b3283a" />
+              <circle cx="24" cy="128" r="4" fill="#fff" stroke="#b3283a" stroke-width="2" />
+              <circle cx="44" cy="228" r="7" fill="#b3283a" />
+            </g>
+          </svg>
+          <ol class="crossing-years" role="list">
+            <li>
+              <h3>Year one</h3>
+              <span class="crossing-figure year-one-figure">+3%<span class="crossing-context"> against the comparison
+                  group</span></span>
+              <p>The method is new</p>
+            </li>
+            <li>
+              <h3>Year two</h3>
+              <span class="crossing-context">Illustrative crossing of the comparison line; no measured percentage
+                specified.</span>
+              <p>Practice settles in</p>
+            </li>
+            <li>
+              <h3>Year three</h3>
+              <span class="crossing-figure year-three-figure">+44%<span class="crossing-context"> against the comparison
+                  group</span></span>
+              <p>Ahead, and pulling away</p>
+            </li>
+          </ol>
+        </div>
+        <p class="longer-support">Middle-school students in schools using XSEED for three years or more
+          scored 21% higher than the comparison group.</p>
+        <p class="longer-note">Year three is where it shows.</p>
+      </div>
+    </section>
+
+    <!-- 5. EVERY LEARNER -->
+    <section id="every-learner" class="children-outcome" aria-labelledby="every-learner-title">
+      <div class="children-outcome-container">
+        <figure class="children-outcome-photo">
+          <img src="assets/impact-section5.png" alt="Schoolchildren working together at a classroom desk" loading="lazy"
+            width="1254" height="1254">
+          <figcaption class="children-outcome-caption">
+            <span>The child at the back of the room.</span>
+            <h3>Progress was not limited to children already doing well.</h3>
+          </figcaption>
+        </figure>
+        <div class="children-outcome-content">
+          <span class="children-outcome-eyebrow">IMPACT FOR EVERY LEARNER</span>
+          <h2 id="every-learner-title">Progress matters most when it <span class="italic-phrase">reaches every
+              child.</span></h2>
+          <p>The children who gained the most were the ones furthest behind.</p>
+          <div class="children-outcome-grid">
+            <article>
+              <span class="learner-figure">+55%</span>
+              <p>Students who began in the lowest-performing third.</p>
+            </article>
+            <article>
+              <span class="learner-figure">+136%</span>
+              <p>Lowest-performing students in Grades 6–8.</p>
+            </article>
+            <article>
+              <span class="learner-figure">+62%</span>
+              <p>Grades 6–8 overall, year on year.</p>
+            </article>
+            <article>
+              <span class="learner-figure">+81%</span>
+              <p>Grades 6–8, English.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="where-we-work" aria-labelledby="where-title">
+      <div class="section-inner">
+        <div class="where-intro">
+          <span class="eyebrow">WHERE XSEED WORKS</span>
+          <h2 id="where-title">One way of teaching, <span class="italic-phrase">ten countries wide.</span></h2>
+          <p class="where-lead">The method travels. Classrooms differ in language, curriculum and
+            context — the practice underneath them does not.</p>
+        </div>
+        <ul class="reach-row" role="list">
+          <li><strong>2M<em style="font-style:normal;color:#b3283a">+</em></strong><span>STUDENTS REACHED</span></li>
+          <li><strong>100K<em style="font-style:normal;color:#b3283a">+</em></strong><span>TEACHERS TRAINED</span></li>
+          <li><strong>10</strong><span>COUNTRIES</span></li>
+        </ul>
+        <div class="map-panel">
+          <div class="map-caption" aria-hidden="true"><span>Across borders. Inside classrooms.</span><span
+              class="map-key">XSEED presence</span></div>
+          <svg class="where-map" width="100%" viewBox="0 0 1200 639" role="img"
+            aria-labelledby="where-map-title where-map-desc" focusable="false">
+            <title id="where-map-title">Countries where XSEED operates</title>
+            <desc id="where-map-desc">Saudi Arabia, Qatar, United Arab Emirates, Oman, Uzbekistan, India, Nepal,
+              Singapore, Philippines.</desc>
+            <defs>
+              <pattern id="hd" width="15" height="15" patternUnits="userSpaceOnUse">
+                <circle cx="7.5" cy="7.5" r="2.7" fill="#dcd4c7" />
+              </pattern>
+              <mask id="where-label-clearance" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="639">
+                <rect width="1200" height="639" fill="white" />
+                <rect x="116" y="374" width="340" height="34" fill="black" />
+                <rect x="116" y="416" width="340" height="34" fill="black" />
+                <rect x="116" y="458" width="340" height="34" fill="black" />
+                <rect x="116" y="500" width="340" height="34" fill="black" />
+              </mask>
+            </defs>
+            <!-- Natural Earth 1:110m admin-0, equirectangular; 5px Douglas–Peucker simplification. -->
+            <path aria-hidden="true" fill="url(#hd)"
+              d="M-50,612L-4,640L16,661L10,684L30,689L-50,689L-50,612Z M644,-42L623,-32L615,-13L589,-17L580,6L547,14L559,37L550,40L551,48L472,35L463,46L433,43L400,70L375,63L366,52L366,39L351,30L313,33L267,5L234,13L234,61L210,48L189,55L189,42L174,37L161,18L173,19L174,10L196,10L196,-11L172,-14L145,-5L131,-23L110,-31L125,-50L637,-50L644,-42Z M234,61L234,13L267,5L313,33L351,30L366,39L366,52L375,63L395,70L430,49L423,58L457,67L441,76L425,75L426,66L409,69L398,84L387,84L384,89L396,102L389,116L372,113L372,105L341,93L318,78L312,64L293,62L287,49L269,42L247,54L249,61L234,61Z M1042,546L1035,558L1056,588L1041,590L1037,610L1025,619L1019,652L942,638L925,595L935,574L946,590L976,580L989,584L999,581L1016,544L1042,546Z M1192,637L1206,640L1211,650L1173,644L1176,637L1192,637Z M1173,572L1183,585L1175,612L1166,587L1173,572Z M1108,589L1138,581L1118,597L1072,597L1070,607L1082,618L1113,608L1089,625L1111,670L1099,669L1105,658L1089,660L1082,634L1074,638L1075,672L1067,674L1061,670L1063,646L1053,637L1067,598L1081,583L1108,589Z M866,614L872,631L888,640L885,676L870,677L842,655L790,576L747,529L776,532L817,573L841,582L859,599L854,609L866,614Z M47,622L39,611L39,564L54,545L91,535L143,477L143,451L171,443L164,480L138,530L47,622Z M16,661L-4,640L-50,614L-50,593L-39,575L-50,545L-35,528L-24,542L2,553L20,555L36,544L50,549L39,564L39,611L47,622L30,634L16,661Z M-50,493L-50,313L-15,313L-7,357L5,365L-15,379L-23,423L-49,461L-50,487L-50,440L-50,493Z M145,-5L113,18L138,55L122,62L97,46L26,33L-17,10L3,-3L-4,-8L15,-14L3,-14L3,-20L23,-25L27,-47L-50,-50L1250,-50L1250,34L1246,42L1230,35L1210,49L1213,13L1240,11L1249,-2L1250,-32L1213,-23L1192,-45L1165,-50L996,-50L948,-41L899,-50L688,-50L644,-42L637,-50L125,-50L114,-44L110,-31L131,-23L145,-5Z M-32,177L-15,179L10,165L16,181L-13,189L0,202L-25,219L-40,215L-32,177Z M177,284L209,285L236,260L238,265L240,275L233,275L222,307L183,300L177,284Z M167,277L173,259L177,271L175,279L167,277Z M130,209L136,228L112,220L121,208L130,209Z M16,181L10,165L39,151L43,126L62,112L88,115L105,135L97,157L122,176L138,210L121,208L112,220L88,219L51,193L16,181Z M224,304L233,275L240,275L284,309L259,336L257,353L219,379L197,383L183,352L222,339L230,313L224,304Z M842,441L839,425L848,414L888,419L893,410L908,423L906,439L884,449L890,457L854,461L842,441Z M877,414L848,414L839,425L842,441L820,435L821,425L810,425L799,479L807,480L815,503L837,519L824,526L785,491L803,445L785,403L794,389L774,359L786,343L810,334L817,346L825,346L823,372L850,361L870,373L882,397L877,414Z M905,415L877,414L882,397L860,362L823,372L825,346L817,346L810,334L824,320L832,324L830,309L837,307L850,329L867,329L872,341L860,349L875,357L904,392L905,415Z M810,334L786,343L774,359L794,389L785,403L803,445L790,470L789,429L772,379L748,395L733,391L735,362L708,320L720,309L722,286L732,289L745,253L771,247L774,231L792,241L791,262L779,273L777,288L791,286L803,301L799,312L814,319L824,315L810,334Z M865,463L890,457L884,449L906,439L907,402L875,357L860,349L872,341L867,329L850,329L837,307L878,295L914,319L883,351L924,401L929,448L876,488L875,471L865,463Z M1208,47L1196,57L1196,67L1168,81L1177,100L1138,109L1131,103L1140,86L1125,79L1136,71L1159,55L1177,59L1175,52L1200,39L1208,47Z M1150,108L1178,96L1193,120L1188,142L1154,151L1149,121L1159,119L1150,108Z M649,-43L688,-50L899,-50L948,-41L1026,-50L1011,-28L1014,-23L1044,-27L1067,-14L1036,-9L984,16L964,12L957,20L963,29L945,41L873,57L820,44L761,43L747,23L691,9L691,-12L652,-34L649,-43Z M774,231L771,247L745,253L732,289L722,286L720,309L713,313L706,292L701,300L693,293L709,274L677,270L676,261L660,255L655,264L664,271L653,280L661,284L664,317L639,320L633,337L614,346L576,384L552,393L546,465L516,496L503,484L463,391L452,321L424,328L394,291L402,282L431,282L411,249L425,235L441,236L486,179L466,152L507,148L520,137L534,152L531,189L562,206L549,224L591,243L653,255L654,236L662,234L663,247L675,251L705,250L700,238L738,218L758,216L764,224L760,229L774,231Z M713,313L709,330L697,303L685,303L682,315L666,312L661,284L653,280L664,271L655,264L660,255L676,261L677,270L709,274L693,293L701,300L706,292L713,313Z M700,238L705,250L663,247L678,231L700,238Z M654,236L653,255L642,256L549,224L568,203L624,232L654,236Z M520,137L507,148L466,152L486,179L441,236L425,235L411,249L431,282L402,282L394,291L370,268L306,273L311,258L330,251L323,231L298,211L320,218L370,210L377,192L408,184L408,176L422,165L416,156L429,157L438,141L434,129L441,124L485,116L498,132L520,137Z M372,113L407,115L428,98L441,121L460,111L485,116L434,129L438,141L429,157L416,156L422,165L408,176L408,184L377,192L370,210L320,218L298,211L310,199L294,170L303,135L326,138L346,126L349,116L362,109L372,113Z M389,116L396,102L384,89L387,84L398,84L409,69L426,66L423,72L431,75L412,77L410,84L465,86L469,98L481,99L482,112L460,111L441,121L428,98L407,115L389,116Z M430,49L441,41L463,46L472,35L551,48L507,64L503,73L480,73L465,86L410,84L412,77L441,76L457,67L423,58L430,49Z M189,55L210,48L228,62L249,61L247,54L269,42L287,49L293,62L312,64L318,78L341,93L372,105L372,113L362,109L346,126L316,140L303,135L302,124L252,104L208,115L207,92L197,88L200,79L192,78L195,67L218,66L205,51L195,54L193,63L189,55Z M138,210L122,176L97,157L105,135L81,105L80,86L89,82L106,95L131,84L131,94L146,110L168,119L206,118L243,103L302,124L294,170L310,199L298,211L323,231L330,251L311,258L306,273L253,264L247,248L218,255L202,250L176,237L158,207L138,210Z M-30,173L-18,154L-27,138L-16,120L57,114L43,126L39,151L-15,179L-30,173Z M111,94L74,75L73,64L99,68L111,94Z M-50,-50L27,-47L25,-29L3,-14L-40,-4L-39,3L-50,0L-50,-9L-50,9L-50,-50Z M88,115L-16,120L-24,133L-24,122L-43,120L-50,129L-50,52L5,66L60,58L89,82L80,86L88,115Z M571,502L569,515L552,522L544,493L550,472L571,502Z M932,363L922,359L921,347L949,338L944,356L932,363Z M551,48L550,40L559,37L547,14L580,6L589,-17L615,-13L623,-32L649,-43L652,-34L691,-12L691,9L747,23L761,43L820,44L873,57L945,41L963,29L957,20L964,12L984,16L1036,-9L1065,-9L1044,-27L1014,-23L1011,-28L1026,-50L1165,-50L1192,-45L1213,-23L1250,-32L1249,-2L1240,11L1213,13L1215,40L1208,47L1200,39L1175,52L1177,59L1159,55L1125,79L1083,93L1098,73L1091,66L1037,95L1066,115L1080,106L1100,111L1102,118L1084,122L1058,145L1073,152L1094,187L1094,196L1086,200L1097,211L1092,232L1052,280L1016,303L949,321L945,335L938,335L937,321L901,315L896,303L878,295L830,309L832,324L824,315L814,319L799,312L803,301L791,286L777,288L779,273L791,262L792,241L781,230L760,229L764,224L758,216L738,218L711,236L678,231L663,244L662,234L624,232L531,189L534,152L520,137L498,132L465,86L480,73L503,73L507,64L551,48Z M1093,282L1079,313L1071,293L1089,270L1093,282Z M110,54L128,63L138,55L162,75L151,76L142,100L131,94L131,84L111,94L111,85L99,80L103,75L91,62L111,64L110,54Z M26,33L97,46L113,63L46,58L45,44L26,33Z M1080,434L1074,424L1089,430L1086,441L1080,434Z M1103,470L1108,458L1115,457L1113,466L1123,453L1109,482L1103,470Z M1153,490L1155,506L1150,518L1146,505L1140,511L1140,527L1125,520L1125,504L1117,498L1095,506L1115,487L1120,493L1141,483L1140,473L1153,490Z M1050,478L1033,491L1063,452L1066,462L1050,478Z M1100,362L1092,413L1121,420L1123,436L1108,423L1104,428L1078,419L1083,411L1069,399L1079,359L1100,362Z M1096,451L1094,445L1110,449L1096,464L1096,451Z M1141,441L1145,456L1135,452L1138,465L1132,468L1126,450L1133,446L1125,436L1141,441Z M810,516L824,526L837,519L847,528L864,583L855,584L827,564L810,516Z M1042,546L1016,544L999,581L946,590L937,583L935,574L954,576L957,565L978,560L994,541L1000,548L1009,544L1010,529L1027,510L1059,529L1042,546Z M1010,529L1009,544L1000,548L994,541L1010,529Z M-20,412L-15,379L5,365L17,392L66,434L57,436L26,411L-1,405L-5,415L-20,412Z M1250,89L1250,164L1250,149L1213,158L1226,168L1209,195L1203,190L1206,178L1192,166L1234,138L1250,137L1250,60L1250,89Z M183,352L197,383L185,397L91,434L72,435L60,402L70,371L117,379L145,357L183,352Z M-40,217L-25,219L-6,209L0,202L-13,189L16,181L51,193L88,219L123,222L159,252L160,266L175,279L183,300L224,304L230,313L222,339L145,357L117,379L70,371L62,387L15,322L6,291L-44,234L-40,217Z M128,496L91,535L74,535L50,549L36,544L20,555L2,553L-24,542L-49,511L-49,461L-28,436L-20,412L14,408L38,416L57,436L49,456L62,457L74,480L128,496Z M57,436L69,438L62,457L49,456L57,436Z M143,451L143,477L128,496L74,480L59,462L67,450L80,464L143,451Z" />
+            <g class="map-leaders" style="--i:0" aria-hidden="true" mask="url(#where-label-clearance)">
+              <line x1="93.70" y1="300.74" x2="112" y2="394" stroke="#c9bfb2" stroke-width="1.4"
+                stroke-dasharray="4 5" />
+            </g>
+            <g class="map-leaders" style="--i:1" aria-hidden="true" mask="url(#where-label-clearance)">
+              <line x1="167.24" y1="283.17" x2="112" y2="436" stroke="#c9bfb2" stroke-width="1.4"
+                stroke-dasharray="4 5" />
+            </g>
+            <g class="map-leaders" style="--i:2" aria-hidden="true" mask="url(#where-label-clearance)">
+              <line x1="202.66" y1="299.48" x2="112" y2="478" stroke="#c9bfb2" stroke-width="1.4"
+                stroke-dasharray="4 5" />
+            </g>
+            <g class="map-leaders" style="--i:3" aria-hidden="true" mask="url(#where-label-clearance)">
+              <line x1="240.13" y1="331.58" x2="112" y2="520" stroke="#c9bfb2" stroke-width="1.4"
+                stroke-dasharray="4 5" />
+            </g>
+            <!-- Knockout stroke matches the map panel's ivory background. -->
+            <g stroke="#faf6ef" stroke-width="5">
+              <circle class="map-dot" style="--i:0" cx="91" cy="287" r="11" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:1" cx="172" cy="270" r="11" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:2" cx="209" cy="287" r="11" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:3" cx="248" cy="320" r="11" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:4" cx="407" cy="61" r="11" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:5" cx="535" cy="313" r="17" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:6" cx="617" cy="239" r="11" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:7" cx="858" cy="582" r="11" fill="#b3283a" aria-hidden="true" />
+              <circle class="map-dot" style="--i:8" cx="1096" cy="430" r="11" fill="#b3283a" aria-hidden="true" />
+            </g>
+            <circle class="map-ring" cx="535" cy="313" r="34" fill="none" stroke="#b3283a" stroke-width="2"
+              opacity=".28" aria-hidden="true" />
+            <text class="map-label" style="--i:0" x="120" y="400">SAUDI ARABIA</text>
+            <text class="map-label" style="--i:1" x="120" y="442">QATAR</text>
+            <text class="map-label" style="--i:2" x="120" y="484">UNITED ARAB EMIRATES</text>
+            <text class="map-label" style="--i:3" x="120" y="526">OMAN</text>
+            <text class="map-label" style="--i:4" x="428" y="55">UZBEKISTAN</text>
+            <text class="map-label" style="--i:5" x="562" y="320">INDIA</text>
+            <text class="map-label" style="--i:6" x="638" y="232">NEPAL</text>
+            <text class="map-label" style="--i:7" x="880" y="590">SINGAPORE</text>
+            <text class="map-label" style="--i:8" x="1076" y="436" text-anchor="end">PHILIPPINES</text>
+          </svg>
+          <ul class="country-list" role="list">
+            <li>Saudi Arabia</li>
+            <li>Qatar</li>
+            <li>United Arab Emirates</li>
+            <li>Oman</li>
+            <li>Uzbekistan</li>
+            <li>India</li>
+            <li>Nepal</li>
+            <li>Singapore</li>
+            <li>Philippines</li>
+          </ul>
+          <div class="region-grid">
+            <div>
+              <h3>South Asia</h3>
+              <ul role="list">
+                <li>India</li>
+                <li>Nepal</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Southeast Asia</h3>
+              <ul role="list">
+                <li>Philippines</li>
+                <li>Singapore</li>
+              </ul>
+            </div>
+            <div>
+              <h3>The Gulf</h3>
+              <ul role="list">
+                <li>United Arab Emirates</li>
+                <li>Saudi Arabia</li>
+                <li>Qatar</li>
+                <li>Oman</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Central Asia</h3>
+              <ul role="list">
+                <li>Uzbekistan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- <p class="where-note">Named above are the countries XSEED currently identifies in its
+          published material.</p> -->
+      </div>
+    </section>
+
+
+    <!-- 6. CLOSING CTA -->
+    <section class="method-cta" aria-labelledby="impact-cta-title">
+      <div class="method-cta-inner">
+        <span class="eyebrow">A MORE HUMAN TOMORROW</span>
+        <h2 id="impact-cta-title">Better learners today. <span class="italic-phrase">More capable humans
+            tomorrow.</span></h2>
+        <p>Impact is not only what children remember. It is what they are able to do with what they learn. Understand
+          deeply. Think independently. Act confidently.</p>
+        <span class="handwritten handwritten-cta">“Behind every percentage is a learner.”</span>
+        <div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell-site-footer">
+    <div class="shell-wrap">
+      <div class="shell-footer-main">
+        <div class="shell-footer-brand">
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+              alt="XSEED Education" loading="lazy"></a>
+          <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
+        </div>
+        <div class="shell-footer-col">
+          <h4>Discover</h4>
+          <a href="our_philosophy.html">Our Philosophy</a>
+          <a href="our_method.html">Our Method</a>
+          <a href="impact.html">Impact</a>
+        </div>
+        <div class="shell-footer-col">
+          <h4>XSEED</h4>
+          <a href="our_philosophy.html">About</a>
+          <a href="careers.html">Careers</a>
+          <a href="https://xseededucation.com/">News</a>
+        </div>
+        <div class="shell-footer-col" id="contact" tabindex="-1">
+          <h4>Connect</h4>
+          <a href="mailto:contact@xseededucation.com">Contact</a>
+          <div class="shell-social" aria-label="Social links"><a
+              href="https://www.linkedin.com/company/xseed-education/" aria-label="XSEED on LinkedIn"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2M8 19H5V9h3ZM6.5 7.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5M19 19h-3v-5c0-3-3-2.8-3 0v5h-3V9h3v1.4C15 7.8 19 9 19 12Z" />
+              </svg></a><a href="https://www.youtube.com/@XSEEDEducationSingapore" aria-label="XSEED on YouTube"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 7s-.3-2-2-2.3C17.5 4.3 6.5 4.3 4 4.7 2.3 5 2 7 2 7s-.5 4-.5 5 .5 5 .5 5 .3 2 2 2.3c2.5.4 13.5.4 16 0 1.7-.3 2-2.3 2-2.3s.5-4 .5-5-.5-5-.5-5M10 16V8l6 4Z" />
+              </svg></a><a href="https://www.instagram.com/xseededucation/" aria-label="XSEED on Instagram"><svg
+                viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="17.5" cy="6.5" r="1.2" />
+              </svg></a></div>
+        </div>
+      </div>
+      <div class="shell-footer-bottom">
+        <span>© 2026 XSEED Education. All rights reserved.</span>
+        <strong>Better learners. A brighter tomorrow.</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/philosophy.js" defer></script>
+  <script>
+    (() => {
+      const map = document.querySelector('#where-we-work .where-map');
+      if (!map) return;
+      const mobile = matchMedia('(max-width: 767px)');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+      let observer;
+      let played = false;
+      const sync = () => {
+        map.setAttribute('aria-hidden', String(mobile.matches));
+        if (mobile.matches || reduced.matches) {
+          observer?.disconnect();
+          map.classList.remove('map-ready', 'map-visible');
+          return;
+        }
+        if (played || !('IntersectionObserver' in window)) return;
+        observer?.disconnect();
+        observer = new IntersectionObserver(entries => {
+          if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .25)) return;
+          map.classList.add('map-visible');
+          played = true;
+          observer.unobserve(map);
+        }, { threshold: .25 });
+        map.classList.add('map-ready');
+        observer.observe(map);
+      };
+      mobile.addEventListener('change', sync);
+      reduced.addEventListener('change', sync);
+      sync();
+    })();
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.8/dist/lenis.min.js"></script>
+  <script>
+    (() => {
+      const hero = document.querySelector("main > .hero");
+      const eyebrowSelector = ".philosophy-label, .eyebrow, .progress-eyebrow, .longer-eyebrow, .where-eyebrow, .children-outcome-eyebrow";
+      const noteSelector = ".note, .progress-note, .longer-note, .handwritten";
+      const cardSelector = ".progress-list > li, .progress-subjects, .inline-facts > li, .split-image-col, .crossing-years > li, .children-outcome-photo, .children-outcome-grid > article, .region-grid > div";
+      const copySelector = ".hero-copy > .description, .progress-lead, .split-text-col > p, .longer-intro > p, .longer-support, .where-intro > p, .method-cta-inner > p, .method-cta-inner > a";
+      const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      let context, lenis;
+
+      // Preserve semantic headings and their existing emphasis and authored line breaks.
+      const wrapLines = (element, pencil = false) => {
+        if (element.querySelector('.motion-line, .pencil-line')) return;
+        const nodes = [...element.childNodes];
+        const lines = [[]];
+        nodes.forEach(node => {
+          if (node.nodeName === 'BR') { node.remove(); lines.push([]); }
+          else if (node.nodeName !== 'svg') lines[lines.length - 1].push(node);
+        });
+        lines.forEach(nodes => {
+          const mask = document.createElement('span');
+          mask.className = pencil ? 'pencil-line' : 'motion-line';
+          const inner = document.createElement('span');
+          if (!pencil) inner.className = 'motion-inner';
+          mask.append(inner);
+          nodes.forEach(node => inner.append(node));
+          element.insertBefore(mask, element.querySelector(':scope > svg'));
+        });
+      };
+      const setupMotion = () => {
+        context?.revert(); context = undefined;
+        lenis?.destroy(); lenis = undefined;
+        if (motion.matches || !window.gsap || !window.ScrollTrigger) return;
+        document.querySelectorAll('main h1, main h2').forEach(heading => wrapLines(heading));
+        document.querySelectorAll(noteSelector).forEach(note => wrapLines(note, true));
+        gsap.registerPlugin(ScrollTrigger);
+        if (window.Lenis) {
+          lenis = new Lenis({ lerp: .055, wheelMultiplier: .7, smoothWheel: true, anchors: true });
+          lenis.on('scroll', ScrollTrigger.update);
+        }
+        context = gsap.context(() => {
+          const entrance = (timeline, targets, from, to, position) => {
+            if (!targets.length) return;
+            targets.forEach(target => target.setAttribute('data-motion-item', ''));
+            timeline.fromTo(targets, from, { ...to, clearProps: 'opacity,transform,clipPath' }, position);
+          };
+          const writeNote = (timeline, note, position) => {
+            entrance(timeline, note.querySelectorAll('.pencil-line > span'), { xPercent: -105 },
+              { xPercent: 0, duration: .65, stagger: .32, ease: 'power1.inOut' }, position);
+            entrance(timeline, note.querySelectorAll('svg'), { clipPath: 'inset(0 100% 0 0)' },
+              { clipPath: 'inset(0 0% 0 0)', duration: .7, ease: 'power2.inOut' }, '-=.15');
+          };
+          const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+          entrance(heroTimeline, hero.querySelectorAll(".hero-photo"), { scale: 1.035 },
+            { scale: 1, duration: 2.4, ease: 'power2.out' }, 0);
+          entrance(heroTimeline, hero.querySelectorAll(eyebrowSelector), { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 1 }, 0);
+          entrance(heroTimeline, hero.querySelectorAll('.motion-inner'), { yPercent: 112 },
+            { yPercent: 0, duration: 1.35, stagger: .14 }, .35);
+          entrance(heroTimeline, hero.querySelectorAll(copySelector), { opacity: 0, y: 24 },
+            { opacity: 1, y: 0, duration: 1.15, stagger: .15 }, .85);
+          hero.querySelectorAll(noteSelector).forEach(note => writeNote(heroTimeline, note, 1.65));
+
+          document.querySelectorAll('main > section').forEach(section => {
+            if (section === hero) return;
+            const timeline = gsap.timeline({ defaults: { ease: 'power3.out' },
+              scrollTrigger: { trigger: section, start: 'top 78%', toggleActions: 'play none none reverse' } });
+            entrance(timeline, section.querySelectorAll(eyebrowSelector), { opacity: 0, y: 18 },
+              { opacity: 1, y: 0, duration: 1 }, 0);
+            entrance(timeline, section.querySelectorAll('.motion-inner'), { yPercent: 112 },
+              { yPercent: 0, duration: 1.4, stagger: .14 }, .12);
+            entrance(timeline, section.querySelectorAll(copySelector), { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
+            section.querySelectorAll(noteSelector).forEach(note => {
+              const noteTimeline = gsap.timeline({ scrollTrigger: {
+                trigger: note, start: 'top 85%', toggleActions: 'play none none reverse' } });
+              writeNote(noteTimeline, note, 0);
+            });
+            // Trigger each lower item independently so tall mobile sections stay readable.
+            section.querySelectorAll(cardSelector).forEach((item, index) => {
+              const timeline = gsap.timeline({ scrollTrigger: {
+                trigger: item, start: 'top 94%', toggleActions: 'play none none reverse' } });
+              entrance(timeline, [item], { opacity: 0, y: 36 }, {
+                opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08, ease: 'power3.out'
+              }, 0);
+            });
+          });
+
+        });
+        ScrollTrigger.refresh();
+      };
+      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      setupMotion();
+      motion.addEventListener('change', setupMotion);
+      const refresh = () => { lenis?.resize(); window.ScrollTrigger?.refresh(); };
+      window.addEventListener('load', refresh);
+      document.fonts?.ready.then(refresh);
+      document.querySelectorAll('main img').forEach(img => {
+        if (!img.complete) img.addEventListener('load', refresh, { once: true });
+      });
+    })();
+  </script>
+</body>
+
+</html>

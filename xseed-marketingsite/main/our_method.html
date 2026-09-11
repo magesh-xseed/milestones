@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Method — XSEED Education</title>
+  <meta name="description"
+    content="Children learn by doing. They grow by thinking. Discover the XSEED philosophy: a foundation for learning and for life.">
+  <link rel="icon" href="assets/xseed-blackline-logo.png">
+  <link rel="preload" as="image" href="assets/method-section1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Cormorant+Garamond:ital,wght@1,700&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/philosophy.css">
+  <style>
+    .hero-photo {
+      background: linear-gradient(90deg, rgba(255, 255, 255, .98), rgba(255, 255, 255, .83) 20%, rgba(255, 255, 255, .38) 45%, transparent 100%), url(assets/method-section1.png) center / cover no-repeat
+    }
+
+    .method-origins {
+      padding-block: clamp(72px, 8vw, 112px);
+    }
+
+    .method-origins .experiential-grid {
+      gap: clamp(32px, 5vw, 64px);
+    }
+
+    .method-origins .experiential-photo {
+      overflow: hidden;
+      border-radius: 22px;
+    }
+
+    .origins-copy p {
+      font-family: Lato, sans-serif;
+      font-size: clamp(17px, 1.45vw, 20px);
+      line-height: 1.7;
+      color: #655c51;
+    }
+
+    .origins-copy strong {
+      font-weight: 700;
+      color: #1f1a16;
+    }
+
+    .origins-reach {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background: #f8f3ea;
+      border-left: 2px solid #b3283a;
+      border-radius: 0 16px 16px 0;
+    }
+
+    .origins-reach strong {
+      color: #b3283a;
+    }
+
+    .origins-quote {
+      margin: 28px 0 0;
+      padding-top: 24px;
+      border-top: 1px solid rgba(31, 26, 22, .1);
+      font-family: Caveat, cursive;
+      font-size: clamp(28px, 2.6vw, 36px);
+      line-height: 1.2;
+      color: #b3283a;
+    }
+
+    @media (max-width: 767px) {
+      .method-origins .experiential-intro {
+        margin-bottom: 36px;
+      }
+
+      .origins-reach {
+        padding: 20px;
+      }
+    }
+
+    #steps-section {
+      padding: clamp(72px, 8vw, 112px) 24px;
+      background: #faf8f5;
+    }
+
+    #steps-section .section-inner {
+      max-width: 1080px;
+      margin: auto;
+    }
+
+    #steps-section .section-header-centered {
+      text-align: center;
+      max-width: 1080px;
+      margin: 0 auto 56px;
+    }
+
+    #steps-section .eyebrow {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--brand);
+      font: 700 12px Inter, sans-serif;
+      letter-spacing: .14em;
+    }
+
+    #steps-section h2 {
+      font-size: clamp(30px, 3.4vw, 46px);
+      line-height: 1.12;
+      font-weight: 900;
+      letter-spacing: -.035em;
+    }
+
+    #steps-section .italic-phrase {
+      color: var(--brand);
+      font-style: italic;
+    }
+
+    #steps-section .method-steps-list {
+      margin: 0;
+      padding: 0;
+    }
+
+    #steps-section .step-title {
+      font-weight: 900;
+      line-height: 1.14;
+    }
+
+    #steps-section .step-image-wrapper {
+      border-radius: 22px;
+    }
+
+    #steps-section img {
+      display: block;
+    }
+
+    #steps-section .rhythm-banner {
+      margin-top: 36px;
+      padding: 32px 0;
+    }
+
+    #steps-section .rhythm-sequence {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(16px, 3vw, 36px);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #steps-section .rhythm-sequence li {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 3vw, 36px);
+    }
+
+    #steps-section .rhythm-arrow {
+      color: #db7d88;
+      font: 700 23px / 1 monospace;
+    }
+
+    #steps-section .rhythm-name {
+      color: #b2283a;
+      font: 700 clamp(16px, 2.05vw, 24px) / 1.4 monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    #steps-section .method-timeline-container {
+      max-width: 1080px;
+      margin: 4rem auto 0 auto;
+      position: relative;
+    }
+
+    #steps-section .timeline-line-dashed,
+    #steps-section .timeline-line-solid {
+      position: absolute;
+      top: var(--track-top, 0px);
+      left: 50%;
+      height: var(--track-height, 100%);
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    #steps-section .timeline-line-dashed {
+      width: 2px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(to bottom, #ddc4c6 0 5px, transparent 5px 13px);
+      z-index: 1;
+    }
+
+    #steps-section .timeline-line-solid {
+      width: 3px;
+      transform: translateX(-50%) scaleY(var(--timeline-progress, 0));
+      transform-origin: top center;
+      background: linear-gradient(to bottom, #de939b, #b3283a 55%, #8d2030);
+      box-shadow: 0 0 10px rgba(179, 40, 58, .16);
+      z-index: 2;
+    }
+
+    #steps-section .method-steps-list {
+      list-style: none;
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 5.5rem;
+    }
+
+    #steps-section .method-step {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4.5rem;
+      position: relative;
+    }
+
+    #steps-section .method-step.even .step-image-col {
+      order: 2;
+    }
+
+    #steps-section .method-step.even .step-text-col {
+      order: 1;
+      text-align: right;
+    }
+
+    #steps-section .step-image-wrapper {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background-color: #e5e0da;
+    }
+
+    #steps-section .step-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #steps-section .step-image-wrapper:hover img {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    #steps-section .step-marker {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: Inter, sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      z-index: 10;
+      background: #faf8f5;
+      border: 2px solid #ddc4c6;
+      color: #84636a;
+      box-shadow: 0 0 0 7px #faf8f5;
+      transition: background-color .35s ease, border-color .35s ease, color .35s ease, box-shadow .45s ease;
+    }
+
+    #steps-section .step-marker::after {
+      content: "";
+      position: absolute;
+      inset: -9px;
+      border: 1px solid #b3283a;
+      border-radius: inherit;
+      opacity: 0;
+      transform: scale(.85);
+      transition: opacity .45s ease, transform .55s var(--ease);
+    }
+
+    #steps-section .method-step.is-complete .step-marker {
+      background: #f4e3e5;
+      border-color: #b3283a;
+      color: #922334;
+    }
+
+    #steps-section .method-step.is-current .step-marker {
+      background: #b3283a;
+      border-color: #b3283a;
+      color: #fff;
+      box-shadow: 0 0 0 7px #faf8f5, 0 5px 20px rgba(179, 40, 58, .24);
+    }
+
+    #steps-section .method-step.is-current .step-marker::after {
+      opacity: .3;
+      transform: scale(1);
+    }
+
+    #steps-section .step-number-label {
+      font-family: Inter, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--brand);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    #steps-section .step-title {
+      font-size: 1.85rem;
+      margin-bottom: 0.85rem;
+    }
+
+    #steps-section .step-description {
+      font-size: 1.05rem;
+      color: #655c51;
+      line-height: 1.65;
+      max-width: 420px;
+    }
+
+    #steps-section .method-step.even .step-description {
+      margin-left: auto;
+    }
+
+    #steps-section .step-image-col,
+    #steps-section .step-text-col,
+    #steps-section .reveal-item {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #steps-section .method-step.is-visible .step-image-col,
+    #steps-section .method-step.is-visible .step-text-col,
+    #steps-section .reveal-item.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #steps-section .method-step.is-visible .step-marker {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+
+    #steps-section .is-visible .step-image-col,
+    #steps-section .is-visible .step-text-col {
+      animation: method-step-reveal .7s var(--ease) both;
+    }
+
+    @keyframes method-step-reveal {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 767px) {
+      #steps-section .rhythm-banner {
+        padding: 24px 0;
+      }
+
+      #steps-section .rhythm-sequence {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      #steps-section .rhythm-sequence li {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      #steps-section .rhythm-arrow {
+        transform: rotate(90deg);
+      }
+
+      #steps-section .rhythm-name {
+        font-size: 20px;
+      }
+
+      #steps-section .timeline-line-dashed,
+      #steps-section .timeline-line-solid {
+        left: 20px;
+      }
+
+      #steps-section .method-steps-list {
+        gap: 56px;
+      }
+
+      #steps-section .method-step {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding-left: 56px;
+        gap: 20px;
+      }
+
+      #steps-section .method-step.even .step-image-col,
+      #steps-section .method-step.even .step-text-col {
+        order: initial;
+        text-align: left;
+      }
+
+      #steps-section .method-step.even .step-description {
+        margin-left: 0;
+      }
+
+      #steps-section .step-marker,
+      #steps-section .method-step.is-visible .step-marker {
+        left: 20px;
+        top: 24px;
+        width: 40px;
+        height: 40px;
+        transform: translate(-50%, 0);
+      }
+
+      #steps-section .step-title {
+        font-size: 1.6rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      #steps-section *,
+      #steps-section *::after,
+      #steps-section .is-visible .step-image-col,
+      #steps-section .is-visible .step-text-col {
+        animation: none;
+        transition: none;
+      }
+
+      #steps-section .step-image-wrapper:hover img {
+        transform: none;
+      }
+    }
+
+    #apply-independently {
+      padding: clamp(72px, 8vw, 112px) 24px;
+      background: #ffffff;
+    }
+
+    #apply-independently .section-inner {
+      max-width: 1080px;
+      margin: auto;
+    }
+
+    #apply-independently .section-header-centered {
+      max-width: 820px;
+      margin: auto;
+      text-align: center;
+    }
+
+    #apply-independently .eyebrow {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--brand);
+      font: 700 12px Inter, sans-serif;
+      letter-spacing: .14em;
+    }
+
+    #apply-independently h2 {
+      margin-bottom: 20px;
+      font-size: clamp(30px, 3.4vw, 46px);
+      line-height: 1.12;
+      font-weight: 900;
+      letter-spacing: -.035em;
+    }
+
+    #apply-independently .italic-phrase {
+      color: var(--brand);
+      font-style: italic;
+    }
+
+    #apply-independently p {
+      font-size: clamp(17px, 1.45vw, 20px);
+      line-height: 1.7;
+      color: #655c51;
+    }
+
+    #apply-independently .handwritten {
+      font-family: Caveat, cursive;
+      font-size: clamp(28px, 2.6vw, 36px);
+      line-height: 1.2;
+      color: var(--brand);
+    }
+
+    .method-cta {
+      background-color: var(--brand);
+      color: #ffffff;
+      padding: clamp(72px, 8vw, 120px) 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    .method-cta-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .method-cta .eyebrow {
+      color: #fffaf4;
+    }
+
+    .method-cta h2 {
+      color: #fff8ef;
+      font-size: clamp(30px, 3.4vw, 44px);
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 1.5rem;
+    }
+
+    .method-cta h2 span.italic-phrase {
+      color: #ffdc91;
+    }
+
+    .method-cta p {
+      font-size: 1.15rem;
+      color: #fffaf4;
+      margin-bottom: 1.75rem;
+      line-height: 1.7;
+    }
+
+    .method-cta .handwritten-cta {
+      color: #ffdc91;
+      font-size: 1.65rem;
+      display: block;
+      margin-bottom: 2.25rem;
+      transform: rotate(-1.5deg);
+    }
+
+    .method-cta .btn-cream {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff8ef;
+      color: var(--brand);
+      font-family: Inter, sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 2.25rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .method-cta .btn-cream:hover {
+      background-color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+
+    .method-cta .eyebrow {
+      display: block;
+      margin-bottom: 18px;
+      font: 700 12px Inter, sans-serif;
+      letter-spacing: .14em;
+    }
+
+    .method-cta .italic-phrase {
+      font-style: italic;
+    }
+
+    .method-cta .handwritten-cta {
+      font-family: Caveat, cursive;
+    }
+
+    .method-cta .btn-cream {
+      min-height: 52px;
+    }
+
+    .method-cta .btn-cream:focus-visible {
+      outline: 2px solid #fff8ef;
+      outline-offset: 5px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .method-cta .btn-cream {
+        transition: none;
+      }
+
+      .method-cta .btn-cream:hover {
+        transform: none;
+      }
+    }
+
+    #experience-first {
+      padding: clamp(72px, 8vw, 112px) 24px;
+      background: var(--canvas);
+    }
+
+    #experience-first .section-inner {
+      max-width: 1080px;
+      margin: auto;
+    }
+
+    #experience-first .grid-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(32px, 5vw, 64px);
+    }
+
+    #experience-first .eyebrow {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--brand);
+      font: 700 12px Inter, sans-serif;
+      letter-spacing: .14em;
+    }
+
+    #experience-first h2 {
+      margin-bottom: 24px;
+      font-size: clamp(30px, 3.4vw, 46px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+
+    #experience-first .italic-phrase {
+      color: var(--brand);
+      font-style: italic;
+    }
+
+    #experience-first p {
+      margin-bottom: 20px;
+      font-size: clamp(17px, 1.45vw, 20px);
+      line-height: 1.7;
+      color: #655c51;
+    }
+
+    #experience-first .handwritten {
+      font-family: Caveat, cursive;
+      font-size: clamp(28px, 2.6vw, 36px);
+      line-height: 1.2;
+      color: var(--brand);
+    }
+
+    #experience-first img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 767px) {
+      #experience-first .grid-split {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* GSAP owns these entrances; the existing script still drives the progress line. */
+    #steps-section .step-image-col, #steps-section .step-text-col {
+      animation: none !important;
+      transition: none;
+    }
+    /* Page-local motion, matching home.html. Content is visible without JavaScript. */
+    html.lenis, html.lenis body { height: auto; }
+    html.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis-stopped { overflow: hidden; }
+    main .motion-line, main .motion-inner {
+      display: block;
+      font: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      white-space: inherit;
+    }
+    main .motion-line {
+      overflow: hidden;
+      padding: 0 .12em .22em;
+      margin: 0 -.12em -.22em;
+    }
+    main .pencil-line { display: block; overflow: hidden; padding: .1em .12em; margin: -.1em -.12em; }
+    main .pencil-line > span { display: block; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      main .motion-inner, main .pencil-line > span, main [data-motion-item] {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/site-shell.css">
+  <script src="assets/site-shell.js" defer></script>
+</head>
+
+<body> <a class="skip" href="#main">Skip to content</a>
+  <header class="shell-header" id="header">
+    <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
+      <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+    </a>
+
+    
+
+    <button class="shell-menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" class="shell-navigation" aria-label="Main navigation">
+      <a href="our_philosophy.html">Our Philosophy</a>
+      <a href="our_method.html">Our Method</a>
+      <a href="impact.html">Impact</a>
+      
+      <a href="careers.html">Careers</a>
+    </nav>
+
+
+  </header>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-photo"></div>
+      <div class="hero-copy">
+        <!-- <p class="pill">Our philosophy</p> -->
+
+        <div class="philosophy-label">
+          <span class="philosophy-label-dot" aria-hidden="true"></span>
+          <span>OUR Method</span>
+        </div>
+
+        <h1 id="hero-title" class="editorial-title">Five steps<br><em>One powerful </em><br><em
+            class="thinking">method.</em></h1>
+        <p class="description hero">At XSEED, we turn each class into a repeatable cycle of experience, thinking,<br
+            class="desktop-break"> application and reflection so every child builds deeper understanding, one period
+          at a time.</p>
+      </div>
+      <div class="note hero-note" aria-hidden="true">Learning changes <br>everything.<svg viewBox="0 0 150 16">
+          <path d="M3 12Q70 2 147 4M29 15Q88 8 137 8" />
+        </svg></div>
+      <!-- <p class="future">Children<br>today.<br>A brighter<br>tomorrow.</p> -->
+    </section>
+
+    <section id="experiential" class="experiential method-origins" aria-labelledby="belief-title">
+      <div class="experiential-container">
+        <div class="experiential-intro">
+          <span class="experiential-eyebrow">Origins &amp; Research</span>
+          <h2 id="belief-title">Where the XSEED Method <span>comes from.</span></h2>
+        </div>
+        <div class="experiential-grid">
+          <div class="experiential-photo">
+            <img src="assets/method-section2.png"
+              alt="Child examining the leaves of a potted plant with a magnifying glass" loading="lazy" width="1254"
+              height="1254">
+          </div>
+          <div class="origins-copy">
+            <p>The XSEED Method grew out of years of classroom research and iteration led by <strong>Ashish
+                Rajpal</strong>,
+              an alumnus of the Harvard Graduate School of Education, with a single mission: to make every child a
+              genuine learner, not just an exam performer.</p>
+            <div class="origins-reach">
+              <p>Now implemented in <strong>3,500+ schools</strong> across India and globally, it remains one of the
+                most
+                rigorously tested mastery-based pedagogies in Indian education.</p>
+            </div>
+            <blockquote class="origins-quote">“Every child a genuine learner.”</blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="method-section bg-sand" id="steps-section" aria-labelledby="steps-title">
+      <div class="section-inner">
+        <div class="section-header-centered reveal-item">
+          <span class="eyebrow">THE XSEED METHOD</span>
+          <h2 id="steps-title">A simple rhythm for <span class="italic-phrase">deeper learning.</span></h2>
+
+          <div class="rhythm-banner">
+            <ol class="rhythm-sequence" aria-label="The five steps of the XSEED Method" role="list">
+              <li><span class="rhythm-name">Aim</span></li>
+              <li><span class="rhythm-arrow" aria-hidden="true">→</span><span class="rhythm-name">Action</span></li>
+              <li><span class="rhythm-arrow" aria-hidden="true">→</span><span class="rhythm-name">Analysis</span></li>
+              <li><span class="rhythm-arrow" aria-hidden="true">→</span><span class="rhythm-name">Application</span>
+              </li>
+              <li><span class="rhythm-arrow" aria-hidden="true">→</span><span class="rhythm-name">Assessment</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="method-timeline-container">
+          <!-- Central animated vertical progress line -->
+          <div class="timeline-line-dashed" aria-hidden="true"></div>
+          <div class="timeline-line-solid" id="progress-line" aria-hidden="true"></div>
+
+          <ol class="method-steps-list" role="list">
+
+            <!-- Step 1: Aim -->
+            <li class="method-step" data-step="1">
+              <div class="step-marker">1</div>
+              <div class="step-image-col">
+                <div class="step-image-wrapper">
+                  <img loading="lazy" width="900" height="900" src="assets/method-aim.png"
+                    alt="Teacher defining aim on board"
+                    onerror="this.src='https://placehold.co/900x900/f3ece2/1c1917?text=Aim'">
+                </div>
+              </div>
+              <div class="step-text-col">
+                <span class="step-number-label">STEP 01 — AIM</span>
+                <h3 class="step-title">A Clear Start</h3>
+                <p class="step-description">
+                  The teacher sets a clear goal: today we will learn about the root and shoot system of a plant.
+                </p>
+              </div>
+            </li>
+
+            <!-- Step 2: Action -->
+            <li class="method-step even" data-step="2">
+              <div class="step-marker">2</div>
+              <div class="step-image-col">
+                <div class="step-image-wrapper">
+                  <img loading="lazy" width="900" height="900" src="assets/method-action.png"
+                    alt="Students conducting hands on activity"
+                    onerror="this.src='https://placehold.co/900x900/f8f4f1/1c1917?text=Action'">
+                </div>
+              </div>
+              <div class="step-text-col">
+                <span class="step-number-label">STEP 02 — ACTION</span>
+                <h3 class="step-title">Hands-On Learning</h3>
+                <p class="step-description">
+                  Children observe a real plant and identify its root and shoot parts through a hands-on activity.
+                </p>
+              </div>
+            </li>
+
+            <!-- Step 3: Analysis -->
+            <li class="method-step" data-step="3">
+              <div class="step-marker">3</div>
+              <div class="step-image-col">
+                <div class="step-image-wrapper">
+                  <img loading="lazy" width="900" height="900" src="assets/method-analysis.png"
+                    alt="Children talking through what happened"
+                    onerror="this.src='https://placehold.co/900x900/faf8f5/1c1917?text=Analysis'">
+                </div>
+              </div>
+              <div class="step-text-col">
+                <span class="step-number-label">STEP 03 — ANALYSIS</span>
+                <h3 class="step-title">Deeper Thinking</h3>
+                <p class="step-description">
+                  The class discusses what they noticed and how the root and shoot help the plant grow.
+                </p>
+              </div>
+            </li>
+
+            <!-- Step 4: Application -->
+            <li class="method-step even" data-step="4">
+              <div class="step-marker">4</div>
+              <div class="step-image-col">
+                <div class="step-image-wrapper">
+                  <img loading="lazy" width="900" height="900" src="assets/method-application.png"
+                    alt="Student solving practice problem independently"
+                    onerror="this.src='https://placehold.co/900x900/f3ece2/1c1917?text=Application'">
+                </div>
+              </div>
+              <div class="step-text-col">
+                <span class="step-number-label">STEP 04 — APPLICATION</span>
+                <h3 class="step-title">Home Connection</h3>
+                <p class="step-description">
+                  For homework, children draw and label the root and shoot system of a plant using an example they find
+                  at home.
+                </p>
+              </div>
+            </li>
+
+            <!-- Step 5: Assessment -->
+            <li class="method-step" data-step="5">
+              <div class="step-marker">5</div>
+              <div class="step-image-col">
+                <div class="step-image-wrapper">
+                  <img loading="lazy" width="900" height="900" src="assets/method-assessment.png"
+                    alt="Teacher reviewing work with student"
+                    onerror="this.src='https://placehold.co/900x900/f8f4f1/1c1917?text=Assessment'">
+                </div>
+              </div>
+              <div class="step-text-col">
+                <span class="step-number-label">STEP 05 — ASSESSMENT</span>
+                <h3 class="step-title">Confident Learners</h3>
+                <p class="step-description">
+                  Each child explains their learning in their own words and shows understanding independently.
+                </p>
+              </div>
+            </li>
+
+          </ol>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="method-section bg-sand" id="apply-independently" aria-labelledby="apply-title">
+      <div class="section-inner">
+        <div class="section-header-centered">
+          <span class="eyebrow">APPLY INDEPENDENTLY</span>
+          <h2 id="apply-title">Learning matters when children <span class="italic-phrase">can use it themselves.</span>
+          </h2>
+          <p>
+            Children apply their understanding to new questions, situations and challenges.
+            This is where knowledge begins to become capability.
+          </p>
+          <div style="margin-top: 1.5rem;">
+            <span class="handwritten">“From knowing → to doing.”</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="method-section bg-warm" id="experience-first" aria-labelledby="experience-first-title">
+      <div class="section-inner">
+        <div class="grid-split reverse">
+          <div class="split-text-col">
+            <span class="eyebrow">EXPERIENCE FIRST</span>
+            <h2 id="experience-first-title">Understanding begins <span class="italic-phrase">with doing.</span></h2>
+            <p>
+              Children learn through activities, examples, conversations, experiments and real situations.
+            </p>
+            <p>
+              They experience the idea before being asked to remember it.
+            </p>
+            <div style="margin-top: 1.5rem;">
+              <span class="handwritten">“Do first. Understand deeply.”</span>
+            </div>
+          </div>
+          <div class="split-image-col">
+            <div class="split-image-wrapper">
+              <img src="assets/method-experience-first.png"
+                alt="Child examining a green leaf outdoors while holding a notebook" loading="lazy" width="1254"
+                height="1254">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="method-cta" aria-labelledby="method-cta-title">
+      <div class="method-cta-inner">
+        <span class="eyebrow">PHILOSOPHY BECOMES PRACTICE</span>
+        <h2 id="method-cta-title">See what the XSEED Method <span class="italic-phrase">looks like in action.</span>
+        </h2>
+        <p>
+          Experience how XSEED brings curiosity, discipline, and measurable academic success to everyday teaching.
+        </p>
+        <span class="handwritten handwritten-cta">“worth seeing for yourself”</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="shell-site-footer">
+    <div class="shell-wrap">
+      <div class="shell-footer-main">
+        <div class="shell-footer-brand">
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+              alt="XSEED Education" loading="lazy"></a>
+          <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
+        </div>
+        <div class="shell-footer-col">
+          <h4>Discover</h4>
+          <a href="our_philosophy.html">Our Philosophy</a>
+          <a href="our_method.html">Our Method</a>
+          <a href="impact.html">Impact</a>
+        </div>
+        <div class="shell-footer-col">
+          <h4>XSEED</h4>
+          <a href="our_philosophy.html">About</a>
+          <a href="careers.html">Careers</a>
+          <a href="https://xseededucation.com/">News</a>
+        </div>
+        <div class="shell-footer-col" id="contact" tabindex="-1">
+          <h4>Connect</h4>
+          <a href="mailto:contact@xseededucation.com">Contact</a>
+          <div class="shell-social" aria-label="Social links"><a href="https://www.linkedin.com/company/xseed-education/"
+              aria-label="XSEED on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2M8 19H5V9h3ZM6.5 7.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5M19 19h-3v-5c0-3-3-2.8-3 0v5h-3V9h3v1.4C15 7.8 19 9 19 12Z" />
+              </svg></a><a href="https://www.youtube.com/@XSEEDEducationSingapore" aria-label="XSEED on YouTube"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 7s-.3-2-2-2.3C17.5 4.3 6.5 4.3 4 4.7 2.3 5 2 7 2 7s-.5 4-.5 5 .5 5 .5 5 .3 2 2 2.3c2.5.4 13.5.4 16 0 1.7-.3 2-2.3 2-2.3s.5-4 .5-5-.5-5-.5-5M10 16V8l6 4Z" />
+              </svg></a><a href="https://www.instagram.com/xseededucation/" aria-label="XSEED on Instagram"><svg
+                viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="17.5" cy="6.5" r="1.2" />
+              </svg></a></div>
+        </div>
+      </div>
+      <div class="shell-footer-bottom">
+        <span>© 2026 XSEED Education. All rights reserved.</span>
+        <strong>Better learners. A brighter tomorrow.</strong>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="assets/philosophy.js" defer></script>
+  <script>
+    (() => {
+      const section = document.getElementById('steps-section');
+      const steps = [...section.querySelectorAll('.method-step')];
+      const line = section.querySelector('.timeline-line-solid');
+      const container = section.querySelector('.method-timeline-container');
+      const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      const markers = steps.map(step => step.querySelector('.step-marker'));
+      let centers = [];
+      let trackTop = 0;
+      let trackHeight = 1;
+      let progress = 0;
+      let frame = 0;
+      let lastTime = 0;
+      let observer;
+
+      function measure() {
+        const top = container.getBoundingClientRect().top;
+        centers = markers.map(marker => {
+          const rect = marker.getBoundingClientRect();
+          return rect.top + rect.height / 2 - top;
+        });
+        trackTop = centers[0];
+        trackHeight = Math.max(1, centers[centers.length - 1] - trackTop);
+        container.style.setProperty('--track-top', `${trackTop}px`);
+        container.style.setProperty('--track-height', `${trackHeight}px`);
+        schedule();
+      }
+
+      function draw(time) {
+        frame = 0;
+        const readingPosition = innerHeight * .6 - container.getBoundingClientRect().top;
+        const target = motion.matches ? 1 : Math.max(0, Math.min(1, (readingPosition - trackTop) / trackHeight));
+        const elapsed = lastTime ? Math.min(time - lastTime, 64) : 16;
+        lastTime = time;
+        progress = motion.matches ? target : progress + (target - progress) * (1 - Math.exp(-elapsed / 110));
+        if (Math.abs(target - progress) < .0001) progress = target;
+        line.style.setProperty('--timeline-progress', progress);
+        const tip = trackTop + progress * trackHeight;
+        let current = -1;
+        centers.forEach((center, index) => {
+          if (center <= tip + .5 && (motion.matches || readingPosition >= trackTop)) current = index;
+        });
+        steps.forEach((step, index) => {
+          step.classList.toggle('is-complete', motion.matches || index < current);
+          step.classList.toggle('is-current', !motion.matches && index === current);
+        });
+        if (progress !== target) frame = requestAnimationFrame(draw);
+        else lastTime = 0;
+      }
+
+      function schedule() {
+        if (!frame) frame = requestAnimationFrame(draw);
+      }
+
+      function setup() {
+        observer?.disconnect();
+        steps.forEach(step => step.classList.remove('is-visible'));
+        if (!motion.matches && 'IntersectionObserver' in window) {
+          observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            });
+          }, { rootMargin: '0px 0px -10% 0px', threshold: .1 });
+          steps.forEach(step => observer.observe(step));
+        }
+        measure();
+      }
+      setup();
+      motion.addEventListener('change', setup);
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', measure);
+      window.addEventListener('load', measure);
+      if ('ResizeObserver' in window) new ResizeObserver(measure).observe(container);
+      document.fonts.ready.then(measure);
+    })();
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.8/dist/lenis.min.js"></script>
+  <script>
+    (() => {
+      const hero = document.querySelector("main > .hero");
+      const eyebrowSelector = ".philosophy-label, .experiential-eyebrow, .eyebrow";
+      const noteSelector = ".note, .handwritten, .origins-quote";
+      const cardSelector = ".experiential-photo, .origins-reach, .rhythm-sequence > li, .step-image-col, .step-text-col, .split-image-col";
+      const copySelector = ".hero-copy > .description, .origins-copy > p, .section-header-centered > p, .split-text-col > p, .method-cta-inner > p, .method-cta-inner > a";
+      const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      let context, lenis;
+
+      // Preserve semantic headings and their existing emphasis and authored line breaks.
+      const wrapLines = (element, pencil = false) => {
+        if (element.querySelector('.motion-line, .pencil-line')) return;
+        const nodes = [...element.childNodes];
+        const lines = [[]];
+        nodes.forEach(node => {
+          if (node.nodeName === 'BR') { node.remove(); lines.push([]); }
+          else if (node.nodeName !== 'svg') lines[lines.length - 1].push(node);
+        });
+        lines.forEach(nodes => {
+          const mask = document.createElement('span');
+          mask.className = pencil ? 'pencil-line' : 'motion-line';
+          const inner = document.createElement('span');
+          if (!pencil) inner.className = 'motion-inner';
+          mask.append(inner);
+          nodes.forEach(node => inner.append(node));
+          element.insertBefore(mask, element.querySelector(':scope > svg'));
+        });
+      };
+      const setupMotion = () => {
+        context?.revert(); context = undefined;
+        lenis?.destroy(); lenis = undefined;
+        if (motion.matches || !window.gsap || !window.ScrollTrigger) return;
+        document.querySelectorAll('main h1, main h2').forEach(heading => wrapLines(heading));
+        document.querySelectorAll(noteSelector).forEach(note => wrapLines(note, true));
+        gsap.registerPlugin(ScrollTrigger);
+        if (window.Lenis) {
+          lenis = new Lenis({ lerp: .055, wheelMultiplier: .7, smoothWheel: true, anchors: true });
+          lenis.on('scroll', ScrollTrigger.update);
+        }
+        context = gsap.context(() => {
+          const entrance = (timeline, targets, from, to, position) => {
+            if (!targets.length) return;
+            targets.forEach(target => target.setAttribute('data-motion-item', ''));
+            timeline.fromTo(targets, from, { ...to, clearProps: 'opacity,transform,clipPath' }, position);
+          };
+          const writeNote = (timeline, note, position) => {
+            entrance(timeline, note.querySelectorAll('.pencil-line > span'), { xPercent: -105 },
+              { xPercent: 0, duration: .65, stagger: .32, ease: 'power1.inOut' }, position);
+            entrance(timeline, note.querySelectorAll('svg'), { clipPath: 'inset(0 100% 0 0)' },
+              { clipPath: 'inset(0 0% 0 0)', duration: .7, ease: 'power2.inOut' }, '-=.15');
+          };
+          const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+          entrance(heroTimeline, hero.querySelectorAll(".hero-photo"), { scale: 1.035 },
+            { scale: 1, duration: 2.4, ease: 'power2.out' }, 0);
+          entrance(heroTimeline, hero.querySelectorAll(eyebrowSelector), { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 1 }, 0);
+          entrance(heroTimeline, hero.querySelectorAll('.motion-inner'), { yPercent: 112 },
+            { yPercent: 0, duration: 1.35, stagger: .14 }, .35);
+          entrance(heroTimeline, hero.querySelectorAll(copySelector), { opacity: 0, y: 24 },
+            { opacity: 1, y: 0, duration: 1.15, stagger: .15 }, .85);
+          hero.querySelectorAll(noteSelector).forEach(note => writeNote(heroTimeline, note, 1.65));
+
+          document.querySelectorAll('main > section').forEach(section => {
+            if (section === hero) return;
+            const timeline = gsap.timeline({ defaults: { ease: 'power3.out' },
+              scrollTrigger: { trigger: section, start: 'top 78%', toggleActions: 'play none none reverse' } });
+            entrance(timeline, section.querySelectorAll(eyebrowSelector), { opacity: 0, y: 18 },
+              { opacity: 1, y: 0, duration: 1 }, 0);
+            entrance(timeline, section.querySelectorAll('.motion-inner'), { yPercent: 112 },
+              { yPercent: 0, duration: 1.4, stagger: .14 }, .12);
+            entrance(timeline, section.querySelectorAll(copySelector), { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
+            section.querySelectorAll(noteSelector).forEach(note => {
+              const noteTimeline = gsap.timeline({ scrollTrigger: {
+                trigger: note, start: 'top 85%', toggleActions: 'play none none reverse' } });
+              writeNote(noteTimeline, note, 0);
+            });
+            // Trigger each lower item independently so tall mobile sections stay readable.
+            section.querySelectorAll(cardSelector).forEach((item, index) => {
+              const timeline = gsap.timeline({ scrollTrigger: {
+                trigger: item, start: 'top 94%', toggleActions: 'play none none reverse' } });
+              entrance(timeline, [item], { opacity: 0, y: 36 }, {
+                opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08, ease: 'power3.out'
+              }, 0);
+            });
+          });
+
+        });
+        ScrollTrigger.refresh();
+      };
+      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      setupMotion();
+      motion.addEventListener('change', setupMotion);
+      const refresh = () => { lenis?.resize(); window.ScrollTrigger?.refresh(); };
+      window.addEventListener('load', refresh);
+      document.fonts?.ready.then(refresh);
+      document.querySelectorAll('main img').forEach(img => {
+        if (!img.complete) img.addEventListener('load', refresh, { once: true });
+      });
+    })();
+  </script>
+</body>
+
+</html>

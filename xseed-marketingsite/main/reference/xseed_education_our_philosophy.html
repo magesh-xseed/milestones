@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSEED Education — Our Philosophy</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'xseed-canvas': '#FAF8F5',
+                        'xseed-surface': '#FFFFFF',
+                        'xseed-subtle': '#F3EFEA',
+                        'xseed-border': 'rgba(15, 23, 42, 0.08)',
+                        'xseed-border-strong': 'rgba(15, 23, 42, 0.16)',
+                        'xseed-ink': '#0F172A',
+                        'xseed-muted': '#64748B',
+                        'xseed-crimson': '#E11D48',
+                        'xseed-crimson-dark': '#BE123C',
+                        'xseed-crimson-light': '#FFF1F2',
+                        'xseed-amber': '#D97706',
+                        'xseed-emerald': '#059669',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        editorial: ['Cormorant Garamond', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'product': '0 20px 40px -15px rgba(15, 23, 42, 0.05), 0 0 1px 1px rgba(15, 23, 42, 0.05)',
+                        'product-hover': '0 25px 50px -12px rgba(225, 29, 72, 0.12), 0 0 1px 1px rgba(225, 29, 72, 0.2)',
+                        'glow-crimson': '0 10px 30px -5px rgba(225, 29, 72, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- GSAP for Smooth Scroll & Dynamic Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #0F172A;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ambient Product Glows */
+        .product-ambient-glow {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(100px);
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: 0;
+        }
+
+        /* Product Glass Cards */
+        .product-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.03);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-glass:hover {
+            border-color: rgba(225, 29, 72, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(225, 29, 72, 0.1), 0 0 0 1px rgba(225, 29, 72, 0.15);
+        }
+
+        .product-card-interactive {
+            background: #FFFFFF;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card-interactive:hover {
+            border-color: rgba(225, 29, 72, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px -10px rgba(15, 23, 42, 0.08);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E11D48;
+        }
+
+        /* Interactive Path Node Active State */
+        .step-node-btn.active {
+            border-color: #E11D48 !important;
+            background: #FFFFFF !important;
+            box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.15), 0 0 0 2px rgba(225, 29, 72, 0.2);
+        }
+
+        .step-node-btn.active .step-number {
+            background: #E11D48 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* Studio Grid Background */
+        .studio-grid {
+            background-image: radial-gradient(rgba(15, 23, 42, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="selection:bg-xseed-crimson selection:text-white">
+
+    <!-- READING PROGRESS BAR -->
+    <div id="scroll-progress" class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-xseed-crimson via-rose-500 to-amber-500 z-50 transform scale-x-0 origin-left transition-transform duration-100"></div>
+
+    <!-- FLOATING PRODUCT GLASS HEADER -->
+    <header class="fixed top-4 left-0 right-0 z-40 px-4">
+        <div class="max-w-6xl mx-auto product-glass rounded-full px-5 py-3 flex items-center justify-between border border-slate-900/10 shadow-sm">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-8 h-8 rounded-full bg-xseed-crimson flex items-center justify-center text-white font-display font-black text-xs tracking-wider shadow-glow-crimson group-hover:scale-105 transition-transform">
+                    X
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display font-black text-sm tracking-tight text-xseed-ink leading-none group-hover:text-xseed-crimson transition-colors">XSEED</span>
+                    <span class="text-[9px] font-mono tracking-widest text-xseed-muted uppercase mt-0.5">PHILOSOPHY</span>
+                </div>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center gap-7 text-xs font-semibold tracking-wide text-xseed-muted">
+                <a href="#belief" class="hover:text-xseed-crimson transition-colors">THE SHIFT</a>
+                <a href="#framework" class="hover:text-xseed-crimson transition-colors">5-STEP METHOD</a>
+                <a href="#cycle" class="hover:text-xseed-crimson transition-colors">LEARNING ENGINE</a>
+                <a href="#adults" class="hover:text-xseed-crimson transition-colors">FACILITATION</a>
+                <a href="#simulator" class="hover:text-xseed-crimson transition-colors">LIVE DEMO</a>
+                <a href="#outcomes" class="hover:text-xseed-crimson transition-colors">OUTCOMES</a>
+            </nav>
+
+            <!-- Action Button -->
+            <div class="flex items-center gap-3">
+                <a href="#simulator" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-xseed-ink border border-slate-200 transition-all">
+                    <span>Try Demo</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+                <a href="#contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-xseed-crimson hover:bg-xseed-crimson-dark text-white hover:shadow-glow-crimson transition-all shadow-sm">
+                    <span>Partner Schools</span>
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="relative z-10 pt-24">
+
+        <!-- SECTION 01: HERO / PHILOSOPHY INTRO -->
+        <section class="relative min-h-[85vh] flex items-center justify-center py-16 overflow-hidden studio-grid">
+            
+            <!-- Ambient Background Glows -->
+            <div class="product-ambient-glow w-[550px] h-[550px] bg-rose-200/40 top-10 left-1/2 -translate-x-1/2"></div>
+            <div class="product-ambient-glow w-[350px] h-[350px] bg-amber-100/50 top-40 right-10"></div>
+
+            <div class="max-w-7xl mx-auto px-6 md:px-10 relative z-10 text-center">
+                
+                <!-- Badge Tag -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white border border-slate-200/80 shadow-sm mb-8">
+                    <span class="w-2 h-2 rounded-full bg-xseed-crimson animate-pulse"></span>
+                    <span class="text-xs font-mono font-semibold tracking-widest text-xseed-ink uppercase">OUR PHILOSOPHY • FOUNDATION FOR LIFE</span>
+                </div>
+
+                <!-- Main Display Heading -->
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-display font-black tracking-tight leading-[1.02] text-xseed-ink mb-8">
+                    Children learn <span class="text-xseed-crimson italic font-editorial font-bold">by doing.</span><br>
+                    They grow <span class="text-slate-800 italic font-editorial font-bold">by thinking.</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-lg md:text-2xl text-xseed-muted font-normal max-w-3xl mx-auto leading-relaxed mb-10">
+                    Moving education beyond passive memorization. XSEED transforms classrooms into dynamic laboratories of curiosity, active inquiry, and independent problem-solving.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-4 mb-16">
+                    <a href="#framework" class="px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest bg-xseed-crimson hover:bg-xseed-crimson-dark text-white hover:shadow-glow-crimson transition-all transform hover:-translate-y-0.5">
+                        Explore The 5-Step Method
+                    </a>
+                    <a href="#simulator" class="px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest bg-white text-xseed-ink border border-slate-200 hover:border-slate-300 transition-all shadow-sm">
+                        Interactive Lesson Demo
+                    </a>
+                </div>
+
+                <!-- Product Metric Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto text-left">
+                    
+                    <div class="product-glass p-6 rounded-2xl">
+                        <div class="text-xs font-mono font-bold uppercase text-xseed-crimson mb-1">SCALE</div>
+                        <div class="text-3xl font-display font-bold text-xseed-ink">2M+</div>
+                        <p class="text-xs text-xseed-muted mt-1">Students empowered across global classrooms.</p>
+                    </div>
+
+                    <div class="product-glass p-6 rounded-2xl">
+                        <div class="text-xs font-mono font-bold uppercase text-xseed-amber mb-1">EFFICACY</div>
+                        <div class="text-3xl font-display font-bold text-xseed-ink">3x</div>
+                        <p class="text-xs text-xseed-muted mt-1">Higher conceptual understanding & application.</p>
+                    </div>
+
+                    <div class="product-glass p-6 rounded-2xl">
+                        <div class="text-xs font-mono font-bold uppercase text-xseed-emerald mb-1">REACH</div>
+                        <div class="text-3xl font-display font-bold text-xseed-ink">10,000+</div>
+                        <p class="text-xs text-xseed-muted mt-1">Partner schools & learning environments.</p>
+                    </div>
+
+                    <div class="product-glass p-6 rounded-2xl">
+                        <div class="text-xs font-mono font-bold uppercase text-indigo-600 mb-1">PEDAGOGY</div>
+                        <div class="text-3xl font-display font-bold text-xseed-ink">20+ Yrs</div>
+                        <p class="text-xs text-xseed-muted mt-1">Refined experiential learning research.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 02: THE PARADIGM SHIFT -->
+        <section id="belief" class="py-28 relative border-t border-xseed-border bg-white">
+            
+            <div class="product-ambient-glow w-[400px] h-[400px] bg-rose-100/60 top-10 right-10"></div>
+
+            <div class="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-xseed-crimson px-3 py-1 rounded-full bg-rose-50 border border-rose-200">
+                        THE PHILOSOPHICAL CORE
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-display font-bold text-xseed-ink mt-4 leading-tight">
+                        Real learning is not about remembering more.<br>
+                        <span class="text-xseed-crimson italic font-editorial">It is built through experience — not explanation.</span>
+                    </h2>
+                </div>
+
+                <!-- Comparative Cards Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                    
+                    <!-- Traditional Approach -->
+                    <div class="product-glass p-8 sm:p-10 rounded-3xl bg-slate-50/50 border border-slate-200">
+                        <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-xseed-muted uppercase tracking-widest">TRADITIONAL MODEL</span>
+                                <h3 class="text-2xl font-display font-bold text-xseed-ink mt-1">Rote & Passive Instruction</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-mono text-sm font-bold">
+                                ✕
+                            </div>
+                        </div>
+
+                        <ul class="space-y-6 text-sm text-xseed-muted">
+                            <li class="flex items-start gap-4">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">✕</span>
+                                <div>
+                                    <strong class="text-xseed-ink block mb-0.5">Passive Absorption</strong>
+                                    Students sit listening to lectures without direct hands-on contact with core concepts.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">✕</span>
+                                <div>
+                                    <strong class="text-xseed-ink block mb-0.5">Focus on Memorization</strong>
+                                    Encourages learning for exam scores rather than deep conceptual understanding.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">✕</span>
+                                <div>
+                                    <strong class="text-xseed-ink block mb-0.5">Fear of Mistakes</strong>
+                                    Errors are penalized, suppressing natural curiosity and experimental risk-taking.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- XSEED Experiential Approach -->
+                    <div class="product-glass p-8 sm:p-10 rounded-3xl bg-white border-2 border-xseed-crimson/30 shadow-product-hover relative overflow-hidden">
+                        
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-rose-100 rounded-full blur-3xl pointer-events-none"></div>
+
+                        <div class="flex items-center justify-between mb-8 pb-4 border-b border-rose-100">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-xseed-crimson uppercase tracking-widest">THE XSEED WAY</span>
+                                <h3 class="text-2xl font-display font-bold text-xseed-ink mt-1">Experiential & Active Inquiry</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-xseed-crimson text-white flex items-center justify-center font-mono text-sm shadow-glow-crimson">
+                                ✓
+                            </div>
+                        </div>
+
+                        <ul class="space-y-6 text-sm text-xseed-ink">
+                            <li class="flex items-start gap-4">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-xseed-crimson flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 border border-rose-200">✓</span>
+                                <div>
+                                    <strong class="text-xseed-ink block mb-0.5">Experience Over Explanation</strong>
+                                    Students conduct experiments, handle objects, and observe phenomena before formulas are introduced.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-xseed-crimson flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 border border-rose-200">✓</span>
+                                <div>
+                                    <strong class="text-xseed-ink block mb-0.5">Questions Over Pre-set Answers</strong>
+                                    Open-ended teacher prompts drive inquiry, critical thinking, and active classroom debate.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <span class="w-6 h-6 rounded-full bg-rose-100 text-xseed-crimson flex items-center justify-center shrink-0 font-bold text-xs mt-0.5 border border-rose-200">✓</span>
+                                <div>
+                                    <strong class="text-xseed-ink block mb-0.5">Iteration & Growth Loops</strong>
+                                    Mistakes are treated as invaluable data points to refine thinking and try again confidently.
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 03: THE 5-STEP EXPERIENTIAL LEARNING PATH -->
+        <section id="framework" class="py-28 relative border-t border-xseed-border bg-xseed-canvas">
+            <div class="max-w-7xl mx-auto px-6 md:px-10">
+                
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-6">
+                    <div>
+                        <span class="text-xs font-mono font-bold uppercase tracking-widest text-xseed-crimson px-3 py-1 rounded-full bg-rose-50 border border-rose-200">
+                            PEDAGOGICAL ARCHITECTURE
+                        </span>
+                        <h2 class="text-3xl sm:text-5xl font-display font-bold text-xseed-ink mt-4">
+                            The 5-Block <span class="text-xseed-crimson italic font-editorial">Experiential Lesson</span>
+                        </h2>
+                    </div>
+                    <p class="text-xseed-muted text-sm max-w-md">
+                        Every XSEED lesson across Science, Mathematics, and Humanities follows this structured 5-step cognitive framework. Click a step to explore.
+                    </p>
+                </div>
+
+                <!-- Interactive 5 Stepper Tabs Nav -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-10">
+                    
+                    <button onclick="switchStep(0)" id="step-btn-0" class="step-node-btn active product-card-interactive p-4 rounded-2xl text-left transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="step-number text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">01</span>
+                            <span class="text-[10px] font-mono font-bold text-xseed-crimson uppercase">DO</span>
+                        </div>
+                        <span class="font-display font-bold text-xseed-ink text-base block">Action & Experience</span>
+                    </button>
+
+                    <button onclick="switchStep(1)" id="step-btn-1" class="step-node-btn product-card-interactive p-4 rounded-2xl text-left transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="step-number text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">02</span>
+                            <span class="text-[10px] font-mono font-bold text-xseed-crimson uppercase">THINK</span>
+                        </div>
+                        <span class="font-display font-bold text-xseed-ink text-base block">Analysis & Sense-Making</span>
+                    </button>
+
+                    <button onclick="switchStep(2)" id="step-btn-2" class="step-node-btn product-card-interactive p-4 rounded-2xl text-left transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="step-number text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">03</span>
+                            <span class="text-[10px] font-mono font-bold text-xseed-crimson uppercase">QUESTION</span>
+                        </div>
+                        <span class="font-display font-bold text-xseed-ink text-base block">Concept & Inquiry</span>
+                    </button>
+
+                    <button onclick="switchStep(3)" id="step-btn-3" class="step-node-btn product-card-interactive p-4 rounded-2xl text-left transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="step-number text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">04</span>
+                            <span class="text-[10px] font-mono font-bold text-xseed-crimson uppercase">APPLY</span>
+                        </div>
+                        <span class="font-display font-bold text-xseed-ink text-base block">Independent Transfer</span>
+                    </button>
+
+                    <button onclick="switchStep(4)" id="step-btn-4" class="step-node-btn product-card-interactive p-4 rounded-2xl text-left transition-all col-span-2 md:col-span-1">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="step-number text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">05</span>
+                            <span class="text-[10px] font-mono font-bold text-xseed-crimson uppercase">GROW</span>
+                        </div>
+                        <span class="font-display font-bold text-xseed-ink text-base block">Assessment & Feedback</span>
+                    </button>
+
+                </div>
+
+                <!-- Dynamic Step Detail Panel -->
+                <div class="product-glass p-8 sm:p-12 rounded-3xl border border-slate-200 relative overflow-hidden bg-white">
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        
+                        <div class="lg:col-span-7">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span id="step-badge" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-50 text-xseed-crimson border border-rose-200">
+                                    STEP 01 OF 05
+                                </span>
+                                <span id="step-category" class="text-xs font-mono font-bold text-xseed-muted uppercase tracking-widest">
+                                    CONCRETE EXPERIENCE
+                                </span>
+                            </div>
+
+                            <h3 id="step-title" class="text-3xl sm:text-4xl font-display font-bold text-xseed-ink mb-4">
+                                01 — DO: Direct Action & Exploration
+                            </h3>
+
+                            <p id="step-description" class="text-xseed-muted text-base leading-relaxed mb-6">
+                                Students begin every lesson with a hands-on activity, experiment, or simulation before any textbook definitions are presented. They touch, observe, make predictions, and gather real evidence.
+                            </p>
+
+                            <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 mb-6">
+                                <div class="text-xs font-mono font-bold text-amber-800 uppercase mb-1">Classroom Scenario</div>
+                                <p id="step-scenario" class="text-xs text-slate-700 italic font-editorial text-sm">
+                                    "Students drop various shapes into water tanks to test displacement firsthand rather than reading an Archimedes formula on a chalkboard."
+                                </p>
+                            </div>
+
+                            <div class="flex items-center gap-6 text-xs text-xseed-muted">
+                                <div>
+                                    <span class="text-slate-400 block uppercase font-mono">Student Role</span>
+                                    <strong id="step-student-role" class="text-xseed-ink font-semibold">Active Investigator</strong>
+                                </div>
+                                <div class="w-px h-8 bg-slate-200"></div>
+                                <div>
+                                    <span class="text-slate-400 block uppercase font-mono">Teacher Role</span>
+                                    <strong id="step-teacher-role" class="text-xseed-ink font-semibold">Facilitator & Guide</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Visual Accent -->
+                        <div class="lg:col-span-5 bg-gradient-to-br from-rose-50 to-slate-50 p-8 rounded-2xl border border-slate-200 text-center relative flex flex-col justify-center items-center min-h-[260px]">
+                            
+                            <div id="step-visual-icon" class="w-20 h-20 rounded-2xl bg-white border border-rose-200 flex items-center justify-center text-xseed-crimson mb-4 shadow-sm">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+                            </div>
+
+                            <div id="step-visual-tag" class="text-xs font-mono font-bold text-xseed-ink uppercase tracking-wider">
+                                HANDS-ON DISCOVERY
+                            </div>
+                            <span class="text-[11px] text-xseed-muted mt-1">Foundational Cognition Layer</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 04: THE LEARNING ENGINE -->
+        <section id="cycle" class="py-28 relative border-t border-xseed-border bg-white">
+            
+            <div class="product-ambient-glow w-[450px] h-[450px] bg-rose-100/50 bottom-10 right-10"></div>
+
+            <div class="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-xseed-crimson px-3 py-1 rounded-full bg-rose-50 border border-rose-200">
+                        THE CONTINUOUS ENGINE
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-display font-bold text-xseed-ink mt-4">
+                        Try. Reflect. Feedback.<br>
+                        <span class="text-xseed-crimson italic font-editorial">Try again.</span>
+                    </h2>
+                    <p class="text-xseed-muted text-sm mt-4">
+                        Learning isn't linear. Mastery requires iteration where feedback turns initial attempts into long-term comprehension.
+                    </p>
+                </div>
+
+                <!-- Interactive Wheel Container -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-50/70 p-8 sm:p-12 rounded-3xl border border-slate-200 product-glass">
+                    
+                    <!-- Left: Interactive Circle SVG Engine -->
+                    <div class="lg:col-span-6 flex justify-center py-6">
+                        <div class="relative w-72 h-72 sm:w-80 sm:h-80 flex items-center justify-center">
+                            
+                            <!-- Circular Ring -->
+                            <svg class="absolute inset-0 w-full h-full text-slate-200" viewBox="0 0 200 200">
+                                <circle cx="100" cy="100" r="75" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                                <circle id="engine-ring" cx="100" cy="100" r="75" fill="none" stroke="#E11D48" stroke-width="3" stroke-dasharray="471" stroke-dashoffset="350" class="transition-all duration-700"/>
+                            </svg>
+
+                            <!-- Center Core -->
+                            <div class="w-32 h-32 rounded-full bg-white border border-xseed-crimson/30 flex flex-col items-center justify-center text-center p-3 z-10 shadow-md">
+                                <span class="text-[9px] font-mono font-bold text-xseed-crimson uppercase">TARGET</span>
+                                <span class="font-display font-bold text-sm text-xseed-ink mt-0.5">MASTERY</span>
+                            </div>
+
+                            <!-- Interactive Nodes -->
+                            <button onclick="selectEngineNode(0)" class="engine-node active absolute -top-3 left-1/2 -translate-x-1/2 p-2 rounded-xl bg-white border border-slate-200 hover:border-xseed-crimson text-center transition-all shadow-sm" data-idx="0">
+                                <span class="w-7 h-7 rounded-full bg-xseed-crimson text-white font-mono text-xs font-bold flex items-center justify-center mx-auto mb-1">1</span>
+                                <span class="text-[10px] font-mono font-bold text-slate-700 uppercase block">EXPERIMENT</span>
+                            </button>
+
+                            <button onclick="selectEngineNode(1)" class="engine-node absolute top-1/2 -right-5 -translate-y-1/2 p-2 rounded-xl bg-white border border-slate-200 hover:border-xseed-crimson text-center transition-all shadow-sm" data-idx="1">
+                                <span class="w-7 h-7 rounded-full bg-slate-100 text-slate-600 font-mono text-xs font-bold flex items-center justify-center mx-auto mb-1">2</span>
+                                <span class="text-[10px] font-mono font-bold text-slate-700 uppercase block">REFLECT</span>
+                            </button>
+
+                            <button onclick="selectEngineNode(2)" class="engine-node absolute -bottom-3 left-1/2 -translate-x-1/2 p-2 rounded-xl bg-white border border-slate-200 hover:border-xseed-crimson text-center transition-all shadow-sm" data-idx="2">
+                                <span class="w-7 h-7 rounded-full bg-slate-100 text-slate-600 font-mono text-xs font-bold flex items-center justify-center mx-auto mb-1">3</span>
+                                <span class="text-[10px] font-mono font-bold text-slate-700 uppercase block">FEEDBACK</span>
+                            </button>
+
+                            <button onclick="selectEngineNode(3)" class="engine-node absolute top-1/2 -left-5 -translate-y-1/2 p-2 rounded-xl bg-white border border-slate-200 hover:border-xseed-crimson text-center transition-all shadow-sm" data-idx="3">
+                                <span class="w-7 h-7 rounded-full bg-slate-100 text-slate-600 font-mono text-xs font-bold flex items-center justify-center mx-auto mb-1">4</span>
+                                <span class="text-[10px] font-mono font-bold text-slate-700 uppercase block">RETRY</span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- Right: Dynamic Node Info Card -->
+                    <div class="lg:col-span-6 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm min-h-[280px] flex flex-col justify-between">
+                        <div>
+                            <span id="engine-tag" class="text-xs font-mono font-bold text-xseed-crimson bg-rose-50 px-2.5 py-1 rounded-md border border-rose-200">
+                                PHASE 01 OF 04
+                            </span>
+
+                            <h3 id="engine-title" class="text-2xl font-display font-bold text-xseed-ink mt-4 mb-3">
+                                01. Initial Experimentation (Try)
+                            </h3>
+
+                            <p id="engine-body" class="text-xseed-muted text-sm leading-relaxed">
+                                Students dive straight into problem solving or testing hypotheses with physical manipulatives or real datasets. Mistakes made here provide raw material for learning.
+                            </p>
+                        </div>
+
+                        <div class="pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-xseed-muted">
+                            <span class="font-mono">Auto-cycling engine</span>
+                            <div class="flex gap-2">
+                                <span id="e-dot-0" class="w-2 h-2 rounded-full bg-xseed-crimson"></span>
+                                <span id="e-dot-1" class="w-2 h-2 rounded-full bg-slate-200"></span>
+                                <span id="e-dot-2" class="w-2 h-2 rounded-full bg-slate-200"></span>
+                                <span id="e-dot-3" class="w-2 h-2 rounded-full bg-slate-200"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 05: ROLE OF ADULTS -->
+        <section id="adults" class="py-28 relative border-t border-xseed-border bg-xseed-canvas">
+            <div class="max-w-7xl mx-auto px-6 md:px-10">
+                
+                <div class="max-w-3xl mb-16">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-xseed-crimson px-3 py-1 rounded-full bg-rose-50 border border-rose-200">
+                        TEACHER & ADULT FACILITATION
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-display font-bold text-xseed-ink mt-4">
+                        Children do the learning.<br>
+                        Adults <span class="text-xseed-crimson italic font-editorial">create the conditions.</span>
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <div class="product-card-interactive p-8 rounded-2xl bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 text-xseed-crimson flex items-center justify-center mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-lg mb-2">Ask Before Telling</h3>
+                        <p class="text-xs text-xseed-muted leading-relaxed">
+                            Instead of delivering answers, teachers prompt students with targeted questions that ignite curiosity and self-directed reasoning.
+                        </p>
+                    </div>
+
+                    <div class="product-card-interactive p-8 rounded-2xl bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-lg mb-2">Structured Scaffolding</h3>
+                        <p class="text-xs text-xseed-muted leading-relaxed">
+                            Provide guided frameworks and physical manipulatives that allow students to stretch their cognitive abilities safely.
+                        </p>
+                    </div>
+
+                    <div class="product-card-interactive p-8 rounded-2xl bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-lg mb-2">Diagnostic Feedback</h3>
+                        <p class="text-xs text-xseed-muted leading-relaxed">
+                            Feedback focuses on the thinking process rather than simple grade scores, giving clear actionable steps on how to improve.
+                        </p>
+                    </div>
+
+                    <div class="product-card-interactive p-8 rounded-2xl bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-lg mb-2">Space for Iteration</h3>
+                        <p class="text-xs text-xseed-muted leading-relaxed">
+                            Normalize wrong answers as natural stepping stones. Students are always given room to adjust their work and try again.
+                        </p>
+                    </div>
+
+                    <div class="product-card-interactive p-8 rounded-2xl bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 text-purple-600 flex items-center justify-center mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-lg mb-2">Make Thinking Visible</h3>
+                        <p class="text-xs text-xseed-muted leading-relaxed">
+                            Encourage students to articulate their reasoning out loud or draw visual models to clarify internal logic.
+                        </p>
+                    </div>
+
+                    <div class="product-card-interactive p-8 rounded-2xl bg-white">
+                        <div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center mb-6">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-lg mb-2">Gradual Release of Control</h3>
+                        <p class="text-xs text-xseed-muted leading-relaxed">
+                            As student confidence grows, teachers step back, empowering students to take full ownership of their intellectual journey.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 06: LIVE CLASSROOM EXPERIENCE SIMULATOR -->
+        <section id="simulator" class="py-28 relative border-t border-xseed-border bg-white">
+            
+            <div class="max-w-7xl mx-auto px-6 md:px-10">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-xseed-crimson px-3 py-1 rounded-full bg-rose-50 border border-rose-200">
+                        INTERACTIVE DEMO
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-display font-bold text-xseed-ink mt-4">
+                        Experience an <span class="text-xseed-crimson italic font-editorial">XSEED Lesson</span> in Action
+                    </h2>
+                    <p class="text-xseed-muted text-sm mt-3">
+                        Switch subjects below to see how XSEED transforms concept teaching vs. traditional textbook learning.
+                    </p>
+                </div>
+
+                <!-- Subject Switcher Pills -->
+                <div class="flex justify-center gap-3 mb-10">
+                    <button onclick="switchSimSubject('math')" id="sim-btn-math" class="px-5 py-2.5 rounded-full text-xs font-bold font-mono uppercase bg-xseed-crimson text-white shadow-glow-crimson transition-all">
+                        Mathematics: Fractions
+                    </button>
+                    <button onclick="switchSimSubject('science')" id="sim-btn-science" class="px-5 py-2.5 rounded-full text-xs font-bold font-mono uppercase bg-slate-100 text-slate-600 hover:text-xseed-ink transition-all">
+                        Science: Density & Buoyancy
+                    </button>
+                </div>
+
+                <!-- Simulator Interactive Box -->
+                <div class="product-glass rounded-3xl p-8 sm:p-12 border border-slate-200 grid grid-cols-1 lg:grid-cols-2 gap-8 bg-slate-50/50">
+                    
+                    <!-- Left: Traditional Method Simulation -->
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                            <span class="text-xs font-mono font-bold text-rose-500 uppercase">TRADITIONAL CLASSROOM</span>
+                            <span class="text-[10px] font-mono text-slate-400">Lecture Mode</span>
+                        </div>
+                        
+                        <div id="sim-trad-box" class="space-y-4">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+                                <strong class="text-xseed-ink block mb-1">Teacher Statement:</strong>
+                                "Open page 42. A fraction represents a part of a whole. Look at the fraction 3/4. 3 is the numerator, 4 is the denominator. Copy these definitions into your notebooks."
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-100/60 text-[11px] text-slate-500 italic">
+                                Student Result: Memorizes terms for a test, struggles to visualize 3/4 in real-life problems.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: XSEED Experiential Simulation -->
+                    <div class="p-6 rounded-2xl bg-white border-2 border-xseed-crimson/30 shadow-product-hover">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-rose-100">
+                            <span class="text-xs font-mono font-bold text-xseed-crimson uppercase">XSEED EXPERIENTIAL CLASSROOM</span>
+                            <span class="text-[10px] font-mono font-bold text-xseed-emerald">Active Learning</span>
+                        </div>
+                        
+                        <div id="sim-xseed-box" class="space-y-4">
+                            <div class="p-4 rounded-xl bg-rose-50/60 border border-rose-200 text-xs text-slate-800">
+                                <strong class="text-xseed-crimson block mb-1">Hands-on Activity (DO):</strong>
+                                "Fold your paper strip into 4 equal sections. Color 3 of those sections red. How much of the total strip is colored?"
+                            </div>
+                            <div class="p-3 rounded-xl bg-rose-100/50 border border-rose-200 text-[11px] text-slate-800">
+                                <strong class="text-xseed-ink block mb-0.5 font-bold">Student Discovery (THINK & QUESTION):</strong>
+                                "3 parts out of 4 total parts are red. That's 3 out of 4!"
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 07: STUDENT OUTCOMES -->
+        <section id="outcomes" class="py-28 relative border-t border-xseed-border bg-xseed-canvas">
+            <div class="max-w-7xl mx-auto px-6 md:px-10">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-xseed-crimson px-3 py-1 rounded-full bg-rose-50 border border-rose-200">
+                        THE LONG-TERM IMPACT
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-display font-bold text-xseed-ink mt-4">
+                        Ready to Learn. <span class="text-xseed-crimson italic font-editorial">Ready for Life.</span>
+                    </h2>
+                    <p class="text-xseed-muted text-sm mt-3">
+                        Students educated with the XSEED philosophy develop core capabilities that last far beyond school examinations.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <div class="product-glass p-8 rounded-2xl text-center bg-white">
+                        <div class="w-12 h-12 rounded-full bg-rose-50 text-xseed-crimson flex items-center justify-center mx-auto mb-4 border border-rose-200 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-xl mb-2">Curious Thinkers</h3>
+                        <p class="text-xs text-xseed-muted">Not satisfied with superficial answers. Continuously ask why and explore deeper context.</p>
+                    </div>
+
+                    <div class="product-glass p-8 rounded-2xl text-center bg-white">
+                        <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4 border border-amber-200 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-xl mb-2">Problem Solvers</h3>
+                        <p class="text-xs text-xseed-muted">Equipped to apply concepts to unfamiliar, real-world challenges confidently.</p>
+                    </div>
+
+                    <div class="product-glass p-8 rounded-2xl text-center bg-white">
+                        <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-200 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-xl mb-2">Confident Communicators</h3>
+                        <p class="text-xs text-xseed-muted">Able to articulate thoughts clearly, listen actively, and collaborate constructively.</p>
+                    </div>
+
+                    <div class="product-glass p-8 rounded-2xl text-center bg-white">
+                        <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-4 border border-indigo-200 shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                        </div>
+                        <h3 class="font-display font-bold text-xseed-ink text-xl mb-2">Self-Driven Learners</h3>
+                        <p class="text-xs text-xseed-muted">Possess intrinsic motivation to learn, adapt, and grow throughout their lives.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 08: CALL TO ACTION BANNER -->
+        <section id="contact" class="py-24 relative overflow-hidden border-t border-xseed-border bg-gradient-to-b from-slate-900 to-xseed-ink text-white">
+            
+            <div class="product-ambient-glow w-[500px] h-[500px] bg-rose-500/20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+            <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest text-rose-400 px-3 py-1 rounded-full bg-white/10 border border-white/15">
+                    TRANSFORM YOUR SCHOOL
+                </span>
+                <h2 class="text-4xl sm:text-6xl font-display font-black text-white mt-6 mb-6">
+                    Bring Experiential Excellence <br>to Your Classrooms
+                </h2>
+                <p class="text-slate-300 text-base max-w-xl mx-auto mb-10">
+                    Join over 10,000 forward-thinking schools empowering millions of children to think, question, and excel.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <a href="#" class="px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest bg-xseed-crimson hover:bg-xseed-crimson-dark text-white hover:shadow-glow-crimson transition-all shadow-xl">
+                        Partner With XSEED
+                    </a>
+                    <a href="#" class="px-8 py-4 rounded-full text-xs font-bold uppercase tracking-widest bg-white/10 text-white border border-white/15 hover:bg-white/20 transition-all">
+                        Download Curriculum Guide
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-12 text-xseed-muted text-xs">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-full bg-xseed-crimson flex items-center justify-center text-white font-display font-black text-xs">
+                    X
+                </div>
+                <span class="font-display font-bold text-xseed-ink text-sm">XSEED Education</span>
+            </div>
+
+            <div class="flex flex-wrap gap-6 font-medium text-xseed-muted">
+                <a href="#belief" class="hover:text-xseed-crimson transition-colors">Philosophy</a>
+                <a href="#framework" class="hover:text-xseed-crimson transition-colors">5-Step Method</a>
+                <a href="#cycle" class="hover:text-xseed-crimson transition-colors">Learning Engine</a>
+                <a href="#adults" class="hover:text-xseed-crimson transition-colors">Facilitation</a>
+                <a href="#outcomes" class="hover:text-xseed-crimson transition-colors">Outcomes</a>
+            </div>
+
+            <div class="text-slate-400 font-mono text-[11px]">
+                © 2026 XSEED Education. Foundation for Life.
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        // Data for 5-Step Pedagogy Switcher
+        const stepsData = [
+            {
+                badge: "STEP 01 OF 05",
+                category: "CONCRETE EXPERIENCE",
+                title: "01 — DO: Direct Action & Exploration",
+                description: "Students begin every lesson with a hands-on activity, experiment, or simulation before any textbook definitions are presented. They touch, observe, make predictions, and gather real evidence.",
+                scenario: '"Students drop various shapes into water tanks to test displacement firsthand rather than reading an Archimedes formula on a chalkboard."',
+                studentRole: "Active Investigator",
+                teacherRole: "Facilitator & Guide",
+                tag: "HANDS-ON DISCOVERY",
+                icon: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>'
+            },
+            {
+                badge: "STEP 02 OF 05",
+                category: "ANALYSIS & SENSE-MAKING",
+                title: "02 — THINK: Pattern Recognition",
+                description: "Following the activity, students reflect on what they saw. They organize data, look for underlying patterns, and begin constructing logical explanations.",
+                scenario: '"Students tabulate water level increases across different object shapes, noticing a direct link between volume immersed and water rise."',
+                studentRole: "Analytical Thinker",
+                teacherRole: "Question Prompter",
+                tag: "ACTIVE REFLECTION",
+                icon: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v.192c0 .984-.692 1.83-1.661 1.989a11.96 11.96 0 01-2.178 0C9.442 20.022 8.75 19.176 8.75 18.192V18"/></svg>'
+            },
+            {
+                badge: "STEP 03 OF 05",
+                category: "CONCEPTUAL INQUIRY",
+                title: "03 — QUESTION: Deep Inquiry",
+                description: "Teachers guide students to ask probing questions, connect observations to formal terms, and challenge initial assumptions.",
+                scenario: '"Why did the heavy metal ball sink while the hollow plastic ship floated despite being larger? Students debate buoyancy factors."',
+                studentRole: "Curious Inquirer",
+                teacherRole: "Socratic Moderator",
+                tag: "CONCEPT SYNTHESIS",
+                icon: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M12 18h.01"/></svg>'
+            },
+            {
+                badge: "STEP 04 OF 05",
+                category: "INDEPENDENT TRANSFER",
+                title: "04 — APPLY: Problem Solving",
+                description: "Students apply their newly formed concept to solve a brand new, unfamiliar problem without teacher assistance.",
+                scenario: '"Given a set of mystery objects with unknown densities, students predict whether each will float or sink and verify mathematically."',
+                studentRole: "Independent Solver",
+                teacherRole: "Evaluator",
+                tag: "KNOWLEDGE TRANSFER",
+                icon: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 0012 3.12 14.98 14.98 0 002.26 12.25a14.98 14.98 0 006.16 12.12v-4.8"/></svg>'
+            },
+            {
+                badge: "STEP 05 OF 05",
+                category: "MASTERY & FEEDBACK",
+                title: "05 — GROW: Reflective Mastery",
+                description: "Students receive specific diagnostic feedback on their work, review errors as insights, and solidify their learning.",
+                scenario: '"Students complete self-assessment rubrics, receiving constructive teacher notes on mathematical precision."',
+                studentRole: "Reflective Master",
+                teacherRole: "Feedback Coach",
+                tag: "CONTINUOUS GROWTH",
+                icon: '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 18.75h-9m9 0a3 3 0 003-3V8.25a3 3 0 00-3-3h-9a3 3 0 00-3 3v7.5a3 3 0 003 3m9 0v3.375c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 017.5 22.125V18.75"/></svg>'
+            }
+        ];
+
+        function switchStep(index) {
+            for (let i = 0; i < 5; i++) {
+                const btn = document.getElementById(`step-btn-${i}`);
+                if (btn) {
+                    if (i === index) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                }
+            }
+
+            const data = stepsData[index];
+            document.getElementById('step-badge').innerText = data.badge;
+            document.getElementById('step-category').innerText = data.category;
+            document.getElementById('step-title').innerText = data.title;
+            document.getElementById('step-description').innerText = data.description;
+            document.getElementById('step-scenario').innerText = data.scenario;
+            document.getElementById('step-student-role').innerText = data.studentRole;
+            document.getElementById('step-teacher-role').innerText = data.teacherRole;
+            document.getElementById('step-visual-tag').innerText = data.tag;
+            document.getElementById('step-visual-icon').innerHTML = data.icon;
+        }
+
+        // Engine Details Data
+        const engineData = [
+            {
+                tag: "PHASE 01 OF 04",
+                title: "01. Initial Experimentation (Try)",
+                body: "Students dive straight into problem solving or testing hypotheses with physical manipulatives or real datasets. Mistakes made here provide raw material for learning.",
+                dashOffset: 350
+            },
+            {
+                tag: "PHASE 02 OF 04",
+                title: "02. Active Reflection (Reflect)",
+                body: "Students step back to analyze what happened during their attempt. They compare results with peers and search for cause-and-effect relationships.",
+                dashOffset: 235
+            },
+            {
+                tag: "PHASE 03 OF 04",
+                title: "03. Diagnostic Guidance (Feedback)",
+                body: "Teachers offer targeted, non-judgmental prompts that guide the student toward identifying where their logic diverged.",
+                dashOffset: 120
+            },
+            {
+                tag: "PHASE 04 OF 04",
+                title: "04. Informed Attempt (Retry)",
+                body: "Armed with refined understanding, students attempt the challenge once more, converting temporary confusion into permanent mastery.",
+                dashOffset: 0
+            }
+        ];
+
+        let currentEngineIdx = 0;
+        let engineInterval;
+
+        function selectEngineNode(idx) {
+            currentEngineIdx = idx;
+            updateEngineUI();
+            resetEngineTimer();
+        }
+
+        function updateEngineUI() {
+            const data = engineData[currentEngineIdx];
+            document.getElementById('engine-tag').innerText = data.tag;
+            document.getElementById('engine-title').innerText = data.title;
+            document.getElementById('engine-body').innerText = data.body;
+            
+            const ring = document.getElementById('engine-ring');
+            if (ring) {
+                ring.style.strokeDashoffset = data.dashOffset;
+            }
+
+            const nodes = document.querySelectorAll('.engine-node');
+            nodes.forEach((node, i) => {
+                const circle = node.querySelector('span');
+                if (i === currentEngineIdx) {
+                    node.classList.add('border-xseed-crimson', 'bg-white');
+                    circle.className = 'w-7 h-7 rounded-full bg-xseed-crimson text-white font-mono text-xs font-bold flex items-center justify-center mx-auto mb-1 shadow-glow-crimson';
+                } else {
+                    node.classList.remove('border-xseed-crimson', 'bg-white');
+                    circle.className = 'w-7 h-7 rounded-full bg-slate-100 text-slate-600 font-mono text-xs font-bold flex items-center justify-center mx-auto mb-1';
+                }
+            });
+
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`e-dot-${i}`);
+                if (dot) {
+                    dot.className = i === currentEngineIdx ? 'w-2 h-2 rounded-full bg-xseed-crimson' : 'w-2 h-2 rounded-full bg-slate-200';
+                }
+            }
+        }
+
+        function resetEngineTimer() {
+            clearInterval(engineInterval);
+            engineInterval = setInterval(() => {
+                currentEngineIdx = (currentEngineIdx + 1) % 4;
+                updateEngineUI();
+            }, 5000);
+        }
+
+        // Simulator Switcher
+        function switchSimSubject(subject) {
+            const mathBtn = document.getElementById('sim-btn-math');
+            const scienceBtn = document.getElementById('sim-btn-science');
+            const tradBox = document.getElementById('sim-trad-box');
+            const xseedBox = document.getElementById('sim-xseed-box');
+
+            if (subject === 'math') {
+                mathBtn.className = "px-5 py-2.5 rounded-full text-xs font-bold font-mono uppercase bg-xseed-crimson text-white shadow-glow-crimson transition-all";
+                scienceBtn.className = "px-5 py-2.5 rounded-full text-xs font-bold font-mono uppercase bg-slate-100 text-slate-600 hover:text-xseed-ink transition-all";
+
+                tradBox.innerHTML = `
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+                        <strong class="text-xseed-ink block mb-1">Teacher Statement:</strong>
+                        "Open page 42. A fraction represents a part of a whole. Look at the fraction 3/4. 3 is the numerator, 4 is the denominator. Copy these definitions into your notebooks."
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-100/60 text-[11px] text-slate-500 italic">
+                        Student Result: Memorizes terms for a test, struggles to visualize 3/4 in real-life problems.
+                    </div>
+                `;
+
+                xseedBox.innerHTML = `
+                    <div class="p-4 rounded-xl bg-rose-50/60 border border-rose-200 text-xs text-slate-800">
+                        <strong class="text-xseed-crimson block mb-1">Hands-on Activity (DO):</strong>
+                        "Fold your paper strip into 4 equal sections. Color 3 of those sections red. How much of the total strip is colored?"
+                    </div>
+                    <div class="p-3 rounded-xl bg-rose-100/50 border border-rose-200 text-[11px] text-slate-800">
+                        <strong class="text-xseed-ink block mb-0.5 font-bold">Student Discovery (THINK & QUESTION):</strong>
+                        "3 parts out of 4 total parts are red. That's 3 out of 4!"
+                    </div>
+                `;
+            } else {
+                scienceBtn.className = "px-5 py-2.5 rounded-full text-xs font-bold font-mono uppercase bg-xseed-crimson text-white shadow-glow-crimson transition-all";
+                mathBtn.className = "px-5 py-2.5 rounded-full text-xs font-bold font-mono uppercase bg-slate-100 text-slate-600 hover:text-xseed-ink transition-all";
+
+                tradBox.innerHTML = `
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+                        <strong class="text-xseed-ink block mb-1">Teacher Statement:</strong>
+                        "Density equals mass divided by volume (D = M/V). Objects denser than water sink, while less dense objects float. Copy formula 4.1."
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-100/60 text-[11px] text-slate-500 italic">
+                        Student Result: Copies formula, but cannot explain why a giant metal cruise ship floats on water.
+                    </div>
+                `;
+
+                xseedBox.innerHTML = `
+                    <div class="p-4 rounded-xl bg-rose-50/60 border border-rose-200 text-xs text-slate-800">
+                        <strong class="text-xseed-crimson block mb-1">Hands-on Activity (DO):</strong>
+                        "Take a block of clay and drop it in water—it sinks. Now shape that same clay into a bowl. What happens?"
+                    </div>
+                    <div class="p-3 rounded-xl bg-rose-100/50 border border-rose-200 text-[11px] text-slate-800">
+                        <strong class="text-xseed-ink block mb-0.5 font-bold">Student Discovery (THINK & QUESTION):</strong>
+                        "The bowl floats because it pushes more water out of the way! Shape and trapped air change how it floats."
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize Progress Scroll Bar & ScrollTrigger Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('scroll', () => {
+                const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = window.scrollY / totalScroll;
+                document.getElementById('scroll-progress').style.transform = `scaleX(${progress})`;
+            });
+
+            resetEngineTimer();
+        });
+    </script>
+</body>
+</html>

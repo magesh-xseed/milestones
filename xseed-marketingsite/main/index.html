@@ -1475,31 +1475,62 @@
         opacity: 1 !important
       }
     }
+      /* Retire the old observer reveal; GSAP alone owns page entrances. */
+    .reveal, .reveal.is-in { opacity: 1; transform: none; transition: none; }
+
+    /* Page-local motion, matching home.html. Content is visible without JavaScript. */
+    html.lenis, html.lenis body { height: auto; }
+    html.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis-stopped { overflow: hidden; }
+    main .motion-line, main .motion-inner {
+      display: block;
+      font: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      white-space: inherit;
+    }
+    main .motion-line {
+      overflow: hidden;
+      padding: 0 .12em .22em;
+      margin: 0 -.12em -.22em;
+    }
+    main .pencil-line { display: block; overflow: hidden; padding: .1em .12em; margin: -.1em -.12em; }
+    main .pencil-line > span { display: block; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      main .motion-inner, main .pencil-line > span, main [data-motion-item] {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+      }
+    }
   </style>
+  <link rel="stylesheet" href="assets/site-shell.css">
+  <script src="assets/site-shell.js" defer></script>
 </head>
 
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <nav class="nav" id="siteNav">
-    <div class="nav__inner">
-      <a class="nav__brand" href="#main" aria-label="XSEED Education home">
-        <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
-      </a>
-      <button class="nav__menu" id="navMenu" aria-expanded="false" aria-controls="navLinks"
-        aria-label="Toggle navigation">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round">
-          <path d="M4 7h16M4 12h16M4 17h16" />
-        </svg>
-      </button>
-      <ul class="nav__links" id="navLinks">
-        <li><a href="#why">Why XSEED</a></li>
-        <li><a href="#impact">Products</a></li>
-        <li><a href="#footer">About Us</a></li>
-      </ul>
-    </div>
-  </nav>
+  <header class="shell-header" id="header">
+    <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
+      <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+    </a>
+
+    
+
+    <button class="shell-menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" class="shell-navigation" aria-label="Main navigation">
+      <a href="our_philosophy.html">Our Philosophy</a>
+      <a href="our_method.html">Our Method</a>
+      <a href="impact.html">Impact</a>
+      
+      <a href="careers.html">Careers</a>
+    </nav>
+
+
+  </header>
 
   <main id="main">
     <header class="hero" id="why">
@@ -1827,61 +1858,52 @@
     </section>
   </main>
 
-  <footer class="footer" id="footer">
-    <div class="wrap">
-      <div class="footer__grid">
-        <div class="footer__brand">
-          <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
-          <p>XSEED Education is a research-driven learning system that helps children become confident thinkers and
-            lifelong learners.</p>
+  <footer class="shell-site-footer" id="footer">
+    <div class="shell-wrap">
+      <div class="shell-footer-main">
+        <div class="shell-footer-brand">
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+              alt="XSEED Education" loading="lazy"></a>
+          <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
         </div>
-        <div class="footer__col">
-          <h3>Why XSEED</h3>
-          <a href="#why">Our Approach</a>
-          <a href="#method">XSEED Method</a>
-          <a href="#impact">Impact</a>
+        <div class="shell-footer-col">
+          <h4>Discover</h4>
+          <a href="our_philosophy.html">Our Philosophy</a>
+          <a href="our_method.html">Our Method</a>
+          <a href="impact.html">Impact</a>
         </div>
-        <div class="footer__col">
-          <h3>Programs</h3>
-          <a href="#classroom">For Schools</a>
-          <a href="#classroom">For Teachers</a>
-          <a href="#classroom">For Parents</a>
+        <div class="shell-footer-col">
+          <h4>XSEED</h4>
+          <a href="our_philosophy.html">About</a>
+          <a href="careers.html">Careers</a>
+          <a href="https://xseededucation.com/">News</a>
         </div>
-        <div class="footer__col">
-          <h3>Company</h3>
-          <a href="#founder">Our Founder</a>
-          <a href="mailto:hello@xseededucation.com">Contact Us</a>
-          <a href="#footer">About Us</a>
-        </div>
-        <div class="footer__col">
-          <h3>Real Stories</h3>
-          <a href="#classroom">Classroom</a>
-          <a href="#founder">Founder Audio</a>
-          <a href="#impact">Schools</a>
-        </div>
-        <div class="footer__col">
-          <h3>Stay Updated</h3>
-          <p>Get updates on stories, events, and new resources.</p>
-          <form class="footer__subscribe" action="mailto:hello@xseededucation.com" method="post" enctype="text/plain">
-            <input type="email" name="email" placeholder="Your email" aria-label="Your email">
-            <button type="submit" aria-label="Submit email">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </button>
-          </form>
+        <div class="shell-footer-col" id="contact" tabindex="-1">
+          <h4>Connect</h4>
+          <a href="mailto:contact@xseededucation.com">Contact</a>
+          <div class="shell-social" aria-label="Social links"><a href="https://www.linkedin.com/company/xseed-education/"
+              aria-label="XSEED on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2M8 19H5V9h3ZM6.5 7.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5M19 19h-3v-5c0-3-3-2.8-3 0v5h-3V9h3v1.4C15 7.8 19 9 19 12Z" />
+              </svg></a><a href="https://www.youtube.com/@XSEEDEducationSingapore" aria-label="XSEED on YouTube"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 7s-.3-2-2-2.3C17.5 4.3 6.5 4.3 4 4.7 2.3 5 2 7 2 7s-.5 4-.5 5 .5 5 .5 5 .3 2 2 2.3c2.5.4 13.5.4 16 0 1.7-.3 2-2.3 2-2.3s.5-4 .5-5-.5-5-.5-5M10 16V8l6 4Z" />
+              </svg></a><a href="https://www.instagram.com/xseededucation/" aria-label="XSEED on Instagram"><svg
+                viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="17.5" cy="6.5" r="1.2" />
+              </svg></a></div>
         </div>
       </div>
-      <div class="footer__base">
+      <div class="shell-footer-bottom">
         <span>© 2026 XSEED Education. All rights reserved.</span>
-        <span>Privacy Policy</span>
-        <span>Terms of Use</span>
+        <strong>Better learners. A brighter tomorrow.</strong>
       </div>
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
     const stages = [
       { title: "Aim", summary: "Define the goal and the purpose.", marker: { left: "8%", bottom: "22%" } },
@@ -1891,9 +1913,6 @@
       { title: "Assessment", summary: "Measure progress and improve.", marker: { left: "88%", bottom: "44%" } }
     ];
 
-    const nav = document.getElementById("siteNav");
-    const navMenu = document.getElementById("navMenu");
-    const navLinks = document.getElementById("navLinks");
     const heroVideo = document.getElementById("heroVideo");
     const dots = [...document.querySelectorAll(".method-dot")];
     const images = [...document.querySelectorAll(".method-media__image")];
@@ -1904,15 +1923,6 @@
     const metaBody = document.getElementById("methodMetaBody");
     const jumpButtons = [...document.querySelectorAll("[data-jump]")];
     let activeStage = 0;
-
-    function setNavState() {
-      nav.classList.toggle("is-solid", window.scrollY > 24);
-    }
-
-    function closeMenu() {
-      navLinks.classList.remove("is-open");
-      navMenu.setAttribute("aria-expanded", "false");
-    }
 
     function updateStage(index, withScroll) {
       const safeIndex = Math.max(0, Math.min(stages.length - 1, index));
@@ -1948,15 +1958,6 @@
       });
     }
 
-    setNavState();
-    window.addEventListener("scroll", setNavState, { passive: true });
-
-    navMenu.addEventListener("click", () => {
-      const open = navLinks.classList.toggle("is-open");
-      navMenu.setAttribute("aria-expanded", String(open));
-    });
-
-    navLinks.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
     dots.forEach((dot) => dot.addEventListener("click", () => updateStage(Number(dot.dataset.stage), true)));
     jumpButtons.forEach((button) => button.addEventListener("click", () => updateStage(activeStage + Number(button.dataset.jump), true)));
 
@@ -1967,58 +1968,118 @@
     }
     updateStage(0, false);
 
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-in");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.18 });
+  </script>
 
-    document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.8/dist/lenis.min.js"></script>
+  <script>
+    (() => {
+      const hero = document.querySelector("main > .hero");
+      const eyebrowSelector = ".eyebrow";
+      const noteSelector = ".handwritten";
+      const cardSelector = ".method-step__card, .method-media, .method-summary, .classroom__player, .founder__portrait, .audio, .impact__stat, .cta__panel > img";
+      const copySelector = ".hero__copy > .lede, .hero__actions, .method-timeline, .classroom__copy > .lede, .classroom__copy > .btn, .founder__quote, .founder__byline, .cta__body > .lede, .cta__body > .btn";
+      const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      let context, lenis;
 
-    if (window.gsap && window.ScrollTrigger && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.registerPlugin(ScrollTrigger);
-
-      gsap.to(".hero__bg video", {
-        yPercent: 8,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.8 }
-      });
-
-      gsap.utils.toArray(".method-step").forEach((step) => {
-        const stageIndex = Number(step.dataset.stage);
-        ScrollTrigger.create({
-          trigger: step,
-          start: "top center",
-          end: "bottom center",
-          onEnter: () => updateStage(stageIndex, false),
-          onEnterBack: () => updateStage(stageIndex, false)
+      // Preserve semantic headings and their existing emphasis and authored line breaks.
+      const wrapLines = (element, pencil = false) => {
+        if (element.querySelector('.motion-line, .pencil-line')) return;
+        const nodes = [...element.childNodes];
+        const spanLines = element.matches('.hero__copy h1');
+        const lines = spanLines ? nodes.filter(node => node.nodeType === 1).map(node => [node]) : [[]];
+        if (!spanLines) nodes.forEach(node => {
+          if (node.nodeName === 'BR') { node.remove(); lines.push([]); }
+          else if (node.nodeName !== 'svg') lines[lines.length - 1].push(node);
         });
-      });
+        lines.forEach(nodes => {
+          const mask = document.createElement('span');
+          mask.className = pencil ? 'pencil-line' : 'motion-line';
+          const inner = document.createElement('span');
+          if (!pencil) inner.className = 'motion-inner';
+          mask.append(inner);
+          nodes.forEach(node => inner.append(node));
+          element.insertBefore(mask, element.querySelector(':scope > svg'));
+        });
+      };
+      const setupMotion = () => {
+        context?.revert(); context = undefined;
+        lenis?.destroy(); lenis = undefined;
+        if (motion.matches || !window.gsap || !window.ScrollTrigger) return;
+        document.querySelectorAll('main h1, main h2').forEach(heading => wrapLines(heading));
+        document.querySelectorAll(noteSelector).forEach(note => wrapLines(note, true));
+        gsap.registerPlugin(ScrollTrigger);
+        if (window.Lenis) {
+          lenis = new Lenis({ lerp: .055, wheelMultiplier: .7, smoothWheel: true, anchors: true });
+          lenis.on('scroll', ScrollTrigger.update);
+        }
+        context = gsap.context(() => {
+          const entrance = (timeline, targets, from, to, position) => {
+            if (!targets.length) return;
+            targets.forEach(target => target.setAttribute('data-motion-item', ''));
+            timeline.fromTo(targets, from, { ...to, clearProps: 'opacity,transform,clipPath' }, position);
+          };
+          const writeNote = (timeline, note, position) => {
+            entrance(timeline, note.querySelectorAll('.pencil-line > span'), { xPercent: -105 },
+              { xPercent: 0, duration: .65, stagger: .32, ease: 'power1.inOut' }, position);
+            entrance(timeline, note.querySelectorAll('svg'), { clipPath: 'inset(0 100% 0 0)' },
+              { clipPath: 'inset(0 0% 0 0)', duration: .7, ease: 'power2.inOut' }, '-=.15');
+          };
+          const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+          entrance(heroTimeline, hero.querySelectorAll(".hero__bg video"), { scale: 1.035 },
+            { scale: 1, duration: 2.4, ease: 'power2.out' }, 0);
+          entrance(heroTimeline, hero.querySelectorAll(eyebrowSelector), { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 1 }, 0);
+          entrance(heroTimeline, hero.querySelectorAll('.motion-inner'), { yPercent: 112 },
+            { yPercent: 0, duration: 1.35, stagger: .14 }, .35);
+          entrance(heroTimeline, hero.querySelectorAll(copySelector), { opacity: 0, y: 24 },
+            { opacity: 1, y: 0, duration: 1.15, stagger: .15 }, .85);
+          hero.querySelectorAll(noteSelector).forEach(note => writeNote(heroTimeline, note, 1.65));
 
-      gsap.from(".method-media", {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: ".experience__rail", start: "top 72%" }
+          document.querySelectorAll('main > section').forEach(section => {
+            if (section === hero) return;
+            const timeline = gsap.timeline({ defaults: { ease: 'power3.out' },
+              scrollTrigger: { trigger: section, start: 'top 78%', toggleActions: 'play none none reverse' } });
+            entrance(timeline, section.querySelectorAll(eyebrowSelector), { opacity: 0, y: 18 },
+              { opacity: 1, y: 0, duration: 1 }, 0);
+            entrance(timeline, section.querySelectorAll('.motion-inner'), { yPercent: 112 },
+              { yPercent: 0, duration: 1.4, stagger: .14 }, .12);
+            entrance(timeline, section.querySelectorAll(copySelector), { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
+            section.querySelectorAll(noteSelector).forEach(note => {
+              const noteTimeline = gsap.timeline({ scrollTrigger: {
+                trigger: note, start: 'top 85%', toggleActions: 'play none none reverse' } });
+              writeNote(noteTimeline, note, 0);
+            });
+            // Trigger each lower item independently so tall mobile sections stay readable.
+            section.querySelectorAll(cardSelector).forEach((item, index) => {
+              const timeline = gsap.timeline({ scrollTrigger: {
+                trigger: item, start: 'top 94%', toggleActions: 'play none none reverse' } });
+              entrance(timeline, [item], { opacity: 0, y: 36 }, {
+                opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08, ease: 'power3.out'
+              }, 0);
+            });
+          });
+          // Keep the interactive method stages synchronized with the reading position.
+          document.querySelectorAll('.method-step').forEach(step => {
+            ScrollTrigger.create({ trigger: step, start: 'top center', end: 'bottom center',
+              onEnter: () => updateStage(Number(step.dataset.stage), false),
+              onEnterBack: () => updateStage(Number(step.dataset.stage), false) });
+          });
+        });
+        ScrollTrigger.refresh();
+      };
+      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      setupMotion();
+      motion.addEventListener('change', setupMotion);
+      const refresh = () => { lenis?.resize(); window.ScrollTrigger?.refresh(); };
+      window.addEventListener('load', refresh);
+      document.fonts?.ready.then(refresh);
+      document.querySelectorAll('main img').forEach(img => {
+        if (!img.complete) img.addEventListener('load', refresh, { once: true });
       });
-
-      gsap.from(".classroom__player img", {
-        scale: 1.06,
-        ease: "none",
-        scrollTrigger: { trigger: ".classroom__player", start: "top bottom", end: "bottom top", scrub: 0.8 }
-      });
-
-      gsap.from(".cta__panel img", {
-        scale: 1.08,
-        xPercent: 4,
-        ease: "none",
-        scrollTrigger: { trigger: ".cta__panel", start: "top bottom", end: "bottom top", scrub: 0.9 }
-      });
-    }
+    })();
   </script>
 </body>
 

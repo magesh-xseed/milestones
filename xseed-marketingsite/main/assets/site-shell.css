@@ -1,0 +1,327 @@
+/* Shared site chrome. Design source: home.html. Keep page styles outside this namespace. */
+.shell-header, .shell-site-footer {
+  --page-x: clamp(32px, 5.6vw, 108px);
+  --nav-h-scrolled: 94px;
+  --logo-h-scrolled: 4.25rem;
+  --ease: cubic-bezier(.22, .68, .2, 1);
+  --ink: #1f1a16;
+  --brand: #b3283a;
+  --paper: #fffefd;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.shell-header a, .shell-site-footer a { color: inherit; text-decoration: none; }
+.shell-header img, .shell-site-footer img { max-width: 100%; }
+    .shell-logo {
+      position: absolute;
+      z-index: 50;
+      top: 15px;
+      left: var(--page-x);
+      display: inline-flex;
+      align-items: center;
+      transition: top .65s var(--ease)
+    }
+
+    .shell-logo img {
+      display: block;
+      height: clamp(100px, 14vh, 180px);
+      width: auto;
+      transition: height .65s var(--ease)
+    }
+
+    .shell-header {
+      position: fixed;
+      z-index: 50;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-h-scrolled);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: calc(var(--page-x) + 4rem);
+      isolation: isolate;
+      transition: height .65s var(--ease)
+    }
+
+    .shell-header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(120deg, rgba(255, 255, 255, .7), rgba(255, 253, 248, .42) 55%, rgba(255, 255, 255, .58));
+      -webkit-backdrop-filter: blur(24px) saturate(165%);
+      backdrop-filter: blur(24px) saturate(165%);
+      opacity: 0;
+      transition: opacity .65s var(--ease)
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .shell-header::before {
+        background: rgba(255, 253, 248, .94)
+      }
+    }
+
+    .shell-navigation {
+      display: flex;
+      align-items: center;
+      gap: clamp(28px, 3.3vw, 58px);
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: .88rem;
+      line-height: 1rem;
+      letter-spacing: .06em;
+      text-transform: uppercase
+    }
+
+    .shell-navigation a {
+      position: relative;
+      white-space: nowrap
+    }
+
+    .shell-navigation a:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 1px;
+      background: var(--brand);
+      transition: width .35s ease
+    }
+
+    .shell-navigation a:hover:after {
+      width: 100%
+    }
+
+    body.scrolled .shell-header::before {
+      opacity: 1
+    }
+
+    body.scrolled .shell-logo {
+      top: calc((var(--nav-h-scrolled) - var(--logo-h-scrolled)) / 2)
+    }
+
+    body.scrolled .shell-logo img {
+      height: var(--logo-h-scrolled)
+    }
+
+    .shell-wordmark {
+      display: inline-flex;
+      align-items: center
+    }
+
+    .shell-wordmark img {
+      display: block;
+      height: 52px;
+      width: auto
+    }
+
+    .shell-footer-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px
+    }
+
+    .shell-social {
+      display: flex;
+      gap: 12px;
+      padding-top: 12px
+    }
+
+    .shell-social a {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--brand);
+      color: var(--paper);
+      transition: background .2s ease
+    }
+
+    .shell-social a:hover {
+      background: var(--ink)
+    }
+
+    .shell-social svg {
+      width: 19px;
+      height: 19px;
+      fill: currentColor
+    }
+
+    .shell-footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1.8;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-soft)
+    }
+
+/* Multi-column footer (site-footer) — used by our_philosophy.html */
+.shell-site-footer {
+  padding: 92px 0 32px;
+  background: #fff;
+  color: var(--ink);
+  border-top: 1px solid var(--line)
+}
+
+.shell-site-footer .shell-footer-main {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.1fr) repeat(3, minmax(120px, .55fr));
+  gap: clamp(40px, 6vw, 100px);
+  padding-bottom: 56px
+}
+
+.shell-site-footer .shell-footer-brand {
+  gap: 0
+}
+
+.shell-site-footer .shell-wordmark img {
+  height: 5.4rem;
+  margin-bottom: 30px
+}
+
+.shell-site-footer .shell-footer-brand p {
+  margin: 0;
+  max-width: 330px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: .01em;
+  color: var(--ink-soft)
+}
+
+.shell-site-footer .shell-footer-col h4 {
+  position: relative;
+  margin: 0 0 22px;
+  padding-bottom: 14px;
+  font-family: "Inter", sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink)
+}
+
+.shell-site-footer .shell-footer-col h4::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 26px;
+  height: 2px;
+  background: var(--brand)
+}
+
+.shell-site-footer .shell-footer-col a {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  padding: 6px 0;
+  font-family: "Inter", sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: .01em;
+  color: var(--ink-soft);
+  transition: color .25s ease, transform .25s ease
+}
+
+.shell-site-footer .shell-footer-col a:hover {
+  color: var(--brand);
+  transform: translateX(3px)
+}
+
+.shell-site-footer .shell-social {
+  gap: 12px;
+  padding-top: 0;
+  margin-top: 28px
+}
+
+.shell-site-footer .shell-social a {
+  display: grid;
+  flex: 0 0 38px;
+  padding: 0;
+  color: var(--paper);
+  width: 38px;
+  height: 38px;
+  transition: background .25s ease, transform .25s ease
+}
+
+.shell-site-footer .shell-social a:hover {
+  transform: translateY(-3px)
+}
+
+.shell-site-footer .shell-footer-col a[aria-current="page"] {
+  color: var(--brand)
+}
+
+.shell-site-footer a:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 5px
+}
+
+.shell-site-footer .shell-footer-bottom {
+  padding-top: 28px;
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  color: var(--ink-faint)
+}
+
+.shell-site-footer .shell-footer-bottom strong {
+  color: var(--ink-soft);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal
+}
+
+/* Match the careers footer tokens without changing the home page palette. */
+.shell-site-footer {
+  --ink: #171b22;
+  --ink-soft: #727579;
+  --ink-faint: #a4a7ab;
+  --line: rgba(31, 26, 22, .08);
+  font-family: Lato, Arial, sans-serif;
+}
+.shell-site-footer > .shell-wrap { width: 87.2%; margin: auto; }
+@media (min-width: 768px) and (max-width: 1100px) {
+  .shell-site-footer .shell-footer-main { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 767px) {
+  .shell-site-footer > .shell-wrap { width: calc(100% - 48px); }
+  .shell-site-footer .shell-footer-main { grid-template-columns: 1fr; gap: 32px; padding-bottom: 32px; }
+  .shell-site-footer .shell-wordmark img { height: 3.8rem; }
+  .shell-site-footer .shell-footer-bottom { flex-direction: column; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shell-site-footer a { transition: none !important; }
+}
+
+
+.shell-menu-toggle { display: none; }
+.shell-header a:focus-visible, .shell-menu-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 5px; }
+@media (max-width: 1150px) {
+  .shell-header { padding-right: var(--page-x); }
+  .shell-menu-toggle { display: block; border: 1px solid rgba(31,26,22,.2); border-radius: 999px; padding: 10px 18px; background: #fffdf8; color: var(--ink); font: 700 12px Inter, sans-serif; cursor: pointer; }
+  .shell-navigation { display: none; position: absolute; top: calc(100% + 10px); left: var(--page-x); right: var(--page-x); padding: 20px 24px; border: 1px solid rgba(31,26,22,.08); border-radius: 18px; background: #fffdf8; box-shadow: 0 16px 40px rgba(34,24,18,.12); align-items: stretch; flex-direction: column; gap: 8px; }
+  .shell-navigation.open { display: flex; }
+  .shell-navigation a { padding: 12px 0; }
+  .shell-navigation a:after { bottom: 5px; }
+}
+@media (max-width: 767px) {
+  .shell-header { --nav-h-scrolled: 72px; --logo-h-scrolled: 44px; }
+  .shell-logo { top: 14px; }
+  .shell-logo img { height: 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shell-header, .shell-header *, .shell-header::before { transition: none !important; }
+}

@@ -11,9 +11,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600&family=Caveat:wght@400;500&family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Inter:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="preload" as="image" href="assets/xseed-home1.png">
+  <link rel="icon" href="assets/xseed-blackline-logo.png">
   <style>
     :root {
       --canvas: #f8f3ea;
@@ -1091,6 +1092,11 @@
       transform: translateY(-4px) scale(1.012)
     }
 
+    .product-pill,
+    .product-vertical {
+      display: none
+    }
+
     .circle-arrow {
       position: absolute;
       bottom: 35px;
@@ -1102,6 +1108,190 @@
       border-radius: 50%;
       background: var(--red);
       color: white
+    }
+
+    @media (min-width: 1201px) {
+      .products {
+        display: flex;
+        align-items: stretch;
+        height: 460px;
+        gap: 14px
+      }
+
+      .product {
+        flex: 1 1 0%;
+        min-width: 0;
+        height: auto;
+        padding: 0;
+        background: #12172a;
+        transition: flex-grow .6s cubic-bezier(.65, 0, .35, 1)
+      }
+
+      .product:first-child {
+        flex-grow: 2.5
+      }
+
+      .products:is(:hover, :focus-within) .product {
+        flex-grow: 1
+      }
+
+      .products:is(:hover, :focus-within) .product:is(:hover, :focus-within) {
+        flex-grow: 2.5
+      }
+
+      .product-photo,
+      .product:nth-child(2) .product-photo {
+        inset: 0;
+        height: 100%;
+        z-index: -2;
+        mask-image: none;
+        transition: transform .8s ease
+      }
+
+      .product:hover .product-photo {
+        transform: scale(1.06)
+      }
+
+      .product:before,
+      .product:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none
+      }
+
+      .product:before {
+        background: linear-gradient(180deg, rgba(10, 14, 28, .55) 0%, rgba(10, 14, 28, .08) 30%, rgba(10, 14, 28, .08) 60%, rgba(10, 14, 28, .55) 100%)
+      }
+
+      .product:after {
+        background: linear-gradient(200deg, rgba(10, 14, 28, .94) 10%, rgba(10, 14, 28, .55) 55%, rgba(10, 14, 28, .1) 85%);
+        opacity: 0;
+        transition: opacity .5s ease
+      }
+
+      .product:first-child:after {
+        opacity: 1
+      }
+
+      .products:is(:hover, :focus-within) .product:after {
+        opacity: 0
+      }
+
+      .products:is(:hover, :focus-within) .product:is(:hover, :focus-within):after {
+        opacity: 1
+      }
+
+      .product-pill {
+        display: inline-block;
+        position: absolute;
+        top: 22px;
+        right: 22px;
+        z-index: 2;
+        background: rgba(255, 255, 255, .16);
+        border: 1px solid rgba(255, 255, 255, .3);
+        color: #fff;
+        font-family: Inter, sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        padding: 8px 14px;
+        border-radius: 999px;
+        white-space: nowrap;
+        backdrop-filter: blur(6px)
+      }
+
+      .product-vertical {
+        display: block;
+        position: absolute;
+        right: 24px;
+        bottom: 28px;
+        z-index: 2;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-family: Inter, sans-serif;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: #fff;
+        opacity: 1;
+        transition: opacity .3s ease .15s
+      }
+
+      .product:first-child .product-vertical {
+        opacity: 0;
+        transition-delay: 0s
+      }
+
+      .products:is(:hover, :focus-within) .product .product-vertical {
+        opacity: 1;
+        transition-delay: .1s
+      }
+
+      .products:is(:hover, :focus-within) .product:is(:hover, :focus-within) .product-vertical {
+        opacity: 0;
+        transition-delay: 0s
+      }
+
+      .product-body {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        padding: 30px 34px;
+        opacity: 0;
+        transform: translateY(16px);
+        pointer-events: none;
+        transition: opacity .35s ease, transform .45s ease
+      }
+
+      .product:first-child .product-body {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        transition-delay: .2s
+      }
+
+      .products:is(:hover, :focus-within) .product .product-body {
+        opacity: 0;
+        transform: translateY(16px);
+        pointer-events: none;
+        transition-delay: 0s
+      }
+
+      .products:is(:hover, :focus-within) .product:is(:hover, :focus-within) .product-body {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        transition-delay: .2s
+      }
+
+      .product-body h3,
+      .product-body p {
+        white-space: nowrap;
+        overflow: hidden
+      }
+
+      .product-brand:not(.xseed):not(.confidence) {
+        color: #fff
+      }
+
+      .product h3 {
+        color: #fff
+      }
+
+      .product p {
+        color: rgba(255, 255, 255, .78)
+      }
+
+      .circle-arrow {
+        position: static;
+        margin-top: 22px
+      }
     }
 
     .ai-strip {
@@ -2082,9 +2272,477 @@
         transform: none
       }
     }
+
+    /* Scoped styles for the bespoke Ecosystem product grid under #learning-ecosystem */
+    #learning-ecosystem {
+      display: block;
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+      background-color: #ffffff;
+      padding: var(--section-pad, clamp(60px, 8vw, 100px)) var(--page-x, clamp(20px, 5vw, 48px));
+    }
+
+    #learning-ecosystem .ecosystem-container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    #learning-ecosystem .ecosystem-header {
+      text-align: center;
+      margin-bottom: clamp(40px, 6vw, 64px);
+    }
+
+    #learning-ecosystem .eyebrow {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #b3283a;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    #learning-ecosystem h2#learning-ecosystem-title {
+      font-family: 'Lato', sans-serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      color: #1c1917;
+      line-height: 1.15;
+      margin: 0 0 16px 0;
+    }
+
+    #learning-ecosystem h2#learning-ecosystem-title .italic-phrase {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    #learning-ecosystem .intro-text {
+      max-width: 768px;
+      margin: 0 auto;
+      font-family: 'Lato', sans-serif;
+      font-size: clamp(17px, 1.45vw, 20px);
+      line-height: 1.7;
+      color: #655c51;
+    }
+
+    /* Image-led product cards: three columns, two rows on desktop. */
+    #learning-ecosystem .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #learning-ecosystem .ecosystem-grid>li {
+      min-width: 0;
+    }
+
+    #learning-ecosystem .product-item {
+      --card-bg: #f7ebe9;
+      --card-accent: #edd0cd;
+      --card-ink: #963647;
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      min-height: 330px;
+      height: 100%;
+      overflow: hidden;
+      padding: clamp(22px, 2.1vw, 30px);
+      border-radius: 28px;
+      background: var(--card-bg);
+      color: #1c1917;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgb(31 26 22 / 4%);
+    }
+
+    #learning-ecosystem .product-item::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      width: 90%;
+      aspect-ratio: 1;
+      right: -24%;
+      bottom: -10%;
+      border-radius: 48% 52% 32% 68%;
+      background: var(--card-accent);
+      opacity: .5;
+      transform: rotate(-25deg);
+    }
+
+    #learning-ecosystem .product-books {
+      --card-bg: #fbf1df;
+      --card-accent: #f0ddb3;
+      --card-ink: #93652e;
+    }
+
+    #learning-ecosystem .product-academy {
+      --card-bg: #eaf3ed;
+      --card-accent: #c8e0cf;
+      --card-ink: #387350;
+    }
+
+    #learning-ecosystem .product-learnometer {
+      --card-bg: #f0ecfb;
+      --card-accent: #d7cef4;
+      --card-ink: #7760ad;
+    }
+
+    #learning-ecosystem .product-testmaker {
+      --card-bg: #eaf2fa;
+      --card-accent: #c8def2;
+      --card-ink: #3b6f9c;
+    }
+
+    #learning-ecosystem .product-parent {
+      --card-bg: #f9ece3;
+      --card-accent: #f0d3be;
+      --card-ink: #9e633f;
+    }
+
+    #learning-ecosystem .image-wrapper {
+      position: absolute;
+      z-index: -1;
+      right: 0;
+      bottom: 0;
+      width: 66%;
+      height: 72%;
+      overflow: hidden;
+      border-radius: 0 0 28px 0;
+      mask-image: linear-gradient(to right, transparent, #000 34%);
+    }
+
+    #learning-ecosystem .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 58% center;
+      display: block;
+      mask-image: linear-gradient(to bottom, transparent, #000 24%);
+    }
+
+    #learning-ecosystem .product-books .image-wrapper,
+    #learning-ecosystem .product-testmaker .image-wrapper {
+      width: 70%;
+      height: 65%;
+      right: -8%;
+      bottom: 6%;
+      mask-image: none;
+    }
+
+    #learning-ecosystem .product-books .image-wrapper img,
+    #learning-ecosystem .product-testmaker .image-wrapper img {
+      object-fit: contain;
+      mask-image: none;
+    }
+
+    #learning-ecosystem .item-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    #learning-ecosystem .item-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 24px;
+      border-radius: 50%;
+      background: var(--card-accent);
+      color: var(--card-ink);
+    }
+
+    #learning-ecosystem .item-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    #learning-ecosystem .item-name {
+      max-width: 100%;
+      margin: 0;
+      font: 900 clamp(22px, 1.9vw, 27px)/1.15 Lato, sans-serif;
+      letter-spacing: -.035em;
+    }
+
+    #learning-ecosystem .item-headline {
+      max-width: 12ch;
+      margin: 12px 0 24px;
+      font: 400 17px/1.4 Lato, sans-serif;
+      color: #59534e;
+      text-wrap: balance;
+    }
+
+    #learning-ecosystem .item-cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+      min-height: 44px;
+      color: var(--card-ink);
+      font: 700 13px/1.3 Lato, sans-serif;
+    }
+
+    #learning-ecosystem .item-arrow {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card-accent);
+      font-size: 25px;
+      transition: background-color 240ms var(--ease), color 240ms var(--ease);
+    }
+
+    #learning-ecosystem .item-arrow>span {
+      transition: transform 240ms var(--ease);
+    }
+
+    #learning-ecosystem .product-item:is(:hover, :focus-visible) .item-arrow {
+      background: var(--card-ink);
+      color: #fff;
+    }
+
+    #learning-ecosystem .product-item:is(:hover, :focus-visible) .item-arrow>span {
+      transform: translateX(3px);
+    }
+
+    #learning-ecosystem .product-item:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 5px;
+    }
+
+    #learning-ecosystem .item-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1099px) {
+      #learning-ecosystem .ecosystem-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 639px) {
+      #learning-ecosystem .ecosystem-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+      }
+
+      #learning-ecosystem .product-item {
+        min-height: 310px;
+      }
+
+      #learning-ecosystem .item-name {
+        font-size: 25px;
+      }
+    }
+
+    /* Rotated Crimson Caveat Note */
+    #learning-ecosystem .caveat-note {
+      margin-top: clamp(32px, 4vw, 48px);
+      text-align: right;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(22px, 2vw, 28px);
+      color: #b3283a;
+      transform: rotate(-2deg);
+      transform-origin: right center;
+    }
+
+    /* Reduced Motion Guard */
+    @media (prefers-reduced-motion: reduce) {
+
+      #learning-ecosystem .ecosystem-grid>li,
+      #learning-ecosystem .image-wrapper,
+      #learning-ecosystem .item-cue span {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+
+    /* Multi-column footer (site-footer) — used by our_philosophy.html */
+    .site-footer {
+      padding: 92px 0 32px;
+      background: #fff;
+      color: var(--ink);
+      border-top: 1px solid var(--line)
+    }
+
+    .site-footer .footer-main {
+      display: grid;
+      grid-template-columns: minmax(280px, 1.1fr) repeat(3, minmax(120px, .55fr));
+      gap: clamp(40px, 6vw, 100px);
+      padding-bottom: 56px
+    }
+
+    .site-footer .footer-brand {
+      gap: 0
+    }
+
+    .site-footer .wordmark img {
+      height: 5.4rem;
+      margin-bottom: 30px
+    }
+
+    .site-footer .footer-brand p {
+      margin: 0;
+      max-width: 330px;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.75;
+      letter-spacing: .01em;
+      color: var(--ink-soft)
+    }
+
+    .site-footer .footer-col h4 {
+      position: relative;
+      margin: 0 0 22px;
+      padding-bottom: 14px;
+      font-family: "Inter", sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink)
+    }
+
+    .site-footer .footer-col h4::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 26px;
+      height: 2px;
+      background: var(--brand)
+    }
+
+    .site-footer .footer-col a {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      padding: 6px 0;
+      font-family: "Inter", sans-serif;
+      font-size: 13.5px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: .01em;
+      color: var(--ink-soft);
+      transition: color .25s ease, transform .25s ease
+    }
+
+    .site-footer .footer-col a:hover {
+      color: var(--brand);
+      transform: translateX(3px)
+    }
+
+    .site-footer .social {
+      gap: 12px;
+      padding-top: 0;
+      margin-top: 28px
+    }
+
+    .site-footer .social a {
+      display: grid;
+      flex: 0 0 38px;
+      padding: 0;
+      color: var(--paper);
+      width: 38px;
+      height: 38px;
+      transition: background .25s ease, transform .25s ease
+    }
+
+    .site-footer .social a:hover {
+      transform: translateY(-3px)
+    }
+
+    .site-footer .footer-col a[aria-current="page"] {
+      color: var(--brand)
+    }
+
+    .site-footer a:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 5px
+    }
+
+    .site-footer .footer-bottom {
+      padding-top: 28px;
+      font-size: 10.5px;
+      letter-spacing: .14em;
+      color: var(--ink-faint)
+    }
+
+    .site-footer .footer-bottom strong {
+      color: var(--ink-soft);
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: normal
+    }
+
+    /* Match the careers footer tokens without changing the home page palette. */
+    .site-footer {
+      --ink: #171b22;
+      --ink-soft: #727579;
+      --ink-faint: #a4a7ab;
+      --line: rgba(31, 26, 22, .08);
+      font-family: Lato, Arial, sans-serif;
+    }
+
+    .site-footer>.wrap {
+      width: 87.2%;
+      margin: auto;
+    }
+
+    @media (min-width: 768px) and (max-width: 1100px) {
+      .site-footer .footer-main {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .site-footer>.wrap {
+        width: calc(100% - 48px);
+      }
+
+      .site-footer .footer-main {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding-bottom: 32px;
+      }
+
+      .site-footer .wordmark img {
+        height: 3.8rem;
+      }
+
+      .site-footer .footer-bottom {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .site-footer a {
+        transition: none !important;
+      }
+    }
   </style>
   <link rel="stylesheet" href="assets/hero-video-modal.css">
   <script src="assets/hero-video-modal.js" defer></script>
+  <link rel="stylesheet" href="assets/site-shell.css">
+  <script src="assets/site-shell.js" defer></script>
 </head>
 
 <body>
@@ -2110,25 +2768,20 @@
       </symbol>
     </defs>
   </svg>
-  <header class="header" id="header">
-    <a href="#" class="logo" aria-label="XSEED Education home">
+  <header class="shell-header" id="header">
+    <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
       <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
     </a>
 
-    <!-- <nav class="navigation" aria-label="Main navigation">
-      <a href="#philosophy">Our Approach</a>
-      <a href="#ecosystem">Our Brands</a>
-      <a href="#impact">Impact</a>
-      <a href="#philosophy">About</a>
-      <a href="#careers">Careers</a>
-    </nav> -->
 
-    <nav class="navigation" aria-label="Main navigation">
-      <a href="#philosophy">Our Philosophy</a>
-      <a href="#method">Our Method</a>
-      <a href="#impact">Impact</a>
-      <!-- <a href="#ecosystem">Our Brands</a> -->
-      <a href="#careers">Careers</a>
+
+    <button class="shell-menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" class="shell-navigation" aria-label="Main navigation">
+      <a href="our_philosophy.html">Our Philosophy</a>
+      <a href="our_method.html">Our Method</a>
+      <a href="impact.html">Impact</a>
+
+      <a href="careers.html">Careers</a>
     </nav>
 
 
@@ -2171,9 +2824,9 @@
             alt="XSEED classroom video preview">
         </div>
         <button id="hero-video-play" type="button" aria-label="Play XSEED classroom video"><span>PLAY</span></button>
-        <video id="hero-video-player" poster="assets/xseed-story.png" controls playsinline preload="none" hidden aria-label="XSEED classroom video"
-          tabindex="0">
-          <source src="Children_learning_robotics1.mp4" type="video/mp4">
+        <video id="hero-video-player" poster="assets/xseed-story.png" controls playsinline preload="none" hidden
+          aria-label="XSEED classroom video" tabindex="0">
+          <source src="assets/XSEED-Story.mp4" type="video/mp4">
         </video>
       </div>
     </section>
@@ -2217,8 +2870,10 @@
                 <circle cx="46" cy="53" r="24" fill="#fff5ef" />
                 <circle cx="46" cy="53" r="17" fill="url(#red)" />
                 <circle cx="46" cy="53" r="8" fill="#fff5ef" />
-                <g class="aim-arrow"><path d="M47 52 77 18" stroke="#d42e3b" stroke-width="5" />
-                <path d="m73 20 1-12 6 8 11-2-7 10-10 1" fill="#ef7775" /></g>
+                <g class="aim-arrow">
+                  <path d="M47 52 77 18" stroke="#d42e3b" stroke-width="5" />
+                  <path d="m73 20 1-12 6 8 11-2-7 10-10 1" fill="#ef7775" />
+                </g>
               </svg></div>
             <p class="copy">Set a clear purpose<br>for meaningful learning</p>
           </li>
@@ -2235,9 +2890,21 @@
           <li class="step"><span class="step-number">03</span>
             <h3>Analysis</h3>
             <div class="icon-disc"><svg viewBox="0 0 100 100" aria-hidden="true">
-                <g class="analysis-bar"><path d="M18 56h17v30H18z" fill="url(#red)" /><path d="m35 56 4-3v30l-4 3z" fill="#ae202c" /><path d="m18 56 4-3h17l-4 3z" fill="#ffb8af" /></g>
-                <g class="analysis-bar"><path d="M41 38h17v48H41z" fill="url(#red)" /><path d="m58 38 4-3v48l-4 3z" fill="#ae202c" /><path d="m41 38 4-3h17l-4 3z" fill="#ffb8af" /></g>
-                <g class="analysis-bar"><path d="M64 17h17v69H64z" fill="url(#red)" /><path d="m81 17 4-3v69l-4 3z" fill="#ae202c" /><path d="m64 17 4-3h17l-4 3z" fill="#ffb8af" /></g>
+                <g class="analysis-bar">
+                  <path d="M18 56h17v30H18z" fill="url(#red)" />
+                  <path d="m35 56 4-3v30l-4 3z" fill="#ae202c" />
+                  <path d="m18 56 4-3h17l-4 3z" fill="#ffb8af" />
+                </g>
+                <g class="analysis-bar">
+                  <path d="M41 38h17v48H41z" fill="url(#red)" />
+                  <path d="m58 38 4-3v48l-4 3z" fill="#ae202c" />
+                  <path d="m41 38 4-3h17l-4 3z" fill="#ffb8af" />
+                </g>
+                <g class="analysis-bar">
+                  <path d="M64 17h17v69H64z" fill="url(#red)" />
+                  <path d="m81 17 4-3v69l-4 3z" fill="#ae202c" />
+                  <path d="m64 17 4-3h17l-4 3z" fill="#ffb8af" />
+                </g>
               </svg></div>
             <p class="copy">Reflect, make sense<br>and build understanding</p>
           </li>
@@ -2259,7 +2926,9 @@
                 <rect x="23" y="13" width="49" height="73" rx="4" fill="#fff8f3" stroke="#df7777" stroke-width="2" />
                 <path d="m35 15 1-5h22l1 5" fill="url(#red)" />
                 <g fill="none" stroke="#d74650" stroke-width="2.5">
-                  <path class="assessment-check" d="m31 31 3 3 6-7" /><path class="assessment-check" d="m31 50 3 3 6-7" /><path class="assessment-check" d="m31 69 3 3 6-7" />
+                  <path class="assessment-check" d="m31 31 3 3 6-7" />
+                  <path class="assessment-check" d="m31 50 3 3 6-7" />
+                  <path class="assessment-check" d="m31 69 3 3 6-7" />
                   <path d="M45 29h18M45 35h14M45 48h18M45 54h14M45 67h18M45 73h14" stroke-width="1.5" />
                 </g>
               </svg></div>
@@ -2295,12 +2964,13 @@
         </dl><a class="button" href="https://xseededucation.com/">See our impact <span class="arrow"
             aria-hidden="true">→</span></a>
       </div>
-      <div class="note impact-note" aria-hidden="true" style="color: white;">Learning<br>together<br>for a brighter<br>world<svg>
+      <div class="note impact-note" aria-hidden="true" style="color: white;">Learning<br>together<br>for a
+        brighter<br>world<svg>
           <use href="#underline" />
         </svg></div>
     </section>
-    
-    <!-- <section class="ecosystem" id="ecosystem" aria-labelledby="ecosystem-title">
+
+    <section class="ecosystem" id="ecosystem" aria-labelledby="ecosystem-title">
       <div class="wrap">
         <div class="ecosystem-heading reveal">
           <div>
@@ -2311,36 +2981,56 @@
         </div>
         <div class="products">
           <a class="product" href="https://xseededucation.com/" aria-label="Explore XSEED K–12 School Curriculum">
-            <div class="product-brand xseed">XSEED</div>
-            <h3>K–12 School Curriculum</h3>
-            <p>Future-ready learning<br>for every child.</p><img class="product-photo" src="assets/hero-poster.jpg"
-              alt="Children exploring and learning together" loading="lazy"><span class="circle-arrow"><span
-                class="arrow" aria-hidden="true">→</span></span>
+            <img class="product-photo" src="assets/hero-poster.jpg" alt="Children exploring and learning together"
+              loading="lazy">
+            <span class="product-pill">K–12 Curriculum</span>
+            <div class="product-body">
+              <div class="product-brand xseed">XSEED</div>
+              <h3>K–12 School Curriculum</h3>
+              <p>Future-ready learning<br>for every child.</p><span class="circle-arrow"><span class="arrow"
+                  aria-hidden="true">→</span></span>
+            </div>
+            <span class="product-vertical" aria-hidden="true">K–12 Curriculum</span>
           </a>
           <a class="product" href="https://xseededucation.com/" aria-label="Explore SuperTeacher">
-            <div class="product-brand"><span class="super">Super</span>Teacher</div>
-            <h3>Teacher Enablement</h3>
-            <p>Empowering educators<br>to make the bigger<br>difference.</p><img class="product-photo"
-              src="assets/classroom.jpg" alt="An XSEED teacher leading a classroom" loading="lazy"><span
-              class="circle-arrow"><span class="arrow" aria-hidden="true">→</span></span>
+            <img class="product-photo" src="assets/classroom.jpg" alt="An XSEED teacher leading a classroom"
+              loading="lazy">
+            <span class="product-pill">Teacher Enablement</span>
+            <div class="product-body">
+              <div class="product-brand"><span class="super">Super</span>Teacher</div>
+              <h3>Teacher Enablement</h3>
+              <p>Empowering educators<br>to make the bigger<br>difference.</p><span class="circle-arrow"><span
+                  class="arrow" aria-hidden="true">→</span></span>
+            </div>
+            <span class="product-vertical" aria-hidden="true">Teacher Enablement</span>
           </a>
           <a class="product" href="what-masteredge.html" aria-label="Explore MASTEREDGE">
-            <div class="product-brand master">MASTER<span>EDGE</span></div>
-            <h3>School Leadership</h3>
-            <p>Stronger schools.<br>Brighter futures.</p><img class="product-photo" src="assets/xseed-home4.png"
-              alt="Educators looking toward a brighter future" loading="lazy"><span class="circle-arrow"><span
-                class="arrow" aria-hidden="true">→</span></span>
+            <img class="product-photo" src="assets/xseed-home4.png" alt="Educators looking toward a brighter future"
+              loading="lazy">
+            <span class="product-pill">School Leadership</span>
+            <div class="product-body">
+              <div class="product-brand master">MASTER<span>EDGE</span></div>
+              <h3>School Leadership</h3>
+              <p>Stronger schools.<br>Brighter futures.</p><span class="circle-arrow"><span class="arrow"
+                  aria-hidden="true">→</span></span>
+            </div>
+            <span class="product-vertical" aria-hidden="true">School Leadership</span>
           </a>
           <a class="product" href="https://xseededucation.com/"
             aria-label="Explore Confidence social-emotional learning">
-            <div class="product-brand confidence">Confidence</div>
-            <h3>Social-Emotional Learning</h3>
-            <p>Happier minds.<br>Stronger humans.</p><img class="product-photo" src="assets/xseed-home1.png"
-              alt="A thoughtful, confident young learner" loading="lazy"><span class="circle-arrow"><span class="arrow"
-                aria-hidden="true">→</span></span>
+            <img class="product-photo" src="assets/xseed-home1.png" alt="A thoughtful, confident young learner"
+              loading="lazy">
+            <span class="product-pill">Social-Emotional Learning</span>
+            <div class="product-body">
+              <div class="product-brand confidence">Confidence</div>
+              <h3>Social-Emotional Learning</h3>
+              <p>Happier minds.<br>Stronger humans.</p><span class="circle-arrow"><span class="arrow"
+                  aria-hidden="true">→</span></span>
+            </div>
+            <span class="product-vertical" aria-hidden="true">Social-Emotional Learning</span>
           </a>
         </div>
-        <div class="ai-strip" id="ai">
+        <!-- <div class="ai-strip" id="ai">
           <div class="ai-title"><strong>AI</strong><em>for a brighter tomorrow.</em></div>
           <p class="ai-copy">Thoughtful AI. More human learning.<br>We’re building intelligent tools to personalise
             learning and support every learner’s journey.</p><a class="text-link"
@@ -2360,13 +3050,160 @@
             <path d="M93-10C28 70 201 90 122 181S33 260 80 292" stroke="#fff" stroke-opacity=".55" stroke-width="3"
               fill="none" />
           </svg>
-        </div>
+        </div> -->
         <div class="note scene-note" aria-hidden="true">One belief<br>brighter futures<svg>
             <use href="#underline" />
           </svg></div>
       </div>
+    </section>
+
+<!-- 
+    <section id="learning-ecosystem" aria-labelledby="learning-ecosystem-title">
+
+      <div class="ecosystem-container">
+        <header class="ecosystem-header">
+          <span class="eyebrow">THE XSEED LEARNING ECOSYSTEM</span>
+          <h2 id="learning-ecosystem-title">Everything needed to <span class="italic-phrase">make learning work.</span>
+          </h2>
+          <p class="intro-text">
+            From classroom teaching to practice, assessment and parent engagement, XSEED brings the essential parts of
+            learning together.
+          </p>
+        </header>
+
+        <ul class="ecosystem-grid" role="list">
+          <li>
+            <a class="product-item product-superteacher" href="https://xseededucation.com/superteacherapp/superteacher/"
+              aria-label="Explore SuperTeacher">
+              <div class="image-wrapper">
+                <img src="assets/method-section1.png" loading="lazy" alt="">
+              </div>
+              <div class="item-content">
+                <span class="item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="13" rx="2" />
+                    <path d="M8 21h8m-4-4v4m-3-10 6 3-6 3Z" />
+                  </svg></span>
+                <h3 class="item-name">SuperTeacher</h3>
+                <p class="item-headline">Teach with clarity.</p>
+                <p class="item-sr">A digital teaching companion that helps teachers deliver engaging, structured
+                  lessons.</p>
+                <span class="item-cue"><span class="item-arrow" aria-hidden="true"><span>→</span></span>Explore<span
+                    class="item-sr"> SuperTeacher</span></span>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a class="product-item product-books" href="https://xseededucation.com/parentguide/"
+              aria-label="Explore XSEED Books">
+              <div class="image-wrapper">
+                <img src="assets/ecosystem-books.png" loading="lazy" alt="">
+              </div>
+              <div class="item-content">
+                <span class="item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 6c-3-3-7-3-10-2v15c4-1 7 0 10 2 3-2 6-3 10-2V4c-3-1-7-1-10 2Zm0 0v15" />
+                  </svg></span>
+                <h3 class="item-name">XSEED Books</h3>
+                <p class="item-headline">Learning in every hand.</p>
+                <p class="item-sr">Purposefully designed books that help children think, apply and learn independently.
+                </p>
+                <span class="item-cue"><span class="item-arrow" aria-hidden="true"><span>→</span></span>Explore<span
+                    class="item-sr"> XSEED Books</span></span>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a class="product-item product-academy" href="https://xseededucation.com/saturday/"
+              aria-label="Explore XSEED Academy">
+              <div class="image-wrapper">
+                <img src="assets/careers-section3.png" loading="lazy" alt="">
+              </div>
+              <div class="item-content">
+                <span class="item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m2 8 10-5 10 5-10 5Zm4 3v6c4 3 8 3 12 0v-6m4-3v9" />
+                  </svg></span>
+                <h3 class="item-name">XSEED Academy</h3>
+                <p class="item-headline">Help teachers grow.</p>
+                <p class="item-sr">Professional learning designed to strengthen classroom practice and teaching
+                  capability.</p>
+                <span class="item-cue"><span class="item-arrow" aria-hidden="true"><span>→</span></span>Explore<span
+                    class="item-sr"> XSEED Academy</span></span>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a class="product-item product-learnometer" href="https://xseededucation.com/help/learnometer/"
+              aria-label="Explore Learnometer">
+              <div class="image-wrapper">
+                <img src="assets/philosophy-image2.png" loading="lazy" alt="">
+              </div>
+              <div class="item-content">
+                <span class="item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 20v-6m7 6V9m7 11V4" stroke-width="4" />
+                  </svg></span>
+                <h3 class="item-name">Learnometer</h3>
+                <p class="item-headline">Make learning visible.</p>
+                <p class="item-sr">A skills-based assessment that reveals what children understand and where they need
+                  support.</p>
+                <span class="item-cue"><span class="item-arrow" aria-hidden="true"><span>→</span></span>Explore<span
+                    class="item-sr"> Learnometer</span></span>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a class="product-item product-testmaker" href="https://testmaker.xseededucation.com/"
+              aria-label="Explore Test Maker">
+              <div class="image-wrapper">
+                <img src="assets/ecosystem-testmaker.png" loading="lazy" alt="">
+              </div>
+              <div class="item-content">
+                <span class="item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="3" width="15" height="19" rx="2" />
+                    <path d="m8 9 2 2 4-4m-6 9h8m-8 3h5" />
+                  </svg></span>
+                <h3 class="item-name">Test Maker</h3>
+                <p class="item-headline">Assess with purpose.</p>
+                <p class="item-sr">A simple way for schools and teachers to create meaningful, curriculum-aligned
+                  assessments.</p>
+                <span class="item-cue"><span class="item-arrow" aria-hidden="true"><span>→</span></span>Explore<span
+                    class="item-sr"> Test Maker</span></span>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a class="product-item product-parent" href="https://help.xseededucation.com/universal/"
+              aria-label="Explore SuperTeacher Parent">
+              <div class="image-wrapper">
+                <img src="assets/philosophy-section2.png" loading="lazy" alt="">
+              </div>
+              <div class="item-content">
+                <span class="item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 15a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v5h16Z" />
+                    <circle cx="12" cy="5" r="3" />
+                  </svg></span>
+                <h3 class="item-name">SuperTeacher Parent</h3>
+                <p class="item-headline">Keep parents connected.</p>
+                <p class="item-sr">A companion experience that helps families stay closer to their child's learning
+                  journey.</p>
+                <span class="item-cue"><span class="item-arrow" aria-hidden="true"><span>→</span></span>Explore<span
+                    class="item-sr"> SuperTeacher Parent</span></span>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
     </section> -->
-    
+
     <section class="careers" id="careers" aria-labelledby="careers-title"><img class="careers-image"
         src="assets/xseed-home4.png" alt="A group sitting together above a mountain city at golden hour" loading="lazy"
         width="1672" height="941">
@@ -2382,37 +3219,50 @@
         </svg></div>
     </section>
   </main>
-  <footer class="footer">
-    <div class="wrap footer-inner">
-      <div class="footer-brand">
-        <a href="#" class="wordmark" aria-label="XSEED home"><img
-            src="assets/xseed-blackline-logo.png" alt="XSEED Education" loading="lazy"></a>
+  <footer class="shell-site-footer">
+    <div class="shell-wrap">
+      <div class="shell-footer-main">
+        <div class="shell-footer-brand">
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+              alt="XSEED Education" loading="lazy"></a>
+          <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
+        </div>
+        <div class="shell-footer-col">
+          <h4>Discover</h4>
+          <a href="our_philosophy.html">Our Philosophy</a>
+          <a href="our_method.html">Our Method</a>
+          <a href="impact.html">Impact</a>
+        </div>
+        <div class="shell-footer-col">
+          <h4>XSEED</h4>
+          <a href="our_philosophy.html">About</a>
+          <a href="careers.html">Careers</a>
+          <a href="https://xseededucation.com/">News</a>
+        </div>
+        <div class="shell-footer-col" id="contact" tabindex="-1">
+          <h4>Connect</h4>
+          <a href="mailto:contact@xseededucation.com">Contact</a>
+          <div class="shell-social" aria-label="Social links"><a
+              href="https://www.linkedin.com/company/xseed-education/" aria-label="XSEED on LinkedIn"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2M8 19H5V9h3ZM6.5 7.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5M19 19h-3v-5c0-3-3-2.8-3 0v5h-3V9h3v1.4C15 7.8 19 9 19 12Z" />
+              </svg></a><a href="https://www.youtube.com/@XSEEDEducationSingapore" aria-label="XSEED on YouTube"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M22 7s-.3-2-2-2.3C17.5 4.3 6.5 4.3 4 4.7 2.3 5 2 7 2 7s-.5 4-.5 5 .5 5 .5 5 .3 2 2 2.3c2.5.4 13.5.4 16 0 1.7-.3 2-2.3 2-2.3s.5-4 .5-5-.5-5-.5-5M10 16V8l6 4Z" />
+              </svg></a><a href="https://www.instagram.com/xseededucation/" aria-label="XSEED on Instagram"><svg
+                viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+                <circle cx="17.5" cy="6.5" r="1.2" />
+              </svg></a></div>
+        </div>
       </div>
-      <nav class="footer-links" aria-label="Footer navigation"><a href="#philosophy">About</a><a
-          href="#careers">Careers</a><a href="https://xseededucation.com/">News</a><a
-          href="mailto:contact@xseededucation.com">Contact</a></nav>
-      <div class="footer-contact">
-        <span class="footer-contact-title">Contact</span>
-        <a href="mailto:contact@xseededucation.com">contact@xseededucation.com</a>
+      <div class="shell-footer-bottom">
+        <span>© 2026 XSEED Education. All rights reserved.</span>
+        <strong>Better learners. A brighter tomorrow.</strong>
       </div>
-      <div class="social"><a href="https://www.linkedin.com/company/xseed-education/"
-          aria-label="XSEED on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2M8 19H5V9h3ZM6.5 7.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5M19 19h-3v-5c0-3-3-2.8-3 0v5h-3V9h3v1.4C15 7.8 19 9 19 12Z" />
-          </svg></a><a href="https://www.youtube.com/@XSEEDEducationSingapore" aria-label="XSEED on YouTube"><svg
-            viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              d="M22 7s-.3-2-2-2.3C17.5 4.3 6.5 4.3 4 4.7 2.3 5 2 7 2 7s-.5 4-.5 5 .5 5 .5 5 .3 2 2 2.3c2.5.4 13.5.4 16 0 1.7-.3 2-2.3 2-2.3s.5-4 .5-5-.5-5-.5-5M10 16V8l6 4Z" />
-          </svg></a><a href="https://www.instagram.com/xseededucation/" aria-label="XSEED on Instagram"><svg
-            viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2" />
-            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" />
-            <circle cx="17.5" cy="6.5" r="1.2" />
-          </svg></a></div>
-    </div>
-    <div class="wrap footer-bottom">
-      <span>© 2026 XSEED Education. All rights reserved.</span>
-      <span>Better learners. A brighter tomorrow.</span>
     </div>
   </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -2420,11 +3270,7 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.8/dist/lenis.min.js"></script>
   <script>
     (() => {
-      const syncHeader = () => {
-        const compact = document.body.classList.contains('scrolled');
-        document.body.classList.toggle('scrolled', window.scrollY > (compact ? 16 : 70));
-      };
-      window.addEventListener('scroll', syncHeader, { passive: true }); syncHeader();
+
 
 
 
