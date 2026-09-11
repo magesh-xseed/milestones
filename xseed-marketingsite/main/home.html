@@ -168,38 +168,34 @@
       gap: 24px;
       min-height: 52px;
       padding: 16px 29px;
-      border: 1px solid #a7aab1;
+      border: 1px solid var(--red);
       border-radius: 99px;
-      font-size: clamp(11px, 1.03vw, 15px);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
       font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: 0;
+      text-transform: none;
       background: #b3283a;
       color: white;
       white-space: nowrap;
-      transition: background .25s, transform .25s
+      transition: background .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease)
     }
 
-    .button.primary {
-      background: var(--red);
-      border-color: var(--red);
-      color: #fff
-    }
-
-    .button:hover {
-      background: #f1ece7
-    }
-
-    .button.primary:hover {
-      background: #b81725
+    .button:is(:hover, :focus-visible) {
+      background: #b81725;
+      border-color: #b81725;
+      color: #fff;
     }
 
     .arrow {
       display: inline-block;
-      transition: transform .25s;
+      transition: transform .3s var(--ease);
       font-size: 1.25em;
       line-height: 1
     }
 
-    .button:hover .arrow,
+    .button:is(:hover, :focus-visible) .arrow,
     .text-link:hover .arrow,
     .product:hover .arrow {
       transform: translateX(4px)
@@ -753,7 +749,7 @@
       margin-top: 29px
     }
 
-    .philosophy .text-link {
+    .philosophy .button {
       margin-top: 27px
     }
 
@@ -1600,7 +1596,7 @@
         margin-top: 23px
       }
 
-      .philosophy .text-link {
+      .philosophy .button {
         margin-top: 15px
       }
 
@@ -1627,8 +1623,7 @@
       }
 
       .method-top>.button {
-        margin-top: 39px;
-        font-size: 10px
+        margin-top: 39px
       }
 
       .steps {
@@ -1786,7 +1781,7 @@
 
       .button {
         min-height: 48px;
-        font-size: 11px;
+        font-size: 14px;
         padding: 13px 19px;
         gap: 15px
       }
@@ -1822,7 +1817,7 @@
         margin-top: 22px
       }
 
-      .philosophy .text-link {
+      .philosophy .button {
         margin-top: 18px
       }
 
@@ -2670,7 +2665,7 @@
   </svg>
   <header class="shell-header" id="header">
     <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
-      <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+      <img decoding="async" src="assets/xseed-blackline-logo.png" alt="XSEED Education">
     </a>
 
 
@@ -2695,8 +2690,8 @@
           <span class="hero-title-line"><span class="title-inner">can learn <em
                 class="accent">better.</em></span></span>
         </h1>
-        <p class="hero-description">At XSEED, we reimagine what’s possible in education — so every child discovers
-          their potential and a brighter tomorrow.</p>
+        <p class="hero-description">At XSEED, we reimagine what’s possible in education from kindergarten through Grade 8 (K-8) -
+          so every child discovers their potential and a brighter tomorrow.</p>
       </div>
       <div class="handwritten" aria-hidden="true">
         <span class="pencil-line"><span>Curious</span></span>
@@ -2720,7 +2715,7 @@
         <span class="hero-video__glow" aria-hidden="true"></span>
         <span class="hero-video__border" aria-hidden="true"></span>
         <div id="hero-video-thumbnail-wrapper">
-          <img id="hero-video-thumbnail" width="320" height="180" src="assets/ceo-white.png"
+          <img decoding="async" id="hero-video-thumbnail" width="320" height="180" src="assets/ceo-white.png"
             alt="XSEED classroom video preview">
         </div>
         <button id="hero-video-play" type="button" aria-label="Play XSEED classroom video"><span>PLAY</span></button>
@@ -2735,10 +2730,9 @@
         <p class="eyebrow">Our philosophy</p>
         <h2 id="philosophy-title">Unlocking<br>human potential<br><em class="accent">through education.</em></h2>
         <p class="copy">We believe every child is capable of extraordinary things. Education should not just prepare
-          children for the world, but for a better world.</p><a class="text-link" href="#method"><span
-            class="link-label">Our philosophy</span><span class="arrow" aria-hidden="true">→</span></a>
+          children for the world, but for a better world.</p><a class="button primary" href="#method">Our philosophy <span class="arrow" aria-hidden="true">→</span></a>
       </div>
-      <div class="philosophy-art"><img src="assets/xseed-home2.png"
+      <div class="philosophy-art"><img decoding="async" src="assets/xseed-home2.png"
           alt="A child reaching toward the sky with a red paper plane" loading="lazy" width="1672" height="941">
         <div class="note philosophy-note" aria-hidden="true">Higher<br>thinkers<br>kinder humans<br>brighter
           tomorrows<svg>
@@ -2840,7 +2834,7 @@
           </svg></div>
       </div>
     </section>
-    <section class="impact" id="impact" aria-labelledby="impact-title"><img class="impact-image"
+    <section class="impact" id="impact" aria-labelledby="impact-title"><img decoding="async" class="impact-image"
         src="assets/xseed-home3.png" alt="Four schoolchildren learning together around a globe" loading="lazy"
         width="1672" height="941">
       <div class="wrap impact-content reveal">
@@ -2883,10 +2877,10 @@
           <li>
             <a class="eco-card" href="https://xseededucation.com/superteacherapp/superteacher/"
               aria-label="Explore SuperTeacher Teaching App">
-              <img src="assets/home-ecosystem-sta.png" loading="lazy" alt="">
+              <img decoding="async" src="assets/home-ecosystem-teacher.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Teaching</span> -->
-                <h3 class="eco-name">SuperTeacher Teaching App</h3>
+                <!-- <h3 class="eco-name">SuperTeacher Teaching App</h3> -->
                 <p class="eco-desc">Helps teachers deliver structured, engaging lessons with confidence.</p>
                 <span class="eco-cue">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -2899,10 +2893,10 @@
           <li>
             <a class="eco-card" href="https://help.xseededucation.com/universal/"
               aria-label="Explore SuperTeacher Parent App">
-              <img src="assets/home-ecosystem-parent1.png" loading="lazy" alt="">
+              <img decoding="async" src="assets/home-ecosystem-parent.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Family</span> -->
-                <h3 class="eco-name">SuperTeacher Parent App</h3>
+                <!-- <h3 class="eco-name">SuperTeacher Parent App</h3> -->
                 <p class="eco-desc">Keeps parents connected to their child's learning and progress.</p>
                 <span class="eco-cue">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -2914,10 +2908,10 @@
 
           <li>
             <a class="eco-card" href="https://xseededucation.com/saturday/" aria-label="Explore XSEED Academy">
-              <img src="assets/home-ecosystem-sta.png" loading="lazy" alt="">
+              <img decoding="async" src="assets/home-ecosystem-academy.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Professional learning</span> -->
-                <h3 class="eco-name">XSEED Academy</h3>
+                <!-- <h3 class="eco-name">XSEED Academy</h3> -->
                 <p class="eco-desc">Supports teachers with continuous learning and professional development.</p>
                 <span class="eco-cue">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -2929,10 +2923,10 @@
 
           <li>
             <a class="eco-card" href="https://testmaker.xseededucation.com/" aria-label="Explore Test Maker">
-              <img src="assets/home-ecosystem-sta.png" loading="lazy" alt="">
+              <img decoding="async" src="assets/home-ecosystem-testmaker.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Assessment</span> -->
-                <h3 class="eco-name">Test Maker</h3>
+                <!-- <h3 class="eco-name">Test Maker</h3> -->
                 <p class="eco-desc">Helps teachers create meaningful, curriculum-aligned assessments with ease.</p>
                 <span class="eco-cue">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -2944,10 +2938,10 @@
 
           <li>
             <a class="eco-card" href="https://xseededucation.com/help/learnometer/" aria-label="Explore Learnometer">
-              <img src="assets/home-ecosystem-sta.png" loading="lazy" alt="">
+              <img decoding="async" src="assets/home-ecosystem-learnometer.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Measurement</span> -->
-                <h3 class="eco-name">Learnometer</h3>
+                <!-- <h3 class="eco-name">Learnometer</h3> -->
                 <p class="eco-desc">Measures learning skills and makes student progress clearly visible.</p>
                 <span class="eco-cue">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -2959,10 +2953,10 @@
 
           <li>
             <a class="eco-card" href="https://xseededucation.com/parentguide/" aria-label="Explore XSEED Book Pack">
-              <img src="assets/home-ecosystem-sta.png" loading="lazy" alt="">
+              <img decoding="async" src="assets/home-ecosystem-bookpack.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">In every hand</span> -->
-                <h3 class="eco-name">XSEED Book Pack</h3>
+                <!-- <h3 class="eco-name">XSEED Book Pack</h3> -->
                 <p class="eco-desc">Thoughtfully designed learning books that build understanding, application and
                   independent thinking.</p>
                 <span class="eco-cue">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -2993,14 +2987,15 @@
             <path d="M93-10C28 70 201 90 122 181S33 260 80 292" stroke="#fff" stroke-opacity=".55" stroke-width="3"
               fill="none" />
           </svg>
-        </div> -->
+        </div>
         <div class="note scene-note" aria-hidden="true">One belief<br>brighter futures<svg>
             <use href="#underline" />
-          </svg></div>
+          </svg>
+        </div> -->
       </div>
     </section>
 
-    <section class="careers" id="careers" aria-labelledby="careers-title"><img class="careers-image"
+    <section class="careers" id="careers" aria-labelledby="careers-title"><img decoding="async" class="careers-image"
         src="assets/xseed-home4.png" alt="A group sitting together above a mountain city at golden hour" loading="lazy"
         width="1672" height="941">
       <div class="wrap careers-content reveal">
@@ -3019,7 +3014,7 @@
     <div class="shell-wrap">
       <div class="shell-footer-main">
         <div class="shell-footer-brand">
-          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img decoding="async" src="assets/xseed-blackline-logo.png"
               alt="XSEED Education" loading="lazy"></a>
           <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
         </div>
@@ -3100,7 +3095,13 @@
       };
       fitScenes();
       let sceneResizeFrame;
+      let sceneViewportWidth = window.innerWidth;
       window.addEventListener('resize', () => {
+        // Mobile browser chrome changes height while scrolling; scenes only
+        // need fitting when width changes or on desktop viewport resizes.
+        const width = window.innerWidth;
+        if (width < 768 && width === sceneViewportWidth) return;
+        sceneViewportWidth = width;
         cancelAnimationFrame(sceneResizeFrame);
         sceneResizeFrame = requestAnimationFrame(() => {
           fitScenes();
@@ -3119,7 +3120,7 @@
         gsap.registerPlugin(ScrollTrigger);
         if (window.Lenis) {
           lenis = new Lenis({
-            lerp: .055, wheelMultiplier: .7, smoothWheel: true,
+            lerp: .1, wheelMultiplier: 1, smoothWheel: true,
             anchors: true
           });
           lenis.on('scroll', ScrollTrigger.update);
@@ -3149,9 +3150,9 @@
             const disc = step.querySelector('.icon-disc');
             const svg = disc.querySelector('svg');
             const sequence = gsap.timeline({
-              defaults: { ease: 'power3.out' },
+              defaults: { ease: 'power3.out', immediateRender: false },
               delay: window.innerWidth >= 768 ? index * .16 : 0,
-              scrollTrigger: { trigger: step, start: 'top 88%', toggleActions: 'play none none reverse' }
+              scrollTrigger: { trigger: step, start: 'top 88%', once: true }
             });
             sequence.fromTo(step.querySelectorAll('.step-number, h3'),
               { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .75, stagger: .08 }, 0);
@@ -3186,15 +3187,16 @@
 
           gsap.utils.toArray('main > section:not(.hero)').forEach(section => {
             const timeline = gsap.timeline({
-              defaults: { ease: 'power3.out' },
-              scrollTrigger: { trigger: section, start: 'top 78%', toggleActions: 'play none none reverse' }
+              defaults: { ease: 'power3.out', immediateRender: false },
+              scrollTrigger: { trigger: section, start: 'top 78%', once: true }
             });
             timeline.fromTo(section.querySelectorAll('.eyebrow'), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1 }, 0);
             timeline.fromTo(section.querySelectorAll('.section-title-inner'), { yPercent: 112 }, { yPercent: 0, duration: 1.4, stagger: .14 }, .12);
             timeline.fromTo(section.querySelectorAll('.reveal .copy, .reveal .button, .reveal .text-link, .stats'), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
             section.querySelectorAll('.note').forEach(note => {
               const noteTimeline = gsap.timeline({
-                scrollTrigger: { trigger: note, start: 'top 85%', toggleActions: 'play none none reverse' }
+                defaults: { immediateRender: false },
+                scrollTrigger: { trigger: note, start: 'top 85%', once: true }
               });
               writeNote(noteTimeline, note, 0);
             });
@@ -3203,19 +3205,29 @@
             section.querySelectorAll('.product, .ai-strip, .eco-card').forEach((item, index) => {
               gsap.fromTo(item, { opacity: 0, y: 36 }, {
                 opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: item, start: 'top 94%', toggleActions: 'play none none reverse' }
+                ease: 'power3.out', immediateRender: false,
+                scrollTrigger: { trigger: item, start: 'top 94%', once: true }
               });
             });
           });
         });
         window.ScrollTrigger.refresh();
       };
-      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
-      setupMotion();
+      if (window.gsap) {
+        // Keep the scroll clock in real time, including after a slow frame.
+        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.add(time => lenis?.raf(time * 1000));
+      }
+      // Refresh can restore a previous scroll position. Wait for the browser to
+      // finish that restoration and its initial layout before creating triggers.
+      if (document.readyState === 'complete') setupMotion();
+      else window.addEventListener('load', setupMotion, { once: true });
       motion.addEventListener('change', setupMotion);
-      window.addEventListener('load', () => window.ScrollTrigger?.refresh());
-      document.fonts?.ready.then(() => window.ScrollTrigger?.refresh());
+      window.addEventListener('pageshow', event => {
+        if (!event.persisted) return;
+        lenis?.resize();
+        window.ScrollTrigger?.refresh(true);
+      });
 
     })();
   </script>

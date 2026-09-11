@@ -1024,7 +1024,7 @@
 <body> <a class="skip" href="#main">Skip to content</a>
   <header class="shell-header" id="header">
     <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
-      <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+      <img decoding="async" src="assets/xseed-blackline-logo.png" alt="XSEED Education">
     </a>
 
 
@@ -1104,18 +1104,18 @@
       <div class="section-inner">
         <div class="grid-split">
           <div class="split-image-col">
-            <img src="assets/impact-section1a.png" alt="A child working through a written assessment in a classroom"
+            <img decoding="async" src="assets/impact-section1a.png" alt="A child working through a written assessment in a classroom"
               loading="lazy" width="1254" height="1254">
           </div>
           <div class="split-text-col">
             <span class="eyebrow">THE EVIDENCE</span>
             <h2 id="evidence-title">When learning is measured, <span class="italic-phrase">progress becomes
                 visible.</span></h2>
-            <p>In 2022, more than 61,000 students across 21 states in India took the XSEED Learnometer Skills Test. The
+            <p>In 2025, more than 68,000 students across 21 states in India took the XSEED Learnometer Skills Test. The
               assessment looked beyond recall — it measured whether a child could understand an idea, work through a
               problem, and explain their thinking.</p>
             <ul class="inline-facts">
-              <li><span class="fact-figure">61K+</span><span class="fact-meaning">students assessed</span></li>
+              <li><span class="fact-figure">68K+</span><span class="fact-meaning">students assessed</span></li>
               <li><span class="fact-figure">21</span><span class="fact-meaning">states</span></li>
               <li><span class="fact-figure">1–8</span><span class="fact-meaning">grades covered</span></li>
             </ul>
@@ -1204,7 +1204,7 @@
     <section id="every-learner" class="children-outcome" aria-labelledby="every-learner-title">
       <div class="children-outcome-container">
         <figure class="children-outcome-photo">
-          <img src="assets/impact-section5.png" alt="Schoolchildren working together at a classroom desk" loading="lazy"
+          <img decoding="async" src="assets/impact-section5.png" alt="Schoolchildren working together at a classroom desk" loading="lazy"
             width="1254" height="1254">
           <figcaption class="children-outcome-caption">
             <span>The child at the back of the room.</span>
@@ -1383,7 +1383,7 @@
     <div class="shell-wrap">
       <div class="shell-footer-main">
         <div class="shell-footer-brand">
-          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img decoding="async" src="assets/xseed-blackline-logo.png"
               alt="XSEED Education" loading="lazy"></a>
           <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
         </div>
@@ -1499,7 +1499,7 @@
         document.querySelectorAll(noteSelector).forEach(note => wrapLines(note, true));
         gsap.registerPlugin(ScrollTrigger);
         if (window.Lenis) {
-          lenis = new Lenis({ lerp: .055, wheelMultiplier: .7, smoothWheel: true, anchors: true });
+          lenis = new Lenis({ lerp: .1, wheelMultiplier: 1, smoothWheel: true, anchors: true });
           lenis.on('scroll', ScrollTrigger.update);
         }
         context = gsap.context(() => {
@@ -1528,7 +1528,7 @@
           document.querySelectorAll('main > section').forEach(section => {
             if (section === hero) return;
             const timeline = gsap.timeline({ defaults: { ease: 'power3.out' },
-              scrollTrigger: { trigger: section, start: 'top 78%', toggleActions: 'play none none reverse' } });
+              scrollTrigger: { trigger: section, start: 'top 78%', once: true } });
             entrance(timeline, section.querySelectorAll(eyebrowSelector), { opacity: 0, y: 18 },
               { opacity: 1, y: 0, duration: 1 }, 0);
             entrance(timeline, section.querySelectorAll('.motion-inner'), { yPercent: 112 },
@@ -1537,13 +1537,13 @@
               { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
             section.querySelectorAll(noteSelector).forEach(note => {
               const noteTimeline = gsap.timeline({ scrollTrigger: {
-                trigger: note, start: 'top 85%', toggleActions: 'play none none reverse' } });
+                trigger: note, start: 'top 85%', once: true } });
               writeNote(noteTimeline, note, 0);
             });
             // Trigger each lower item independently so tall mobile sections stay readable.
             section.querySelectorAll(cardSelector).forEach((item, index) => {
               const timeline = gsap.timeline({ scrollTrigger: {
-                trigger: item, start: 'top 94%', toggleActions: 'play none none reverse' } });
+                trigger: item, start: 'top 94%', once: true } });
               entrance(timeline, [item], { opacity: 0, y: 36 }, {
                 opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08, ease: 'power3.out'
               }, 0);
@@ -1553,15 +1553,18 @@
         });
         ScrollTrigger.refresh();
       };
-      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      if (window.gsap) {
+        // Keep the scroll clock in real time, including after a slow frame.
+        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.add(time => lenis?.raf(time * 1000));
+      }
       setupMotion();
       motion.addEventListener('change', setupMotion);
       const refresh = () => { lenis?.resize(); window.ScrollTrigger?.refresh(); };
       window.addEventListener('load', refresh);
       document.fonts?.ready.then(refresh);
-      document.querySelectorAll('main img').forEach(img => {
-        if (!img.complete) img.addEventListener('load', refresh, { once: true });
-      });
+      // Initial assets are covered by window.load; avoid full animation
+      // recalculations for lazy images whose layout space is already reserved.
     })();
   </script>
 </body>

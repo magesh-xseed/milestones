@@ -1515,7 +1515,7 @@
 
   <header class="shell-header" id="header">
     <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
-      <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+      <img decoding="async" src="assets/xseed-blackline-logo.png" alt="XSEED Education">
     </a>
 
     
@@ -1648,15 +1648,15 @@
           <aside class="method-media reveal" aria-live="polite">
             <div class="method-media__frame">
               <div class="method-media__bg" aria-hidden="true"></div>
-              <img class="method-media__image is-active" data-image="0" src="../assets/section2-aim.png"
+              <img decoding="async" class="method-media__image is-active" data-image="0" src="../assets/section2-aim.png"
                 alt="Aim stage visual with a route leading to a target marker">
-              <img class="method-media__image" data-image="1" src="../assets/section2-Action.png"
+              <img decoding="async" class="method-media__image" data-image="1" src="../assets/section2-Action.png"
                 alt="Action stage visual of children actively engaging with the learning path">
-              <img class="method-media__image" data-image="2" src="../assets/section2-Analysis.png"
+              <img decoding="async" class="method-media__image" data-image="2" src="../assets/section2-Analysis.png"
                 alt="Analysis stage visual focused on observation and reflection">
-              <img class="method-media__image" data-image="3" src="../assets/section2-Application.png"
+              <img decoding="async" class="method-media__image" data-image="3" src="../assets/section2-Application.png"
                 alt="Application stage visual showing transfer to a new situation">
-              <img class="method-media__image" data-image="4" src="../assets/section2-Assessment.png"
+              <img decoding="async" class="method-media__image" data-image="4" src="../assets/section2-Assessment.png"
                 alt="Assessment stage visual with the final target reached">
 
               <div class="method-media__path" aria-hidden="true">
@@ -1744,7 +1744,7 @@
         </div>
 
         <div class="classroom__player reveal">
-          <img src="assets/classroom.jpg" alt="Real XSEED classroom with a teacher leading students through a lesson">
+          <img decoding="async" src="assets/classroom.jpg" alt="Real XSEED classroom with a teacher leading students through a lesson">
           <div class="classroom__scrim" aria-hidden="true"></div>
           <a class="classroom__play" href="#founder" aria-label="Continue to founder audio section">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -1846,7 +1846,7 @@
     <section class="cta" aria-labelledby="cta-title">
       <div class="wrap">
         <div class="cta__panel reveal">
-          <img src="../assets/Build-thinkers.png" alt="A child looking upward with curiosity in warm evening light">
+          <img decoding="async" src="../assets/Build-thinkers.png" alt="A child looking upward with curiosity in warm evening light">
           <div class="cta__body">
             <h2 id="cta-title">Build thinkers. <span class="accent">Not memorizers.</span></h2>
             <p class="lede">The page tells the story, but the method becomes real only when children do the learning.
@@ -1862,7 +1862,7 @@
     <div class="shell-wrap">
       <div class="shell-footer-main">
         <div class="shell-footer-brand">
-          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img decoding="async" src="assets/xseed-blackline-logo.png"
               alt="XSEED Education" loading="lazy"></a>
           <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
         </div>
@@ -2011,7 +2011,7 @@
         document.querySelectorAll(noteSelector).forEach(note => wrapLines(note, true));
         gsap.registerPlugin(ScrollTrigger);
         if (window.Lenis) {
-          lenis = new Lenis({ lerp: .055, wheelMultiplier: .7, smoothWheel: true, anchors: true });
+          lenis = new Lenis({ lerp: .1, wheelMultiplier: 1, smoothWheel: true, anchors: true });
           lenis.on('scroll', ScrollTrigger.update);
         }
         context = gsap.context(() => {
@@ -2040,7 +2040,7 @@
           document.querySelectorAll('main > section').forEach(section => {
             if (section === hero) return;
             const timeline = gsap.timeline({ defaults: { ease: 'power3.out' },
-              scrollTrigger: { trigger: section, start: 'top 78%', toggleActions: 'play none none reverse' } });
+              scrollTrigger: { trigger: section, start: 'top 78%', once: true } });
             entrance(timeline, section.querySelectorAll(eyebrowSelector), { opacity: 0, y: 18 },
               { opacity: 1, y: 0, duration: 1 }, 0);
             entrance(timeline, section.querySelectorAll('.motion-inner'), { yPercent: 112 },
@@ -2049,13 +2049,13 @@
               { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
             section.querySelectorAll(noteSelector).forEach(note => {
               const noteTimeline = gsap.timeline({ scrollTrigger: {
-                trigger: note, start: 'top 85%', toggleActions: 'play none none reverse' } });
+                trigger: note, start: 'top 85%', once: true } });
               writeNote(noteTimeline, note, 0);
             });
             // Trigger each lower item independently so tall mobile sections stay readable.
             section.querySelectorAll(cardSelector).forEach((item, index) => {
               const timeline = gsap.timeline({ scrollTrigger: {
-                trigger: item, start: 'top 94%', toggleActions: 'play none none reverse' } });
+                trigger: item, start: 'top 94%', once: true } });
               entrance(timeline, [item], { opacity: 0, y: 36 }, {
                 opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08, ease: 'power3.out'
               }, 0);
@@ -2070,15 +2070,18 @@
         });
         ScrollTrigger.refresh();
       };
-      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      if (window.gsap) {
+        // Keep the scroll clock in real time, including after a slow frame.
+        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.add(time => lenis?.raf(time * 1000));
+      }
       setupMotion();
       motion.addEventListener('change', setupMotion);
       const refresh = () => { lenis?.resize(); window.ScrollTrigger?.refresh(); };
       window.addEventListener('load', refresh);
       document.fonts?.ready.then(refresh);
-      document.querySelectorAll('main img').forEach(img => {
-        if (!img.complete) img.addEventListener('load', refresh, { once: true });
-      });
+      // Initial assets are covered by window.load; avoid full animation
+      // recalculations for lazy images whose layout space is already reserved.
     })();
   </script>
 </body>

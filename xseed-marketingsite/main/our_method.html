@@ -691,7 +691,7 @@
 <body> <a class="skip" href="#main">Skip to content</a>
   <header class="shell-header" id="header">
     <a href="home.html" class="shell-logo" aria-label="XSEED Education home">
-      <img src="assets/xseed-blackline-logo.png" alt="XSEED Education">
+      <img decoding="async" src="assets/xseed-blackline-logo.png" alt="XSEED Education">
     </a>
 
     
@@ -738,7 +738,7 @@
         </div>
         <div class="experiential-grid">
           <div class="experiential-photo">
-            <img src="assets/method-section2.png"
+            <img decoding="async" src="assets/method-section2.png"
               alt="Child examining the leaves of a potted plant with a magnifying glass" loading="lazy" width="1254"
               height="1254">
           </div>
@@ -789,7 +789,7 @@
               <div class="step-marker">1</div>
               <div class="step-image-col">
                 <div class="step-image-wrapper">
-                  <img loading="lazy" width="900" height="900" src="assets/method-aim.png"
+                  <img decoding="async" loading="lazy" width="900" height="900" src="assets/method-aim.png"
                     alt="Teacher defining aim on board"
                     onerror="this.src='https://placehold.co/900x900/f3ece2/1c1917?text=Aim'">
                 </div>
@@ -808,7 +808,7 @@
               <div class="step-marker">2</div>
               <div class="step-image-col">
                 <div class="step-image-wrapper">
-                  <img loading="lazy" width="900" height="900" src="assets/method-action.png"
+                  <img decoding="async" loading="lazy" width="900" height="900" src="assets/method-action.png"
                     alt="Students conducting hands on activity"
                     onerror="this.src='https://placehold.co/900x900/f8f4f1/1c1917?text=Action'">
                 </div>
@@ -827,7 +827,7 @@
               <div class="step-marker">3</div>
               <div class="step-image-col">
                 <div class="step-image-wrapper">
-                  <img loading="lazy" width="900" height="900" src="assets/method-analysis.png"
+                  <img decoding="async" loading="lazy" width="900" height="900" src="assets/method-analysis.png"
                     alt="Children talking through what happened"
                     onerror="this.src='https://placehold.co/900x900/faf8f5/1c1917?text=Analysis'">
                 </div>
@@ -846,7 +846,7 @@
               <div class="step-marker">4</div>
               <div class="step-image-col">
                 <div class="step-image-wrapper">
-                  <img loading="lazy" width="900" height="900" src="assets/method-application.png"
+                  <img decoding="async" loading="lazy" width="900" height="900" src="assets/method-application.png"
                     alt="Student solving practice problem independently"
                     onerror="this.src='https://placehold.co/900x900/f3ece2/1c1917?text=Application'">
                 </div>
@@ -866,7 +866,7 @@
               <div class="step-marker">5</div>
               <div class="step-image-col">
                 <div class="step-image-wrapper">
-                  <img loading="lazy" width="900" height="900" src="assets/method-assessment.png"
+                  <img decoding="async" loading="lazy" width="900" height="900" src="assets/method-assessment.png"
                     alt="Teacher reviewing work with student"
                     onerror="this.src='https://placehold.co/900x900/f8f4f1/1c1917?text=Assessment'">
                 </div>
@@ -924,7 +924,7 @@
           </div>
           <div class="split-image-col">
             <div class="split-image-wrapper">
-              <img src="assets/method-experience-first.png"
+              <img decoding="async" src="assets/method-experience-first.png"
                 alt="Child examining a green leaf outdoors while holding a notebook" loading="lazy" width="1254"
                 height="1254">
             </div>
@@ -951,7 +951,7 @@
     <div class="shell-wrap">
       <div class="shell-footer-main">
         <div class="shell-footer-brand">
-          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img src="assets/xseed-blackline-logo.png"
+          <a href="home.html" class="shell-wordmark" aria-label="XSEED home"><img decoding="async" src="assets/xseed-blackline-logo.png"
               alt="XSEED Education" loading="lazy"></a>
           <p>Learning that helps children think independently, apply deeply and become ready for life.</p>
         </div>
@@ -1115,7 +1115,7 @@
         document.querySelectorAll(noteSelector).forEach(note => wrapLines(note, true));
         gsap.registerPlugin(ScrollTrigger);
         if (window.Lenis) {
-          lenis = new Lenis({ lerp: .055, wheelMultiplier: .7, smoothWheel: true, anchors: true });
+          lenis = new Lenis({ lerp: .1, wheelMultiplier: 1, smoothWheel: true, anchors: true });
           lenis.on('scroll', ScrollTrigger.update);
         }
         context = gsap.context(() => {
@@ -1144,7 +1144,7 @@
           document.querySelectorAll('main > section').forEach(section => {
             if (section === hero) return;
             const timeline = gsap.timeline({ defaults: { ease: 'power3.out' },
-              scrollTrigger: { trigger: section, start: 'top 78%', toggleActions: 'play none none reverse' } });
+              scrollTrigger: { trigger: section, start: 'top 78%', once: true } });
             entrance(timeline, section.querySelectorAll(eyebrowSelector), { opacity: 0, y: 18 },
               { opacity: 1, y: 0, duration: 1 }, 0);
             entrance(timeline, section.querySelectorAll('.motion-inner'), { yPercent: 112 },
@@ -1153,13 +1153,13 @@
               { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
             section.querySelectorAll(noteSelector).forEach(note => {
               const noteTimeline = gsap.timeline({ scrollTrigger: {
-                trigger: note, start: 'top 85%', toggleActions: 'play none none reverse' } });
+                trigger: note, start: 'top 85%', once: true } });
               writeNote(noteTimeline, note, 0);
             });
             // Trigger each lower item independently so tall mobile sections stay readable.
             section.querySelectorAll(cardSelector).forEach((item, index) => {
               const timeline = gsap.timeline({ scrollTrigger: {
-                trigger: item, start: 'top 94%', toggleActions: 'play none none reverse' } });
+                trigger: item, start: 'top 94%', once: true } });
               entrance(timeline, [item], { opacity: 0, y: 36 }, {
                 opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08, ease: 'power3.out'
               }, 0);
@@ -1169,15 +1169,18 @@
         });
         ScrollTrigger.refresh();
       };
-      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      if (window.gsap) {
+        // Keep the scroll clock in real time, including after a slow frame.
+        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.add(time => lenis?.raf(time * 1000));
+      }
       setupMotion();
       motion.addEventListener('change', setupMotion);
       const refresh = () => { lenis?.resize(); window.ScrollTrigger?.refresh(); };
       window.addEventListener('load', refresh);
       document.fonts?.ready.then(refresh);
-      document.querySelectorAll('main img').forEach(img => {
-        if (!img.complete) img.addEventListener('load', refresh, { once: true });
-      });
+      // Initial assets are covered by window.load; avoid full animation
+      // recalculations for lazy images whose layout space is already reserved.
     })();
   </script>
 </body>

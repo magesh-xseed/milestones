@@ -24,7 +24,7 @@
   nav.addEventListener('click', event => {
     if (event.target.closest('a')) closeMenu();
   });
-  matchMedia('(min-width: 1151px)').addEventListener('change', closeMenu);
+  matchMedia('(min-width: 768px)').addEventListener('change', closeMenu);
   const syncHeader = () => {
     const compact = document.body.classList.contains('scrolled');
     document.body.classList.toggle('scrolled', window.scrollY > (compact ? 16 : 70));
