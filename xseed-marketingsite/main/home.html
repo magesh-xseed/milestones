@@ -2181,8 +2181,8 @@
     .section-title-line {
       display: block;
       overflow: hidden;
-      padding-bottom: .18em;
-      margin-bottom: -.18em
+      padding: 0 .12em .22em;
+      margin: 0 -.12em -.22em
     }
 
     .section-title-inner {
@@ -2875,8 +2875,7 @@
         </div>
         <ul class="eco-grid" role="list">
           <li>
-            <a class="eco-card" href="https://xseededucation.com/superteacherapp/superteacher/"
-              aria-label="Explore SuperTeacher Teaching App">
+            <div class="eco-card">
               <img decoding="async" src="assets/home-ecosystem-teacher.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Teaching</span> -->
@@ -2887,12 +2886,11 @@
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg></span>
               </span>
-            </a>
+            </div>
           </li>
 
           <li>
-            <a class="eco-card" href="https://help.xseededucation.com/universal/"
-              aria-label="Explore SuperTeacher Parent App">
+            <div class="eco-card">
               <img decoding="async" src="assets/home-ecosystem-parent.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Family</span> -->
@@ -2903,11 +2901,11 @@
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg></span>
               </span>
-            </a>
+            </div>
           </li>
 
           <li>
-            <a class="eco-card" href="https://xseededucation.com/saturday/" aria-label="Explore XSEED Academy">
+            <div class="eco-card">
               <img decoding="async" src="assets/home-ecosystem-academy.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Professional learning</span> -->
@@ -2918,11 +2916,11 @@
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg></span>
               </span>
-            </a>
+            </div>
           </li>
 
           <li>
-            <a class="eco-card" href="https://testmaker.xseededucation.com/" aria-label="Explore Test Maker">
+            <div class="eco-card">
               <img decoding="async" src="assets/home-ecosystem-testmaker.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Assessment</span> -->
@@ -2933,11 +2931,11 @@
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg></span>
               </span>
-            </a>
+            </div>
           </li>
 
           <li>
-            <a class="eco-card" href="https://xseededucation.com/help/learnometer/" aria-label="Explore Learnometer">
+            <div class="eco-card">
               <img decoding="async" src="assets/home-ecosystem-learnometer.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">Measurement</span> -->
@@ -2948,11 +2946,11 @@
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg></span>
               </span>
-            </a>
+            </div>
           </li>
 
           <li>
-            <a class="eco-card" href="https://xseededucation.com/parentguide/" aria-label="Explore XSEED Book Pack">
+            <div class="eco-card">
               <img decoding="async" src="assets/home-ecosystem-bookpack.png" loading="lazy" alt="">
               <span class="eco-body">
                 <!-- <span class="eco-eyebrow">In every hand</span> -->
@@ -2964,9 +2962,10 @@
                     <path d="M5 12h14m-6-6 6 6-6 6" />
                   </svg></span>
               </span>
-            </a>
+            </div>
           </li>
         </ul>
+
         <!-- <div class="ai-strip" id="ai">
           <div class="ai-title"><strong>AI</strong><em>for a brighter tomorrow.</em></div>
           <p class="ai-copy">Thoughtful AI. More human learning.<br>We’re building intelligent tools to personalise
@@ -3026,9 +3025,9 @@
         </div>
         <div class="shell-footer-col">
           <h4>XSEED</h4>
-          <a href="our_philosophy.html">About</a>
+          <a>About</a>
           <a href="careers.html">Careers</a>
-          <a href="https://xseededucation.com/">News</a>
+          <a>News</a>
         </div>
         <div class="shell-footer-col" id="contact" tabindex="-1">
           <h4>Connect</h4>
@@ -3120,7 +3119,7 @@
         gsap.registerPlugin(ScrollTrigger);
         if (window.Lenis) {
           lenis = new Lenis({
-            lerp: .1, wheelMultiplier: 1, smoothWheel: true,
+            lerp: .055, wheelMultiplier: .7, smoothWheel: true,
             anchors: true
           });
           lenis.on('scroll', ScrollTrigger.update);
@@ -3150,7 +3149,7 @@
             const disc = step.querySelector('.icon-disc');
             const svg = disc.querySelector('svg');
             const sequence = gsap.timeline({
-              defaults: { ease: 'power3.out', immediateRender: false },
+              defaults: { ease: 'power3.out' },
               delay: window.innerWidth >= 768 ? index * .16 : 0,
               scrollTrigger: { trigger: step, start: 'top 88%', once: true }
             });
@@ -3187,25 +3186,28 @@
 
           gsap.utils.toArray('main > section:not(.hero)').forEach(section => {
             const timeline = gsap.timeline({
-              defaults: { ease: 'power3.out', immediateRender: false },
+              defaults: { ease: 'power3.out' },
               scrollTrigger: { trigger: section, start: 'top 78%', once: true }
             });
-            timeline.fromTo(section.querySelectorAll('.eyebrow'), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1 }, 0);
-            timeline.fromTo(section.querySelectorAll('.section-title-inner'), { yPercent: 112 }, { yPercent: 0, duration: 1.4, stagger: .14 }, .12);
-            timeline.fromTo(section.querySelectorAll('.reveal .copy, .reveal .button, .reveal .text-link, .stats'), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.3, stagger: .12 }, .4);
+            timeline.fromTo(section.querySelectorAll('.eyebrow'), { opacity: 0, y: 18 },
+              { opacity: 1, y: 0, duration: 1, clearProps: 'opacity,transform' }, 0);
+            timeline.fromTo(section.querySelectorAll('.section-title-inner'), { yPercent: 112 },
+              { yPercent: 0, duration: 1.4, stagger: .14, clearProps: 'transform' }, .12);
+            timeline.fromTo(section.querySelectorAll('.reveal .copy, .reveal .button, .reveal .text-link, .stats'),
+              { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: 1.3, stagger: .12, clearProps: 'opacity,transform' }, .4);
             section.querySelectorAll('.note').forEach(note => {
               const noteTimeline = gsap.timeline({
-                defaults: { immediateRender: false },
                 scrollTrigger: { trigger: note, start: 'top 85%', once: true }
               });
               writeNote(noteTimeline, note, 0);
             });
 
             // Reveal lower content at its own position, including on tall mobile layouts.
-            section.querySelectorAll('.product, .ai-strip, .eco-card').forEach((item, index) => {
+            section.querySelectorAll('.product, .ai-strip, .eco-grid > li').forEach((item, index) => {
               gsap.fromTo(item, { opacity: 0, y: 36 }, {
                 opacity: 1, y: 0, duration: 1.25, delay: (index % 5) * .08,
-                ease: 'power3.out', immediateRender: false,
+                ease: 'power3.out', clearProps: 'opacity,transform',
                 scrollTrigger: { trigger: item, start: 'top 94%', once: true }
               });
             });
@@ -3213,15 +3215,8 @@
         });
         window.ScrollTrigger.refresh();
       };
-      if (window.gsap) {
-        // Keep the scroll clock in real time, including after a slow frame.
-        gsap.ticker.lagSmoothing(0);
-        gsap.ticker.add(time => lenis?.raf(time * 1000));
-      }
-      // Refresh can restore a previous scroll position. Wait for the browser to
-      // finish that restoration and its initial layout before creating triggers.
-      if (document.readyState === 'complete') setupMotion();
-      else window.addEventListener('load', setupMotion, { once: true });
+      if (window.gsap) gsap.ticker.add(time => lenis?.raf(time * 1000));
+      setupMotion();
       motion.addEventListener('change', setupMotion);
       window.addEventListener('pageshow', event => {
         if (!event.persisted) return;
