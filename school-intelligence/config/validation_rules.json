@@ -1,0 +1,25 @@
+{
+  "_note": "Quality gates. 'target' values are acceptance goals, never used to alter data. 'report_only' gates are reported without pass/fail. 'critical' failures set release status FAILED_VALIDATION.",
+  "strictness": "strict",
+  "gates": [
+    {"id": "json_schema_validation_pct", "label": "JSON schema validation", "target": 100, "critical": true},
+    {"id": "evidence_coverage_pct", "label": "Evidence coverage for reported factual claims", "target": 100, "critical": true},
+    {"id": "audited_accuracy_pct", "label": "Independently audited factual accuracy (audited sample)", "target": 100, "critical": true},
+    {"id": "duplicate_campus_ids", "label": "Duplicate canonical campus IDs", "target_max": 0, "critical": true},
+    {"id": "conflicts_presented_as_verified", "label": "Unresolved conflicts presented as verified", "target_max": 0, "critical": true},
+    {"id": "unsupported_values_as_facts", "label": "Unsupported values presented as facts", "target_max": 0, "critical": true},
+    {"id": "required_field_coverage_pct", "label": "Required-field coverage", "report_only": true},
+    {"id": "curriculum_verification_pct", "label": "Official (registry) curriculum verification", "target": 95, "critical": false},
+    {"id": "fee_verification_pct", "label": "Verified, dated fee coverage", "target": 80, "critical": false},
+    {"id": "enrollment_verification_pct", "label": "Verified enrollment coverage", "report_only": true}
+  ],
+  "verified_statuses": ["official_registry_verified", "official_source"],
+  "india_states": [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
+    "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+    "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
+    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
+  ],
+  "india_bbox": {"lat_min": 6.5, "lat_max": 37.2, "lon_min": 68.0, "lon_max": 97.5}
+}

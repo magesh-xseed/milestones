@@ -1,0 +1,222 @@
+{
+  "_note": "Field registry. 'required' fields count toward Field Coverage %. 'factual' fields must carry evidence. 'analysis' fields are derived scores/recommendations and are never presented as facts.",
+  "fields": [
+    {
+      "name": "school_name",
+      "category": "identity",
+      "type": "string",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "campus",
+      "category": "identity",
+      "type": "string",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "school_group",
+      "category": "identity",
+      "type": "string",
+      "required": false,
+      "factual": false,
+      "derived": true,
+      "note": "derived from shared official domain; see school_groups.json"
+    },
+    {
+      "name": "parent_organization",
+      "category": "identity",
+      "type": "string",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "city",
+      "category": "identity",
+      "type": "string",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "state",
+      "category": "identity",
+      "type": "string",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "address",
+      "category": "identity",
+      "type": "string",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "geo_coordinates",
+      "category": "identity",
+      "type": "geo",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "official_website",
+      "category": "identity",
+      "type": "url",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "founding_year",
+      "category": "identity",
+      "type": "year",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "school_type",
+      "category": "identity",
+      "type": "enum",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "grades_offered",
+      "category": "identity",
+      "type": "grade_range",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "annual_fee",
+      "category": "premium",
+      "type": "fee",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "admission_charges",
+      "category": "premium",
+      "type": "money",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "premium_category",
+      "category": "premium",
+      "type": "enum",
+      "required": true,
+      "factual": false,
+      "derived": true
+    },
+    {
+      "name": "campus_student_count",
+      "category": "scale",
+      "type": "int",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "group_student_count",
+      "category": "scale",
+      "type": "int",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "number_of_campuses",
+      "category": "scale",
+      "type": "int",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "student_teacher_ratio",
+      "category": "scale",
+      "type": "string",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "average_class_size",
+      "category": "scale",
+      "type": "int",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "curricula",
+      "category": "curriculum",
+      "type": "list",
+      "required": true,
+      "factual": true
+    },
+    {
+      "name": "curriculum_by_grade",
+      "category": "curriculum",
+      "type": "list",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "subjects_offered",
+      "category": "curriculum",
+      "type": "list",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "teaching_methodology",
+      "category": "curriculum",
+      "type": "list",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "assessment_methodology",
+      "category": "curriculum",
+      "type": "list",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "affiliation_details",
+      "category": "curriculum",
+      "type": "list",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "curriculum_history",
+      "category": "curriculum",
+      "type": "events",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "decision_maker_roles",
+      "category": "sales",
+      "type": "list",
+      "required": false,
+      "factual": true
+    },
+    {
+      "name": "public_contact",
+      "category": "sales",
+      "type": "list",
+      "required": false,
+      "factual": true
+    }
+  ],
+  "mandatory_research_checks": [
+    "official_website_identity",
+    "official_site_crawl",
+    "fee_research",
+    "curriculum_research",
+    "enrollment_research",
+    "founding_year_research",
+    "registry_curriculum_check",
+    "third_party_crosscheck",
+    "curriculum_history_research"
+  ]
+}

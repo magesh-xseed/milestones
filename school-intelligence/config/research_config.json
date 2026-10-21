@@ -1,0 +1,379 @@
+{
+  "project": "MASTEREDGE India Premium School Intelligence",
+  "country": "India",
+  "india_only": true,
+  "target_school_count": 100,
+  "slices": {
+    "1": {
+      "description": "One seed school end-to-end (official site only)",
+      "max_schools": 1,
+      "discovery": false,
+      "third_party": false,
+      "registry_checks": false,
+      "history": false
+    },
+    "2": {
+      "description": "Seed school + curriculum/affiliation verification",
+      "max_schools": 1,
+      "discovery": false,
+      "third_party": true,
+      "registry_checks": true,
+      "history": false
+    },
+    "3": {
+      "description": "Discovery + 20 schools + dedupe",
+      "max_schools": 20,
+      "discovery": true,
+      "third_party": true,
+      "registry_checks": true,
+      "history": false
+    },
+    "4": {
+      "description": "Add curriculum history (Wayback)",
+      "max_schools": 20,
+      "discovery": true,
+      "third_party": true,
+      "registry_checks": true,
+      "history": true
+    },
+    "5": {
+      "description": "Full 100-school run + CEO report",
+      "max_schools": 100,
+      "discovery": true,
+      "third_party": true,
+      "registry_checks": true,
+      "history": true
+    },
+    "6": {
+      "description": "All Ezyschooling cities: sitemap screening of every profile, then deep research of every premium-relevant school",
+      "max_schools": 100000,
+      "discovery": true,
+      "discovery_mode": "sitemap",
+      "third_party": true,
+      "registry_checks": true,
+      "history": true
+    }
+  },
+  "cities": [
+    {
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "ezyschooling_slug": "hyderabad"
+    },
+    {
+      "city": "Bengaluru",
+      "state": "Karnataka",
+      "ezyschooling_slug": "bangalore"
+    },
+    {
+      "city": "Delhi",
+      "state": "Delhi",
+      "ezyschooling_slug": "delhi"
+    },
+    {
+      "city": "Gurugram",
+      "state": "Haryana",
+      "ezyschooling_slug": "gurugram"
+    },
+    {
+      "city": "Noida",
+      "state": "Uttar Pradesh",
+      "ezyschooling_slug": "noida"
+    },
+    {
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "ezyschooling_slug": "mumbai"
+    },
+    {
+      "city": "Pune",
+      "state": "Maharashtra",
+      "ezyschooling_slug": "pune"
+    },
+    {
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "ezyschooling_slug": "chennai"
+    },
+    {
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "ezyschooling_slug": "kolkata"
+    }
+  ],
+  "discovery": {
+    "listing_boards_old": [
+      "ib-board",
+      "cambridge",
+      "igcse",
+      "international"
+    ],
+    "listing_boards": [
+      "cbse",
+      "icse",
+      "isc",
+      "cisce",
+      "ib-board",
+      "ib",
+      "ib-pyp",
+      "ib-myp",
+      "ib-dp",
+      "cambridge",
+      "cambridge-primary",
+      "cambridge-lower-secondary",
+      "igcse",
+      "cambridge-as-level",
+      "cambridge-a-level",
+      "international"
+    ],
+    "max_candidates_per_listing": 40,
+    "require_official_website": true,
+    "sitemap": {
+      "_note": "Slice 6. Every profile in Ezyschooling's public all-schools sitemaps is screened (one fetch each). Listed fee/board are third-party prioritisation data, never facts. A school is deep-researched if it qualifies below.",
+      "exclude_city_slugs": [
+        "online-schools"
+      ],
+      "priority_city_slugs": [
+        "hyderabad",
+        "secunderabad",
+        "bangalore",
+        "delhi",
+        "gurugram",
+        "noida",
+        "greater-noida",
+        "greater-noida-west",
+        "ghaziabad",
+        "faridabad",
+        "mumbai",
+        "navi-mumbai",
+        "thane",
+        "pune-dist",
+        "chennai-dist",
+        "kolkata"
+      ],
+      "screen_workers": 4,
+      "qualify": {
+        "min_listed_annual_fee_max": 250000,
+        "board_families_always": [
+          "IB",
+          "CAMBRIDGE"
+        ],
+        "require_official_website": true
+      },
+      "city_map": {
+        "ahmednagar": [
+          "Ahmednagar",
+          "Maharashtra"
+        ],
+        "greater-noida": [
+          "Greater Noida",
+          "Uttar Pradesh"
+        ],
+        "delhi": [
+          "Delhi",
+          "Delhi"
+        ],
+        "hubballi": [
+          "Hubballi",
+          "Karnataka"
+        ],
+        "dharwad": [
+          "Dharwad",
+          "Karnataka"
+        ],
+        "lucknow": [
+          "Lucknow",
+          "Uttar Pradesh"
+        ],
+        "noida": [
+          "Noida",
+          "Uttar Pradesh"
+        ],
+        "mumbai": [
+          "Mumbai",
+          "Maharashtra"
+        ],
+        "thane": [
+          "Thane",
+          "Maharashtra"
+        ],
+        "sonipat": [
+          "Sonipat",
+          "Haryana"
+        ],
+        "jodhpur": [
+          "Jodhpur",
+          "Rajasthan"
+        ],
+        "howrah": [
+          "Howrah",
+          "West Bengal"
+        ],
+        "jaipur": [
+          "Jaipur",
+          "Rajasthan"
+        ],
+        "indore": [
+          "Indore",
+          "Madhya Pradesh"
+        ],
+        "rohtak": [
+          "Rohtak",
+          "Haryana"
+        ],
+        "kolkata": [
+          "Kolkata",
+          "West Bengal"
+        ],
+        "ghaziabad": [
+          "Ghaziabad",
+          "Uttar Pradesh"
+        ],
+        "navi-mumbai": [
+          "Navi Mumbai",
+          "Maharashtra"
+        ],
+        "faridabad": [
+          "Faridabad",
+          "Haryana"
+        ],
+        "bhopal": [
+          "Bhopal",
+          "Madhya Pradesh"
+        ],
+        "bangalore": [
+          "Bengaluru",
+          "Karnataka"
+        ],
+        "chennai-dist": [
+          "Chennai",
+          "Tamil Nadu"
+        ],
+        "secunderabad": [
+          "Secunderabad",
+          "Telangana"
+        ],
+        "hyderabad": [
+          "Hyderabad",
+          "Telangana"
+        ],
+        "hooghly": [
+          "Hooghly",
+          "West Bengal"
+        ],
+        "greater-noida-west": [
+          "Greater Noida West",
+          "Uttar Pradesh"
+        ],
+        "aurangabad": [
+          "Aurangabad",
+          "Maharashtra"
+        ],
+        "pune-dist": [
+          "Pune",
+          "Maharashtra"
+        ],
+        "jabalpur": [
+          "Jabalpur",
+          "Madhya Pradesh"
+        ],
+        "gurugram": [
+          "Gurugram",
+          "Haryana"
+        ]
+      },
+      "_boarding_note": "'boarding-schools' has no single city: city comes from the profile and state is left null unless the city is in city_map."
+    }
+  },
+  "premium_categories_of_interest": [
+    "ultra_premium",
+    "premium"
+  ],
+  "curricula_of_interest": [
+    "IB",
+    "CAMBRIDGE",
+    "CBSE",
+    "CISCE"
+  ],
+  "required_fields": "see config/fields.json (required: true)",
+  "minimum_acceptable_coverage_pct": 60,
+  "historical_research": {
+    "enabled": true,
+    "max_snapshots_per_url": 4,
+    "earliest_year": 2010
+  },
+  "refresh_interval_days": 30,
+  "validation_strictness": "strict",
+  "report": {
+    "format": "xlsx",
+    "filename": "MASTEREDGE_India_Premium_School_Opportunity_Report.xlsx",
+    "top_n": 100000,
+    "top_sales_targets": 20
+  },
+  "http": {
+    "user_agent": "MasteredgeResearchBot/1.0 (school research; contact: research@xseededucation.com)",
+    "per_host_delay_seconds": 1.5,
+    "timeout_seconds": 30,
+    "max_retries": 2,
+    "max_pages_per_official_site": 12,
+    "max_pdfs_per_official_site": 2,
+    "max_pdf_bytes": 8000000,
+    "workers": 6,
+    "per_host_delay_overrides": {},
+    "_per_host_delay_overrides_note": "Per-host delay overrides (seconds). Ezyschooling returned HTTP 429 at 0.5 s on 2026-10-20, so it stays at the default 1.5 s."
+  },
+  "masteredge_profile": {
+    "_note": "OPERATOR-EDITABLE ASSUMPTIONS about the MASTEREDGE product. These drive analysis scores only, never facts. Confirm with the product team.",
+    "curriculum_compatibility": {
+      "CBSE": 1.0,
+      "CISCE": 1.0,
+      "CAMBRIDGE": 0.8,
+      "IB": 0.7,
+      "STATE": 0.5
+    },
+    "target_grade_min": -2,
+    "target_grade_max": 8,
+    "listing_grade_min": -3,
+    "_listing_grades_note": "Dashboard lists only schools teaching Pre-Nursery to Grade 8 (grade numbers -3..8), requested by Mahesh R (Xseed) on 2026-10-21. Scoring still uses target_grade_min/max.",
+    "target_subjects": [
+      "Mathematics",
+      "Science",
+      "English"
+    ],
+    "_target_grades_note": "Target grades Nursery, LKG, UKG and Grade 1-8 (grade numbers -2..8), confirmed by Mahesh R (Xseed) on 2026-10-20. Curriculum compatibility and subjects remain operator assumptions."
+  },
+  "scoring_weights": {
+    "curriculum_compatibility": 30,
+    "premium_positioning": 25,
+    "student_reach": 15,
+    "academic_alignment": 15,
+    "group_expansion_potential": 10,
+    "confirmed_sales_readiness": 5
+  },
+  "student_reach_bands": [
+    {
+      "min": 3000,
+      "score": 1.0
+    },
+    {
+      "min": 2000,
+      "score": 0.8
+    },
+    {
+      "min": 1000,
+      "score": 0.6
+    },
+    {
+      "min": 500,
+      "score": 0.4
+    },
+    {
+      "min": 1,
+      "score": 0.2
+    }
+  ],
+  "audit": {
+    "sample_size": 40,
+    "seed": 20261020
+  }
+}

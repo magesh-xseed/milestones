@@ -1,0 +1,14 @@
+{
+  "_note": "Premium classification uses the MAXIMUM published annual tuition (INR) of the highest-tier fee source. Thresholds are operator-editable. Curriculum is a supporting signal only and never sets the category on its own.",
+  "currency": "INR",
+  "categories": [
+    {"id": "ultra_premium", "label": "Ultra-premium", "min_annual_fee_max": 800000},
+    {"id": "premium", "label": "Premium", "min_annual_fee_max": 350000},
+    {"id": "upper_mid", "label": "Upper-mid", "min_annual_fee_max": 150000},
+    {"id": "not_premium_by_fee", "label": "Below premium threshold", "min_annual_fee_max": 0}
+  ],
+  "unclassified_id": "unclassified",
+  "provisional_if_third_party_only": true,
+  "conflict_if_sources_disagree_on_category": true,
+  "supporting_signals": ["IB", "CAMBRIDGE"]
+}
