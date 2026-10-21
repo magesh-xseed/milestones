@@ -223,6 +223,34 @@ td { padding-block: 20px; }
 .filters select { flex: 0 1 172px; min-width: 0; height: var(--h); padding: 0 34px 0 12px; font-size: 13px; font-weight: 500; border-radius: 8px; border: 1px solid var(--line); background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m6 8 4 4 4-4' fill='none' stroke='%23686868' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center / 16px; -webkit-appearance: none; appearance: none; cursor: pointer; text-overflow: ellipsis; }
 .filters select:hover { border-color: #d6d0d2; }
 .filters select.on { color: var(--accent); background-color: var(--accent-soft); font-weight: 600; }
+/* Rich dropdowns layered over the native selects, which stay hidden as the source of truth. */
+.dd-native { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.dd { position: relative; flex: 0 1 188px; min-width: 0; }
+.dd-btn { width: 100%; height: var(--h); display: flex; align-items: center; gap: 10px; padding: 0 12px 0 14px; font: inherit; text-align: left; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 1px 2px rgba(36,36,36,.04); cursor: pointer; }
+.dd-btn:hover { border-color: #d6d0d2; box-shadow: 0 2px 6px rgba(36,36,36,.06); }
+.dd-btn[aria-expanded="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(165,16,52,.12); }
+.dd-txt { flex: 1; min-width: 0; display: grid; line-height: 1.2; }
+.dd-txt small { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #8f8689; }
+.dd-txt b { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dd-btn svg { flex: none; width: 16px; height: 16px; fill: none; stroke: #686868; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s; }
+.dd-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.dd-btn.on { background: var(--accent-soft); border-color: rgba(165,16,52,.28); }
+.dd-btn.on b { color: var(--accent); }
+.dd-btn.on svg { stroke: var(--accent); }
+.dd-menu { position: absolute; left: 0; top: calc(100% + 6px); z-index: 30; min-width: 100%; width: 248px; max-width: calc(100vw - 32px); padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgba(36,36,36,.14), 0 2px 6px rgba(36,36,36,.06); outline: none; }
+.dd-menu[hidden] { display: none; }
+.dd-menu.dd-right { left: auto; right: 0; }
+.dd-search { padding: 2px 2px 6px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+.dd-search input { width: 100%; height: 34px; padding: 0 10px; font: inherit; font-size: 13px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+.dd-list { position: relative; max-height: 300px; overflow-y: auto; display: grid; gap: 1px; }
+.dd-opt { position: relative; display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 10px 0 32px; font-size: 13px; font-weight: 500; border-radius: 7px; cursor: pointer; }
+.dd-opt[hidden] { display: none; }
+.dd-opt span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dd-opt small { color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.dd-opt.act { background: #f6f3f4; }
+.dd-opt[aria-selected="true"] { color: var(--accent); font-weight: 600; }
+.dd-opt[aria-selected="true"]::before { content: ""; position: absolute; left: 10px; top: 50%; width: 14px; height: 14px; transform: translateY(-50%); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='m2.5 7.2 3 3 6-6.4' fill='none' stroke='%23a51034' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 14px; }
+.dd-none { padding: 12px 10px; font-size: 13px; color: var(--muted); }
 .f-more { position: relative; flex: none; }
 .f-more-btn { display: inline-flex; align-items: center; gap: 8px; height: var(--h); padding: 0 14px; font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; white-space: nowrap; }
 .f-more-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
@@ -262,11 +290,12 @@ td { padding-block: 20px; }
 .f-clear:hover { text-decoration-color: currentColor; }
 @media (max-width: 900px) {
   .f-search { flex-basis: 100%; }
-  .filters select { flex: 1 1 0; }
+  .filters select, .dd { flex: 1 1 0; }
 }
 @media (max-width: 600px) {
   .f-search input, .filters select { font-size: 16px; }
-  .filters select { flex: 1 1 calc(50% - 4px); }
+  .filters select, .dd { flex: 1 1 calc(50% - 4px); }
+  .dd-search input { font-size: 16px; }
   .f-panel { width: min(280px, calc(100vw - 32px)); }
 }
 </style>
@@ -482,6 +511,7 @@ function renderSummary(n, total) {
   $("board").classList.toggle("on", !!state.board);
   $("city").classList.toggle("on", !!state.city);
   $("tier").classList.toggle("on", state.t !== "all");
+  syncDD();
   $("q-clear").hidden = !state.q;
 }
 function setTier(t) {
@@ -838,6 +868,82 @@ $("board").addEventListener("change", e => { state.board = e.target.value; reset
 $("q").addEventListener("input", e => { state.q = e.target.value; reset(); });
 $("more-btn").addEventListener("click", () => { state.shown += PAGE * 5; render(); });
 if (!DIR.length) document.querySelector(".views").hidden = true;
+// Rich dropdowns: a styled button + listbox over each native <select>, which stays the source of truth.
+const DD = [];
+function enhanceSelect(sel, label) {
+  sel.classList.add("dd-native"); sel.tabIndex = -1; sel.setAttribute("aria-hidden", "true");
+  const box = document.createElement("div"); box.className = "dd";
+  box.innerHTML = `<button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false"><span class="dd-txt"><small>${esc(label)}</small><b></b></span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></button><div class="dd-menu" role="listbox" tabindex="-1" aria-label="${esc(label)}" hidden></div>`;
+  sel.after(box);
+  const btn = box.querySelector(".dd-btn"), menu = box.querySelector(".dd-menu"), val = btn.querySelector("b");
+  const split = t => { const m = t.match(/^(.*?)\s*\((\d[\d,]*)\)$/); return m ? [m[1], m[2]] : [t, ""]; };
+  let items = [], active = -1;
+  const visible = () => items.filter(it => !it.hidden);
+  function move(to, abs) {
+    const v = visible(); items.forEach(it => it.classList.remove("act"));
+    if (!v.length) { active = -1; return; }
+    const i = abs ? Math.max(0, Math.min(v.length - 1, to)) : Math.max(0, Math.min(v.length - 1, v.indexOf(items[active]) + to));
+    v[i].classList.add("act"); active = items.indexOf(v[i]);
+    const list = v[i].parentElement, top = v[i].offsetTop, bot = top + v[i].offsetHeight;
+    if (top < list.scrollTop) list.scrollTop = top;
+    else if (bot > list.scrollTop + list.clientHeight) list.scrollTop = bot - list.clientHeight;
+    menu.setAttribute("aria-activedescendant", v[i].id);
+  }
+  function build() {
+    const find = sel.options.length > 10;
+    menu.innerHTML = (find ? `<div class="dd-search"><input type="search" placeholder="Search ${esc(label.toLowerCase())}" aria-label="Search ${esc(label.toLowerCase())}" autocomplete="off"></div>` : "") +
+      `<div class="dd-list">${[...sel.options].map((o, i) => { const [t, n] = split(o.textContent);
+        return `<div class="dd-opt" role="option" id="${sel.id}-o${i}" data-v="${esc(o.value)}" aria-selected="${o.value === sel.value}"><span>${esc(t)}</span>${n ? `<small>${n}</small>` : ""}</div>`; }).join("")}</div><div class="dd-none" hidden>No matches</div>`;
+    items = [...menu.querySelectorAll(".dd-opt")];
+    const q = menu.querySelector("input");
+    if (q) q.addEventListener("input", () => {
+      const s = q.value.trim().toLowerCase();
+      items.forEach(it => { it.hidden = !!s && !it.querySelector("span").textContent.toLowerCase().includes(s); });
+      menu.querySelector(".dd-none").hidden = visible().length > 0;
+      move(0, true);
+    });
+  }
+  function open() {
+    DD.forEach(d => d.close()); build();
+    menu.hidden = false; btn.setAttribute("aria-expanded", "true");
+    menu.classList.remove("dd-right");
+    if (menu.getBoundingClientRect().right > document.documentElement.clientWidth - 8) menu.classList.add("dd-right");
+    move(Math.max(0, items.findIndex(it => it.dataset.v === sel.value)), true);
+    (menu.querySelector("input") || menu).focus({ preventScroll: true });
+  }
+  function close(focus) {
+    if (menu.hidden) return;
+    menu.hidden = true; btn.setAttribute("aria-expanded", "false");
+    if (focus) btn.focus();
+  }
+  function sync() {
+    const o = sel.options[sel.selectedIndex];
+    val.textContent = o ? split(o.textContent)[0] : "";
+    btn.classList.toggle("on", sel.classList.contains("on"));
+  }
+  function pick(it) {
+    if (!it) return;
+    if (sel.value !== it.dataset.v) { sel.value = it.dataset.v; sel.dispatchEvent(new Event("change", { bubbles: true })); }
+    close(true); sync();
+  }
+  btn.addEventListener("click", () => menu.hidden ? open() : close());
+  btn.addEventListener("keydown", e => { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(); } });
+  menu.addEventListener("click", e => pick(e.target.closest(".dd-opt")));
+  menu.addEventListener("mousemove", e => { const it = e.target.closest(".dd-opt"); if (it && items.indexOf(it) !== active) move(visible().indexOf(it), true); });
+  menu.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
+    else if (e.key === "Enter") { e.preventDefault(); pick(items[active]); }
+    else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(true); }
+    else if (e.key === "Tab") close();
+  });
+  const d = { box, close, sync }; DD.push(d); return d;
+}
+document.addEventListener("click", e => DD.forEach(d => { if (!d.box.contains(e.target)) d.close(); }));
+enhanceSelect($("tier"), "Tier");
+enhanceSelect($("board"), "Curriculum");
+enhanceSelect($("city"), "City");
+const syncDD = () => DD.forEach(d => d.sync());
 fillCities();
 render();
 </script>
