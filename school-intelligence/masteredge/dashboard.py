@@ -116,7 +116,6 @@ def _sales_detail(r: dict, target: tuple[int, int]) -> dict:
         "geo": [geo["lat"], geo["lon"]] if geo.get("lat") is not None else None,
         "ez": r["input"].get("ezyschooling_url"),
         "feeSrc": _src(f, "annual_fee"),
-        "feeYear": (_v(f, "annual_fee") or {}).get("academic_year"),
         "roles": _v(f, "decision_maker_roles") or [],
         "sroles": rec.get("decision_maker_roles_suggested") or [],
         "rg": rec.get("recommended_grades"),
@@ -222,7 +221,7 @@ def directory_rows(screen: dict, city_map: dict, researched_profiles: set[str],
                 "gen": d.get("gender"), "ty": d.get("type"), "med": d.get("medium"), "est": d.get("estd"),
                 "adm": d.get("admissions"), "rt": d.get("rating"), "rv": d.get("reviews"), "vw": d.get("views"),
                 "fac": [facility_index[f] for f in d.get("facilities") or [] if f in facility_index],
-                "fr": _fee_runs(bg_target), "fs": fee.get("session"),
+                "fr": _fee_runs(bg_target),
                 "f18": [min(in_target), max(in_target)] if in_target else None,
             }.items() if v not in (None, [], "")})
         rows.append(row)

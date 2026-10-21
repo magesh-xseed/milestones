@@ -153,8 +153,6 @@ dialog::backdrop { background: rgba(10, 14, 22, .45); }
 .src { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 6px; white-space: nowrap; }
 .src.official { color: var(--mid); border-color: var(--mid-bg); background: var(--mid-bg); }
 .pitch { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
-.comp { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
-.comp span:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
 .muted { color: var(--muted); font-size: 13px; }
 @media (max-width: 760px) {
   dialog { width: 100%; }
@@ -324,11 +322,9 @@ td { padding-block: 20px; }
     <div class="count-row">
       <p class="meta-line" id="count" aria-live="polite"></p>
       <div class="toggles" id="toggles" role="group" aria-label="Quick filters">
-        <button type="button" class="toggle" data-view="ranked" data-f="contact" aria-pressed="false">Has phone or email</button>
-        <button type="button" class="toggle" data-view="ranked" data-f="group" aria-pressed="false">Multi-campus group</button>
-        <button type="button" class="toggle" data-view="dir" data-f="adm" aria-pressed="false" hidden>Admissions ongoing</button>
+        <button type="button" class="toggle" data-view="ranked dir" data-f="contact" aria-pressed="false">Has phone or email</button>
+        <button type="button" class="toggle" data-view="ranked dir" data-f="group" aria-pressed="false">Multi-campus group</button>
         <button type="button" class="toggle" data-view="dir" data-f="smart" aria-pressed="false" hidden>Smart classes</button>
-        <button type="button" class="toggle" data-view="dir" data-f="researched" aria-pressed="false" hidden>Researched</button>
       </div>
       <div class="f-active" id="active" aria-label="Active filters"></div>
       <button type="button" class="f-clear" id="clear-all" hidden>Clear all</button>
@@ -409,7 +405,7 @@ const state = { v: "ranked", t: "all", city: "", q: "", board: "", f: new Set(),
 const TIER_ORDER = { ultra_premium: 0, premium: 1, upper_mid: 2, not_premium_by_fee: 3, unclassified: 4 };
 const COLS = {
   ranked: [["#", "rank", 1], ["School", "name", 1], ["Curriculum", "cur", 1], ["Tier", "tier", 1], ["Annual fee (per student)", "fee", -1]],
-  dir: [["#", "", 0], ["School", "name", 1], ["Board (listed)", "cur", 1], ["Annual fee per student (listed)", "fee", -1], ["Status", "status", 1]],
+  dir: [["#", "", 0], ["School", "name", 1], ["Board (listed)", "cur", 1], ["Annual fee per student (listed)", "fee", -1]],
 };
 const SORT_KEY = {
   rank: r => r.rank,
@@ -458,9 +454,9 @@ function filtered() {
     (state.t === "all" || (ranked ? r.t : dirTier(r)) === state.t) &&
     (!state.city || r.city === state.city) &&
     (!state.board || (ranked ? r.cur : r.b || []).includes(state.board)) &&
-    (!ranked || !state.f.has("contact") || hasContact(r)) &&
+    (!state.f.has("contact") || hasContact(ranked ? r : priorityOf(r))) &&
     (!state.f.has("target") || r.tgt) &&
-    (!ranked || !state.f.has("group") || r.grp) &&
+    (!state.f.has("group") || (ranked ? r : priorityOf(r)).grp) &&
     (ranked || !state.f.has("adm") || r.adm === "Ongoing") &&
     (ranked || !state.f.has("smart") || (r.fac || []).includes(SMART)) &&
     (ranked || !state.f.has("researched") || r.s) &&
@@ -521,7 +517,6 @@ function render() {
         ${facts.length ? `<div class="reach">${facts.map(f => `<span>${esc(f)}</span>`).join("<span>·</span>")}</div>` : ""}</td>
       <td class="cur">${chips(r.b)}</td>
       <td class="fee">${fee(r)}</td>
-      <td class="tier">${r.s ? '<span class="tag">Researched</span>' : '<small class="where">Listed only</small>'}</td>
       <td class="go"><span class="open-hint">Details →</span></td>
     </tr>`;
     }
@@ -580,13 +575,13 @@ function openDetail(r) {
             ["School type", esc(r.type || "")], ["Founded", esc(r.est || "")], ["Students", r.enr ? nf(r.enr) : '<span class="muted">Not published</span>'],
             ["Class size", esc(r.cls || "")],
             ["Group", esc(r.grp || "")], ["Campuses", esc(r.camp || "")], ["Parent organisation", esc(r.parent || "")]])}
-    </div>
-    ${(r.comps || []).length ? `<div class="sec"><h3>Why this fit score</h3>${r.comps.map(c =>
-      `<div class="comp" title="${esc(c.x)}"><span>${esc(c.k)}</span><span>${Math.round(c.s * 100)}%</span></div>`).join("")}</div>` : ""}`;
+    </div>`;
   $("dlg").showModal();
   $("d-body").scrollTop = 0;
 }
 const PRIORITY_BY_EZ = new Map(DATA.filter(r => r.ez).map(r => [r.ez.replace(/\/$/, ""), r]));
+// Directory rows carry no contacts or group; use the matching researched school, if any.
+const priorityOf = r => PRIORITY_BY_EZ.get(String(r.ez || "").replace(/\/$/, "")) || {};
 const glabel = g => g === -3 ? "Pre-Nursery" : g === -2 ? "Nursery" : g === -1 ? "LKG" : g === 0 ? "UKG" : `Grade ${g}`;
 const rupees = n => "₹" + nf(n);
 // Mirrors analysis.recommendations() (pitch angle, grades, complexity, roles), applied to Ezyschooling listing data.
@@ -621,7 +616,7 @@ function openDir(r) {
   act.push(`<a class="act" href="${esc(maps(r))}" target="_blank" rel="noopener">Map ↗</a>`);
   act.push(`<a class="act" href="${esc(r.ez)}" target="_blank" rel="noopener">Ezyschooling ↗</a>`);
   const fac = (r.fac || []).map(i => FAC[i]).filter(Boolean);
-  const tech = fac.filter(f => TECH.has(f)), other = fac.filter(f => !TECH.has(f));
+  const tech = fac.filter(f => TECH.has(f));
   const feeTable = (r.fr || []).map(([a, b, v]) =>
     `<dt>${esc(a === b ? glabel(a) : `${glabel(a)} – ${glabel(b)}`)}</dt><dd>${rupees(v)} a year</dd>`).join("");
   const f18 = r.f18 ? (r.f18[0] === r.f18[1] ? rupees(r.f18[0]) : `${rupees(r.f18[0])} – ${rupees(r.f18[1])}`) + " a year" : "";
@@ -649,13 +644,12 @@ function openDir(r) {
             ["Parent rating", r.rt ? `${r.rt} / 5 <span class="muted">(${nf(r.rv || 0)} review${r.rv === 1 ? "" : "s"})</span>` : ""],
             ["Profile views", r.vw ? nf(r.vw) : ""]])}
     </div>
-    <div class="sec"><h3>Fees, ${esc(META.target || "")} (listed${r.fs ? `, ${esc(r.fs)}` : ""})</h3>
+    <div class="sec"><h3>Fees, ${esc(META.target || "")} (listed)</h3>
       ${f18 ? kv([["Range", f18]]) : `<p class="muted" style="margin:0">${r.hi ? "No fee listed for these grades." : "No fee published on Ezyschooling."}</p>`}
       ${feeTable ? `<dl class="kv">${feeTable}</dl>` : ""}
     </div>
     <div class="sec"><h3>Technology in the classroom</h3>
       ${tech.length ? chips(tech) : '<p class="muted" style="margin:0">None listed.</p>'}</div>
-    ${other.length ? `<div class="sec"><h3>Other facilities</h3>${chips(other)}</div>` : ""}
    `;
   const b = document.getElementById("d-open-pr");
   if (b) b.addEventListener("click", () => openDetail(pr));
