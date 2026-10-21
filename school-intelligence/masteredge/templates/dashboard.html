@@ -319,7 +319,7 @@ td { padding-block: 20px; }
   </header>
 
   <section class="stats" aria-label="Summary">
-    <div class="stat"><b id="s-screened">0</b><span class="stat-lbl">Schools scanned across India<button type="button" class="info" aria-label="About schools scanned across India" aria-describedby="tip-screened">i</button></span><span class="tip" id="tip-screened" role="tooltip">All schools listed online across India, checked for board, fees and grades.</span></div>
+    <div class="stat"><b id="s-screened">0</b><span class="stat-lbl">Schools scanned across India<button type="button" class="info" aria-label="About schools scanned across India" aria-describedby="tip-screened">i</button></span><span class="tip" id="tip-screened" role="tooltip">Every school we scanned on the listings, across <span id="tip-cities">388</span> cities.</span></div>
     <div class="stat"><b id="s-total">0</b><span class="stat-lbl">Shortlisted premium schools<button type="button" class="info" aria-label="About shortlisted premium schools" aria-describedby="tip-total">i</button></span><span class="tip" id="tip-total" role="tooltip">Fees ₹2.5 L+ a year per student, or IB / Cambridge board. Contacts and grades taken from each school's own website.</span></div>
     <div class="stat"><b id="s-ultra">0</b><span>Ultra-premium · ₹8 L+ a year</span></div>
     <div class="stat"><b id="s-prem">0</b><span>Premium · ₹3.5–8 L a year</span></div>
@@ -427,7 +427,8 @@ const hasContact = r => (r.ph && r.ph.length) || (r.em && r.em.length);
 document.querySelectorAll(".tgt-lbl").forEach(e => e.textContent = META.target || "Nursery – Grade 8");
 
 DATA.forEach((r, i) => r.rank = i + 1);
-$("s-screened").textContent = nf(META.screened || META.dirCount || DATA.length);
+$("s-screened").textContent = nf(META.dirCount || DATA.length);  // same count as the directory tab
+if (META.cities) $("tip-cities").textContent = nf(META.cities);
 $("s-total").textContent = nf(DATA.length);
 $("n-ranked").textContent = nf(DATA.length);
 $("n-dir").textContent = nf(META.dirCount ?? DIR.length);
