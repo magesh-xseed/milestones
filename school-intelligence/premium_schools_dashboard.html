@@ -86,6 +86,7 @@ th[aria-sort] .th-sort i { opacity: 1; color: var(--accent); }
 .t-other { color: var(--none); background: var(--none-bg); }
 .fee { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .fee small { color: var(--muted); }
+td.fee, th.fee { text-align: center; }
 .fit { display: flex; align-items: center; gap: 10px; min-width: 120px; }
 .fit i { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
 .fit i::after { content: ""; display: block; height: 100%; width: var(--w); background: var(--bar); border-radius: 3px; }
@@ -105,6 +106,7 @@ th[aria-sort] .th-sort i { opacity: 1; color: var(--accent); }
   td.rank { grid-row: 1; padding-top: 1px; }
   td.school { grid-column: 2 / 4; }
   td.cur, td.fee { grid-column: 2 / 4; }
+  td.fee { text-align: left; }
   td.tier { grid-column: 2 / 4; }
   .fit { max-width: 220px; }
 }
@@ -431,7 +433,7 @@ function headRow(ranked) {
     const on = state.sort === k;
     const aria = on ? ` aria-sort="${state.dir === 1 ? "ascending" : "descending"}"` : "";
     const arrow = on ? (state.dir === 1 ? "↑" : "↓") : "↕";
-    return `<th${aria}><button type="button" class="th-sort" data-sort="${k}">${label}<i aria-hidden="true">${arrow}</i></button></th>`;
+    return `<th${aria}${k === "fee" ? ' class="fee"' : ""}><button type="button" class="th-sort" data-sort="${k}">${label}<i aria-hidden="true">${arrow}</i></button></th>`;
   };
   return `<tr>${COLS[ranked ? "ranked" : "dir"].map(cell).join("")}<th></th></tr>`;
 }
