@@ -104,7 +104,7 @@ th[aria-sort] .th-sort i { opacity: 1; color: var(--accent); }
   td { padding: 0; border: 0; }
   td.rank { grid-row: 1; padding-top: 1px; }
   td.school { grid-column: 2 / 4; }
-  td.cur, td.fee, td.fit-td { grid-column: 2 / 4; }
+  td.cur, td.fee { grid-column: 2 / 4; }
   td.tier { grid-column: 2 / 4; }
   .fit { max-width: 220px; }
 }
@@ -151,9 +151,7 @@ dialog::backdrop { background: rgba(10, 14, 22, .45); }
 .src { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 6px; white-space: nowrap; }
 .src.official { color: var(--mid); border-color: var(--mid-bg); background: var(--mid-bg); }
 .pitch { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
-.comp { display: grid; grid-template-columns: 1fr 90px 44px; gap: 10px; align-items: center; font-size: 13px; }
-.comp i { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
-.comp i::after { content: ""; display: block; height: 100%; width: var(--w); background: var(--bar); }
+.comp { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
 .comp span:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
 .muted { color: var(--muted); font-size: 13px; }
 @media (max-width: 760px) {
@@ -209,7 +207,7 @@ td { padding-block: 20px; }
   td { padding: 0; }
 }
 
-/* Filter toolbar: search | tier | curriculum | city | more filters, one row that wraps on small screens. */
+/* Filter toolbar: search | tier | curriculum | city, one row that wraps on small screens. */
 .filters { --h: 42px; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .filters :is(input, select, button) { transition: background-color .15s, border-color .15s, color .15s, box-shadow .15s; }
 .filters :is(input, select):is(:focus, :focus:hover), .filters button:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(165,16,52,.16); border-color: var(--accent); }
@@ -241,14 +239,15 @@ td { padding-block: 20px; }
 .f-dl-menu small { color: var(--muted); font-size: 11.5px; font-weight: 500; }
 .f-more-btn:disabled { opacity: .6; cursor: progress; }
 .f-lbl { display: block; padding: 6px 10px 4px; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #8f8689; }
-.filters .toggles { display: grid; gap: 2px; }
-.filters .toggle { display: flex; align-items: center; gap: 10px; width: 100%; height: 36px; padding: 0 10px; font-size: 13px; font-weight: 500; text-align: left; color: var(--ink); background: transparent; border: 0; border-radius: 6px; white-space: nowrap; }
-.filters .toggle[hidden] { display: none; }
-.filters .toggle::before { content: ""; flex: none; width: 16px; height: 16px; border: 1.5px solid #cfc8ca; border-radius: 4px; background: var(--surface) no-repeat center / 12px; }
-.filters .toggle:hover { background: #f6f3f4; }
-.filters .toggle[aria-pressed="true"] { color: var(--accent); font-weight: 600; background: transparent; }
-.filters .toggle[aria-pressed="true"]:hover { background: var(--accent-soft); }
-.filters .toggle[aria-pressed="true"]::before { border-color: var(--accent); background-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m2.5 6.2 2.3 2.3 4.7-5' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px; font: inherit; font-size: 12.5px; font-weight: 500; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; cursor: pointer; }
+.toggle[hidden] { display: none; }
+.toggle::before { content: ""; flex: none; width: 14px; height: 14px; border: 1.5px solid #cfc8ca; border-radius: 4px; background: var(--surface) no-repeat center / 12px; }
+.toggle:hover { background: #f6f3f4; }
+.toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(165,16,52,.16); border-color: var(--accent); }
+.toggle[aria-pressed="true"] { color: var(--accent); font-weight: 600; background: var(--accent-soft); border-color: var(--accent-soft); }
+.toggle[aria-pressed="true"]:hover { background: var(--accent-soft); }
+.toggle[aria-pressed="true"]::before { border-color: var(--accent); background-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m2.5 6.2 2.3 2.3 4.7-5' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
 .count-row { justify-content: flex-start; gap: 8px 12px; min-height: 30px; }
 .count-row .meta-line { color: var(--ink); font-size: 13px; }
 .count-row .meta-line b { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
@@ -268,8 +267,6 @@ td { padding-block: 20px; }
 @media (max-width: 600px) {
   .f-search input, .filters select { font-size: 16px; }
   .filters select { flex: 1 1 calc(50% - 4px); }
-  .f-more { flex: 1 1 calc(50% - 4px); }
-  .f-more-btn { width: 100%; justify-content: center; }
   .f-panel { width: min(280px, calc(100vw - 32px)); }
 }
 </style>
@@ -293,8 +290,8 @@ td { padding-block: 20px; }
   </header>
 
   <section class="stats" aria-label="Summary">
-    <div class="stat"><b id="s-screened">0</b><span class="stat-lbl">Schools screened<button type="button" class="info" aria-label="About schools screened" aria-describedby="tip-screened">i</button></span><span class="tip" id="tip-screened" role="tooltip">Schools listed online across India. Quick check of board, fees and grades. Not yet confirmed with the school.</span></div>
-    <div class="stat"><b id="s-total">0</b><span class="stat-lbl">Researched in depth<button type="button" class="info" aria-label="About researched in depth" aria-describedby="tip-total">i</button></span><span class="tip" id="tip-total" role="tooltip">Schools with fees of ₹2.5 L+ a year or an IB / Cambridge board. We checked each school's own website for contacts, grades and curriculum. These are in the <b>Priority list</b>.</span></div>
+    <div class="stat"><b id="s-screened">0</b><span class="stat-lbl">Schools scanned across India<button type="button" class="info" aria-label="About schools scanned across India" aria-describedby="tip-screened">i</button></span><span class="tip" id="tip-screened" role="tooltip">All schools listed online across India, checked for board, fees and grades.</span></div>
+    <div class="stat"><b id="s-total">0</b><span class="stat-lbl">Shortlisted premium schools<button type="button" class="info" aria-label="About shortlisted premium schools" aria-describedby="tip-total">i</button></span><span class="tip" id="tip-total" role="tooltip">Fees ₹2.5 L+ a year per student, or IB / Cambridge board.</span></div>
     <div class="stat"><b id="s-ultra">0</b><span>Ultra-premium · ₹8 L+ a year</span></div>
     <div class="stat"><b id="s-prem">0</b><span>Premium · ₹3.5–8 L a year</span></div>
     <div class="stat"><b id="s-reach">0</b><span>With a public phone or email</span></div>
@@ -321,25 +318,16 @@ td { padding-block: 20px; }
         <option value="">All curricula</option><option>IB</option><option>Cambridge</option><option>CBSE</option><option>ICSE</option><option>State</option>
       </select>
       <select id="city" aria-label="Filter by city"><option value="">All cities</option></select>
-      <div class="f-more">
-        <button type="button" class="f-more-btn" id="more-f" aria-expanded="false" aria-controls="more-panel">
-          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 6h13M6 10h8M8.5 14h3"/></svg>
-          More filters <span class="f-badge" id="more-n" hidden></span>
-        </button>
-        <div class="f-panel" id="more-panel" hidden>
-          <span class="f-lbl" id="quick-lbl">More filters</span>
-          <div class="toggles" id="toggles" role="group" aria-labelledby="quick-lbl">
-            <button type="button" class="toggle" data-view="ranked" data-f="contact" aria-pressed="false">Has phone or email</button>
-            <button type="button" class="toggle" data-view="ranked" data-f="group" aria-pressed="false">Multi-campus group</button>
-            <button type="button" class="toggle" data-view="dir" data-f="adm" aria-pressed="false" hidden>Admissions ongoing</button>
-            <button type="button" class="toggle" data-view="dir" data-f="smart" aria-pressed="false" hidden>Smart classes</button>
-            <button type="button" class="toggle" data-view="dir" data-f="researched" aria-pressed="false" hidden>Researched</button>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="count-row">
       <p class="meta-line" id="count" aria-live="polite"></p>
+      <div class="toggles" id="toggles" role="group" aria-label="Quick filters">
+        <button type="button" class="toggle" data-view="ranked" data-f="contact" aria-pressed="false">Has phone or email</button>
+        <button type="button" class="toggle" data-view="ranked" data-f="group" aria-pressed="false">Multi-campus group</button>
+        <button type="button" class="toggle" data-view="dir" data-f="adm" aria-pressed="false" hidden>Admissions ongoing</button>
+        <button type="button" class="toggle" data-view="dir" data-f="smart" aria-pressed="false" hidden>Smart classes</button>
+        <button type="button" class="toggle" data-view="dir" data-f="researched" aria-pressed="false" hidden>Researched</button>
+      </div>
       <div class="f-active" id="active" aria-label="Active filters"></div>
       <button type="button" class="f-clear" id="clear-all" hidden>Clear all</button>
       <div class="f-dl">
@@ -418,8 +406,8 @@ if ($("h-cities")) $("h-cities").textContent = META.cities || new Set([...DATA, 
 const state = { v: "ranked", t: "all", city: "", q: "", board: "", f: new Set(), shown: PAGE, sort: "", dir: 1 };
 const TIER_ORDER = { ultra_premium: 0, premium: 1, upper_mid: 2, not_premium_by_fee: 3, unclassified: 4 };
 const COLS = {
-  ranked: [["#", "rank", 1], ["School", "name", 1], ["Curriculum", "cur", 1], ["Tier", "tier", 1], ["Annual fee", "fee", -1], ["Fit score", "fit", -1]],
-  dir: [["#", "", 0], ["School", "name", 1], ["Board (listed)", "cur", 1], ["Annual fee (listed)", "fee", -1], ["Status", "status", 1]],
+  ranked: [["#", "rank", 1], ["School", "name", 1], ["Curriculum", "cur", 1], ["Tier", "tier", 1], ["Annual fee (per student)", "fee", -1]],
+  dir: [["#", "", 0], ["School", "name", 1], ["Board (listed)", "cur", 1], ["Annual fee per student (listed)", "fee", -1], ["Status", "status", 1]],
 };
 const SORT_KEY = {
   rank: r => r.rank,
@@ -490,17 +478,12 @@ function renderSummary(n, total) {
   $("count").innerHTML = af.length
     ? `<b>${nf(n)}</b> of ${nf(total)} school${total === 1 ? "" : "s"} match`
     : `<b>${nf(n)}</b> school${n === 1 ? "" : "s"}`;
-  $("active").innerHTML = af.map((a, i) =>
+  $("active").innerHTML = af.map((a, i) => a.k === "f" ? "" :
     `<button type="button" class="f-chip" data-i="${i}" aria-label="Remove filter: ${esc(a.label)}"><span>${esc(a.label)}</span><i aria-hidden="true">×</i></button>`).join("");
   $("clear-all").hidden = !af.length;
   $("board").classList.toggle("on", !!state.board);
   $("city").classList.toggle("on", !!state.city);
   $("tier").classList.toggle("on", state.t !== "all");
-  const nMore = $("toggles").querySelectorAll('button[aria-pressed="true"]').length;
-  $("more-n").textContent = nMore;
-  $("more-n").hidden = !nMore;
-  $("more-f").classList.toggle("on", nMore > 0);
-  $("more-f").setAttribute("aria-label", nMore ? `More filters, ${nMore} active` : "More filters");
   $("q-clear").hidden = !state.q;
 }
 function setTier(t) {
@@ -547,7 +530,6 @@ function render() {
       <td class="cur">${chips(r.cur)}</td>
       <td class="tier"><span class="pill t-${cls}">${TIER[r.t] || r.t}</span></td>
       <td class="fee">${fee(r)}</td>
-      <td class="fit-td"><div class="fit" title="Fit score ${r.fit} of 100"><i style="--w:${Math.max(0, Math.min(100, r.fit))}%"></i><b>${Math.round(r.fit)}</b></div></td>
       <td class="go"><span class="open-hint">Details →</span></td>
     </tr>`;
   }).join("");
@@ -593,12 +575,12 @@ function openDetail(r) {
     </div>
     <div class="sec"><h3>School profile</h3>
       ${kv([["Annual fee", feeLine], ["Grades offered", esc(r.g || "")], ["Curriculum by grade", cbg],
-            ["School type", esc(r.type || "")], ["Founded", esc(r.est || "")], ["Students", r.enr ? nf(r.enr) : ""],
-            ["Class size", esc(r.cls || "")], ["Student–teacher ratio", esc(r.ratio || "")],
+            ["School type", esc(r.type || "")], ["Founded", esc(r.est || "")], ["Students", r.enr ? nf(r.enr) : '<span class="muted">Not published</span>'],
+            ["Class size", esc(r.cls || "")],
             ["Group", esc(r.grp || "")], ["Campuses", esc(r.camp || "")], ["Parent organisation", esc(r.parent || "")]])}
     </div>
     ${(r.comps || []).length ? `<div class="sec"><h3>Why this fit score</h3>${r.comps.map(c =>
-      `<div class="comp" title="${esc(c.x)}"><span>${esc(c.k)}</span><i style="--w:${Math.round(c.s * 100)}%"></i><span>${Math.round(c.s * c.w)}/${c.w}</span></div>`).join("")}</div>` : ""}`;
+      `<div class="comp" title="${esc(c.x)}"><span>${esc(c.k)}</span><span>${Math.round(c.s * 100)}%</span></div>`).join("")}</div>` : ""}`;
   $("dlg").showModal();
   $("d-body").scrollTop = 0;
 }
@@ -836,15 +818,6 @@ document.querySelector(".views").addEventListener("click", e => {
   fillCities(); reset();
 });
 $("tier").addEventListener("change", e => { setTier(e.target.value); reset(); });
-const setMore = open => {
-  $("more-panel").hidden = !open;
-  $("more-f").setAttribute("aria-expanded", String(open));
-};
-$("more-f").addEventListener("click", () => setMore($("more-panel").hidden));
-document.addEventListener("click", e => { if (!e.target.closest(".f-more")) setMore(false); });
-document.querySelector(".f-more").addEventListener("keydown", e => {
-  if (e.key === "Escape" && !$("more-panel").hidden) { e.stopPropagation(); setMore(false); $("more-f").focus(); }
-});
 $("active").addEventListener("click", e => {
   const b = e.target.closest(".f-chip"); if (!b) return;
   clearFilter(activeFilters()[+b.dataset.i]);

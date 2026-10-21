@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MASTEREDGE Premium Schools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* MASTEREDGE: white surfaces, Inter typography, and signature crimson. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --ink: #242424;
+  --muted: #686868;
+  --line: #e8e5e6;
+  --accent: #a51034;
+  --accent-soft: #fcf1f4;
+  --ultra: #8b0d2b; --ultra-bg: #f7e5eb;
+  --prem: #a51034; --prem-bg: #fcf0f3;
+  --mid: #4f6058; --mid-bg: #edf3ef;
+  --none: #686868; --none-bg: #f2f2f2;
+  --bar: #a51034;
+  --display: 'Inter', sans-serif;
+  --body: 'Inter', sans-serif;
+}
+
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 48px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 32px; }
+
+header { display: grid; gap: 10px; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 4vw, 44px); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.sub { color: var(--muted); margin: 0; max-width: 60ch; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.stat { padding: 20px 24px; display: grid; gap: 2px; background: var(--surface); }
+.stat b { font-family: var(--display); font-weight: 700; font-size: 34px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 13px; }
+.stat { position: relative; }
+.stat-lbl { display: inline-flex; align-items: center; gap: 6px; }
+.info { display: inline-grid; place-items: center; width: 16px; height: 16px; padding: 0; font: italic 700 11px/1 Georgia, serif; color: var(--muted); background: transparent; border: 1.5px solid currentColor; border-radius: 50%; cursor: help; }
+.info:hover, .info:focus-visible { color: var(--accent); }
+.tip { position: absolute; left: 0; width: min(340px, calc(100vw - 32px)); top: calc(100% + 8px); z-index: 30; padding: 12px 14px; font-size: 12.5px; line-height: 1.55; font-weight: 400; color: #fff; background: #2a1d21; border-radius: 8px; box-shadow: 0 8px 24px rgba(35, 20, 25, .18); opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .15s, transform .15s, visibility .15s; pointer-events: none; }
+.tip::before { content: ""; position: absolute; top: -5px; left: 22px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); }
+.stat:has(.info:hover) .tip, .stat:has(.info:focus) .tip { opacity: 1; visibility: visible; transform: none; }
+.stat .tip { color: #fff; font-size: 12.5px; line-height: 1.55; }
+.stat .tip b { font: inherit; font-weight: 700; color: #fff; letter-spacing: 0; }
+@media (max-width: 640px) { .stat:nth-child(even) .tip { left: auto; right: 0; } .stat:nth-child(even) .tip::before { left: auto; right: 22px; } }
+
+.bar-tools { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; }
+.seg button { font: inherit; font-size: 13px; font-weight: 500; border: 0; background: transparent; color: var(--muted); padding: 7px 14px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button:hover:not([aria-pressed="true"]) { color: var(--ink); }
+input, select { font: inherit; font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; }
+#q { flex: 1 1 220px; min-width: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:focus:not(:focus-visible) { outline: none; box-shadow: none; }
+
+.list { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 14px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: #fcf1f438; }
+.th-sort { font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.th-sort:hover, th[aria-sort] .th-sort { color: var(--ink); }
+.th-sort i { font-style: normal; opacity: .35; }
+th[aria-sort] .th-sort i { opacity: 1; color: var(--accent); }
+.rank { color: var(--muted); font-variant-numeric: tabular-nums; width: 1%; }
+.name { font-weight: 600; }
+.name a { color: inherit; text-decoration: none; }
+.name a:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.where { color: var(--muted); font-size: 13px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { max-width: 100%; white-space: normal; font-size: 12px; border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; color: var(--muted); white-space: nowrap; }
+.pill { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+.t-ultra_premium { color: var(--ultra); background: var(--ultra-bg); }
+.t-premium { color: var(--prem); background: var(--prem-bg); }
+.t-upper_mid { color: var(--mid); background: var(--mid-bg); }
+.t-other { color: var(--none); background: var(--none-bg); }
+.fee { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fee small { color: var(--muted); }
+.fit { display: flex; align-items: center; gap: 10px; min-width: 120px; }
+.fit i { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.fit i::after { content: ""; display: block; height: 100%; width: var(--w); background: var(--bar); border-radius: 3px; }
+.fit b { font-weight: 600; font-variant-numeric: tabular-nums; width: 2ch; text-align: right; }
+.empty { padding: 40px; text-align: center; color: var(--muted); }
+.note { color: var(--muted); font-size: 13px; margin: 0; max-width: 80ch; }
+
+@media (max-width: 760px) {
+  .wrap { padding-block: 28px 48px; gap: 24px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  thead { display: none; }
+  table, tbody, tr, td { display: block; }
+  tr { display: grid; grid-template-columns: auto 1fr auto; gap: 6px 12px; padding: 16px; border-bottom: 1px solid var(--line); }
+  tr:last-child { border-bottom: 0; }
+  td { padding: 0; border: 0; }
+  td.rank { grid-row: 1; padding-top: 1px; }
+  td.school { grid-column: 2 / 4; }
+  td.cur, td.fee { grid-column: 2 / 4; }
+  td.tier { grid-column: 2 / 4; }
+  .fit { max-width: 220px; }
+}
+.views { display: flex; gap: 24px; border-bottom: 1px solid var(--line); }
+.views button { font: inherit; font-weight: 600; font-size: 15px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); padding: 0 0 12px; margin-bottom: -1px; cursor: pointer; }
+.views button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab-n { font-weight: 500; font-variant-numeric: tabular-nums; opacity: .7; margin-left: 2px; }
+.tab-n::before { content: "("; } .tab-n::after { content: ")"; }
+.more { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 16px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+.more button { font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+.tag { font-size: 12px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+.meta-line { color: var(--muted); font-size: 13px; margin: 0; }
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0}
+[hidden]{display:none!important}
+
+.toggles { display: flex; flex-wrap: wrap; gap: 8px; }
+.toggle { font: inherit; font-size: 13px; font-weight: 500; color: var(--muted); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.toggle[aria-pressed="true"] { color: var(--ink); border-color: var(--accent); background: var(--accent-soft); }
+.btn { font: inherit; font-size: 13px; font-weight: 600; color: var(--bg); background: var(--ink); border: 0; border-radius: 999px; padding: 9px 16px; cursor: pointer; white-space: nowrap; }
+.btn.ghost { color: var(--ink); background: var(--surface); border: 1px solid var(--line); }
+.count-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.reach { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.reach b { color: var(--accent); font-weight: 600; }
+tbody tr.click { cursor: pointer; }
+.open-hint { color: var(--accent); font-size: 12px; font-weight: 600; white-space: nowrap; }
+
+dialog { border: 0; padding: 0; margin: 0 0 0 auto; inset: 0 0 0 auto; height: 100%; max-height: 100%; max-width: 100%; width: min(560px, 100vw); overflow: hidden; background: var(--surface); color: var(--ink); box-shadow: -12px 0 40px rgba(0,0,0,.18); }
+dialog::backdrop { background: rgba(10, 14, 22, .45); }
+.dlg { display: grid; grid-template-rows: auto 1fr; grid-template-columns: minmax(0, 1fr); height: 100%; overflow-wrap: anywhere; }
+.dlg-head { padding: 24px 24px 16px; border-bottom: 1px solid var(--line); display: grid; gap: 8px; position: relative; }
+.dlg-head h2 { font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1.15; margin: 0; padding-right: 40px; }
+.dlg-close { position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 18px; cursor: pointer; }
+.dlg-body { overflow-y: auto; padding: 8px 24px 32px; }
+.sec { padding: 18px 0; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
+.sec:last-child { border-bottom: 0; }
+.sec h3 { margin: 0; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.act { max-width: 100%; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; text-decoration: none; }
+.act:hover { border-color: var(--accent); }
+.kv { display: grid; grid-template-columns: 150px 1fr; gap: 6px 16px; font-size: 14px; margin: 0; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; }
+.src { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 6px; white-space: nowrap; }
+.src.official { color: var(--mid); border-color: var(--mid-bg); background: var(--mid-bg); }
+.pitch { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.comp { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
+.comp span:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.muted { color: var(--muted); font-size: 13px; }
+@media (max-width: 760px) {
+  dialog { width: 100%; }
+  .kv { grid-template-columns: 1fr; gap: 0 0; }
+  .kv dd { margin-bottom: 8px; }
+  td.go { display: none; }
+}
+
+/* Brand chrome and restrained elevation echo the premium MASTEREDGE portal. */
+.brandbar { border-bottom: 1px solid var(--line); background: var(--surface); }
+.brandbar-inner { max-width: 1280px; margin: auto; min-height: 76px; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.brand-wordmark { font-size: 24px; font-weight: 800; letter-spacing: -.06em; line-height: 1; color: #151515; }
+.brand-wordmark span { color: var(--accent); }
+.brand-tagline { margin-top: 7px; font-size: 8px; font-weight: 600; letter-spacing: .19em; text-transform: uppercase; color: var(--ink); }
+.brand-context { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.wrap { max-width: 1280px; padding-block: 28px 64px; gap: 30px; padding-inline: 24px; }
+header { gap: 14px; }
+header::after { content: ''; width: 56px; height: 4px; border-radius: 2px; background: var(--accent); margin-top: 7px; }
+.sub { max-width: 84ch; font-size: 14px; line-height: 1.75; }
+.stats { gap: 16px; background: transparent; border: 0; border-radius: 0; overflow: visible; }
+.stat { padding: 23px 20px; gap: 8px; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 3px 14px rgba(35, 20, 25, .04); }
+.stat b { color: var(--accent); letter-spacing: -.04em; }
+.stat span { font-size: 12px; line-height: 1.5; }
+.views { gap: 28px; }
+.views button { padding-bottom: 15px; font-size: 14px; }
+.views button[aria-selected="true"] { color: var(--accent); border-bottom-width: 3px; }
+.seg, input, select, .toggle, .btn, .more button, .act { border-radius: 7px; }
+.seg { background: #faf9f9; }
+.seg button { border-radius: 5px; font-weight: 600; }
+.seg button[aria-pressed="true"], .btn { background: var(--accent); color: #fff; }
+.seg button[aria-pressed="true"] { box-shadow: 0 2px 5px rgba(165,16,52,.14); }
+.btn:hover { background: #8b0d2b; }
+.btn.ghost { color: var(--accent); background: var(--surface); border-color: var(--line); }
+.btn.ghost:hover, .more button:hover, .act:hover { background: var(--accent-soft); border-color: var(--accent); }
+.toggle[aria-pressed="true"] { color: var(--accent); }
+.list { border-radius: 10px; box-shadow: 0 3px 18px rgba(35,20,25,.035); }
+th { background: #faf8f9; color: #72666a; font-size: 10px; padding-block: 17px; }
+td { padding-block: 20px; }
+.name { font-weight: 700; font-size: 14px; }
+.where, .reach { margin-top: 5px; }
+.sec h3 { color: var(--accent); }
+.dlg-head { border-top: 4px solid var(--accent); }
+@media (max-width: 760px) {
+  .brandbar-inner { min-height: 68px; padding: 14px 16px; }
+  .brand-context { max-width: 100px; text-align: right; font-size: 9px; line-height: 1.6; }
+  .wrap { padding: 28px 16px 48px; gap: 24px; }
+  .stats { gap: 10px; }
+  .stat { padding: 18px 14px; }
+  .stat b { font-size: 28px; }
+  .views { gap: 20px; }
+  .views button { font-size: 13px; }
+  td { padding: 0; }
+}
+
+/* Filter toolbar: search | tier | curriculum | city | more filters, one row that wraps on small screens. */
+.filters { --h: 42px; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.filters :is(input, select, button) { transition: background-color .15s, border-color .15s, color .15s, box-shadow .15s; }
+.filters :is(input, select):is(:focus, :focus:hover), .filters button:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(165,16,52,.16); border-color: var(--accent); }
+.f-search { position: relative; flex: 1 1 280px; min-width: 0; }
+.f-search input { width: 100%; height: var(--h); padding: 0 40px; font-size: 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); }
+.f-search input::placeholder { color: #9a9294; }
+.f-search input:hover { border-color: #d6d0d2; }
+.f-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.f-ico { position: absolute; left: 13px; top: 50%; width: 17px; height: 17px; transform: translateY(-50%); fill: none; stroke: #8f8689; stroke-width: 1.8; stroke-linecap: round; pointer-events: none; }
+.f-x { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; }
+.f-x:hover { background: var(--accent-soft); color: var(--accent); }
+.f-x svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.filters select { flex: 0 1 172px; min-width: 0; height: var(--h); padding: 0 34px 0 12px; font-size: 13px; font-weight: 500; border-radius: 8px; border: 1px solid var(--line); background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m6 8 4 4 4-4' fill='none' stroke='%23686868' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center / 16px; -webkit-appearance: none; appearance: none; cursor: pointer; text-overflow: ellipsis; }
+.filters select:hover { border-color: #d6d0d2; }
+.filters select.on { color: var(--accent); background-color: var(--accent-soft); font-weight: 600; }
+.f-more { position: relative; flex: none; }
+.f-more-btn { display: inline-flex; align-items: center; gap: 8px; height: var(--h); padding: 0 14px; font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; white-space: nowrap; }
+.f-more-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.f-more-btn:hover { border-color: #d6d0d2; }
+.f-more-btn.on, .f-more-btn[aria-expanded="true"] { color: var(--accent); background: var(--accent-soft); }
+.f-badge { display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; font-size: 11px; font-weight: 700; color: #fff; background: var(--accent); border-radius: 999px; font-variant-numeric: tabular-nums; }
+.f-badge[hidden] { display: none; }
+.f-panel { position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; width: 248px; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 28px rgba(36,36,36,.12); }
+.f-panel[hidden] { display: none; }
+.f-dl { --h: 36px; position: relative; flex: none; margin-left: auto; }
+.f-dl-menu { width: 200px; display: grid; gap: 2px; }
+.f-dl-menu button { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 36px; padding: 0 10px; font: inherit; font-size: 13px; font-weight: 500; color: var(--ink); background: transparent; border: 0; border-radius: 6px; cursor: pointer; text-align: left; }
+.f-dl-menu button:hover { background: var(--accent-soft); color: var(--accent); }
+.f-dl-menu small { color: var(--muted); font-size: 11.5px; font-weight: 500; }
+.f-more-btn:disabled { opacity: .6; cursor: progress; }
+.f-lbl { display: block; padding: 6px 10px 4px; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #8f8689; }
+.filters .toggles { display: grid; gap: 2px; }
+.filters .toggle { display: flex; align-items: center; gap: 10px; width: 100%; height: 36px; padding: 0 10px; font-size: 13px; font-weight: 500; text-align: left; color: var(--ink); background: transparent; border: 0; border-radius: 6px; white-space: nowrap; }
+.filters .toggle[hidden] { display: none; }
+.filters .toggle::before { content: ""; flex: none; width: 16px; height: 16px; border: 1.5px solid #cfc8ca; border-radius: 4px; background: var(--surface) no-repeat center / 12px; }
+.filters .toggle:hover { background: #f6f3f4; }
+.filters .toggle[aria-pressed="true"] { color: var(--accent); font-weight: 600; background: transparent; }
+.filters .toggle[aria-pressed="true"]:hover { background: var(--accent-soft); }
+.filters .toggle[aria-pressed="true"]::before { border-color: var(--accent); background-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='m2.5 6.2 2.3 2.3 4.7-5' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.count-row { justify-content: flex-start; gap: 8px 12px; min-height: 30px; }
+.count-row .meta-line { color: var(--ink); font-size: 13px; }
+.count-row .meta-line b { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.f-active { display: flex; flex-wrap: wrap; gap: 6px; }
+.f-active:empty { display: none; }
+.f-chip { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 4px 0 10px; font: inherit; font-size: 12px; font-weight: 500; color: var(--ink); background: #f4f1f2; border: 0; border-radius: 6px; cursor: pointer; max-width: 260px; }
+.f-chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.f-chip i { font-style: normal; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 4px; color: var(--muted); font-size: 14px; line-height: 1; }
+.f-chip:hover { background: var(--accent-soft); color: var(--accent); }
+.f-chip:hover i { color: var(--accent); }
+.f-clear { font: inherit; font-size: 12.5px; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 4px 2px; cursor: pointer; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; }
+.f-clear:hover { text-decoration-color: currentColor; }
+@media (max-width: 900px) {
+  .f-search { flex-basis: 100%; }
+  .filters select { flex: 1 1 0; }
+}
+@media (max-width: 600px) {
+  .f-search input, .filters select { font-size: 16px; }
+  .filters select { flex: 1 1 calc(50% - 4px); }
+  .f-more { flex: 1 1 calc(50% - 4px); }
+  .f-more-btn { width: 100%; justify-content: center; }
+  .f-panel { width: min(280px, calc(100vw - 32px)); }
+}
+</style>
+</head>
+<body>
+<!-- <div class="brandbar">
+  <div class="brandbar-inner">
+    <div aria-label="MASTEREDGE — Mastering Human Intelligence">
+      <div class="brand-wordmark">MASTER<span>EDGE</span></div>
+      <div class="brand-tagline">Mastering Human Intelligence</div>
+    </div>
+    <div class="brand-context">School Insights</div>
+  </div>
+</div> -->
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">MASTEREDGE · Sales priority list</div>
+    <h1>Premium schools in India</h1>
+    <!-- <p class="sub">Every school listed on Ezyschooling across <span id="h-cities">0</span> cities was screened. Premium-relevant schools were then researched on their official websites. Updated <span id="h-date"></span>.</p> -->
+  </header>
+
+  <section class="stats" aria-label="Summary">
+    <div class="stat"><b id="s-screened">0</b><span class="stat-lbl">Schools screened<button type="button" class="info" aria-label="About schools screened" aria-describedby="tip-screened">i</button></span><span class="tip" id="tip-screened" role="tooltip">Schools listed online across India. Quick check of board, fees and grades. Not yet confirmed with the school.</span></div>
+    <div class="stat"><b id="s-total">0</b><span class="stat-lbl">Researched in depth<button type="button" class="info" aria-label="About researched in depth" aria-describedby="tip-total">i</button></span><span class="tip" id="tip-total" role="tooltip">Schools with fees of ₹2.5 L+ a year or an IB / Cambridge board. We checked each school's own website for contacts, grades and curriculum. These are in the <b>Priority list</b>.</span></div>
+    <div class="stat"><b id="s-ultra">0</b><span>Ultra-premium · ₹8 L+ a year</span></div>
+    <div class="stat"><b id="s-prem">0</b><span>Premium · ₹3.5–8 L a year</span></div>
+    <div class="stat"><b id="s-reach">0</b><span>With a public phone or email</span></div>
+  </section>
+
+  <section style="display:grid;gap:16px">
+    <div class="views" role="tablist">
+      <button type="button" role="tab" data-v="ranked" aria-selected="true">Priority list <span class="tab-n" id="n-ranked"></span></button>
+      <button type="button" role="tab" data-v="dir" aria-selected="false">All schools directory <span class="tab-n" id="n-dir"></span></button>
+    </div>
+
+    <div class="filters" role="search" aria-label="Filter schools">
+      <div class="f-search">
+        <svg class="f-ico" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.75"/><path d="m13 13 4.25 4.25"/></svg>
+        <input id="q" type="search" placeholder="Search by school name, area or city" aria-label="Search schools" autocomplete="off">
+        <button type="button" class="f-x" id="q-clear" aria-label="Clear search" hidden>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 6 8 8M14 6l-8 8"/></svg>
+        </button>
+      </div>
+      <select id="tier" aria-label="Filter by tier">
+        <option value="all">All tiers</option><option value="ultra_premium">Ultra-premium</option><option value="premium">Premium</option><option value="upper_mid">Upper-mid</option>
+      </select>
+      <select id="board" aria-label="Filter by curriculum">
+        <option value="">All curricula</option><option>IB</option><option>Cambridge</option><option>CBSE</option><option>ICSE</option><option>State</option>
+      </select>
+      <select id="city" aria-label="Filter by city"><option value="">All cities</option></select>
+      <div class="f-more">
+        <button type="button" class="f-more-btn" id="more-f" aria-expanded="false" aria-controls="more-panel">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 6h13M6 10h8M8.5 14h3"/></svg>
+          More filters <span class="f-badge" id="more-n" hidden></span>
+        </button>
+        <div class="f-panel" id="more-panel" hidden>
+          <span class="f-lbl" id="quick-lbl">More filters</span>
+          <div class="toggles" id="toggles" role="group" aria-labelledby="quick-lbl">
+            <button type="button" class="toggle" data-view="ranked" data-f="contact" aria-pressed="false">Has phone or email</button>
+            <button type="button" class="toggle" data-view="ranked" data-f="group" aria-pressed="false">Multi-campus group</button>
+            <button type="button" class="toggle" data-view="dir" data-f="adm" aria-pressed="false" hidden>Admissions ongoing</button>
+            <button type="button" class="toggle" data-view="dir" data-f="smart" aria-pressed="false" hidden>Smart classes</button>
+            <button type="button" class="toggle" data-view="dir" data-f="researched" aria-pressed="false" hidden>Researched</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="count-row">
+      <p class="meta-line" id="count" aria-live="polite"></p>
+      <div class="f-active" id="active" aria-label="Active filters"></div>
+      <button type="button" class="f-clear" id="clear-all" hidden>Clear all</button>
+      <div class="f-dl">
+        <button type="button" class="f-more-btn" id="dl-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dl-menu">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5v9M6 9l4 4 4-4M4 16.5h12" stroke-linejoin="round"/></svg>
+          <span id="dl-lbl">Download</span>
+        </button>
+        <div class="f-panel f-dl-menu" id="dl-menu" role="menu" hidden>
+          <button type="button" role="menuitem" data-fmt="xlsx">Excel <small>.xlsx</small></button>
+          <button type="button" role="menuitem" data-fmt="pdf">PDF <small>.pdf</small></button>
+          <button type="button" role="menuitem" data-fmt="csv">CSV <small>.csv</small></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="list">
+      <table>
+        <thead id="head"></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>No schools match these filters.</div>
+      <div class="more" id="more" hidden><span id="more-txt"></span><button type="button" id="more-btn">Show more</button></div>
+    </div>
+  </section>
+
+  <!-- <p class="note" id="note-ranked">Select a school for contacts, who to approach, the pitch angle and what to confirm on the first call. Fit score (out of 100) is a guide for prioritising outreach, not a purchase forecast. Fees marked "listing" come from Ezyschooling and should be confirmed with the school. Contacts are the school's own published lines and role mailboxes; no personal data is collected.</p> -->
+  <!-- <p class="note" id="note-dir" hidden>The directory lists every screened school that teaches <span class="tgt-lbl">Pre-Nursery – Grade 8</span>. Select a school for its grades, per-grade fees, admissions status and facilities. These figures are unverified listing data. A school was researched in depth if its listed fee reaches ₹2.5 L a year or it lists IB or Cambridge.</p> -->
+</div>
+
+<dialog id="dlg" aria-labelledby="d-name">
+  <div class="dlg">
+    <div class="dlg-head">
+      <button type="button" class="dlg-close" id="d-close" aria-label="Close">×</button>
+      <div class="eyebrow" id="d-rank"></div>
+      <h2 id="d-name"></h2>
+      <div class="where" id="d-where"></div>
+      <div class="chips" id="d-chips"></div>
+    </div>
+    <div class="dlg-body" id="d-body"></div>
+  </div>
+</dialog>
+
+<script src="premium_schools_data.js"></script>
+<script>
+const DIR = META.directory || [];
+const TIER = { ultra_premium: "Ultra-premium", premium: "Premium", upper_mid: "Upper-mid", not_premium_by_fee: "Below premium", unclassified: "Fee not published" };
+const PAGE = 100;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const lakh = n => { const v = n / 100000; return (v >= 10 ? v.toFixed(0) : v.toFixed(1).replace(/\.0$/, "")); };
+const feeTxt = r => !r.hi ? "" : (r.lo && r.lo !== r.hi ? `₹${lakh(r.lo)}–${lakh(r.hi)} L` : `₹${lakh(r.hi)} L`);
+const fee = r => r.hi ? feeTxt(r) : '<small>Not published</small>';
+const nf = n => n.toLocaleString("en-IN");
+const chips = a => `<div class="chips">${(a || []).map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div>`;
+const tel = p => "tel:" + String(p).replace(/[^\d+]/g, "");
+const maps = r => r.geo ? `https://www.google.com/maps/search/?api=1&query=${r.geo[0]},${r.geo[1]}`
+  : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([r.n, r.c, r.city].filter(Boolean).join(", "))}`;
+const FAC = META.facilities || [];
+const TECH = new Set(["Smart Classes", "Robotics Lab", "Computer Lab", "Language Lab", "Wifi", "Student Tracking App", "GPS Bus Tracking App"]);
+const SMART = FAC.indexOf("Smart Classes");
+DIR.forEach((r, i) => r.i = i);
+const hasContact = r => (r.ph && r.ph.length) || (r.em && r.em.length);
+document.querySelectorAll(".tgt-lbl").forEach(e => e.textContent = META.target || "Nursery – Grade 8");
+
+DATA.forEach((r, i) => r.rank = i + 1);
+$("s-screened").textContent = nf(META.screened || DIR.length || DATA.length);
+$("s-total").textContent = nf(DATA.length);
+$("n-ranked").textContent = nf(DATA.length);
+$("n-dir").textContent = nf(DIR.length);
+$("s-ultra").textContent = nf(DATA.filter(r => r.t === "ultra_premium").length);
+$("s-prem").textContent = nf(DATA.filter(r => r.t === "premium").length);
+$("s-reach").textContent = nf(DATA.filter(hasContact).length);
+if ($("h-date")) $("h-date").textContent = META.generated || "";
+if ($("h-cities")) $("h-cities").textContent = META.cities || new Set([...DATA, ...DIR].map(r => r.city).filter(Boolean)).size;
+
+const state = { v: "ranked", t: "all", city: "", q: "", board: "", f: new Set(), shown: PAGE, sort: "", dir: 1 };
+const TIER_ORDER = { ultra_premium: 0, premium: 1, upper_mid: 2, not_premium_by_fee: 3, unclassified: 4 };
+const COLS = {
+  ranked: [["#", "rank", 1], ["School", "name", 1], ["Curriculum", "cur", 1], ["Tier", "tier", 1], ["Annual fee (per student)", "fee", -1]],
+  dir: [["#", "", 0], ["School", "name", 1], ["Board (listed)", "cur", 1], ["Annual fee per student (listed)", "fee", -1], ["Status", "status", 1]],
+};
+const SORT_KEY = {
+  rank: r => r.rank,
+  name: r => (r.n || "").toLowerCase(),
+  cur: r => ((state.v === "ranked" ? r.cur : r.b) || []).join(", ").toLowerCase() || null,
+  tier: r => TIER_ORDER[r.t] ?? 9,
+  fee: r => r.hi || r.lo || null,
+  fit: r => r.fit ?? null,
+  status: r => (r.s ? 0 : 1),
+};
+function sorted(rows) {
+  const key = SORT_KEY[state.sort];
+  if (!key) return rows;
+  // Missing values always go last, whichever direction.
+  return rows.map(r => [key(r), r]).sort(([a], [b]) =>
+    a === b ? 0 : a === null ? 1 : b === null ? -1 : (a < b ? -1 : 1) * state.dir).map(([, r]) => r);
+}
+function headRow(ranked) {
+  const cell = ([label, k]) => {
+    if (!k) return `<th>${label}</th>`;
+    const on = state.sort === k;
+    const aria = on ? ` aria-sort="${state.dir === 1 ? "ascending" : "descending"}"` : "";
+    const arrow = on ? (state.dir === 1 ? "↑" : "↓") : "↕";
+    return `<th${aria}><button type="button" class="th-sort" data-sort="${k}">${label}<i aria-hidden="true">${arrow}</i></button></th>`;
+  };
+  return `<tr>${COLS[ranked ? "ranked" : "dir"].map(cell).join("")}<th></th></tr>`;
+}
+function fillCities() {
+  const src = state.v === "ranked" ? DATA : DIR;
+  const counts = {};
+  src.forEach(r => { if (r.city) counts[r.city] = (counts[r.city] || 0) + 1; });
+  const keep = state.city;
+  $("city").innerHTML = '<option value="">All cities</option>' + Object.keys(counts).sort()
+    .map(c => `<option value="${esc(c)}">${esc(c)} (${nf(counts[c])})</option>`).join("");
+  $("city").value = counts[keep] ? keep : "";
+  state.city = $("city").value;
+}
+function dirTier(r) {
+  if (!r.hi) return "";
+  return r.hi >= 800000 ? "ultra_premium" : r.hi >= 350000 ? "premium" : r.hi >= 150000 ? "upper_mid" : "below";
+}
+function filtered() {
+  const q = state.q.trim().toLowerCase();
+  const ranked = state.v === "ranked";
+  return (ranked ? DATA : DIR).filter(r =>
+    (state.t === "all" || (ranked ? r.t : dirTier(r)) === state.t) &&
+    (!state.city || r.city === state.city) &&
+    (!state.board || (ranked ? r.cur : r.b || []).includes(state.board)) &&
+    (!ranked || !state.f.has("contact") || hasContact(r)) &&
+    (!state.f.has("target") || r.tgt) &&
+    (!ranked || !state.f.has("group") || r.grp) &&
+    (ranked || !state.f.has("adm") || r.adm === "Ongoing") &&
+    (ranked || !state.f.has("smart") || (r.fac || []).includes(SMART)) &&
+    (ranked || !state.f.has("researched") || r.s) &&
+    (!q || `${r.n} ${r.c || ""} ${r.city}`.toLowerCase().includes(q)));
+}
+function activeFilters() {
+  const out = [];
+  if (state.q.trim()) out.push({ k: "q", label: `“${state.q.trim()}”` });
+  if (state.t !== "all") out.push({ k: "t", label: TIER[state.t] || state.t });
+  if (state.board) out.push({ k: "board", label: state.board });
+  if (state.city) out.push({ k: "city", label: state.city });
+  $("toggles").querySelectorAll('button[aria-pressed="true"]').forEach(b => out.push({ k: "f", f: b.dataset.f, label: b.textContent.trim() }));
+  return out;
+}
+function renderSummary(n, total) {
+  const af = activeFilters();
+  $("count").innerHTML = af.length
+    ? `<b>${nf(n)}</b> of ${nf(total)} school${total === 1 ? "" : "s"} match`
+    : `<b>${nf(n)}</b> school${n === 1 ? "" : "s"}`;
+  $("active").innerHTML = af.map((a, i) =>
+    `<button type="button" class="f-chip" data-i="${i}" aria-label="Remove filter: ${esc(a.label)}"><span>${esc(a.label)}</span><i aria-hidden="true">×</i></button>`).join("");
+  $("clear-all").hidden = !af.length;
+  $("board").classList.toggle("on", !!state.board);
+  $("city").classList.toggle("on", !!state.city);
+  $("tier").classList.toggle("on", state.t !== "all");
+  const nMore = $("toggles").querySelectorAll('button[aria-pressed="true"]').length;
+  $("more-n").textContent = nMore;
+  $("more-n").hidden = !nMore;
+  $("more-f").classList.toggle("on", nMore > 0);
+  $("more-f").setAttribute("aria-label", nMore ? `More filters, ${nMore} active` : "More filters");
+  $("q-clear").hidden = !state.q;
+}
+function setTier(t) {
+  state.t = t;
+  $("tier").value = t;
+}
+function clearFilter(a) {
+  if (a.k === "q") $("q").value = state.q = "";
+  else if (a.k === "t") setTier("all");
+  else if (a.k === "board") $("board").value = state.board = "";
+  else if (a.k === "city") $("city").value = state.city = "";
+  else if (a.k === "f") { state.f.delete(a.f); $("toggles").querySelector(`[data-f="${a.f}"]`).setAttribute("aria-pressed", "false"); }
+}
+function reachLine(r) {
+  const bits = [];
+  if (r.ph && r.ph.length) bits.push(`<span><b>☎</b> ${esc(r.ph[0])}${r.ph.length > 1 ? ` +${r.ph.length - 1}` : ""}</span>`);
+  if (r.em && r.em.length) bits.push(`<span><b>✉</b> ${esc(r.em[0])}${r.em.length > 1 ? ` +${r.em.length - 1}` : ""}</span>`);
+  if (r.grp) bits.push(`<span><b>⌂</b> Group: ${esc(r.grp)}</span>`);
+  return bits.length ? `<div class="reach">${bits.join("")}</div>` : "";
+}
+function render() {
+  const ranked = state.v === "ranked";
+  const rows = sorted(filtered());
+  $("head").innerHTML = headRow(ranked);
+  const page = rows.slice(0, state.shown);
+  $("rows").innerHTML = page.map((r, i) => {
+    const where = `<div class="where">${esc([r.c, r.city].filter(Boolean).join(", "))}</div>`;
+    if (!ranked) {
+      const facts = [r.gr, r.adm === "Ongoing" ? "Admissions ongoing" : "", (r.fac || []).includes(SMART) ? "Smart classes" : ""].filter(Boolean);
+      return `<tr class="click" data-d="${r.i}" tabindex="0">
+      <td class="rank">${i + 1}</td>
+      <td class="school"><div class="name">${esc(r.n)}</div>${where}
+        ${facts.length ? `<div class="reach">${facts.map(f => `<span>${esc(f)}</span>`).join("<span>·</span>")}</div>` : ""}</td>
+      <td class="cur">${chips(r.b)}</td>
+      <td class="fee">${fee(r)}</td>
+      <td class="tier">${r.s ? '<span class="tag">Researched</span>' : '<small class="where">Listed only</small>'}</td>
+      <td class="go"><span class="open-hint">Details →</span></td>
+    </tr>`;
+    }
+    const cls = ["ultra_premium", "premium", "upper_mid"].includes(r.t) ? r.t : "other";
+    return `<tr class="click" data-i="${r.rank - 1}" tabindex="0">
+      <td class="rank">${r.rank}</td>
+      <td class="school"><div class="name">${esc(r.n)}</div>${where}${reachLine(r)}</td>
+      <td class="cur">${chips(r.cur)}</td>
+      <td class="tier"><span class="pill t-${cls}">${TIER[r.t] || r.t}</span></td>
+      <td class="fee">${fee(r)}</td>
+      <td class="go"><span class="open-hint">Details →</span></td>
+    </tr>`;
+  }).join("");
+  renderSummary(rows.length, (ranked ? DATA : DIR).length);
+  $("empty").hidden = rows.length > 0;
+  $("more").hidden = rows.length <= state.shown;
+  $("more-txt").textContent = `Showing ${nf(page.length)} of ${nf(rows.length)}`;
+}
+
+const src = s => s ? `<span class="src ${s === "official" ? "official" : ""}">${s === "official" ? "school website" : esc(s)}</span>` : "";
+function kv(pairs) {
+  const items = pairs.filter(([, v]) => v !== null && v !== undefined && v !== "" && !(Array.isArray(v) && !v.length));
+  return items.length ? `<dl class="kv">${items.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join("")}</dl>` : "";
+}
+function openDetail(r) {
+  $("d-rank").textContent = `Priority #${r.rank} · fit ${Math.round(r.fit)} / 100`;
+  $("d-name").textContent = r.n;
+  $("d-where").textContent = [r.c, r.city, r.st].filter(Boolean).join(", ");
+  const cls = ["ultra_premium", "premium", "upper_mid"].includes(r.t) ? r.t : "other";
+  $("d-chips").innerHTML = `<span class="pill t-${cls}">${TIER[r.t] || r.t}</span>` + r.cur.map(c => `<span class="chip">${esc(c)}</span>`).join("");
+  const act = [];
+  (r.ph || []).forEach(p => act.push(`<a class="act" href="${esc(tel(p))}">☎ ${esc(p)}</a>`));
+  (r.em || []).forEach(e => act.push(`<a class="act" href="mailto:${esc(e)}">✉ ${esc(e)}</a>`));
+  if (r.w) act.push(`<a class="act" href="${esc(r.w)}" target="_blank" rel="noopener">Website ↗</a>`);
+  act.push(`<a class="act" href="${esc(maps(r))}" target="_blank" rel="noopener">Map ↗</a>`);
+  // if (r.ez) act.push(`<a class="act" href="${esc(r.ez)}" target="_blank" rel="noopener">Ezyschooling ↗</a>`);
+  const roles = (r.roles || []).length
+    ? `<div>${chips(r.roles)}<p class="muted" style="margin:6px 0 0">Roles named on the school's website.</p></div>` : "";
+  const sroles = (r.sroles || []).length
+    ? `<div><p class="muted" style="margin:0 0 6px">Suggested roles to ask for:</p>${chips(r.sroles)}</div>` : "";
+  const cbg = (r.cbg || []).map(c => `${esc(c.p)}${c.g ? ` <span class="muted">(${esc(c.g)})</span>` : ""}`).join("<br>");
+  const feeLine = r.hi ? `${feeTxt(r)} a year${src(r.feeSrc)}${r.prov ? '' : ""}` : "Not published";
+  $("d-body").innerHTML = `
+    <div class="sec"><h3>Reach out</h3>
+      <div class="actions">${act.join("")}</div>
+      ${hasContact(r) ? "" : '<p class="muted" style="margin:0">No public phone or email found. Use the website enquiry form or the Ezyschooling profile.</p>'}
+      ${r.addr ? `<p class="muted" style="margin:0">${esc(r.addr)}${src(r.addrSrc)}</p>` : ""}
+    </div>
+    <div class="sec"><h3>Who to approach</h3>${roles}${sroles}</div>
+    <div class="sec"><h3>Rollout plan</h3>
+      ${kv([["Start with grades", esc(r.rg || "")], ["Rollout complexity", r.cx && r.cx !== "unknown" ? esc(r.cx[0].toUpperCase() + r.cx.slice(1)) + ` <span class="muted">(${(r.cur || []).length} board${(r.cur || []).length === 1 ? "" : "s"})</span>` : ""],
+            ["Teaching approach", esc((r.ped || []).join(", "))]])}
+    </div>
+    <div class="sec"><h3>School profile</h3>
+      ${kv([["Annual fee", feeLine], ["Grades offered", esc(r.g || "")], ["Curriculum by grade", cbg],
+            ["School type", esc(r.type || "")], ["Founded", esc(r.est || "")], ["Students", r.enr ? nf(r.enr) : '<span class="muted">Not published</span>'],
+            ["Class size", esc(r.cls || "")],
+            ["Group", esc(r.grp || "")], ["Campuses", esc(r.camp || "")], ["Parent organisation", esc(r.parent || "")]])}
+    </div>
+    ${(r.comps || []).length ? `<div class="sec"><h3>Why this fit score</h3>${r.comps.map(c =>
+      `<div class="comp" title="${esc(c.x)}"><span>${esc(c.k)}</span><span>${Math.round(c.s * 100)}%</span></div>`).join("")}</div>` : ""}`;
+  $("dlg").showModal();
+  $("d-body").scrollTop = 0;
+}
+const PRIORITY_BY_EZ = new Map(DATA.filter(r => r.ez).map(r => [r.ez.replace(/\/$/, ""), r]));
+const glabel = g => g === -3 ? "Pre-Nursery" : g === -2 ? "Nursery" : g === -1 ? "LKG" : g === 0 ? "UKG" : `Grade ${g}`;
+const rupees = n => "₹" + nf(n);
+// Mirrors analysis.recommendations() (pitch angle, grades, complexity, roles), applied to Ezyschooling listing data.
+function dirPitch(r, tier, tech) {
+  const b = new Set(r.b || []);
+  const angles = [];
+  if (b.has("IB") && (b.has("CBSE") || b.has("ICSE"))) angles.push("Multi-board school (IB + Indian board): position MASTEREDGE as a common mastery layer across boards");
+  else if (b.has("IB") || b.has("Cambridge")) angles.push("International curriculum: emphasise conceptual mastery aligned to inquiry-based programmes");
+  else if (b.size) angles.push(`${[...b].join("/")} school: emphasise board-aligned mastery and outcomes`);
+  if (tier === "ultra_premium" || tier === "premium") angles.push("Premium positioning: lead with differentiated learning outcomes and parent-visible progress");
+  if (tech.length) angles.push(`Already invests in classroom technology (${tech.slice(0, 3).join(", ")}): position MASTEREDGE as the learning layer on top`);
+  const [tlo, thi] = META.targetRange || [1, 8];
+  let grades = "";
+  const span = r.gs || ((r.fr || []).length ? [r.fr[0][0], r.fr[r.fr.length - 1][1]] : null);
+  if (span) { const lo = Math.max(span[0], tlo), hi = Math.min(span[1], thi); if (lo <= hi) grades = `${glabel(lo)} – ${glabel(hi)}`; }
+  else if (r.tgt) grades = META.target || "";
+  const cx = !b.size ? "" : b.size >= 3 ? "High" : b.size === 2 ? "Medium" : "Low";
+  const roles = ["Principal / Head of School", "Academic Director / Head of Academics", b.has("IB") ? "IB Coordinator" : b.has("Cambridge") ? "Cambridge Coordinator" : "Curriculum Coordinator"];
+  return { angles, grades, cx, roles };
+}
+function openDir(r) {
+  const pr = PRIORITY_BY_EZ.get(String(r.ez || "").replace(/\/$/, ""));
+  $("d-rank").textContent = pr ? `Researched · priority #${pr.rank}` : "Directory listing · Ezyschooling data";
+  $("d-name").textContent = r.n + (r.alt ? ` (${r.alt})` : "");
+  $("d-where").textContent = [r.c, r.city, r.st].filter(Boolean).join(", ");
+  const t = dirTier(r);
+  const tierPill = t && t !== "below" ? `<span class="pill t-${t}">${TIER[t]}</span>` : "";
+  $("d-chips").innerHTML = tierPill + (r.b || []).map(c => `<span class="chip">${esc(c)}</span>`).join("");
+  const act = [];
+  if (pr) act.push(`<button type="button" class="act" id="d-open-pr">Open researched profile →</button>`);
+  if (r.w) act.push(`<a class="act" href="${esc(r.w)}" target="_blank" rel="noopener">Website ↗</a>`);
+  act.push(`<a class="act" href="${esc(maps(r))}" target="_blank" rel="noopener">Map ↗</a>`);
+  act.push(`<a class="act" href="${esc(r.ez)}" target="_blank" rel="noopener">Ezyschooling ↗</a>`);
+  const fac = (r.fac || []).map(i => FAC[i]).filter(Boolean);
+  const tech = fac.filter(f => TECH.has(f)), other = fac.filter(f => !TECH.has(f));
+  const feeTable = (r.fr || []).map(([a, b, v]) =>
+    `<dt>${esc(a === b ? glabel(a) : `${glabel(a)} – ${glabel(b)}`)}</dt><dd>${rupees(v)} a year</dd>`).join("");
+  const f18 = r.f18 ? (r.f18[0] === r.f18[1] ? rupees(r.f18[0]) : `${rupees(r.f18[0])} – ${rupees(r.f18[1])}`) + " a year" : "";
+  const p = dirPitch(r, t, tech);
+  const confirm = ["decision-maker names", "phone & email"];
+  if (!r.hi) confirm.push("current fee & academic year");
+  confirm.push("student enrolment", "board / curriculum on school website");
+  $("d-body").innerHTML = `
+    <div class="sec"><h3>Reach out</h3>
+      <div class="actions">${act.join("")}</div>
+      ${r.a ? `<p class="muted" style="margin:0">${esc(r.a)}<span class="src">listing</span></p>` : ""}
+      <p class="muted" style="margin:0">${pr ? "Phone numbers, email and roles found on the school's website are in the researched profile." : "Not researched yet, so no phone or email. Ezyschooling hides school phone numbers behind a sign-up form. Use the contact page on the school's website."}</p>
+    </div>
+    <div class="sec"><h3>Who to approach</h3>
+      <div><p class="muted" style="margin:0 0 6px">Suggested roles to ask for:</p>${chips(p.roles)}</div>
+    </div>
+    <div class="sec"><h3>How to pitch</h3>
+      ${p.angles.length ? `<ul class="pitch">${p.angles.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : '<p class="muted" style="margin:0">Not enough listing detail for a tailored angle.</p>'}
+      ${kv([["Start with grades", esc(p.grades)], ["Rollout complexity", p.cx ? esc(p.cx) + ` <span class="muted">(${(r.b || []).length} board${(r.b || []).length === 1 ? "" : "s"})</span>` : ""]])}
+    </div>
+    <div class="sec"><h3>School profile</h3>
+      ${kv([["Grades", esc(r.gr || "")], [`Teaches ${META.target || "Nursery – Grade 8"}`, r.gr ? (r.tgt ? "Yes" : "No") : ""],
+            ["Admissions", esc(r.adm || "")], ["School type", esc(r.ty || "")], ["Students", esc(r.gen || "")],
+            ["Teaching language", esc(r.med || "")], ["Founded", esc(r.est || "")],
+            ["Parent rating", r.rt ? `${r.rt} / 5 <span class="muted">(${nf(r.rv || 0)} review${r.rv === 1 ? "" : "s"})</span>` : ""],
+            ["Profile views", r.vw ? nf(r.vw) : ""]])}
+    </div>
+    <div class="sec"><h3>Fees, ${esc(META.target || "")} (listed${r.fs ? `, ${esc(r.fs)}` : ""})</h3>
+      ${f18 ? kv([["Range", f18]]) : `<p class="muted" style="margin:0">${r.hi ? "No fee listed for these grades." : "No fee published on Ezyschooling."}</p>`}
+      ${feeTable ? `<dl class="kv">${feeTable}</dl>` : ""}
+    </div>
+    <div class="sec"><h3>Technology in the classroom</h3>
+      ${tech.length ? chips(tech) : '<p class="muted" style="margin:0">None listed.</p>'}</div>
+    ${other.length ? `<div class="sec"><h3>Other facilities</h3>${chips(other)}</div>` : ""}
+   `;
+  const b = document.getElementById("d-open-pr");
+  if (b) b.addEventListener("click", () => openDetail(pr));
+  $("dlg").showModal();
+  $("d-body").scrollTop = 0;
+}
+const openRow = tr => tr.dataset.d !== undefined ? openDir(DIR[+tr.dataset.d]) : openDetail(DATA[+tr.dataset.i]);
+$("rows").addEventListener("click", e => {
+  if (e.target.closest("a")) return;
+  const tr = e.target.closest("tr.click"); if (tr) openRow(tr);
+});
+$("rows").addEventListener("keydown", e => {
+  const tr = e.target.closest("tr.click");
+  if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openRow(tr); }
+});
+$("d-close").addEventListener("click", () => $("dlg").close());
+$("dlg").addEventListener("click", e => { if (e.target === $("dlg")) $("dlg").close(); });
+
+function csvCell(v) {
+  const s = Array.isArray(v) ? v.join("; ") : String(v ?? "");
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+// Download the current filtered list. Excel and PDF libraries load from cdnjs only when first used.
+const LIBS = {
+  xlsx: ["https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"],
+  pdf: ["https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"],
+};
+const loaded = {};
+const loadScript = src => loaded[src] || (loaded[src] = new Promise((ok, fail) => {
+  const s = document.createElement("script");
+  s.src = src; s.onload = ok;
+  s.onerror = () => { delete loaded[src]; fail(new Error("could not load " + src)); };
+  document.head.appendChild(s);
+}));
+const cellTxt = v => Array.isArray(v) ? v.join("; ") : (v ?? "");
+const exportName = (ranked, ext) => `masteredge_${ranked ? "priority" : "directory"}_${(state.city || "all").toLowerCase().replace(/\W+/g, "-")}.${ext}`;
+const saveBlob = (blob, name) => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+const exportCols = ranked => ranked
+    ? [["Rank", r => r.rank], ["School", r => r.n], ["Campus", r => r.c], ["City", r => r.city], ["State", r => r.st],
+       ["Tier", r => TIER[r.t] || r.t], ["Fit score", r => r.fit], ["Boards", r => r.cur],
+       ["Annual fee min (INR)", r => r.lo], ["Annual fee max (INR)", r => r.hi], ["Fee source", r => r.feeSrc],
+       ["Phones", r => r.ph], ["Emails", r => r.em], ["Website", r => r.w], ["Address", r => r.addr],
+       ["Roles on website", r => r.roles], ["Suggested roles", r => r.sroles], ["Start with grades", r => r.rg],
+       ["Grades offered", r => r.g], ["Pitch angle", r => r.pitch], ["Group", r => r.grp],
+       ["Confirm on first call", r => r.gaps], ["Map", maps], ["Ezyschooling profile", r => r.ez]]
+    : [["School", r => r.n], ["Area", r => r.c], ["City", r => r.city], ["State", r => r.st], ["Address", r => r.a],
+       ["Boards (listed)", r => r.b], ["Grades", r => r.gr], ["Teaches target grades", r => r.tgt ? "yes" : "no"],
+       ["Listed annual fee min (INR)", r => r.lo], ["Listed annual fee max (INR)", r => r.hi],
+       ["Target-grade fee min (INR)", r => r.f18 && r.f18[0]], ["Target-grade fee max (INR)", r => r.f18 && r.f18[1]],
+       ["Admissions", r => r.adm], ["School type", r => r.ty], ["Gender", r => r.gen], ["Founded", r => r.est],
+       ["Parent rating", r => r.rt], ["Reviews", r => r.rv],
+       ["Tech facilities", r => (r.fac || []).map(i => FAC[i]).filter(f => TECH.has(f))],
+       ["Researched", r => r.s ? "yes" : "no"], ["Website", r => r.w], ["Ezyschooling profile", r => r.ez], ["Map", maps]];
+
+function downloadCsv(ranked, rows) {
+  const cols = exportCols(ranked);
+  const lines = [cols.map(c => csvCell(c[0])).join(",")].concat(rows.map(r => cols.map(c => csvCell(c[1](r))).join(",")));
+  saveBlob(new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" }), exportName(ranked, "csv"));
+}
+
+async function downloadXlsx(ranked, rows) {
+  for (const src of LIBS.xlsx) await loadScript(src);
+  const cols = exportCols(ranked);
+  const aoa = [cols.map(c => c[0]), ...rows.map(r => cols.map(c => cellTxt(c[1](r))))];
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws["!cols"] = cols.map((c, i) => ({ wch: Math.min(50, Math.max(c[0].length, ...aoa.slice(1, 300).map(row => String(row[i]).length)) + 2) }));
+  ws["!autofilter"] = { ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: aoa.length - 1, c: cols.length - 1 } }) };
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, ranked ? "Priority list" : "Directory");
+  XLSX.writeFile(wb, exportName(ranked, "xlsx"), { compression: true });
+}
+
+// PDF keeps a short column set so it stays readable on a landscape A4 page. The built-in PDF font has no ₹ glyph.
+const pdfTxt = v => String(cellTxt(v)).replace(/₹/g, "Rs ").replace(/[^\x00-\xff–—‘’“”…•]/g, "");
+const shortUrl = u => (u || "").replace(/^https?:\/\/(www\.)?/, "").replace(/[?#].*$/, "").replace(/\/$/, "");
+async function downloadPdf(ranked, rows) {
+  if (rows.length > 3000 && !confirm(`This PDF will list ${nf(rows.length)} schools (about ${nf(Math.ceil(rows.length / 28))} pages) and may take a minute. Continue? Excel is faster for long lists.`)) return;
+  for (const src of LIBS.pdf) await loadScript(src);
+  const cols = ranked
+    ? [["#", r => r.rank], ["School", r => [r.n, r.c].filter(Boolean).join(", ")], ["City", r => r.city], ["Tier", r => TIER[r.t] || r.t],
+       ["Fit", r => Math.round(r.fit)], ["Boards", r => (r.cur || []).join(", ")], ["Annual fee", feeTxt],
+       ["Phone", r => (r.ph || []).slice(0, 2).join("\n")], ["Email", r => (r.em || []).slice(0, 2).join("\n")], ["Website", r => shortUrl(r.w)]]
+    : [["School", r => [r.n, r.c].filter(Boolean).join(", ")], ["City", r => r.city], ["Boards", r => (r.b || []).join(", ")],
+       ["Grades", r => r.gr], ["Listed fee", feeTxt], ["Admissions", r => r.adm], ["Website", r => shortUrl(r.w)]];
+  // Fixed widths (pt) summing to the 786pt printable width of landscape A4.
+  const widths = ranked ? [22, 168, 70, 62, 26, 78, 60, 86, 124, 90] : [220, 84, 90, 110, 80, 66, 136];
+  const doc = new window.jspdf.jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+  const filters = activeFilters().map(a => a.label).join(", ") || "none";
+  doc.setFont("helvetica", "bold"); doc.setFontSize(15); doc.setTextColor(165, 16, 52);
+  doc.text("MASTEREDGE", 28, 36);
+  doc.setTextColor(36, 36, 36);
+  doc.text(pdfTxt(` · Premium schools in India · ${ranked ? "Priority list" : "All schools directory"}`), 28 + doc.getTextWidth("MASTEREDGE"), 36);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(104, 104, 104);
+  doc.text(pdfTxt(`${nf(rows.length)} schools · Filters: ${filters} · Generated ${META.generated || ""}`), 28, 52, { maxWidth: W - 56 });
+  doc.autoTable({
+    head: [cols.map(c => c[0])],
+    body: rows.map(r => cols.map(c => pdfTxt(c[1](r)))),
+    startY: 64, margin: { left: 28, right: 28, top: 32, bottom: 32 },
+    styles: { font: "helvetica", fontSize: 7.5, cellPadding: 4, overflow: "linebreak", textColor: [36, 36, 36], lineColor: [232, 228, 229], lineWidth: 0.4 },
+    headStyles: { fillColor: [165, 16, 52], textColor: 255, fontStyle: "bold" },
+    alternateRowStyles: { fillColor: [252, 241, 244] },
+    columnStyles: Object.fromEntries(widths.map((w, i) => [i, { cellWidth: w }])),
+  });
+  const pages = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= pages; p++) {
+    doc.setPage(p); doc.setFontSize(8); doc.setTextColor(104, 104, 104);
+    doc.text(`Page ${p} of ${pages}`, W - 28, H - 14, { align: "right" });
+  }
+  doc.save(exportName(ranked, "pdf"));
+}
+
+const setDl = open => { $("dl-menu").hidden = !open; $("dl-btn").setAttribute("aria-expanded", String(open)); };
+$("dl-btn").addEventListener("click", () => setDl($("dl-menu").hidden));
+document.addEventListener("click", e => { if (!e.target.closest(".f-dl")) setDl(false); });
+document.querySelector(".f-dl").addEventListener("keydown", e => {
+  if (e.key === "Escape" && !$("dl-menu").hidden) { e.stopPropagation(); setDl(false); $("dl-btn").focus(); }
+});
+$("dl-menu").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-fmt]"); if (!b) return;
+  setDl(false);
+  const ranked = state.v === "ranked", rows = filtered();
+  if (!rows.length) { alert("No schools match the current filters."); return; }
+  $("dl-btn").disabled = true; $("dl-lbl").textContent = "Preparing…";
+  try {
+    await ({ csv: downloadCsv, xlsx: downloadXlsx, pdf: downloadPdf })[b.dataset.fmt](ranked, rows);
+  } catch (err) {
+    alert(`Download failed (${err.message}). Check your internet connection, or use CSV, which works offline.`);
+  } finally {
+    $("dl-btn").disabled = false; $("dl-lbl").textContent = "Download";
+  }
+});
+
+const reset = () => { state.shown = PAGE; render(); };
+$("head").addEventListener("click", e => {
+  const b = e.target.closest(".th-sort"); if (!b) return;
+  const k = b.dataset.sort;
+  const col = COLS[state.v === "ranked" ? "ranked" : "dir"].find(c => c[1] === k);
+  if (state.sort === k) state.dir = -state.dir;
+  else { state.sort = k; state.dir = col[2]; }
+  reset();
+  $("head").querySelector(`[data-sort="${k}"]`).focus();
+});
+document.querySelector(".views").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  state.v = b.dataset.v;
+  state.sort = ""; state.dir = 1;
+  document.querySelectorAll(".views button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+  $("toggles").querySelectorAll("button").forEach(b => {
+    const show = b.dataset.view.split(" ").includes(state.v);
+    b.hidden = !show;
+    if (!show && b.getAttribute("aria-pressed") === "true") { b.setAttribute("aria-pressed", "false"); state.f.delete(b.dataset.f); }
+  });
+  if ($("note-ranked")) $("note-ranked").hidden = state.v !== "ranked";
+  if ($("note-dir")) $("note-dir").hidden = state.v === "ranked";
+  fillCities(); reset();
+});
+$("tier").addEventListener("change", e => { setTier(e.target.value); reset(); });
+const setMore = open => {
+  $("more-panel").hidden = !open;
+  $("more-f").setAttribute("aria-expanded", String(open));
+};
+$("more-f").addEventListener("click", () => setMore($("more-panel").hidden));
+document.addEventListener("click", e => { if (!e.target.closest(".f-more")) setMore(false); });
+document.querySelector(".f-more").addEventListener("keydown", e => {
+  if (e.key === "Escape" && !$("more-panel").hidden) { e.stopPropagation(); setMore(false); $("more-f").focus(); }
+});
+$("active").addEventListener("click", e => {
+  const b = e.target.closest(".f-chip"); if (!b) return;
+  clearFilter(activeFilters()[+b.dataset.i]);
+  reset();
+  ($("active").querySelector(".f-chip") || $("q")).focus();
+});
+$("clear-all").addEventListener("click", () => {
+  activeFilters().forEach(clearFilter);
+  reset();
+  $("q").focus();
+});
+$("q-clear").addEventListener("click", () => { $("q").value = state.q = ""; reset(); $("q").focus(); });
+$("q").addEventListener("keydown", e => { if (e.key === "Escape" && state.q) { $("q").value = state.q = ""; reset(); } });
+$("toggles").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  const on = b.getAttribute("aria-pressed") !== "true";
+  b.setAttribute("aria-pressed", String(on));
+  on ? state.f.add(b.dataset.f) : state.f.delete(b.dataset.f);
+  reset();
+});
+$("city").addEventListener("change", e => { state.city = e.target.value; reset(); });
+// After picking an option with the mouse, drop focus so the focus ring clears; keyboard users keep focus.
+document.querySelectorAll(".filters select").forEach(s => {
+  s.addEventListener("pointerdown", () => { s.dataset.ptr = "1"; });
+  s.addEventListener("keydown", () => { delete s.dataset.ptr; });
+  s.addEventListener("change", () => { if (s.dataset.ptr) { delete s.dataset.ptr; s.blur(); } });
+});
+$("board").addEventListener("change", e => { state.board = e.target.value; reset(); });
+$("q").addEventListener("input", e => { state.q = e.target.value; reset(); });
+$("more-btn").addEventListener("click", () => { state.shown += PAGE * 5; render(); });
+if (!DIR.length) document.querySelector(".views").hidden = true;
+fillCities();
+render();
+</script>
+</body>
+</html>
