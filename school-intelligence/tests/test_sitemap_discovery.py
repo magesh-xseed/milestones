@@ -120,7 +120,7 @@ def test_priority_row_carries_sales_detail():
     assert row["ph"] == ["+91 20 1234 5678"] and row["em"] == ["admissions@y.school"]
     assert row["tgt"] is True and row["g"] == "Nursery – Grade 12" and row["feeSrc"] == "sources differ"
     assert row["pitch"] == ["Premium positioning: lead with outcomes", "School describes its teaching as STEAM/STEM"]
-    assert row["gaps"] == ["student enrolment"] and row["comps"][0]["k"] == "Nursery – Grade 8 overlap"
+    assert row["gaps"] == ["student enrolment"] and "comps" not in row
 
 
 def test_profile_details_from_jsonld_excludes_contact_point():

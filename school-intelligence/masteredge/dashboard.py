@@ -1,4 +1,4 @@
-"""Shareable HTML dashboard (page + premium_schools_data.js; host both together) built from the master records.
+"""Shareable HTML dashboard (page + premium_schools_data.js + premium_schools_directory.js; host all three together) built from the master records.
 
 Priority list = researched schools in report rank order, with the sales detail a rep needs to make
 first contact. Directory = every screened Ezyschooling profile with its *listed* board and fee
@@ -20,6 +20,7 @@ from .util import read_json
 TEMPLATE = Path(__file__).parent / "templates" / "dashboard.html"
 FILENAME = "premium_schools_dashboard.html"
 DATA_FILENAME = "premium_schools_data.js"  # DATA + META; loaded by the page, must be hosted alongside it
+DIR_FILENAME = "premium_schools_directory.js"  # window.DIRECTORY; the page fetches it after first paint
 BOARD_LABEL = {"IB": "IB", "CAMBRIDGE": "Cambridge", "CBSE": "CBSE", "CISCE": "ICSE", "STATE": "State", "NIOS": "NIOS"}
 PROGRAMME_LABEL = {"IB_PYP": "IB PYP", "IB_MYP": "IB MYP", "IB_DP": "IB DP", "IB_CP": "IB CP", "CAMBRIDGE_IGCSE": "IGCSE",
                    "CAMBRIDGE_PRIMARY": "Cambridge Primary", "CAMBRIDGE_LOWER_SECONDARY": "Cambridge Lower Secondary",
@@ -29,10 +30,6 @@ PEDAGOGY_LABEL = {"steam_stem": "STEAM/STEM", "inquiry_based": "inquiry-based", 
                   "project_based": "project-based", "waldorf": "Waldorf", "reggio_emilia": "Reggio Emilia"}
 SCHOOL_TYPE_LABEL = {"day": "Day school", "boarding": "Boarding", "day_and_boarding": "Day & boarding",
                      "day_boarding": "Day boarding"}
-FIT_LABEL = {"curriculum_compatibility": "Curriculum match", "premium_positioning": "Premium positioning",
-             "student_reach": "Student reach", "academic_alignment": "Nursery – Grade 8 overlap",
-             "group_expansion_potential": "Group expansion", "confirmed_sales_readiness": "Buying signal"}
-HIDDEN_FIT = {"student_reach", "confirmed_sales_readiness"}  # still scored; not shown in the "Why this fit score" breakdown
 GAP_FIELDS = {"campus_student_count": "student enrolment", "annual_fee": "current fee & academic year",
               "decision_maker_roles": "decision-maker names", "public_contact": "contact details",
               "grades_offered": "grades offered", "curricula": "board / curriculum", "number_of_campuses": "number of campuses"}
@@ -102,7 +99,6 @@ def _sales_detail(r: dict, target: tuple[int, int]) -> dict:
     geo = _v(f, "geo_coordinates") or {}
     g = _v(f, "grades_offered")
     grp = a.get("school_group") or {}
-    fit = a["masteredge_fit"]
     gaps = []
     for gap in r.get("data_gaps") or []:
         lab = GAP_FIELDS.get(gap["field"])
@@ -136,8 +132,6 @@ def _sales_detail(r: dict, target: tuple[int, int]) -> dict:
         "parent": _v(f, "parent_organization"),
         "ped": _pedagogy(_v(f, "teaching_methodology")),
         "gaps": gaps,
-        "comps": [{"k": FIT_LABEL.get(k, k), "s": c["score"], "w": fit["weights"][k], "x": c["explanation"]}
-                  for k, c in fit.get("components", {}).items() if k not in HIDDEN_FIT],
     }
 
 
@@ -249,15 +243,16 @@ def build_dashboard(cfg: Config, schools: list[dict]) -> Path:
     data = [r for r in data if r.get("tgt")]
     directory = [r for r in directory if r.get("tgt")]
     cities = {r["city"] for r in data + directory if r["city"]}
-    meta = {"generated": date.today().strftime("%-d %B %Y"), "cities": len(cities), "screened": screened, "directory": directory,
+    meta = {"generated": date.today().strftime("%-d %B %Y"), "cities": len(cities), "screened": screened, "dirCount": len(directory),
             "target": f"{grade_label(target[0])} – {grade_label(target[1])}", "targetRange": list(target),
             "facilities": FACILITY_NAMES}
     dump = lambda o: json.dumps(o, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8")
     html = html.replace("/*__DATA_SRC__*/", DATA_FILENAME, 1)
     js = f"const DATA = {dump(data)};\nconst META = {dump(meta)};\n"
+    dir_js = f"window.DIRECTORY = {dump(directory)};\n"
     out = cfg.paths.output_dir / FILENAME
-    for path, text in ((cfg.paths.output_dir / DATA_FILENAME, js), (out, html)):
+    for path, text in ((cfg.paths.output_dir / DATA_FILENAME, js), (cfg.paths.output_dir / DIR_FILENAME, dir_js), (out, html)):
         tmp = path.with_suffix(".tmp")
         tmp.write_text(text, encoding="utf-8")
         tmp.replace(path)

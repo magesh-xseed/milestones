@@ -399,7 +399,15 @@ td { padding-block: 20px; }
 
 <script src="/*__DATA_SRC__*/"></script>
 <script>
-const DIR = META.directory || [];
+// The 11k-school directory lives in its own file, fetched after first paint so the page opens fast.
+let DIR = [], dirLoad = null;
+const loadDir = () => dirLoad || (dirLoad = new Promise((ok, fail) => {
+  const s = document.createElement("script");
+  s.src = "premium_schools_directory.js";
+  s.onload = () => { DIR = window.DIRECTORY || []; DIR.forEach((r, i) => r.i = i); ok(); };
+  s.onerror = () => { dirLoad = null; s.remove(); fail(new Error("directory failed to load")); };
+  document.body.appendChild(s);
+}));
 const TIER = { ultra_premium: "Ultra-premium", premium: "Premium", upper_mid: "Upper-mid", not_premium_by_fee: "Below premium", unclassified: "Fee not published" };
 const PAGE = 100;
 const $ = id => document.getElementById(id);
@@ -415,15 +423,14 @@ const maps = r => r.geo ? `https://www.google.com/maps/search/?api=1&query=${r.g
 const FAC = META.facilities || [];
 const TECH = new Set(["Smart Classes", "Robotics Lab", "Computer Lab", "Language Lab", "Wifi", "Student Tracking App", "GPS Bus Tracking App"]);
 const SMART = FAC.indexOf("Smart Classes");
-DIR.forEach((r, i) => r.i = i);
 const hasContact = r => (r.ph && r.ph.length) || (r.em && r.em.length);
 document.querySelectorAll(".tgt-lbl").forEach(e => e.textContent = META.target || "Nursery – Grade 8");
 
 DATA.forEach((r, i) => r.rank = i + 1);
-$("s-screened").textContent = nf(META.screened || DIR.length || DATA.length);
+$("s-screened").textContent = nf(META.screened || META.dirCount || DATA.length);
 $("s-total").textContent = nf(DATA.length);
 $("n-ranked").textContent = nf(DATA.length);
-$("n-dir").textContent = nf(DIR.length);
+$("n-dir").textContent = nf(META.dirCount ?? DIR.length);
 $("s-ultra").textContent = nf(DATA.filter(r => r.t === "ultra_premium").length);
 $("s-prem").textContent = nf(DATA.filter(r => r.t === "premium").length);
 $("s-reach").textContent = nf(DATA.filter(hasContact).length);
@@ -830,8 +837,14 @@ $("head").addEventListener("click", e => {
   reset();
   $("head").querySelector(`[data-sort="${k}"]`).focus();
 });
-document.querySelector(".views").addEventListener("click", e => {
+document.querySelector(".views").addEventListener("click", async e => {
   const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.v === "dir" && !DIR.length) {
+    b.disabled = true; document.body.style.cursor = "progress";
+    try { await loadDir(); }
+    catch { alert("Couldn't load the schools directory. Check your connection and try again."); return; }
+    finally { b.disabled = false; document.body.style.cursor = ""; }
+  }
   state.v = b.dataset.v;
   state.sort = ""; state.dir = 1;
   document.querySelectorAll(".views button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
@@ -875,7 +888,7 @@ document.querySelectorAll(".filters select").forEach(s => {
 $("board").addEventListener("change", e => { state.board = e.target.value; reset(); });
 $("q").addEventListener("input", e => { state.q = e.target.value; reset(); });
 $("more-btn").addEventListener("click", () => { state.shown += PAGE * 5; render(); });
-if (!DIR.length) document.querySelector(".views").hidden = true;
+if (!META.dirCount) document.querySelector(".views").hidden = true;
 // Rich dropdowns: a styled button + listbox over each native <select>, which stays the source of truth.
 const DD = [];
 function enhanceSelect(sel, label) {
@@ -954,6 +967,7 @@ enhanceSelect($("city"), "City");
 const syncDD = () => DD.forEach(d => d.sync());
 fillCities();
 render();
+(window.requestIdleCallback || setTimeout)(() => loadDir().catch(() => {}));
 </script>
 </body>
 </html>
