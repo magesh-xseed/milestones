@@ -1,0 +1,13 @@
+{
+  "_note": "Operator-supplied seed schools. Seeds are inputs, not research results: every seed's official website is identity-checked at runtime and every fact is extracted from sources. Discovery (slice 3+) adds further candidates to data/output/research_queue.json.",
+  "schools": [
+    {
+      "name": "Oakridge International School",
+      "campus": "Gachibowli",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "official_website": "https://www.oakridge.in/gachibowli/",
+      "ezyschooling_url": "https://ezyschooling.com/school/oakridge-international-school-gachibowli-hyderabad"
+    }
+  ]
+}

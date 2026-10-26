@@ -1,0 +1,208 @@
+{
+  "generated_at": "2026-10-21T02:23:25+00:00",
+  "run_id": "run-20261021T003553Z",
+  "slice": 6,
+  "kind": "pipeline self-check (the independent final validation is masteredge.validate_final)",
+  "schema_valid": true,
+  "schema_error": null,
+  "metrics": {
+    "schools": 587,
+    "required_field_instances": 7044,
+    "required_field_populated": 4944,
+    "field_coverage_pct": 70.2,
+    "factual_field_instances_populated": 8578,
+    "evidence_coverage_pct": 100.0,
+    "official_source_verification_pct": 51.1,
+    "curriculum_verification_pct": 6.5,
+    "curriculum_official_site_pct": 77.9,
+    "fee_verification_pct": 0.0,
+    "fee_official_any_pct": 5.1,
+    "enrollment_verification_pct": 0.0,
+    "research_completion_pct": 81.2,
+    "research_checks_total": 5283,
+    "research_checks_completed": 4291,
+    "fields_in_conflict": 417,
+    "definitions": {
+      "curriculum_verification_pct": "schools with >=1 curriculum confirmed by an official registry (live or archived registry page)",
+      "curriculum_official_site_pct": "schools with curriculum stated on the school's own official website",
+      "fee_verification_pct": "schools whose displayed fee is from an official source AND states the academic year",
+      "fee_official_any_pct": "schools with any fee published on the official site (dated or not)",
+      "enrollment_verification_pct": "schools with official campus enrollment AND a stated reporting year",
+      "research_completion_pct": "mandatory checks completed (done or genuinely not publicly available) / applicable checks; blocked/failed count as incomplete"
+    }
+  },
+  "discovery": {
+    "mode": "sitemap",
+    "listings": [
+      {
+        "url": "https://ezyschooling.com/sitemap.xml",
+        "status": "done",
+        "detail": "32 city sitemaps"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-hyderabad.xml",
+        "status": "done",
+        "detail": "525 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-secunderabad.xml",
+        "status": "done",
+        "detail": "37 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-bangalore.xml",
+        "status": "done",
+        "detail": "1813 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-delhi.xml",
+        "status": "done",
+        "detail": "1802 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-gurugram.xml",
+        "status": "done",
+        "detail": "521 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-noida.xml",
+        "status": "done",
+        "detail": "268 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-greater-noida.xml",
+        "status": "done",
+        "detail": "128 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-greater-noida-west.xml",
+        "status": "done",
+        "detail": "57 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-ghaziabad.xml",
+        "status": "done",
+        "detail": "452 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-faridabad.xml",
+        "status": "done",
+        "detail": "331 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-mumbai.xml",
+        "status": "done",
+        "detail": "698 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-navi-mumbai.xml",
+        "status": "done",
+        "detail": "142 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-thane.xml",
+        "status": "done",
+        "detail": "259 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-pune-dist.xml",
+        "status": "done",
+        "detail": "1147 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-chennai-dist.xml",
+        "status": "done",
+        "detail": "95 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-kolkata.xml",
+        "status": "done",
+        "detail": "503 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-ahmednagar.xml",
+        "status": "done",
+        "detail": "42 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-hubballi.xml",
+        "status": "done",
+        "detail": "31 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-dharwad.xml",
+        "status": "done",
+        "detail": "27 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-lucknow.xml",
+        "status": "done",
+        "detail": "452 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-sonipat.xml",
+        "status": "done",
+        "detail": "184 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-jodhpur.xml",
+        "status": "done",
+        "detail": "73 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-howrah.xml",
+        "status": "done",
+        "detail": "53 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-jaipur.xml",
+        "status": "done",
+        "detail": "163 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-indore.xml",
+        "status": "done",
+        "detail": "218 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-rohtak.xml",
+        "status": "done",
+        "detail": "76 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-boarding-schools.xml",
+        "status": "done",
+        "detail": "1447 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-bhopal.xml",
+        "status": "done",
+        "detail": "85 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-hooghly.xml",
+        "status": "done",
+        "detail": "21 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-aurangabad.xml",
+        "status": "done",
+        "detail": "33 profiles"
+      },
+      {
+        "url": "https://ezyschooling.com/all-schools-sitemap-jabalpur.xml",
+        "status": "done",
+        "detail": "29 profiles"
+      }
+    ],
+    "profiles_listed": 11712,
+    "profiles_screened_now": 7,
+    "profiles_screened_total": 11705,
+    "screen_failed": 7,
+    "qualified": 627,
+    "enqueued": 0,
+    "duplicates": 627,
+    "rejected_outside_india": 2
+  },
+  "groups": 22
+}

@@ -1,0 +1,780 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-21T02:23:19+00:00",
+  "run_id": "run-20261021T003553Z",
+  "groups": [
+    {
+      "group_id": "GRP-chennaipublicschool-com",
+      "brand_domain": "chennaipublicschool.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-chennai-public-school-anna-nagar-chennai-bb6bc5",
+          "official_website": "https://www.chennaipublicschool.com/annanagar/index.php"
+        },
+        {
+          "school_id": "IN-chennai-public-school-chennai-9a17db",
+          "official_website": "https://www.chennaipublicschool.com/thirumazhisai/index.php"
+        }
+      ],
+      "member_school_ids": [
+        "IN-chennai-public-school-anna-nagar-chennai-bb6bc5",
+        "IN-chennai-public-school-chennai-9a17db"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-cpgoenkainternationalschool-com",
+      "brand_domain": "cpgoenkainternationalschool.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-cp-goenka-international-school-borivali-west-mumbai-40db15",
+          "official_website": "https://www.cpgoenkainternationalschool.com/international-school-in-borivali"
+        },
+        {
+          "school_id": "IN-cp-goenka-international-school-wagholi-pune-92f32f",
+          "official_website": "https://www.cpgoenkainternationalschool.com/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-cp-goenka-international-school-borivali-west-mumbai-40db15",
+        "IN-cp-goenka-international-school-wagholi-pune-92f32f"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [
+        {
+          "name": "Swami Vivekanand Sikshan Vikas Mandal Trust",
+          "evidence_ids": [
+            "ev-25f4572b9a0e021d",
+            "ev-7fee084e5f4e42a1"
+          ]
+        }
+      ],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-csacademy-in",
+      "brand_domain": "csacademy.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-cs-academy-coimbatore-1a046e",
+          "official_website": "https://csacademy.in/coimbatore/"
+        },
+        {
+          "school_id": "IN-cs-academy-erode-544f3d",
+          "official_website": "https://csacademy.in/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-cs-academy-coimbatore-1a046e",
+        "IN-cs-academy-erode-544f3d"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [
+        {
+          "name": "International Schools",
+          "evidence_ids": [
+            "ev-ddb38a007d8af5b3",
+            "ev-2c11fb5c9a096c91"
+          ]
+        },
+        {
+          "name": "GRG Trust",
+          "evidence_ids": [
+            "ev-7cdc07b72678c0f7"
+          ]
+        }
+      ],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-ekyaschools-com",
+      "brand_domain": "ekyaschools.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-ekya-school-3rd-phase-bengaluru-ec271e",
+          "official_website": "https://www.ekyaschools.com/jpnagar/"
+        },
+        {
+          "school_id": "IN-ekya-school-byrathi-bengaluru-da8ec9",
+          "official_website": "https://www.ekyaschools.com/byrathi/"
+        },
+        {
+          "school_id": "IN-ekya-school-doddanekkundi-extension-bengaluru-8a09b3",
+          "official_website": "https://www.ekyaschools.com/itpl/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-ekya-school-3rd-phase-bengaluru-ec271e",
+        "IN-ekya-school-byrathi-bengaluru-da8ec9",
+        "IN-ekya-school-doddanekkundi-extension-bengaluru-8a09b3"
+      ],
+      "campuses_in_dataset": 3,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-ezyschooling-com",
+      "brand_domain": "ezyschooling.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-bombay-international-school-junior-marine-lines-mumbai-48e654",
+          "official_website": "https://ezyschooling.com/school/profile/bombay-international-school-junior-marine-lines-mumbai"
+        },
+        {
+          "school_id": "IN-britannica-international-school-ludhiana-0ca2bb",
+          "official_website": "https://ezyschooling.com/school/britannica-international-school-thakkarwal-ludhiana"
+        },
+        {
+          "school_id": "IN-indu-international-school-erode-63ddd0",
+          "official_website": "https://ezyschooling.com/school/indu-international-school-erode-tamil-nadu"
+        },
+        {
+          "school_id": "IN-indus-world-school-sector-70-gurugram-b6fa14",
+          "official_website": "https://ezyschooling.com/school/profile/indus-world-school-sector-70-gurgaon"
+        },
+        {
+          "school_id": "IN-mother-s-pride-high-school-sector-40-gurugram-2f5a37",
+          "official_website": "https://ezyschooling.com/school/profile/mothers-pride-high-school-sector-40-gurgaon"
+        },
+        {
+          "school_id": "IN-ryan-international-school-kundalahalli-bengaluru-6bf129",
+          "official_website": "https://ezyschooling.com/school/ryan-international-school-kundalahalli-bangalore"
+        },
+        {
+          "school_id": "IN-seven-isles-international-school-mulund-east-mumbai-576b08",
+          "official_website": "https://ezyschooling.com/school/profile/seven-isles-international-school-mulund-east-mumbai"
+        }
+      ],
+      "member_school_ids": [
+        "IN-bombay-international-school-junior-marine-lines-mumbai-48e654",
+        "IN-britannica-international-school-ludhiana-0ca2bb",
+        "IN-indu-international-school-erode-63ddd0",
+        "IN-indus-world-school-sector-70-gurugram-b6fa14",
+        "IN-mother-s-pride-high-school-sector-40-gurugram-2f5a37",
+        "IN-ryan-international-school-kundalahalli-bengaluru-6bf129",
+        "IN-seven-isles-international-school-mulund-east-mumbai-576b08"
+      ],
+      "campuses_in_dataset": 7,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-futurepathways-net",
+      "brand_domain": "futurepathways.net",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-sri-chaitanya-future-pathways-school-palam-vihar-gurugram-5efcc9",
+          "official_website": "https://futurepathways.net/kohinoor-campus-palam-vihar-gurgaon/"
+        },
+        {
+          "school_id": "IN-sri-chaitanya-future-pathways-school-sector-64-gurugram-1f0028",
+          "official_website": "https://futurepathways.net/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-sri-chaitanya-future-pathways-school-palam-vihar-gurugram-5efcc9",
+        "IN-sri-chaitanya-future-pathways-school-sector-64-gurugram-1f0028"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-glendaleschool-org",
+      "brand_domain": "glendaleschool.org",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-glendale-academy-sun-city-hyderabad-ccf413",
+          "official_website": "https://glendaleschool.org/in/hyderabad/suncity-campus/"
+        },
+        {
+          "school_id": "IN-glendale-international-school-tellapur-hyderabad-e033c5",
+          "official_website": "https://glendaleschool.org/in/hyderabad/tellapur-campus/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-glendale-academy-sun-city-hyderabad-ccf413",
+        "IN-glendale-international-school-tellapur-hyderabad-e033c5"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [
+        {
+          "value": 25,
+          "school_id": "IN-glendale-academy-sun-city-hyderabad-ccf413",
+          "evidence_ids": [
+            "ev-837db645569547ec"
+          ]
+        },
+        {
+          "value": 25,
+          "school_id": "IN-glendale-international-school-tellapur-hyderabad-e033c5",
+          "evidence_ids": [
+            "ev-0931544a0741d540"
+          ]
+        }
+      ],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-globalpublicschool-org",
+      "brand_domain": "globalpublicschool.org",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-global-public-school-kochi-cochin-fe304e",
+          "official_website": "https://globalpublicschool.org/cbse-school/"
+        },
+        {
+          "school_id": "IN-gps-international-school-ernakulam-71a023",
+          "official_website": "https://globalpublicschool.org/international-school/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-global-public-school-kochi-cochin-fe304e",
+        "IN-gps-international-school-ernakulam-71a023"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-jbcnschool-edu-in",
+      "brand_domain": "jbcnschool.edu.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-jbcn-international-school-andheri-west-mumbai-6e2717",
+          "official_website": "https://www.jbcnschool.edu.in/oshiwara/"
+        },
+        {
+          "school_id": "IN-jbcn-international-school-chembur-east-mumbai-471866",
+          "official_website": "https://www.jbcnschool.edu.in/chembur/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-jbcn-international-school-andheri-west-mumbai-6e2717",
+        "IN-jbcn-international-school-chembur-east-mumbai-471866"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-ked-edu-in",
+      "brand_domain": "ked.edu.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-kunskapsskolan-bengaluru-the-knowledge-school-sarjapur-road-bengaluru-b7f9b7",
+          "official_website": "https://ked.edu.in/bengaluru/"
+        },
+        {
+          "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+          "official_website": "https://ked.edu.in/"
+        },
+        {
+          "school_id": "IN-kunskapsskolan-lucknow-sushant-golf-city-lucknow-9120b4",
+          "official_website": "https://ked.edu.in/lucknow/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-kunskapsskolan-bengaluru-the-knowledge-school-sarjapur-road-bengaluru-b7f9b7",
+        "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+        "IN-kunskapsskolan-lucknow-sushant-golf-city-lucknow-9120b4"
+      ],
+      "campuses_in_dataset": 3,
+      "parent_organization_candidates": [
+        {
+          "name": "Keduventures Smart Services Private Limited",
+          "evidence_ids": [
+            "ev-960f3c723f69ca3a",
+            "ev-128dcff9106fcf08",
+            "ev-68eee3417cf10b47",
+            "ev-28ac16ada810cf0e",
+            "ev-afac4eee71c5fe58",
+            "ev-91192c4b2b5e5304",
+            "ev-a27aeda48c0fb1d0",
+            "ev-537f6646ca01f916",
+            "ev-9e55ab505fa3f64a",
+            "ev-d7edfd7774aebc29",
+            "ev-8f80cff27c4d4a5b"
+          ]
+        },
+        {
+          "name": "Kunskapsskolan Smart Services Private Limited",
+          "evidence_ids": [
+            "ev-d4003fbb1a7e6861",
+            "ev-e330fcde60d0d487"
+          ]
+        }
+      ],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [
+        {
+          "value": 3000,
+          "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+          "evidence_ids": [
+            "ev-bb896a9f77d5f328",
+            "ev-11bad7bd7f5d6be9"
+          ],
+          "status": "needs_review"
+        }
+      ],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-meruinternationalschool-com",
+      "brand_domain": "meruinternationalschool.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-meru-international-school-miyapur-hyderabad-2ed7f3",
+          "official_website": "https://www.meruinternationalschool.com"
+        },
+        {
+          "school_id": "IN-meru-international-school-tellapur-hyderabad-31a0b6",
+          "official_website": "https://www.meruinternationalschool.com/tellapur/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-meru-international-school-miyapur-hyderabad-2ed7f3",
+        "IN-meru-international-school-tellapur-hyderabad-31a0b6"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-mris-edu-in",
+      "brand_domain": "mris.edu.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-manav-rachna-international-school-sector-14-faridabad-a56cca",
+          "official_website": "https://mris.edu.in/ib-school-sector-14-faridabad/"
+        },
+        {
+          "school_id": "IN-manav-rachna-international-school-sector-46-gurugram-f93c62",
+          "official_website": "https://mris.edu.in/cbse-school-sector-46-gurugram/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-manav-rachna-international-school-sector-14-faridabad-a56cca",
+        "IN-manav-rachna-international-school-sector-46-gurugram-f93c62"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-newbaldwingroupofinstitutions-org",
+      "brand_domain": "newbaldwingroupofinstitutions.org",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-new-baldwin-international-residential-school-bangalore-2c3334",
+          "official_website": "https://www.newbaldwingroupofinstitutions.org/mandur/"
+        },
+        {
+          "school_id": "IN-new-baldwin-international-school-kodathi-bengaluru-4a06f7",
+          "official_website": "https://www.newbaldwingroupofinstitutions.org/"
+        },
+        {
+          "school_id": "IN-new-baldwin-international-school-tc-palya-bengaluru-7077a1",
+          "official_website": "https://www.newbaldwingroupofinstitutions.org/Banaswadi/index.php"
+        }
+      ],
+      "member_school_ids": [
+        "IN-new-baldwin-international-residential-school-bangalore-2c3334",
+        "IN-new-baldwin-international-school-kodathi-bengaluru-4a06f7",
+        "IN-new-baldwin-international-school-tc-palya-bengaluru-7077a1"
+      ],
+      "campuses_in_dataset": 3,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [
+        {
+          "value": 64,
+          "school_id": "IN-new-baldwin-international-school-kodathi-bengaluru-4a06f7",
+          "evidence_ids": [
+            "ev-994c04dc25f41219"
+          ]
+        },
+        {
+          "value": 10,
+          "school_id": "IN-new-baldwin-international-school-tc-palya-bengaluru-7077a1",
+          "evidence_ids": [
+            "ev-f416388f73976ef5",
+            "ev-8240a753b514e9db"
+          ]
+        }
+      ],
+      "group_student_count_candidates": [
+        {
+          "value": 10000,
+          "school_id": "IN-new-baldwin-international-school-kodathi-bengaluru-4a06f7",
+          "evidence_ids": [
+            "ev-98da1f3dceca4b4e"
+          ],
+          "status": "needs_review"
+        }
+      ],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-oakridge-in",
+      "brand_domain": "oakridge.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-oakridge-international-school-bachupally-hyderabad-833fb8",
+          "official_website": "https://www.oakridge.in/bachupally/"
+        },
+        {
+          "school_id": "IN-oakridge-international-school-dommasandra-bengaluru-b712a1",
+          "official_website": "https://www.oakridge.in/bengaluru/"
+        },
+        {
+          "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+          "official_website": "https://www.oakridge.in/gachibowli/"
+        },
+        {
+          "school_id": "IN-oakridge-international-school-visakhapatnam-vizag-109a39",
+          "official_website": "https://www.oakridge.in/visakhapatnam/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-oakridge-international-school-bachupally-hyderabad-833fb8",
+        "IN-oakridge-international-school-dommasandra-bengaluru-b712a1",
+        "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+        "IN-oakridge-international-school-visakhapatnam-vizag-109a39"
+      ],
+      "campuses_in_dataset": 4,
+      "parent_organization_candidates": [
+        {
+          "name": "Nord Anglia Education",
+          "evidence_ids": [
+            "ev-f84eea29da3c4809"
+          ]
+        }
+      ],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-orchidsinternationalschool-com",
+      "brand_domain": "orchidsinternationalschool.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-orchids-the-international-school-bangalore-7a28ba",
+          "official_website": "https://www.orchidsinternationalschool.com"
+        },
+        {
+          "school_id": "IN-orchids-the-international-school-hinjawadi-hinjawadi-ois-pune-e002fc",
+          "official_website": "https://www.orchidsinternationalschool.com/pune-branches/hinjewadi/"
+        },
+        {
+          "school_id": "IN-orchids-the-international-school-kadugodi-bengaluru-f097f6",
+          "official_website": "https://www.orchidsinternationalschool.com/bangalore-branches/kadugodi/"
+        },
+        {
+          "school_id": "IN-orchids-the-international-school-mulund-east-mumbai-7f50c6",
+          "official_website": "https://www.orchidsinternationalschool.com/mumbai-branches/mulund-east/"
+        },
+        {
+          "school_id": "IN-orchids-the-international-school-yari-road-mumbai-6c6ec2",
+          "official_website": "https://www.orchidsinternationalschool.com/mumbai-branches/yari-road/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-orchids-the-international-school-bangalore-7a28ba",
+        "IN-orchids-the-international-school-hinjawadi-hinjawadi-ois-pune-e002fc",
+        "IN-orchids-the-international-school-kadugodi-bengaluru-f097f6",
+        "IN-orchids-the-international-school-mulund-east-mumbai-7f50c6",
+        "IN-orchids-the-international-school-yari-road-mumbai-6c6ec2"
+      ],
+      "campuses_in_dataset": 5,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [
+        {
+          "value": 150,
+          "school_id": "IN-orchids-the-international-school-bangalore-7a28ba",
+          "evidence_ids": [
+            "ev-c6ad4f13f2fa4c9e",
+            "ev-60d76f200d632cab",
+            "ev-7ac88dfa0b408379"
+          ]
+        }
+      ],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-owis-org",
+      "brand_domain": "owis.org",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-one-world-international-school-sarjapur-road-bengaluru-d9be28",
+          "official_website": "https://owis.org/in/bangalore/ib-school-sarjapur/"
+        },
+        {
+          "school_id": "IN-one-world-international-school-whitefield-bengaluru-4671d0",
+          "official_website": "https://owis.org/in/bangalore/ib-school-whitefield/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-one-world-international-school-sarjapur-road-bengaluru-d9be28",
+        "IN-one-world-international-school-whitefield-bengaluru-4671d0"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-ryanglobalschools-com",
+      "brand_domain": "ryanglobalschools.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-ryan-global-school-andheri-west-mumbai-c5b960",
+          "official_website": "https://www.ryanglobalschools.com/site/andheri"
+        },
+        {
+          "school_id": "IN-ryan-global-school-chembur-east-mumbai-f0eb87",
+          "official_website": "http://www.ryanglobalschools.com/site/chembur/"
+        },
+        {
+          "school_id": "IN-ryan-global-school-kharghar-navi-mumbai-35f3b0",
+          "official_website": "https://www.ryanglobalschools.com/site/Kharghar/"
+        },
+        {
+          "school_id": "IN-ryan-global-school-kundalahalli-bengaluru-069227",
+          "official_website": "https://www.ryanglobalschools.com/site/kundalahalli/?utm_source=Google&utm_medium=GMB&utm_campaign=Global+School+kundalahalli"
+        }
+      ],
+      "member_school_ids": [
+        "IN-ryan-global-school-andheri-west-mumbai-c5b960",
+        "IN-ryan-global-school-chembur-east-mumbai-f0eb87",
+        "IN-ryan-global-school-kharghar-navi-mumbai-35f3b0",
+        "IN-ryan-global-school-kundalahalli-bengaluru-069227"
+      ],
+      "campuses_in_dataset": 4,
+      "parent_organization_candidates": [
+        {
+          "name": "Ryan International Group",
+          "evidence_ids": [
+            "ev-2de4e599aef56781",
+            "ev-263cb4fb48fb6bef"
+          ]
+        }
+      ],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [
+        {
+          "value": 250000,
+          "school_id": "IN-ryan-global-school-andheri-west-mumbai-c5b960",
+          "evidence_ids": [
+            "ev-ab512c8afff50cba"
+          ],
+          "status": "needs_review"
+        },
+        {
+          "value": 250000,
+          "school_id": "IN-ryan-global-school-kharghar-navi-mumbai-35f3b0",
+          "evidence_ids": [
+            "ev-6c35b6def67f94a3"
+          ],
+          "status": "needs_review"
+        }
+      ],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-shivnadarschool-edu-in",
+      "brand_domain": "shivnadarschool.edu.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-shiv-nadar-school-adyar-chennai-e7e16a",
+          "official_website": "https://www.shivnadarschool.edu.in/chennai/"
+        },
+        {
+          "school_id": "IN-shiv-nadar-school-dlf-phase-i-gurugram-d88381",
+          "official_website": "https://shivnadarschool.edu.in/gurgaon"
+        },
+        {
+          "school_id": "IN-shiv-nadar-school-greater-faridabad-faridabad-2f4ce7",
+          "official_website": "https://shivnadarschool.edu.in/faridabad"
+        },
+        {
+          "school_id": "IN-shiv-nadar-school-sector-168-noida-723690",
+          "official_website": "https://shivnadarschool.edu.in/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-shiv-nadar-school-adyar-chennai-e7e16a",
+        "IN-shiv-nadar-school-dlf-phase-i-gurugram-d88381",
+        "IN-shiv-nadar-school-greater-faridabad-faridabad-2f4ce7",
+        "IN-shiv-nadar-school-sector-168-noida-723690"
+      ],
+      "campuses_in_dataset": 4,
+      "parent_organization_candidates": [
+        {
+          "name": "Shiv Nadar Foundation",
+          "evidence_ids": [
+            "ev-a5913a7f53e6b075"
+          ]
+        }
+      ],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-spss-edu-in",
+      "brand_domain": "spss.edu.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-sri-prakash-synergy-school-east-godavari-c2cec4",
+          "official_website": "https://spss.edu.in/index.php/pdphome"
+        },
+        {
+          "school_id": "IN-sri-prakash-synergy-school-peddapuram-ca49c7",
+          "official_website": "https://spss.edu.in/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-sri-prakash-synergy-school-east-godavari-c2cec4",
+        "IN-sri-prakash-synergy-school-peddapuram-ca49c7"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-stellarworldschool-edu-in",
+      "brand_domain": "stellarworldschool.edu.in",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-stellar-world-school-andheri-west-mumbai-d284b6",
+          "official_website": "https://stellarworldschool.edu.in/andheri"
+        },
+        {
+          "school_id": "IN-stellar-world-school-bandra-west-mumbai-75ea21",
+          "official_website": "https://stellarworldschool.edu.in/bandra"
+        },
+        {
+          "school_id": "IN-stellar-world-school-goregaon-west-mumbai-eda444",
+          "official_website": "https://stellarworldschool.edu.in/goregaon"
+        }
+      ],
+      "member_school_ids": [
+        "IN-stellar-world-school-andheri-west-mumbai-d284b6",
+        "IN-stellar-world-school-bandra-west-mumbai-75ea21",
+        "IN-stellar-world-school-goregaon-west-mumbai-eda444"
+      ],
+      "campuses_in_dataset": 3,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-vibgyorhigh-com",
+      "brand_domain": "vibgyorhigh.com",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-vibgyor-high-school-hinjewadi-pune-7746a0",
+          "official_website": "https://www.vibgyorhigh.com/pune-hinjewadi.php"
+        },
+        {
+          "school_id": "IN-vibgyor-high-school-magarpatta-city-pune-791a87",
+          "official_website": "https://www.vibgyorhigh.com/school/pune/cbse/magarpatta"
+        },
+        {
+          "school_id": "IN-vibgyor-high-school-nibm-pune-7525fd",
+          "official_website": "https://www.vibgyorhigh.com/school/pune/cbse/nibm"
+        },
+        {
+          "school_id": "IN-vibgyor-high-school-yerawada-pune-5ef01e",
+          "official_website": "https://www.vibgyorhigh.com/school/pune/cisce/yerwada"
+        }
+      ],
+      "member_school_ids": [
+        "IN-vibgyor-high-school-hinjewadi-pune-7746a0",
+        "IN-vibgyor-high-school-magarpatta-city-pune-791a87",
+        "IN-vibgyor-high-school-nibm-pune-7525fd",
+        "IN-vibgyor-high-school-yerawada-pune-5ef01e"
+      ],
+      "campuses_in_dataset": 4,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    },
+    {
+      "group_id": "GRP-vignanschools-org",
+      "brand_domain": "vignanschools.org",
+      "basis": "shared_official_domain",
+      "basis_evidence": [
+        {
+          "school_id": "IN-vignan-global-gen-school-kukatpally-366f14",
+          "official_website": "https://vignanschools.org/our-campuses/schools-in-hyderabad/nizampet/"
+        },
+        {
+          "school_id": "IN-vignan-global-gen-school-medchal-hyderabad-7737b0",
+          "official_website": "https://vignanschools.org/"
+        }
+      ],
+      "member_school_ids": [
+        "IN-vignan-global-gen-school-kukatpally-366f14",
+        "IN-vignan-global-gen-school-medchal-hyderabad-7737b0"
+      ],
+      "campuses_in_dataset": 2,
+      "parent_organization_candidates": [],
+      "stated_number_of_campuses": [],
+      "group_student_count_candidates": [],
+      "note": "Grouping is based only on a shared official website domain. Similar names are never grouped."
+    }
+  ]
+}

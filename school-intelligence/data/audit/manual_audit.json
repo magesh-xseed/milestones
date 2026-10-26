@@ -1,0 +1,2312 @@
+{
+  "_note": "Manual semantic audit of the deterministic audit sample (python -m masteredge audit-sample). Each verdict is keyed to the exact value audited (audit_key); if the value changes the verdict no longer applies and the item returns to PENDING. 'retract_evidence_ids' is the audited remediation step: those evidence records are kept but excluded from facts.",
+  "auditor": "Claude (independent manual review against stored source pages fetched from the live official site)",
+  "method": "For each sampled fact: open the cited source page snapshot, read the surrounding context, and judge whether the value is a correct reading of what the source states (not only that the text exists).",
+  "results": [
+    {
+      "audit_key": "1498447b66baca71",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "assessment_methodology",
+      "verdict": "MATCH",
+      "note": "Senior Years page: 'By advocating continuous and comprehensive evaluation, the CBSE curriculum at our school...'",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5cf057b07bf5b015",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Curricula Offered page lists IB PYP, MYP, DP and CBSE; About page 'Curriculum: IB, CBSE'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9153815baae5bd6f",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Footer address '...Hyderabad – 500008. Telangana, India'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "4072fb24fa1aeb8d",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "annual_fee",
+      "verdict": "MATCH",
+      "note": "'Fee Details Nursery to Grade 12 ranges from ₹3.6 Lakhs to ₹10.5 Lakhs'. Period and academic year are not stated on the page and are correctly recorded as unspecified/null.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "0bcc9dce4fcaaf4e",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "Page title 'Oakridge International School Hyderabad Gachibowli'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "db17ee8e0add0223",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "Roles present on official pages: Principal (message), 'Director for Admissions and Marketing', 'Head of Primary years'. Role existence only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "8ed465fd92423986",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "teaching_methodology",
+      "verdict": "MATCH",
+      "note": "STEAM learning (MIT collaboration), 'Personalised Learning', 'Flipped classroom strategies', 'differentiated learning' all stated.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "1fd93793386aeb2a",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "campus",
+      "verdict": "MATCH",
+      "note": "Title and URL path identify the Gachibowli campus.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "8fe165dc3d865ceb",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "Title and footer address: Hyderabad.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "6994bbfcc93583e9",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "subjects_offered",
+      "verdict": "MATCH",
+      "note": "Senior Years 'Subjects Studied English Mathematics Biology Physics Chemistry Economics Business Studies Accountancy...'; languages French/Spanish/Hindi/Telugu stated as offered. (Earlier false positives from placements/extracurricular pages were removed by the extractor fix.)",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5fbd27b16faa578d",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "Source says 'More than 5000+ students from across Oakridge International Schools in India, recorded over 7.89 Lakh online sessions since August 2020' - a participation figure for online sessions, not group enrollment; '2020' is not a reporting year. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-5d97961bb9560a11"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "7028bf315be09be8",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "oakridge.in/gachibowli is the campus section of the Oakridge official site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "a423df5cc6e13750",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "average_class_size",
+      "verdict": "MATCH",
+      "note": "Quick Glance 'Average Class Size: 27'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "a8cbf0d9f518f619",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'IB Primary Years Programme Nursery to 5th Grade, IB Middle Years Programme 6th Grade to 10th Grade, IB Diploma Programme 11th Grade & 12th Grade, CBSE Programme 7th Grade to 12th Grade'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "d0d9d3e8d49ba525",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "public_contact",
+      "verdict": "MATCH",
+      "note": "Contact page 'Landline: 040-68174111' and 'Mobile No: +91 63022 26739' (labelled school lines; named staff mobiles excluded by policy).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9cceee24d6c1c8e5",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "'a premium Nord Anglia Education international day school'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "e26a1102524e7ccd",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "grades_offered",
+      "verdict": "MATCH",
+      "note": "'Nursery to Grade 12'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "7eef23eca09a385f",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "Ezyschooling profile badge 'Estd. 2001'; correctly labelled third-party only (not stated on the official pages examined).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "7fb1e6b65e7b32f8",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "JSON-LD geo 17.41998, 78.36438 - Khajaguda/Gachibowli area, consistent with the official address.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "f936048e1f02d896",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Matches the official site footer 'Khajaguda, Nanakramguda Road, Cyberabad, Hyderabad – 500008'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "db7b34e6efa480f8",
+      "school_id": "IN-oakridge-international-school-gachibowli-hyderabad-e91962",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Accurate reading of the third-party page ('Student Teacher Ratio 27:1'), but DOUBTFUL as a fact: the official site states 'Average Class Size: 27', suggesting the aggregator mislabelled class size. Kept as third-party-only and flagged in Data Gaps by the consistency rule.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "a8630f9099f1dc23",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "student_teacher_ratio",
+      "verdict": "MISMATCH",
+      "note": "Source: '25:2' applies only to Grades 1-3; Grades 3-12 are '25:1'. A single school-wide ratio misrepresents the source. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-cbc91580875ca088"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "2264532b7f3acc44",
+      "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+      "field": "founding_year",
+      "verdict": "MISMATCH",
+      "note": "'The Kunskapsskolan Education program was founded in 1999' dates the Swedish education programme, not the Gurugram school. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-076dfa5d4a5efafc"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "4e6192447f16d74f",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "grades_offered",
+      "verdict": "MATCH",
+      "note": "Ezyschooling badge 'Pre Nursery - 12 Class'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "e9a36a42346c99b3",
+      "school_id": "IN-the-international-school-bangalore-dommasandra-bengaluru-44ca38",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "tisb.org title 'Welcome to The International School Bangalore'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "bb90f43430cd538b",
+      "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Estd. 2013'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "7db25b609450c2c5",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "'Established on July 14th, 2003 with an initial enrollment of 135 students'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "fc3f23a7fbdf4191",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "subjects_offered",
+      "verdict": "MATCH",
+      "note": "MYP subject groups list English, Hindi & Spanish, Mathematics, Arts (Visual arts, Music & Drama).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "2295670c05bf8e7e",
+      "school_id": "IN-canadian-international-school-yelahanka-bengaluru-28c23a",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "'The Canadian International School (CIS), established in 1996'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9ecb246058a8877e",
+      "school_id": "IN-harrow-international-school-devanahalli-bengaluru-8621ec",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Title 'Harrow International School Bengaluru'; www/non-www variants now treated as the same site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "95423f046add88ea",
+      "school_id": "IN-10x-international-school-sarjapur-bengaluru-6c9648",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "'From Our CEO's Desk' on the 10X site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "dd129d7589e50bbb",
+      "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Student Teacher Ratio 12:1'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "836798f253692f58",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Address '... Bengaluru, Karnataka 562125'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "581fc38cb1c3bdb4",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "'Letter from the Chairman', 'Letter from the CEO', 'Letter from the Head of Primary Years Programme'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "eee08e930bc1a05f",
+      "school_id": "IN-international-school-of-hyderabad-patancheru-hyderabad-0f73d9",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "17.512, 78.281 - Patancheru area, consistent with campus locality.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ee2c6fa43c1e16d8",
+      "school_id": "IN-mount-litera-school-international-bandra-east-mumbai-8acd61",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'Middle Years Programme (MYP) Class VI-X IB Diploma Programme (DP) Grade 11-12 Career-related...'. PYP mapping no longer mis-assigned.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "8ceaad6249d19f93",
+      "school_id": "IN-canadian-international-school-yelahanka-bengaluru-28c23a",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'we provide the full IB Diploma Programme in grades 11-12'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "6f335d88e032f9a2",
+      "school_id": "IN-sarala-birla-academy-bannerghatta-bengaluru-3d5653",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "12.810, 77.584 - Bannerghatta Road area, consistent with campus.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "a45d7659736b3349",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Student Teacher Ratio 25:1'; consistent with official FAQ for Grades 3-12; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "aefd2249a50a1e21",
+      "school_id": "IN-the-aga-khan-academy-kurmalguda-hyderabad-ddb90b",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Academic programme page lists IB PYP (grades 1-5), MYP (6-10) and Diploma Programme.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "8e28d7c96a14cd95",
+      "school_id": "IN-the-international-school-bangalore-dommasandra-bengaluru-44ca38",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "'Principal's Note', 'Welcome note by Vice Chairperson & Director', 'Founded in 2000 by our Chairman'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "a53cd560c0143fd6",
+      "school_id": "IN-pathways-world-school-sohna-gurugram-d984c5",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "'Founded in 2003, Pathways World School...'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "8752136c7889c173",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "'Indus Bangalore being a top day cum boarding school in India, has 350 boarders'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "30ab0df7e370895c",
+      "school_id": "IN-harrow-international-school-devanahalli-bengaluru-8621ec",
+      "field": "grades_offered",
+      "verdict": "MATCH",
+      "note": "FAQ: 'entry into LKG to Grade 12'. Conflict with third-party span is shown, not resolved.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "e8397ce81d83d1d1",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Day/Boarding Day School'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "c9f27628c8ce3d29",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'International Schools in Mumbai' on official site; campus in Bandra Kurla Complex, Mumbai.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "0642b450259182f2",
+      "school_id": "IN-harrow-international-school-devanahalli-bengaluru-8621ec",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Official site: Cambridge Primary Checkpoint, IGCSE, IB Diploma ('IB Schools in Bangalore').",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "03fa7e188f4dc14a",
+      "school_id": "IN-genesis-global-school-sector-132-noida-0e0ae3",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Estd. 2010'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5928587e373ff2bf",
+      "school_id": "IN-international-school-of-hyderabad-patancheru-hyderabad-0f73d9",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "'Message from the Head of School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "fa103c2e03dd679e",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Student Teacher Ratio 30:1'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5664600399d71f14",
+      "school_id": "IN-mount-litera-school-international-bandra-east-mumbai-8acd61",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "'Mount Litera School International stands as a premier IB Continuum School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5fe6dc42a9b7139c",
+      "school_id": "IN-knowledgeum-academy-jayanagar-bengaluru-5a167d",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "Address '... Jayanagar 8th Block, Bengaluru – 560 070'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "044615b2f01e7e41",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Ezyschooling location string; consistent with official address.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "36782e27e7bb5cd8",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "parent_organization",
+      "verdict": "MATCH",
+      "note": "'As a member of the Neev Schools family' on the official neevschools.org site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "45f5395d49d27811",
+      "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+      "field": "admission_charges",
+      "verdict": "MATCH",
+      "note": "'one time fees (i.e. admission fee, security fee and technology fees) of Rs 2,50,000/-' - combined one-time charges.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "822762b8326db938",
+      "school_id": "IN-stonehill-international-school-jala-hobli-bengaluru-f14029",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Title 'IB day and boarding International School in Bangalore' on stonehill.in.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "81d9260c6a10b871",
+      "school_id": "IN-stonehill-international-school-jala-hobli-bengaluru-f14029",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "'Founded in 2008, Stonehill is proud to be an accredited and authorised IB World School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "09c85a033675aac7",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Day/Boarding Day School'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "df0f221ba1b8832b",
+      "school_id": "IN-canadian-international-school-yelahanka-bengaluru-28c23a",
+      "field": "subjects_offered",
+      "verdict": "MISMATCH",
+      "note": "Item 'English' came from 'The working languages of IB are English, French and Spanish' (describes the IB, not CIS subjects). That evidence is retracted; Hindi/French/Spanish are correct ('option between Hindi, French, Mandarin and Spanish').",
+      "retract_evidence_ids": [
+        "ev-b0997a4ca34face2",
+        "ev-d141fc7e816a7412"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "0543b3647bcb22cd",
+      "school_id": "IN-canadian-international-school-yelahanka-bengaluru-28c23a",
+      "field": "subjects_offered",
+      "verdict": "MATCH",
+      "note": "After remediation: 'Students have the option between Hindi, French, Mandarin and Spanish as their foreign language options' (Mandarin not in vocabulary, so omitted, not invented).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "rule-change-canadian-school-type",
+      "school_id": "IN-canadian-international-school-yelahanka-bengaluru-28c23a",
+      "field": "school_type",
+      "verdict": "MISMATCH",
+      "note": "Held 'boarding' came from facility text ('2 gender specific boarding...') under earlier rules; the school is day cum boarding per third-party profile, so 'boarding' alone is incomplete. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-521439f1a92a64ad",
+        "ev-71ddfe6c07e8eba1"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "rule-change-genesis-school-type",
+      "school_id": "IN-genesis-global-school-sector-132-noida-0e0ae3",
+      "field": "school_type",
+      "verdict": "MISMATCH",
+      "note": "Held 'boarding' came from a residences contact line ('Head – Residences ... Best Bo[arding]'); Genesis also admits day students, so 'boarding' alone is incomplete. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-d43ba61110da8c8d"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "3caa899d1fdcbfdd",
+      "school_id": "IN-the-aga-khan-academy-kurmalguda-hyderabad-ddb90b",
+      "field": "subjects_offered",
+      "verdict": "MISMATCH",
+      "note": "'should have mastered at least two languages, including English' is an admission expectation, not a subject offered. Item evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-5b2c50d93c657ba2"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "7570e0bd6daa3198",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "teaching_methodology",
+      "verdict": "MISMATCH",
+      "note": "'STEAM precinct' is a facility name, not a stated methodology; other items (experiential, inquiry-based, Reggio Emilia) are correct. Item evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-d763f70e65e1afea"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "004d28b497436186",
+      "school_id": "IN-the-international-school-bangalore-dommasandra-bengaluru-44ca38",
+      "field": "teaching_methodology",
+      "verdict": "MISMATCH",
+      "note": "'NPS Global Montessori Centres' is a sister institution in a list; 'concept-based curriculum' is correct. Item evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-d5a6c3cae51ae418"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "0aa1b075b9110da6",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "grades_offered",
+      "verdict": "MISMATCH",
+      "note": "'Grade 3 to Grade 12 the ratio is 25:1' is a ratio statement, not the school's grade span. Evidence retracted; extractor rule added.",
+      "retract_evidence_ids": [
+        "ev-f3225757bdc9a064"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ee586e2ed6ec0e89",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "founding_year",
+      "verdict": "MISMATCH",
+      "note": "'My kids started at Ascend in 2012' is a parent testimonial, not a founding date. Evidence retracted; extractor rule added.",
+      "retract_evidence_ids": [
+        "ev-25b7c661bad02b92",
+        "ev-c03ec3e4e36efb51"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "f75b79f3cfcb4bab",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Address '... Bangalore, Karnataka – 560037'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "b5bf81cbcfdb082c",
+      "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "Official site: 'Schools in Gurgaon' (Gurgaon = Gurugram).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ae4e55b92053f9d1",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Official nav/IB page: 'IB PYP MYP DP'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "c7643dc39e33293c",
+      "school_id": "IN-canadian-international-school-yelahanka-bengaluru-28c23a",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "13.119, 77.595 - Yelahanka, consistent with campus.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ec6dae3dfb44bdca",
+      "school_id": "IN-harrow-international-school-devanahalli-bengaluru-8621ec",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "13.279, 77.621 - Devanahalli/Doddaballapur Road, consistent with official address.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ae7e3ae36788164d",
+      "school_id": "IN-10x-international-school-sarjapur-bengaluru-6c9648",
+      "field": "curriculum_history",
+      "verdict": "MATCH",
+      "note": "Archive observations of IB, IB DP, IB MYP on the 2026-05-18 snapshot; caveated as observations.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ebb92b4225cbd022",
+      "school_id": "IN-heritage-international-xperiential-school-dlf-phase-v-gurugram-73dcb9",
+      "field": "public_contact",
+      "verdict": "MATCH",
+      "note": "Role mailboxes admission@hixs.org / info@hixs.org on official site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "4431903847dc6662",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "teaching_methodology",
+      "verdict": "MATCH",
+      "note": "Inquiry-based, experiential learning model, differentiated learning, Project Based Learning all stated.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9e8bcff8bee1a758",
+      "school_id": "IN-international-school-of-hyderabad-patancheru-hyderabad-0f73d9",
+      "field": "campus",
+      "verdict": "MATCH",
+      "note": "Address 'c/o ICRISAT, Patancheru, Hyderabad'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "8fe3b7a71d5d05c2",
+      "school_id": "IN-mount-litera-school-international-bandra-east-mumbai-8acd61",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "19.065, 72.859 - Bandra Kurla Complex area.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "747e705a42d93adc",
+      "school_id": "IN-canadian-international-school-yelahanka-bengaluru-28c23a",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Official 'IGCSE Programme at CIS', 'IB Diploma Programme', Cambridge checkpoint pages.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "0849253064c9f872",
+      "school_id": "IN-pathways-world-school-sohna-gurugram-d984c5",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'IB PYP ... (grades Nursery–5)', 'MYP ... grades 6-10', DP 11-12.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ceaac9c176aa7fb9",
+      "school_id": "IN-the-aga-khan-academy-kurmalguda-hyderabad-ddb90b",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'Welcome to the Aga Khan Academy Hyderabad'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "31037ec825fa0b1e",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "12.835, 77.779 - Sarjapura-Attibele Road area.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "24e2c210b40ae375",
+      "school_id": "IN-harrow-international-school-devanahalli-bengaluru-8621ec",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "'day and boarding students alike'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "f801baf1d70f6dc1",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "Official site text 'Ascend International School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "e665634c5b5d57bf",
+      "school_id": "IN-harrow-international-school-devanahalli-bengaluru-8621ec",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "'teacher-to-student ratio of 1:7' correctly expressed as student:teacher 7:1.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "34d682dd66880ba3",
+      "school_id": "IN-genesis-global-school-sector-132-noida-0e0ae3",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "genesisglobalschool.edu.in title 'Best School in Noida | Top CBSE & Boarding School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "2eed65330dda6ddf",
+      "school_id": "IN-international-school-of-hyderabad-patancheru-hyderabad-0f73d9",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "'The first IGCSE Cambridge Exams was administered in 2003 and the first IB Diploma...'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "122215a0461226d1",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "neevschools.org is the Neev Schools official site listing Neev Academy Yemalur (group-level domain).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ed74e7f708513502",
+      "school_id": "IN-mahindra-international-school-hinjewadi-pune-815671",
+      "field": "subjects_offered",
+      "verdict": "MATCH",
+      "note": "IB DP/MYP subject pages: 'We offer Physics HL & SL', 'English B HL German B...', 'Language Acquisition (French/Hindi/Marathi)' etc.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "499a6797d3022d70",
+      "school_id": "IN-international-school-of-hyderabad-patancheru-hyderabad-0f73d9",
+      "field": "curriculum_history",
+      "verdict": "MATCH",
+      "note": "Archive observations: 'Grades 9 & 10 IGCSE Grades 11 & 12 - IB' with snapshot dates.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9ad496150a25faab",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "Official page 'Indus International School Bangalore'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "4730d7392207dd22",
+      "school_id": "IN-mount-litera-school-international-bandra-east-mumbai-8acd61",
+      "field": "assessment_methodology",
+      "verdict": "MATCH",
+      "note": "'Assessment in the IB MYP is criterion-based'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "081a738ab185890a",
+      "school_id": "IN-kunskapsskolan-dlf-phase-i-gurugram-6b053a",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "28.479, 77.088 - DLF Phase I, Gurugram.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "c87c22b6b19ab4f6",
+      "school_id": "IN-sarala-birla-academy-bannerghatta-bengaluru-3d5653",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Student Teacher Ratio 30:1'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "81106b4eb09dc6b9",
+      "school_id": "IN-sarala-birla-academy-bannerghatta-bengaluru-3d5653",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "CISCE locator card 'KA120 - Sarala Birla Academy ... ICSE ISC' (registry); IB/IGCSE items are third-party only and labelled so.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "92b9c4e80bbe036c",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "founding_year",
+      "verdict": "MISMATCH",
+      "note": "'The school newspaper ... was set up at the start of the 2017/18 academic year' dates the newspaper, not the school. Evidence retracted; extractor rule extended.",
+      "retract_evidence_ids": [
+        "ev-e87f3b533b675b02",
+        "ev-1b76e33429fb90ac"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "2e024f33b9bc570f",
+      "school_id": "IN-the-aga-khan-academy-kurmalguda-hyderabad-ddb90b",
+      "field": "teaching_methodology",
+      "verdict": "MATCH",
+      "note": "'Through the inquiry-based International Baccalaureate curriculum, the Aga Khan Academies...'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "e250bebabfcb9ca3",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "teaching_methodology",
+      "verdict": "MATCH",
+      "note": "'experiential learning', 'inquiry-based experiences', 'Reggio Emilia-inspired philosophy' stated.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9248ecb8b06ca3a6",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "grades_offered",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Nursery - 12 Class'; third-party only (official site grade statements were intake/ratio statements).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "e1011673270c7983",
+      "school_id": "IN-the-international-school-bangalore-dommasandra-bengaluru-44ca38",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "'Founded in 2000 by our Chairman, Dr. K P Gopalkrishna'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9097229d964fab13",
+      "school_id": "IN-the-international-school-bangalore-dommasandra-bengaluru-44ca38",
+      "field": "curriculum_history",
+      "verdict": "MATCH",
+      "note": "Archive observations with snapshot dates (e.g. IGCSE on the 2015-02-14 homepage calendar); caveated as observations, not adoption dates.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "f8820863147b7d85",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "founding_year",
+      "verdict": "SOURCE_ERROR",
+      "note": "Ezyschooling 'Estd. 1945' is read correctly, but the official site attributes 1945 to the parent Kasegaon Education Society ('Established in Maharashtra in 1945 by Shri Rajarambapu Patil'); the aggregator appears to have copied the society's date. Retracted so the field shows 'not publicly available' rather than a wrong year.",
+      "retract_evidence_ids": [
+        "ev-ef15e9d824121e51"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "dcea2f82fc25da0b",
+      "school_id": "IN-10x-international-school-sarjapur-bengaluru-6c9648",
+      "field": "curriculum_by_grade",
+      "verdict": "MISMATCH",
+      "note": "'MYP year 4 & 5' parsed as grades 4-5 (fixed by rule). The site card 'IB MYP Grades 11 & 12' is a source typo contradicted on the same site ('IB Diploma Programme in Grades 11–12'); that item is retracted as SOURCE_ERROR.",
+      "retract_evidence_ids": [
+        "ev-2a3d593b0742fb4c"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "747ed9cd483497e7",
+      "school_id": "IN-the-international-school-bangalore-dommasandra-bengaluru-44ca38",
+      "field": "decision_maker_roles",
+      "verdict": "MISMATCH",
+      "note": "'IBDP Coordinator' came from a staff member's career list ('Boarding House Master, IBDP Coordinator, Deputy Principal – Pastoral, and now'); ownership of the current role is unclear. Item retracted. Principal/Director/Chairman items are correct.",
+      "retract_evidence_ids": [
+        "ev-9db698f811ff95b1"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "2306defed60383f1",
+      "school_id": "IN-knowledgeum-academy-jayanagar-bengaluru-5a167d",
+      "field": "annual_fee",
+      "verdict": "MATCH",
+      "note": "Ezyschooling fee table: only Class 11 row priced (₹4,95,000/year, 2027-28); third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9be63e714e7e1716",
+      "school_id": "IN-genesis-global-school-sector-132-noida-0e0ae3",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Ezyschooling location string; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "c1827b29e7a1b690",
+      "school_id": "IN-heritage-international-xperiential-school-dlf-phase-v-gurugram-73dcb9",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Ezyschooling location string (Junior Campus address); third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "74b3c568a2244d19",
+      "school_id": "IN-heritage-international-xperiential-school-dlf-phase-v-gurugram-73dcb9",
+      "field": "curriculum_history",
+      "verdict": "MATCH",
+      "note": "Archive observations with snapshot dates (IB PYP/IBDP, Cambridge, IGCSE, Checkpoint); staff-bio and comparison mentions now filtered.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "df649c5fef1a9cd5",
+      "school_id": "IN-pathways-world-school-sohna-gurugram-d984c5",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "'Ms. Monica Bhimwal – Principal, Primary School'; 'School Director' in leadership navigation.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "21ee7b81d521d8e3",
+      "school_id": "IN-the-international-school-bangalore-dommasandra-bengaluru-44ca38",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "'TISB is a day and boarding international school'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5e9f78586cba163b",
+      "school_id": "IN-m-ct-m-chidambaram-chettyar-international-school-mylapore-chennai-0991a3",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Official academics menu: 'Cambridge Secondary Programme IGCSE IBDP' and Cambridge AS/A Level pages.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "6dc3d0b033aba875",
+      "school_id": "IN-m-ct-m-chidambaram-chettyar-international-school-mylapore-chennai-0991a3",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "13.038, 80.259 - Mylapore, Chennai.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "f947ea0151310df1",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "'IB PYP (G1 to G5) IB MYP (G6 to G10) IB DP (G11- G12) ICSE (G6-G10)'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "62baf5ddc7dc6f0f",
+      "school_id": "IN-heritage-international-xperiential-school-dlf-phase-v-gurugram-73dcb9",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Day/Boarding Day School'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "a8b37f47604ff973",
+      "school_id": "IN-10x-international-school-sarjapur-bengaluru-6c9648",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'IB MYP Grades 9 & 10', 'IB Diploma Programme in Grades 11–12', 'IB Middle Years Programme (MYP) For Grades 6–10' all stated on the site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "35a78db5ac7454e8",
+      "school_id": "IN-genesis-global-school-sector-132-noida-0e0ae3",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "28.515, 77.380 - Sector 132 Noida.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "14a1759b7b25765b",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "'Neev was founded in June 2005' - refers to the Neev brand (group); conflict with third-party 2016 campus date is shown, not resolved.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ea96514396d7f103",
+      "school_id": "IN-international-school-of-hyderabad-patancheru-hyderabad-0f73d9",
+      "field": "annual_fee",
+      "verdict": "MATCH",
+      "note": "Ezyschooling fee table LKG ₹8,73,900 to max ₹13,59,450 (2027-28); third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "2e65da3550208b84",
+      "school_id": "IN-mount-litera-school-international-bandra-east-mumbai-8acd61",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "Leadership page: 'Priya Anand Head of School', 'PYP Coordinator', 'MYP Coordinator'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "154ca9c105ad0946",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "public_contact",
+      "verdict": "MATCH",
+      "note": "Role mailboxes admin@ / admissions@ascendinternational.org on official site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "3350056fe20ff226",
+      "school_id": "IN-the-aga-khan-academy-kurmalguda-hyderabad-ddb90b",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'Primary Years Programme (grades 1–5) Middle Years Programme (grades 6–10)'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "f85e4e0e212a08f5",
+      "school_id": "IN-10x-international-school-sarjapur-bengaluru-6c9648",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Day/Boarding Full Boarding'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "89b7338dcad96950",
+      "school_id": "IN-neev-academy-yemalur-yemalur-bengaluru-23a2c1",
+      "field": "curriculum_history",
+      "verdict": "MATCH",
+      "note": "Archive observations on neevschools.org snapshots with dates.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "b52c2bfea46e86ea",
+      "school_id": "IN-mahindra-international-school-hinjewadi-pune-815671",
+      "field": "teaching_methodology",
+      "verdict": "MATCH",
+      "note": "'experiential learning' (CAS), 'concept-based approach', 'inquiry-based curriculum', 'aspects of Reggio Emilia' stated.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "315b461f2c178111",
+      "school_id": "IN-10x-international-school-sarjapur-bengaluru-6c9648",
+      "field": "campus",
+      "verdict": "MATCH",
+      "note": "'Sarjapur – Whitefield Road, Bangalore – 562125'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "773d0c5a9d498923",
+      "school_id": "IN-genesis-global-school-sector-132-noida-0e0ae3",
+      "field": "grades_offered",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Pre Nursery - 12 Class'; third-party only (official statements were boarding/curriculum spans, now excluded).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "0222973b8e00858f",
+      "school_id": "IN-the-aga-khan-academy-kurmalguda-hyderabad-ddb90b",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Title 'Welcome to the Aga Khan Academy Hyderabad'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ae0571df437075b0",
+      "school_id": "IN-stonehill-international-school-jala-hobli-bengaluru-f14029",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "Official site text 'Stonehill International School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "635b1ee0f58bfaac",
+      "school_id": "IN-heritage-international-xperiential-school-dlf-phase-v-gurugram-73dcb9",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'Cambridge curriculum from Grade 5 to 8'; 'IB PYP ... from Nursery to Grade 4'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "c526619d713e4d06",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "annual_fee",
+      "verdict": "MATCH",
+      "note": "Ezyschooling table: ₹8,00,000/year for Nursery-Class 12 (Toddler not available), 2027-28; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "14685684601ece22",
+      "school_id": "IN-international-school-of-hyderabad-patancheru-hyderabad-0f73d9",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'International School of Hyderabad'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ae8365b235026529",
+      "school_id": "IN-mount-litera-school-international-bandra-east-mumbai-8acd61",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'Best International School in Mumbai, BKC'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "70a136cc72e63898",
+      "school_id": "IN-knowledgeum-academy-jayanagar-bengaluru-5a167d",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "'IB DP Grades 11-12'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ae03790523579f52",
+      "school_id": "IN-sarala-birla-academy-bannerghatta-bengaluru-3d5653",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Ezyschooling JSON-LD sameAs; official site itself blocks automated access (identity not confirmable), so third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "d3a25cf7402f4904",
+      "school_id": "IN-genesis-global-school-sector-132-noida-0e0ae3",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "'Director Message' on official site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "enrollment-scope-IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "school_id": "IN-ascend-international-school-bandra-east-mumbai-ee9af2",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Kasegaon Society runs 46 institutes ... provides education to more than 26,000 students' - parent society total, not campus enrollment. Caught by the independent validator (R05); evidence retracted and extractor rules added.",
+      "retract_evidence_ids": [
+        "ev-7d89356bfa80656a"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "enrollment-scope-IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Established on July 14th, 2003 with an initial enrollment of 135 students' - historical founding enrollment, not current. Caught by the independent validator (R05); evidence retracted and extractor rules added.",
+      "retract_evidence_ids": [
+        "ev-57893d8b09ed633b"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "enrollment-scope-IN-inventure-academy-sarjapur-road-bengaluru-f8edb8",
+      "school_id": "IN-inventure-academy-sarjapur-road-bengaluru-f8edb8",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'3 Campuses ... 1500+ Students' - total across three campuses, not this campus. Caught by the independent validator (R05); evidence retracted and extractor rules added.",
+      "retract_evidence_ids": [
+        "ev-ee147053c2f049ec",
+        "ev-8a2b576b1d029e67"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "enrollment-scope-IN-treamis-world-school-electronic-city-bengaluru-63ce3c",
+      "school_id": "IN-treamis-world-school-electronic-city-bengaluru-63ce3c",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Bharatiya Samskriti Vidyapith, an institution founded in 1957 ... over 3000 students from preschool to college' - parent institution's count. Caught by the independent validator (R05); evidence retracted and extractor rules added.",
+      "retract_evidence_ids": [
+        "ev-ef2720978434d0ce"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "group-scope-IN-amity-global-school-sector-46-gurugram-de177f",
+      "school_id": "IN-amity-global-school-sector-46-gurugram-de177f",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Amity Education Group 200,000 Students Enrolled ... 12 Universities' includes universities; misleading as school-group reach. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-cb41412cd1833aa6"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "group-scope-IN-dlrc-school-baner-pune-93d77f",
+      "school_id": "IN-dlrc-school-baner-pune-93d77f",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "Artifact of an intermediate scope rule: '300 students' is this single campus, not a group count. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-320ad0078cdc589f"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "group-scope-IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "school_id": "IN-indus-international-school-sarjapur-road-bengaluru-7e313a",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'established on 14th July 2003 with 135 students' is the founding enrollment, not a group count. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-b419c50cb16d4e34"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "group-scope-IN-solitaire-global-schools-upperpally-hyderabad-ce6673",
+      "school_id": "IN-solitaire-global-schools-upperpally-hyderabad-ce6673",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "Artifact of an intermediate scope rule: 'student body comprising about 1500 students' is this school, not a group count. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-9bc09ec8cd34c435"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "group-scope-IN-universal-wisdom-school-balewadi-pune-1dfa04",
+      "school_id": "IN-universal-wisdom-school-balewadi-pune-1dfa04",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'The Wakad campus celebrates 15 successful years with over 5,000 students' describes another campus (and likely cumulative), not this Balewadi campus. Evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-4fde3d610ca71625"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9c016c01712455b2",
+      "school_id": "IN-discovery-den-micro-school-nallagandla-hyderabad-0e703d",
+      "field": "curricula",
+      "verdict": "MISMATCH",
+      "note": "'Primary Years Program (Grades 1-5)' on a page that never mentions the IB is a generic label, not evidence of IB PYP. Item retracted; rule added (IB codes require an IB mention on the page). IGCSE item is third-party only.",
+      "retract_evidence_ids": [
+        "ev-012662417e1a9768"
+      ],
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5fcf2f023f6c19ef",
+      "school_id": "IN-the-shriram-millennium-school-sector-135-noida-187e9c",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Estd. 2010'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "265cdb92341ee3f8",
+      "school_id": "IN-unicosmos-school-sector-55-gurugram-6d3b60",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'Best IB Schools in Gurugram - Unicosmos School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "69ccc85e22773cd9",
+      "school_id": "IN-jbm-global-school-sector-132-noida-965ca0",
+      "field": "public_contact",
+      "verdict": "MATCH",
+      "note": "Role mailboxes admissions@ / info@jbms.in.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "3b4bd25ff0a95c37",
+      "school_id": "IN-inventure-academy-sarjapur-road-bengaluru-f8edb8",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Karnataka mentioned on official site; school is in Bengaluru, Karnataka.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "4a77e33a463d661e",
+      "school_id": "IN-trio-world-academy-sahakar-nagar-bengaluru-c52be5",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Estd. 2007'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "dcb3e2dd2fd8456a",
+      "school_id": "IN-bangalore-international-school-kothanur-bengaluru-69a1bd",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling ratio 18:1; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "c02f46a8b77e650f",
+      "school_id": "IN-swadhaa-waldorf-learning-center-pashan-pune-1e17df",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Ezyschooling board badge 'IGCSE'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "cfc5d496761ac60b",
+      "school_id": "IN-spk-jain-futuristic-academy-new-town-kolkata-9c040a",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Mandatory-disclosure address '... NEWTOWN, KOLKATA- 700156 WEST BENGAL'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "04429a45085afe47",
+      "school_id": "IN-prakriti-school-sector-128-noida-8f979c",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'Best school ... in Noida Expressway'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "dc60d50ad4320880",
+      "school_id": "IN-k-r-mangalam-global-school-greater-kailash-delhi-f313ac",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "'A student-teacher ratio of 10:1'; conflict with third-party value shown.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ab5f81675e311e22",
+      "school_id": "IN-trio-world-academy-sahakar-nagar-bengaluru-c52be5",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling ratio 6:1; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "2decd159f2f424eb",
+      "school_id": "IN-amity-global-school-sector-46-gurugram-de177f",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'Best IB School in Gurgaon'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "bd4896a201786c69",
+      "school_id": "IN-meru-international-school-miyapur-hyderabad-2ed7f3",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling ratio 12:1; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "0262d54faa01df8f",
+      "school_id": "IN-solitaire-global-schools-upperpally-hyderabad-ce6673",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "'International Schools in Hyderabad - Solitaire Global School'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "f7aba98153dd5547",
+      "school_id": "IN-delhi-public-school-gurugram-sector-67a-gurugram-458bf3",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "'What Sets Delhi Public School Gurugram Apart'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "19832cd1fab1b05f",
+      "school_id": "IN-dlrc-school-baner-pune-93d77f",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "18.549, 73.761 - Baner, Pune.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "12b1bb369270e408",
+      "school_id": "IN-universal-wisdom-school-balewadi-pune-1dfa04",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "'Cambridge & IB World School curriculum' with AS/A Level and IB DP pages.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ae696f362ad3ecd1",
+      "school_id": "IN-redbridge-international-academy-electronic-city-bengaluru-03dd20",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Estd. 2013'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "dc06969b14456e46",
+      "school_id": "IN-modern-high-school-international-ballygunge-kolkata-511ae0",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling ratio 6:1; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "99f05ca9d8b1770e",
+      "school_id": "IN-manthan-international-school-tellapur-hyderabad-34d543",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "Ezyschooling JSON-LD name; official site identity not confirmed, so third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "db7142d9daad95c3",
+      "school_id": "IN-shiv-nadar-school-adyar-chennai-e7e16a",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Address 'Adyar Chennai, Tamil Nadu – 600020'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "bdfe40a2f08c3b89",
+      "school_id": "IN-glendale-academy-sun-city-hyderabad-ccf413",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Glendale India Suncity campus page.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "1c5d167a77a90858",
+      "school_id": "IN-shiv-nadar-school-adyar-chennai-e7e16a",
+      "field": "subjects_offered",
+      "verdict": "MATCH",
+      "note": "'exposed to Tamil and Hindi from Nursery upwards', French and Spanish options stated.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9e8bd52fb1e104ea",
+      "school_id": "IN-rockwell-international-school-kokapet-hyderabad-4f2b7c",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Address '... Kokapet, Hyderabad, Telangana ... 500075'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "c01a8eea08ef10da",
+      "school_id": "IN-modern-high-school-international-ballygunge-kolkata-511ae0",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "22.534, 88.364 - Kolkata.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "d9707ee0f0d0b6e2",
+      "school_id": "IN-candor-international-school-electronic-city-bengaluru-4e4fea",
+      "field": "assessment_methodology",
+      "verdict": "MATCH",
+      "note": "'Continuous assessment' and 'Criterion-related results ... graded 1 to 7 against established standards'.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "3ea0b5d04f36d08d",
+      "school_id": "IN-prakriti-school-sector-128-noida-8f979c",
+      "field": "curriculum_history",
+      "verdict": "MATCH",
+      "note": "Archive observations with dates (e.g. 'Launching New AS/A Level and IGCSE Subjects', 2023).",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "3733e4009f79065e",
+      "school_id": "IN-gopalan-international-school-hoodi-bengaluru-5495b6",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Ezyschooling ratio 20:1; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "d0e7cbae7f3b16c0",
+      "school_id": "IN-focus-high-school-darul-shifa-hyderabad-f6afdb",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Ezyschooling location string; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "ee21bddf768bcec5",
+      "school_id": "IN-prometheus-school-sector-131-noida-31f36e",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "'Founder Chairperson & CEO' on official site.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "af5eb160bc0c824d",
+      "school_id": "IN-manav-rachna-international-school-sector-46-gurugram-f93c62",
+      "field": "public_contact",
+      "verdict": "MATCH",
+      "note": "Role mailboxes and the school's listed phone on the Sector 46 page.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "5383cafab6d238be",
+      "school_id": "IN-vibgyor-high-school-nibm-pune-7525fd",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "VIBGYOR High NIBM Pune campus page.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "cb0a991168bbc62f",
+      "school_id": "IN-pathways-school-baliawas-gurugram-e4b919",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'IB Board'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "26248d20bd377403",
+      "school_id": "IN-walden-s-path-school-jubilee-hills-hyderabad-304446",
+      "field": "grades_offered",
+      "verdict": "MATCH",
+      "note": "Ezyschooling 'Nursery - 12 Class'; third-party only.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "a98f4d052aff1e8c",
+      "school_id": "IN-oakridge-international-school-bachupally-hyderabad-833fb8",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "17.563, 78.385 - Bachupally, Hyderabad.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "9855a84f805cb6d0",
+      "school_id": "IN-discovery-den-micro-school-nallagandla-hyderabad-0e703d",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "Accurate reading of Ezyschooling badge 'Cambridge , IGCSE' (third-party only). Doubtful in substance: the same profile lists 'Toddler - 2 Class', and IGCSE is a Grade 9-10 qualification.",
+      "audited_at": "2026-10-20"
+    },
+    {
+      "audit_key": "31bbee27c6dddd83",
+      "school_id": "IN-riverdale-international-school-mulshi-pune-d8682b",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "Profile JSON-LD School.name 'RiverDale International School'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "7a4051459ab83092",
+      "school_id": "IN-ram-ratna-vidya-mandir-mumbai-a05880",
+      "field": "assessment_methodology",
+      "verdict": "MATCH",
+      "note": "Home page: 'follows continuous and comprehensive evaluation'; mandatory disclosure lists 'result of board exams (Class X)'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "449868457e30a6bc",
+      "school_id": "IN-the-cambria-international-school-kalyan-west-thane-6a4f92",
+      "field": "founding_year",
+      "verdict": "MATCH",
+      "note": "Profile badge 'Estd. 2010'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "0bafa113c2c626f0",
+      "school_id": "IN-meridian-school-banjara-hills-hyderabad-d9f49b",
+      "field": "affiliation_details",
+      "verdict": "MATCH",
+      "note": "Footer: 'CBSE Affiliation No : 3630044'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "3303b3dc65062614",
+      "school_id": "IN-greenwood-high-international-school-bangalore-863d3e",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "Profile address ends '…, Bangalore , Karnataka - 560064'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "3f348ee834f3cca9",
+      "school_id": "IN-tridha-school-andheri-east-mumbai-a77e53",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Profile JSON-LD sameAs 'https://www.tridha.com/'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "a27890418eca6526",
+      "school_id": "IN-jg-international-school-ahmedabad-65aa6f",
+      "field": "curriculum_by_grade",
+      "verdict": "MISMATCH",
+      "note": "Page lists 'Classes IX and X: : IGCSE Classes XI and XII: : AS and A Levels Classes VII to X: : ICSE' — each range labels the programme that FOLLOWS it; 'AS/A Levels 7–10' pairs the wrong range. Fixed by extractor rule (ranges followed by ':' label the next programme).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "c8aa0cea8fb762c1",
+      "school_id": "IN-the-shri-ram-universal-school-serilingampalle-hyderabad-51c6fe",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Site title 'The Shri Ram Universal School'; all name tokens present (Hyderabad campus site).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "820e0d27bb77c353",
+      "school_id": "IN-st-mary-s-school-camp-pune-d9056e",
+      "field": "annual_fee",
+      "verdict": "MATCH",
+      "note": "Fee page 2027-2028: all 15 grade rows Nursery–Class 12 show ₹30,000 /year; min = max = 30,000.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "fa0ff4b99fcc8471",
+      "school_id": "IN-ryan-global-school-kundalahalli-bengaluru-069227",
+      "field": "subjects_offered",
+      "verdict": "MISMATCH",
+      "note": "'Hindi' came from admission documents '(Hindi/English language) Birth Certificate', not a subject offered. Fixed by extractor rule (document/certificate context ignored).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "217bcf34e1f87035",
+      "school_id": "IN-ram-ratna-vidya-mandir-mumbai-a05880",
+      "field": "city",
+      "verdict": "MISMATCH",
+      "note": "Fee PDF line 'Transportation Charges: Mira Bhayander … and Mumbai Students - Rs. 56500/-' describes where students travel from, not the school's city. School address is Uttan, Bhayander (W), Thane district. Fixed by extractor rule (city mentions in transport/fee context ignored). Previously shown value is kept by the regression guard, so the evidence is retracted (audited).",
+      "audited_at": "2026-10-21",
+      "retract_evidence_ids": [
+        "ev-08f4329762aed0bb"
+      ]
+    },
+    {
+      "audit_key": "acb56211cdcb8b86",
+      "school_id": "IN-mountcrest-academy-hbr-layout-bengaluru-c65b33",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "Home page: 'AS & A Level Grades 11 – 12'. (IGCSE 9–10 not captured: incomplete, not wrong.)",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "7f818b8ad96aa80b",
+      "school_id": "IN-good-day-defence-school-hanumangarh-aa1ccb",
+      "field": "annual_fee",
+      "verdict": "MATCH",
+      "note": "Fee page 2027-2028: Class 3 ₹2,25,000 … Class 11/12 ₹3,60,000 /year; min 2.25 L, max 3.6 L.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "8fb5e0bc9dd8a8c4",
+      "school_id": "IN-proactive-international-school-ulhasnagar-thane-85daa6",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Profile address text verbatim.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "173b68a24fe2e2f6",
+      "school_id": "IN-pragyanam-school-sector-65-gurugram-059503",
+      "field": "student_teacher_ratio",
+      "verdict": "MISMATCH",
+      "note": "'1:10 for pre-primary, 1:15 for Grade 1-5, and 1:30 for Grade 6 onwards' — 1:10 is the pre-primary ratio only; a single school-wide ratio misrepresents the source. Fixed by extractor rule (stage-scoped ratios ignored).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "605b67dcf8fc3c7f",
+      "school_id": "IN-one-world-international-school-whitefield-bengaluru-4671d0",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "IB school Whitefield page lists PYP, MYP, IB Diploma Programme (and EYP).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "ac3f818df9edbafd",
+      "school_id": "IN-delhi-public-school-khajaguda-hyderabad-f20c9e",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Profile JSON-LD sameAs 'https://dpshyderabad.in/'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "36ada73750d37ed8",
+      "school_id": "IN-vishwashanti-gurukul-world-school-pune-722d3c",
+      "field": "curriculum_by_grade",
+      "verdict": "MISMATCH",
+      "note": "'Explore MYP' is a link label before 'Diploma Programme (DP) … (Grade 11-12)'; MYP 11–12 is wrong. Fixed by extractor rule (link labels such as 'Explore X' ignored).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "88cebf2f9bc445a5",
+      "school_id": "IN-g-b-public-school-kanchipuram-c3505b",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "Profile JSON-LD geo latitude/longitude.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "218a372e53550fb2",
+      "school_id": "IN-st-helen-s-secondary-school-kurseong-darjeeling-813a63",
+      "field": "campus",
+      "verdict": "MATCH",
+      "note": "Site header 'St. Helen's Secondary School, Kurseong'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "254644959b84a54b",
+      "school_id": "IN-the-champs-international-sector-49-faridabad-789304",
+      "field": "curricula",
+      "verdict": "MATCH",
+      "note": "School's own site title 'Best CBSE School In Faridabad Sector 49' (self-description).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "e73bce8bd14436fa",
+      "school_id": "IN-delhi-public-school-ghaziabad-international-dasna-ghaziabad-865c45",
+      "field": "decision_maker_roles",
+      "verdict": "MATCH",
+      "note": "Navigation 'Chairman's Message' — role title only, no person data.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "b98c138f1d05c313",
+      "school_id": "IN-chettinad-sarvalokaa-education-international-school-international-scho-0aa898",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Profile quick facts 'Student Teacher Ratio 30:1' (third-party).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "74a71a990404caa1",
+      "school_id": "IN-seth-anandram-jaipuria-school-sushant-golf-city-lucknow-9ec11b",
+      "field": "school_type",
+      "verdict": "MATCH",
+      "note": "'a co-educational day and boarding private school from the Nursery to XII grades'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "b92b02f83562c260",
+      "school_id": "IN-trivandrum-international-school-trivandrum-955e64",
+      "field": "city",
+      "verdict": "MATCH",
+      "note": "Site title 'Best Schools in Trivandrum| TRINS'; school is in Trivandrum.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "00d73f4eadf90b3c",
+      "school_id": "IN-carman-school-dehradun-7092d5",
+      "field": "curriculum_history",
+      "verdict": "MATCH",
+      "note": "Wayback 2020-02-02 snapshot mentions ICSE/ISC board results; caveated as observation, not adoption date.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "3ff47605ad1c038f",
+      "school_id": "IN-kanakia-international-school-chembur-east-mumbai-45a912",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Profile JSON-LD sameAs 'http://www.kanakiaschools.org'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "4bb876efffe28e95",
+      "school_id": "IN-sri-chandra-gupta-maurya-international-school-theni-a715ba",
+      "field": "school_name",
+      "verdict": "MATCH",
+      "note": "Site header 'Sri Chandra Gupta Maurya International School - Theni'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "3a48b648c4469af4",
+      "school_id": "IN-akash-international-school-bangalore-b38a15",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Profile address text verbatim.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "b23f07610b8a906f",
+      "school_id": "IN-king-s-college-uk-gurugram-gurugram-gurugram-834f30",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Profile address text verbatim.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "adef72f2702ad305",
+      "school_id": "IN-pgp-international-school-namakkal-0d96b9",
+      "field": "address",
+      "verdict": "MATCH",
+      "note": "Profile address text verbatim.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "64b69a7de762ef2e",
+      "school_id": "IN-harvest-international-school-kodathi-bengaluru-4052d1",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "IB page: 'MYP 1 to MYP 3 (Grade 6 to Grade 8)' and 'MYP 4 to MYP 5 (Grade 9 to Grade 10)'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "a5fe1dedd831da96",
+      "school_id": "IN-bombay-international-school-gamdevi-mumbai-6adc72",
+      "field": "grades_offered",
+      "verdict": "MATCH",
+      "note": "Profile 'Toddler - 12 Class'; Toddler = pre-nursery (-3).",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "3b94ffee92bd317f",
+      "school_id": "IN-vibgyor-high-school-hinjewadi-pune-7746a0",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "VIBGYOR Hinjewadi CBSE campus page; identity passed (domain + campus). Conflict flag retained.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "fdb6a28b80a02bcb",
+      "school_id": "IN-bgs-international-academia-school-bangalore-cdbb1e",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "Profile JSON-LD geo latitude/longitude.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "5c4906935d75f887",
+      "school_id": "IN-new-baldwin-international-school-kodathi-bengaluru-4a06f7",
+      "field": "official_website",
+      "verdict": "MATCH",
+      "note": "Group site title/navigation; name tokens 'new baldwin' and campus found.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "1391a0351dd79dd4",
+      "school_id": "IN-valistus-international-school-whitefield-bengaluru-7b3cbf",
+      "field": "state",
+      "verdict": "MATCH",
+      "note": "'…in Bengaluru, Karnataka' on the school's home page.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "e5c0c9128ebae14f",
+      "school_id": "IN-jg-international-school-ahmedabad-65aa6f",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "After fix: Primary I–VI, Checkpoint VII–VIII, IGCSE IX–X, AS/A XI–XII, ICSE IX–X, ISC XI–XII, IB DP XI–XII — each matches the programme pages.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "0b4b750f271835fe",
+      "school_id": "IN-ryan-global-school-kundalahalli-bengaluru-069227",
+      "field": "subjects_offered",
+      "verdict": "MATCH",
+      "note": "After fix: English/Science from 'core subjects, English … mathematics and science'; Music from 'Structured Music Programme'. Hindi (birth-certificate text) no longer included.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "8cb1b877a3501ef0",
+      "school_id": "IN-pragyanam-school-sector-65-gurugram-059503",
+      "field": "student_teacher_ratio",
+      "verdict": "MATCH",
+      "note": "Profile quick facts 'Student Teacher Ratio 10:1' read accurately; third-party only (school site gives stage-specific ratios) — kept as third-party, not verified.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "2b6d50c319a0140f",
+      "school_id": "IN-vishwashanti-gurukul-world-school-pune-722d3c",
+      "field": "curriculum_by_grade",
+      "verdict": "MATCH",
+      "note": "After fix: PYP Nursery–5, MYP 6–10, DP 11–12, CP 11–12 — matches 'PYP … MYP Grades 6 to 10, IBDP Grades 11 & 12, IBCP Grades 11 & 12'.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "217d72934df66ea7",
+      "school_id": "IN-himali-boarding-school-kurseong-darjeeling-cae5d6",
+      "field": "geo_coordinates",
+      "verdict": "MATCH",
+      "note": "Profile JSON-LD geo 26.8921, 88.2559 — Kurseong, Darjeeling district, consistent with the school address.",
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-b-d-somani-international-school-cuffe-parade-mumbai-19201a-campus_student_count",
+      "school_id": "IN-b-d-somani-international-school-cuffe-parade-mumbai-19201a",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'The IGCSE program … currently has 130 students' — one programme, not the school. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-86f6105e53d63f87",
+        "ev-e06b2edf42f4cad9"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-bishop-cotton-school-shimla-24671b-campus_student_count",
+      "school_id": "IN-bishop-cotton-school-shimla-24671b",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'120 children supported since 2015' — outreach/sponsorship, not enrolment. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-2d6072d6fb337974"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-chaman-bhartiya-school-kannuru-bengaluru-5b7b07-campus_student_count",
+      "school_id": "IN-chaman-bhartiya-school-kannuru-bengaluru-5b7b07",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'can comfortably accommodate 500 learners' — facility capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-4c6f104a1145bb89"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-colonel-satsangi-s-kiran-memorial-public-school-chattarpur-delhi-8e738a-campus_student_count",
+      "school_id": "IN-colonel-satsangi-s-kiran-memorial-public-school-chattarpur-delhi-8e738a",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'seating for about 1500 children' — gallery seating capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-1a363fda07407202"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-delhi-international-school-sinhasa-indore-ef8d12-campus_student_count",
+      "school_id": "IN-delhi-international-school-sinhasa-indore-ef8d12",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'dining hall that accommodates up to 1,000 students' — capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-083a15a4783138bc"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-elpro-international-school-chinchwad-pune-03e545-campus_student_count",
+      "school_id": "IN-elpro-international-school-chinchwad-pune-03e545",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'238 Students Scoring 90%+' — exam result, not enrolment. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-53be50c5614a6ec6"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-harvest-international-school-ludhiana-8bca59-campus_student_count",
+      "school_id": "IN-harvest-international-school-ludhiana-8bca59",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Join Over 5,000 Students, It Will be Your Best Move Ever!' — marketing slogan. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-2dc2b1ee28b560f2"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-kiit-international-school-bhubaneswar-bbsr-6b3127-campus_student_count",
+      "school_id": "IN-kiit-international-school-bhubaneswar-bbsr-6b3127",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'presentation in front of more than 600 children' — event audience. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-42f2e8a7891099c1"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-kuriakose-elias-english-medium-school-mannanam-kottayam-d4988c-campus_student_count",
+      "school_id": "IN-kuriakose-elias-english-medium-school-mannanam-kottayam-d4988c",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Chavara Hall which accommodates around 2000 students' — hall capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-24e3f5fa2f1c47ce"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-manthan-international-school-tellapur-hyderabad-34d543-campus_student_count",
+      "school_id": "IN-manthan-international-school-tellapur-hyderabad-34d543",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'fleet of over 50 buses … more than 1,400 students every day' — transport ridership. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-8b1d71ed53b6ab1d"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-modern-high-school-international-ballygunge-kolkata-511ae0-campus_student_count",
+      "school_id": "IN-modern-high-school-international-ballygunge-kolkata-511ae0",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'5th Oct 2026 Students visited Patuapara' — a date, not a count. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-07da89f6169cc530"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-modern-public-school-sector-37-faridabad-943feb-campus_student_count",
+      "school_id": "IN-modern-public-school-sector-37-faridabad-943feb",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'on 21/10/ 2022 Students from classes 10 to 12 went' — a date, not a count. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-62035132b1dd0b21",
+        "ev-aaca76ff093d8e67"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-national-academy-school-kodagu-coorg-773903-campus_student_count",
+      "school_id": "IN-national-academy-school-kodagu-coorg-773903",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Join Over 500,000 Students Enjoying National Academy Now' — website template/marketing copy. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-135480f412c0acb6"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-paramjyoti-school-east-godavari-a3dcad-campus_student_count",
+      "school_id": "IN-paramjyoti-school-east-godavari-a3dcad",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'around 100 students from Reception to Grade 5' — Junior School section only. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-ba441b8d01693cba"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-rose-manor-international-school-santacruz-west-mumbai-965a3f-campus_student_count",
+      "school_id": "IN-rose-manor-international-school-santacruz-west-mumbai-965a3f",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'2026 Students Council 2026 – 2027' — gallery heading, a year. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-297ba9148c7ab000",
+        "ev-128dd4bdcae11358",
+        "ev-d5de6ba623e2bcc8",
+        "ev-98b766ea1d82528b",
+        "ev-698cb764a03967de",
+        "ev-67fc2183fc9933b4",
+        "ev-1e4be6120d4665bc",
+        "ev-4dd026308f78e2f1",
+        "ev-0e171c1c866a6084",
+        "ev-d1ac2732736f99c0"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-spring-buds-international-preschool-juhu-mumbai-85de7f-campus_student_count",
+      "school_id": "IN-spring-buds-international-preschool-juhu-mumbai-85de7f",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'35000 + Students' across multiple locations — group total, not this campus. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-76469280027d7238"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-sree-vidyanikethan-international-school-tirupati-93e8c2-campus_student_count",
+      "school_id": "IN-sree-vidyanikethan-international-school-tirupati-93e8c2",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Student Strength 2026-27' — document title, a year. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-b37f946bce9eea9d",
+        "ev-6a08cb8152da8bee"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-st-josephs-international-school-hisar-c08adc-campus_student_count",
+      "school_id": "IN-st-josephs-international-school-hisar-c08adc",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'With a capacity for 2,000 students' — capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-f721e42b481f292b"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-st-xavier-s-high-school-fort-mumbai-6253a9-campus_student_count",
+      "school_id": "IN-st-xavier-s-high-school-fort-mumbai-6253a9",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'The Hall … had a capacity for 700 children' (1930s history) — capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-66a476c8221e4317"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-svkm-international-school-vile-parle-west-mumbai-080ab9-campus_student_count",
+      "school_id": "IN-svkm-international-school-vile-parle-west-mumbai-080ab9",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'more than 40,000 students through over 25 prestigious institutions' — trust-wide total. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-22b9c899e59cfcb8"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-the-amaatra-academy-haralur-bengaluru-70dd4e-campus_student_count",
+      "school_id": "IN-the-amaatra-academy-haralur-bengaluru-70dd4e",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'November 16, 2023 Children's Day' — a date, not a count. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-de0d9066d9d918c0"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-the-lawrence-school-sanawar-sanawar-tls-solan-78542e-campus_student_count",
+      "school_id": "IN-the-lawrence-school-sanawar-sanawar-tls-solan-78542e",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'By 1853 the strength had grown to 195 pupils' — historical. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-6fbedc94ad83de44"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-the-polymath-school-bhiwandi-thane-4b3b25-campus_student_count",
+      "school_id": "IN-the-polymath-school-bhiwandi-thane-4b3b25",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'auditorium which can sit 400 students' — capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-191559286cc08c6d",
+        "ev-14230e379a3ab907"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-delhi-public-school-udaipur-e4864a-campus_student_count",
+      "school_id": "IN-delhi-public-school-udaipur-e4864a",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Near about 125 children have taken up this sport' — skating participants. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-e1df78238c232d2f"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-oberoi-international-school-btm-layout-mumbai-8cc73b-campus_student_count",
+      "school_id": "IN-oberoi-international-school-btm-layout-mumbai-8cc73b",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'roughly 110 students per grade' — per-grade figure. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-9a91bee0c814b089"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-sagebrook-international-school-puppalguda-hyderabad-86cd81-campus_student_count",
+      "school_id": "IN-sagebrook-international-school-puppalguda-hyderabad-86cd81",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Suchitra is home to over 2,200 students' — the founder's other school. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-10553cba1d779b52"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-sri-shakthi-international-school-tiruppur-dc2685-campus_student_count",
+      "school_id": "IN-sri-shakthi-international-school-tiruppur-dc2685",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Institute of Engineering and Technology … 240 students' — engineering college. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-add1889a0aceff2c"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-universal-wisdom-school-balewadi-pune-1dfa04-campus_student_count",
+      "school_id": "IN-universal-wisdom-school-balewadi-pune-1dfa04",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'the school saw phenomenal growth … over 2,200 students in 5 years' — in a staff biography; refers to another campus/school, not Balewadi. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-a69bb0818a0f8e64"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-the-beacon-school-sector-64-gurugram-f8fa12-campus_student_count",
+      "school_id": "IN-the-beacon-school-sector-64-gurugram-f8fa12",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "'Delhi World Public School Noida Extension With 3,000+ students' — another school. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-a4377d7cd1bb4148",
+        "ev-4c27b39019cc417e"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-paul-george-global-school-alaknanda-delhi-bd1774-group_student_count",
+      "school_id": "IN-paul-george-global-school-alaknanda-delhi-bd1774",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'with a capacity of nearly 2000 students' — capacity. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-a23ca0f522d1691f"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-ryan-global-school-andheri-west-mumbai-c5b960-group_student_count",
+      "school_id": "IN-ryan-global-school-andheri-west-mumbai-c5b960",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'nearly 2,50,000+ students' read as 50,000 (Indian digit grouping) — misread number. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-608ef2a8606badec"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-ryan-global-school-kharghar-navi-mumbai-35f3b0-group_student_count",
+      "school_id": "IN-ryan-global-school-kharghar-navi-mumbai-35f3b0",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'nearly 2,50,000+ students' read as 50,000 (Indian digit grouping) — misread number. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-f461c765f57de229"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-podar-international-school-ayodhya-nagar-bhopal-f59f45-group_student_count",
+      "school_id": "IN-podar-international-school-ayodhya-nagar-bhopal-f59f45",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'more than 2,75,000 students' read as 75,000 (Indian digit grouping) — misread number. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-c93cf3dacc9bcc2e",
+        "ev-ef30f173bbca1fbb"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-gitanjali-senior-school-begumpet-hyderabad-c9632a-group_student_count",
+      "school_id": "IN-gitanjali-senior-school-begumpet-hyderabad-c9632a",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'from a school with 500 students to 5 campuses' — historical starting size. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-fc171e6876640c54"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-mount-abu-public-school-sector-5-sector-5-maps-delhi-1367cf-group_student_count",
+      "school_id": "IN-mount-abu-public-school-sector-5-sector-5-maps-delhi-1367cf",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'a group of 150 students showcased' — event participants. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-51c5a17ecb8085a6",
+        "ev-8924eaaf9153c4d9"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-shishukunj-international-school-bypass-road-indore-146134-group_student_count",
+      "school_id": "IN-shishukunj-international-school-bypass-road-indore-146134",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'The Ei ASSET is taken by over 350,000 students' — test-takers nationally. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-a40b708f03aaad2a",
+        "ev-abd7c2b4a88789ff"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-singapore-international-school-dahisar-east-mumbai-eb7491-group_student_count",
+      "school_id": "IN-singapore-international-school-dahisar-east-mumbai-eb7491",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'IB diploma section serving over 200 students' — one section. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-bb7c934cdf603fec"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-the-international-school-of-thrissur-thrissur-369ee0-group_student_count",
+      "school_id": "IN-the-international-school-of-thrissur-thrissur-369ee0",
+      "field": "group_student_count",
+      "verdict": "MISMATCH",
+      "note": "'More than 250,000 students worldwide sat for the Cambridge IGCSE' — worldwide exam candidates. Found reviewing the dashboard after slice 6 (round 8); extractor rule added and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-0c0b7c3bd9709b14"
+      ],
+      "audited_at": "2026-10-21"
+    },
+    {
+      "audit_key": "round8-IN-the-beacon-school-sector-64-campus_student_count-b",
+      "school_id": "IN-the-beacon-school-sector-64-gurugram-f8fa12",
+      "field": "campus_student_count",
+      "verdict": "MISMATCH",
+      "note": "Leadership biography: 'steering several educational institutions that currently have an enrolment of over 11,000 students' — total across several institutions, not The Beacon School. Rule fixed (plural 'institutions') and evidence retracted.",
+      "retract_evidence_ids": [
+        "ev-f235c5075ea49eb5"
+      ],
+      "audited_at": "2026-10-21"
+    }
+  ]
+}

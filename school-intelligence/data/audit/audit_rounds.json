@@ -1,0 +1,152 @@
+{
+  "_note": "Pre-remediation manual audit results per round. These are the honest first-look accuracy figures before extractor fixes and retractions; the validator's audited accuracy is measured after remediation on the current sample.",
+  "rounds": [
+    {
+      "round": 1,
+      "slice": 1,
+      "date": "2026-10-20",
+      "facts_reviewed": 17,
+      "value_mismatches": 3,
+      "first_look_accuracy_pct": 82.4,
+      "findings": [
+        "group_student_count from an online-session participation figure",
+        "assessment 'portfolio' from a skills list",
+        "subjects from university names / extracurricular lists (Political Science, Commerce, Music, Robotics, Science)"
+      ],
+      "policy_findings": [
+        "named staff mobile numbers collected (values accurate; excluded by policy)"
+      ],
+      "remediation": "extractor context guards + retraction of 1 evidence record"
+    },
+    {
+      "round": 2,
+      "slice": 2,
+      "date": "2026-10-20",
+      "facts_reviewed": 4,
+      "value_mismatches": 0,
+      "first_look_accuracy_pct": 100.0,
+      "findings": [],
+      "doubtful": [
+        "third-party student-teacher ratio 27:1 equals official class size 27 (flagged by consistency rule)"
+      ]
+    },
+    {
+      "round": 3,
+      "slice": 3,
+      "date": "2026-10-20",
+      "facts_reviewed": 36,
+      "value_mismatches": 7,
+      "first_look_accuracy_pct": 80.6,
+      "findings": [
+        "Kunskapsskolan founding year from the Swedish programme's founding",
+        "Mount Litera PYP grade range borrowed from MYP",
+        "10X 'CEO' role belonged to another organisation",
+        "Ascend 'Director' from 'Assistant Director of Admissions'",
+        "Indus ratio 25:2 is Grades 1-3 only",
+        "Indus school type 'boarding' incomplete (day cum boarding)",
+        "Canadian Intl subjects from facilities/IB description (Music, Science, English)"
+      ],
+      "status_findings": [
+        "Harrow website www/non-www reported as conflict"
+      ],
+      "automated_validator_findings": [
+        "PYP candidate status read as offered",
+        "curricula from staff bios, blog titles and newsletter links"
+      ],
+      "remediation": "extractor fixes (grade-range boundaries, role ownership, facility exclusion, candidate/bio/blog exclusion, URL normalisation) + 3 retractions"
+    },
+    {
+      "round": 4,
+      "slice": 4,
+      "date": "2026-10-20",
+      "facts_reviewed": 42,
+      "value_mismatches": 8,
+      "first_look_accuracy_pct": 81.0,
+      "findings": [
+        "Mount Litera history 'IB 2015' from a staff bio",
+        "Mahindra 'MYP since 1999' coded as generic IB",
+        "Stonehill DP/PYP/MYP authorisation years partially captured",
+        "Aga Khan 'English' subject from an admission expectation",
+        "Indus grade span from a ratio sentence",
+        "Ascend founding year from a parent testimonial",
+        "Neev 'STEAM' and TISB 'Montessori' from facility/sister-institution names",
+        "Ascend founding year from the school newspaper's start date"
+      ],
+      "status_findings": [
+        "archive 'no longer observed' events fired for curricula still on the live site (suppressed)",
+        "candidate-school and staff-bio mentions counted as archive observations (filtered)",
+        "grade spans from admission-intake statements (excluded)"
+      ],
+      "remediation": "extractor fixes + 7 retractions (incl. 2 legacy held school_type values)"
+    },
+    {
+      "round": 5,
+      "slice": 4,
+      "date": "2026-10-20",
+      "facts_reviewed": 32,
+      "value_mismatches": 3,
+      "first_look_accuracy_pct": 90.6,
+      "findings": [
+        "10X 'MYP year 4 & 5' parsed as grades 4-5 (and a source typo 'MYP Grades 11 & 12')",
+        "Genesis grade span from a boarding-eligibility sentence",
+        "TISB 'IBDP Coordinator' from a staff career list"
+      ],
+      "status_findings": [
+        "Heritage archive 'CBSE observed' from a staff bio and a board comparison (filtered)"
+      ],
+      "remediation": "stable hash-ranked audit sample; extractor guards for programme years, careers, comparisons, boarding eligibility; 2 retractions",
+      "note": "Round 5 is the re-sample after switching to a stable hash-ranked sample."
+    },
+    {
+      "round": 6,
+      "slice": 5,
+      "date": "2026-10-20",
+      "facts_reviewed": 36,
+      "value_mismatches": 1,
+      "first_look_accuracy_pct": 97.2,
+      "findings": [
+        "Discovery Den 'Primary Years Program' label read as IB PYP without any IB mention"
+      ],
+      "automated_validator_findings": [
+        "campus enrollment that was multi-campus or parent-institution totals (Inventure, Treamis, Ascend)",
+        "historical founding enrollment read as current (Indus)",
+        "'Council for the Indian School Certificate Examinations' read as ISC"
+      ],
+      "remediation": "extractor rules + retractions (4 campus counts, 5 held group counts, 1 curriculum item)"
+    },
+    {
+      "round": 7,
+      "slice": 6,
+      "date": "2026-10-21",
+      "facts_reviewed": 37,
+      "value_mismatches": 5,
+      "first_look_accuracy_pct": 86.5,
+      "findings": [
+        "grade range written before the programme name ('Classes VII to X: : ICSE') attached to the preceding programme (JG)",
+        "link label 'Explore MYP' read as a curriculum statement (Vishwashanti)",
+        "admission-document text '(Hindi/English language) Birth Certificate' read as a subject (Ryan Global)",
+        "city mention in transport charges read as the school's city (Ram Ratna Vidya Mandir)",
+        "stage-scoped ratio 'for pre-primary' read as school-wide (Pragyanam)"
+      ],
+      "automated_validator_findings": [
+        "181 boarding-sitemap schools without a state (state now read from the profile address)",
+        "website template filler next to values (Lorem ipsum, info@mysite.com, 123-456-7890) — such evidence now dropped",
+        "JSON-LD name with trailing carriage return"
+      ],
+      "remediation": "extractor rules + regression tests; full re-processing from stored snapshots"
+    },
+    {
+      "round": 8,
+      "slice": 6,
+      "date": "2026-10-21",
+      "facts_reviewed": 66,
+      "value_mismatches": 38,
+      "first_look_accuracy_pct": null,
+      "findings": [
+        "full review of every extracted student count (campus and group), triggered by a 5,00,000-student value ranking a school #1",
+        "years read as counts ('2026 Students'), marketing slogans ('Join over 500,000 students'), facility capacity, programme/section subsets, other schools or group totals, history, exam results, event participants, Indian digit grouping (2,50,000 read as 50,000)"
+      ],
+      "remediation": "extractor rules + regression tests; 38 audited retractions (55 evidence records); full re-processing from stored snapshots"
+    }
+  ]
+}

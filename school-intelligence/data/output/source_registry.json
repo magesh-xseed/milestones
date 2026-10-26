@@ -1,0 +1,365 @@
+{
+  "generated_at": "2026-10-21T02:23:19+00:00",
+  "run_id": "run-20261021T003553Z",
+  "sources": [
+    {
+      "id": "official_site",
+      "name": "Official school website",
+      "url": null,
+      "tier": "official_school_site",
+      "responsibility": "Primary source for identity, fees, curriculum, enrollment",
+      "checked_at": "2026-10-21T00:35:54+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "per-school source (checked per fetch)"
+    },
+    {
+      "id": "ib",
+      "name": "IB Directory",
+      "url": "https://www.ibo.org/school/",
+      "tier": "official_registry",
+      "responsibility": "Official IB programme verification",
+      "checked_at": "2026-10-21T00:35:54+00:00",
+      "access": "BLOCKED",
+      "reason": "HTTP 403 (anti-bot challenge)",
+      "robots": "robots-403-treated-as-allow"
+    },
+    {
+      "id": "ib_archive",
+      "name": "IB Directory (Wayback archived pages)",
+      "url": "https://web.archive.org/",
+      "tier": "official_registry",
+      "responsibility": "Dated archived copies of IB registry pages, used when an IB school code is found on the official site",
+      "checked_at": "2026-10-21T00:35:56+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-404-treated-as-allow"
+    },
+    {
+      "id": "cbse_saras",
+      "name": "CBSE SARAS",
+      "url": "https://saras.cbse.gov.in/",
+      "tier": "official_registry",
+      "responsibility": "CBSE affiliation verification",
+      "checked_at": "2026-10-21T00:35:58+00:00",
+      "access": "BLOCKED",
+      "reason": "search: HTTP 403 on directory search",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "cambridge",
+      "name": "Cambridge International school finder",
+      "url": "https://www.cambridgeinternational.org/why-choose-us/find-a-cambridge-school/",
+      "tier": "official_registry",
+      "responsibility": "Cambridge recognition",
+      "checked_at": "2026-10-21T00:36:00+00:00",
+      "access": "BLOCKED",
+      "reason": "robots.txt disallows https://www.cambridgeinternational.org/search/gcsearch.aspx (robots-ok)",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "cisce",
+      "name": "CISCE",
+      "url": "https://cisce.org/",
+      "tier": "official_registry",
+      "responsibility": "ICSE / ISC affiliation (official school locator)",
+      "checked_at": "2026-10-21T00:36:00+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "wayback",
+      "name": "Wayback Machine",
+      "url": "https://web.archive.org/",
+      "tier": "archive",
+      "responsibility": "Historical curriculum evidence",
+      "checked_at": "2026-10-21T00:36:02+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-404-treated-as-allow"
+    },
+    {
+      "id": "ezyschooling",
+      "name": "Ezyschooling",
+      "url": "https://ezyschooling.com/",
+      "tier": "third_party",
+      "responsibility": "Discovery listings, published fees, school profiles",
+      "checked_at": "2026-10-21T00:36:04+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "educationworld",
+      "name": "EducationWorld",
+      "url": "https://www.educationworld.in/",
+      "tier": "third_party",
+      "responsibility": "Premium school discovery and rankings",
+      "checked_at": "2026-10-21T00:36:05+00:00",
+      "access": "BLOCKED",
+      "reason": "HTTP 403 (anti-bot challenge)",
+      "robots": "robots-403-treated-as-allow"
+    },
+    {
+      "id": "cfore",
+      "name": "Cfore",
+      "url": "https://www.cfore.org/",
+      "tier": "third_party",
+      "responsibility": "School rankings and reputation",
+      "checked_at": "2026-10-21T00:36:07+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "edustoke",
+      "name": "Edustoke",
+      "url": "https://www.edustoke.com/",
+      "tier": "third_party",
+      "responsibility": "School profiles and published fees",
+      "checked_at": "2026-10-21T00:36:09+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "uniapply",
+      "name": "UniApply",
+      "url": "https://www.uniapply.com/",
+      "tier": "third_party",
+      "responsibility": "Admissions, fees and school details",
+      "checked_at": "2026-10-21T00:36:11+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "careers360",
+      "name": "Careers360",
+      "url": "https://school.careers360.com/",
+      "tier": "third_party",
+      "responsibility": "School profiles and academic details",
+      "checked_at": "2026-10-21T01:06:52+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "schoolmykids",
+      "name": "SchoolMyKids",
+      "url": "https://www.schoolmykids.com/",
+      "tier": "third_party",
+      "responsibility": "School profiles and curriculum",
+      "checked_at": "2026-10-21T01:06:54+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "google_search",
+      "name": "Google Custom Search API",
+      "url": "https://www.googleapis.com/customsearch/v1",
+      "tier": "search_api",
+      "responsibility": "Official source discovery via authorized API",
+      "checked_at": "2026-10-21T01:06:56+00:00",
+      "access": "BLOCKED",
+      "reason": "API credentials not configured: GOOGLE_API_KEY, GOOGLE_CSE_ID"
+    },
+    {
+      "id": "google_maps",
+      "name": "Google Maps Places API",
+      "url": "https://maps.googleapis.com/maps/api/place/",
+      "tier": "search_api",
+      "responsibility": "Campus verification via authorized API",
+      "checked_at": "2026-10-21T01:06:56+00:00",
+      "access": "BLOCKED",
+      "reason": "API credentials not configured: GOOGLE_MAPS_API_KEY"
+    },
+    {
+      "id": "linkedin",
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "tier": "third_party",
+      "responsibility": "Public leadership research through permitted access",
+      "checked_at": "2026-10-21T01:06:56+00:00",
+      "access": "BLOCKED",
+      "reason": "robots.txt disallows https://www.linkedin.com/school/ (robots-ok)",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "mca",
+      "name": "MCA",
+      "url": "https://www.mca.gov.in/",
+      "tier": "official_registry",
+      "responsibility": "Corporate entity information",
+      "checked_at": "2026-10-21T01:06:56+00:00",
+      "access": "BLOCKED",
+      "reason": "HTTP 403",
+      "robots": "robots-403-treated-as-allow"
+    },
+    {
+      "id": "tofler",
+      "name": "Tofler",
+      "url": "https://www.tofler.in/",
+      "tier": "third_party",
+      "responsibility": "Company and group information",
+      "checked_at": "2026-10-21T01:06:58+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    },
+    {
+      "id": "thecompanycheck",
+      "name": "The Company Check",
+      "url": "https://www.thecompanycheck.com/",
+      "tier": "third_party",
+      "responsibility": "Corporate information",
+      "checked_at": "2026-10-21T01:07:00+00:00",
+      "access": "ACCESSIBLE",
+      "reason": "HTTP 200",
+      "robots": "robots-ok"
+    }
+  ],
+  "adapter_status": [
+    {
+      "id": "official_site",
+      "implementation_status": "DONE",
+      "note": "identity check, focused crawl, PDF parsing, extraction",
+      "access": "ACCESSIBLE",
+      "access_reason": "per-school source (checked per fetch)"
+    },
+    {
+      "id": "ib",
+      "implementation_status": "BLOCKED",
+      "note": "live directory behind anti-bot challenge; archived lookup used instead",
+      "access": "BLOCKED",
+      "access_reason": "HTTP 403 (anti-bot challenge)"
+    },
+    {
+      "id": "ib_archive",
+      "implementation_status": "DONE",
+      "note": "archived IB directory page lookup when an IB code is published on the official site",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "cbse_saras",
+      "implementation_status": "BLOCKED",
+      "note": "keyword search implemented; server rejects automated search",
+      "access": "BLOCKED",
+      "access_reason": "search: HTTP 403 on directory search"
+    },
+    {
+      "id": "cambridge",
+      "implementation_status": "BLOCKED",
+      "note": "finder results under robots-disallowed /search",
+      "access": "BLOCKED",
+      "access_reason": "robots.txt disallows https://www.cambridgeinternational.org/search/gcsearch.aspx (robots-ok)"
+    },
+    {
+      "id": "cisce",
+      "implementation_status": "DONE",
+      "note": "official CISCE school locator (locate.cisce.org) per-state lookup",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "wayback",
+      "implementation_status": "DONE",
+      "note": "CDX + raw snapshots for curriculum history",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "ezyschooling",
+      "implementation_status": "DONE",
+      "note": "discovery listings, profile, fee table",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "educationworld",
+      "implementation_status": "BLOCKED",
+      "note": "access probe only; no profile parser implemented",
+      "access": "BLOCKED",
+      "access_reason": "HTTP 403 (anti-bot challenge)"
+    },
+    {
+      "id": "cfore",
+      "implementation_status": "PARTIAL",
+      "note": "access probe only; no profile parser implemented",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "edustoke",
+      "implementation_status": "PARTIAL",
+      "note": "access probe only; no profile parser implemented",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "uniapply",
+      "implementation_status": "PARTIAL",
+      "note": "access probe only; no profile parser implemented",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "careers360",
+      "implementation_status": "PARTIAL",
+      "note": "access probe only; no profile parser implemented",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "schoolmykids",
+      "implementation_status": "PARTIAL",
+      "note": "access probe only; no profile parser implemented",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "google_search",
+      "implementation_status": "BLOCKED",
+      "note": "requires GOOGLE_API_KEY and GOOGLE_CSE_ID",
+      "access": "BLOCKED",
+      "access_reason": "API credentials not configured: GOOGLE_API_KEY, GOOGLE_CSE_ID"
+    },
+    {
+      "id": "google_maps",
+      "implementation_status": "BLOCKED",
+      "note": "requires GOOGLE_MAPS_API_KEY",
+      "access": "BLOCKED",
+      "access_reason": "API credentials not configured: GOOGLE_MAPS_API_KEY"
+    },
+    {
+      "id": "linkedin",
+      "implementation_status": "BLOCKED",
+      "note": "robots.txt disallows all crawling; no permitted API access configured",
+      "access": "BLOCKED",
+      "access_reason": "robots.txt disallows https://www.linkedin.com/school/ (robots-ok)"
+    },
+    {
+      "id": "mca",
+      "implementation_status": "BLOCKED",
+      "note": "no permitted programmatic access confirmed",
+      "access": "BLOCKED",
+      "access_reason": "HTTP 403"
+    },
+    {
+      "id": "tofler",
+      "implementation_status": "PARTIAL",
+      "note": "access probe only; no profile parser implemented",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    },
+    {
+      "id": "thecompanycheck",
+      "implementation_status": "PARTIAL",
+      "note": "access probe only; no profile parser implemented",
+      "access": "ACCESSIBLE",
+      "access_reason": "HTTP 200"
+    }
+  ]
+}

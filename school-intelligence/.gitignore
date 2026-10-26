@@ -5,7 +5,7 @@ __pycache__/
 .pytest_cache/
 
 # Pipeline data (large, regenerated)
-data/
+# data/
 
 # OS / editor
 .DS_Store
